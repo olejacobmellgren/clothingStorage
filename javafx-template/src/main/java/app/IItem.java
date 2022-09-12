@@ -6,4 +6,6 @@ public interface IItem {
     public String getType();
     public String getText();
     public String toString();
+    public boolean getExchange();
+    public void setExchange(boolean value);
 }
