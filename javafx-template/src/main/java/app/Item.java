@@ -5,12 +5,14 @@ public abstract class Item {
     private final String type;
     private String owner;
     private String text;
+    private boolean exchange;
 
     public Item(String title, String owner, String type){
         this.title = title;
         checkType(type);
         this.type = type;
         this.owner = owner;
+        this.exchange = false;
     }
 
     private void checkType(String type){
@@ -35,6 +37,14 @@ public abstract class Item {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setExchange(boolean value) {
+        this.exchange = value;
+    }
+
+    public boolean getExchange() {
+        return this.exchange;
     }
 
     @Override
