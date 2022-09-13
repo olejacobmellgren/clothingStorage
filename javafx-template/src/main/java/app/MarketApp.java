@@ -11,13 +11,14 @@ import java.io.IOException;
 /**
  * JavaFX App
  */
-public class App extends Application {
+public class MarketApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("App.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("Profile.fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
+        stage.setTitle("Exchange Market");
         stage.show();
     }
 
