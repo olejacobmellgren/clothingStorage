@@ -2,14 +2,15 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.MarketController">
    <children>
@@ -48,17 +49,39 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ListView fx:id="itemList" layoutX="40.0" layoutY="121.0" prefHeight="326.0" prefWidth="343.0" />
+            <ListView fx:id="myList" layoutX="40.0" layoutY="121.0" prefHeight="326.0" prefWidth="343.0" />
          </children>
       </Pane>
       <Pane fx:id="marketPane" prefHeight="615.0" prefWidth="410.0" visible="false">
          <children>
-            <ListView layoutX="55.0" layoutY="139.0" prefHeight="347.0" prefWidth="312.0" />
+            <ListView fx:id="itemsList" layoutX="55.0" layoutY="139.0" prefHeight="347.0" prefWidth="312.0" />
+            <TextField fx:id="searchbar" layoutX="55.0" layoutY="103.0" prefHeight="26.0" prefWidth="184.0" />
+            <Button fx:id="search" layoutX="252.0" layoutY="102.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: lightgreen;" text="Search">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow height="15.0" radius="8.5" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <CheckBox fx:id="filterPlant" layoutX="88.0" layoutY="58.0" mnemonicParsing="false" onAction="#handleFilterItems" prefHeight="41.0" prefWidth="59.0" scaleX="1.5" scaleY="1.5" text="Plant">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <CheckBox fx:id="filterBook" layoutX="182.0" layoutY="58.0" mnemonicParsing="false" onAction="#handleFilterItems" prefHeight="41.0" prefWidth="59.0" scaleX="1.5" scaleY="1.5" text="Book">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
          </children>
       </Pane>
       <Pane layoutX="-4.0" layoutY="578.0" prefHeight="151.0" prefWidth="413.0">
          <children>
-            <Button fx:id="profile" disable="true" layoutY="44.0" mnemonicParsing="false" onAction="#handleProfile" prefHeight="114.0" prefWidth="211.0" style="-fx-background-color: lightgreen;">
+            <Button fx:id="profileButton" disable="true" layoutY="44.0" mnemonicParsing="false" onAction="#handleProfile" prefHeight="114.0" prefWidth="211.0" style="-fx-background-color: lightgreen;">
                <effect>
                   <DropShadow height="40.0" radius="14.75" />
                </effect>
@@ -73,7 +96,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="market" layoutX="210.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleMarket" prefHeight="114.0" prefWidth="205.0" style="-fx-background-color: lightgreen;">
+            <Button fx:id="marketButton" layoutX="210.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleMarket" prefHeight="114.0" prefWidth="205.0" style="-fx-background-color: lightgreen;">
                <effect>
                   <DropShadow height="30.0" radius="12.25" />
                </effect>
