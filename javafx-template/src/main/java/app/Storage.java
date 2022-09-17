@@ -64,14 +64,14 @@ public class Storage {
 
     public void AddQuantity(Item item, int quantity) {
         if (isItemInStorage(item) && isValidQuantity(quantity)) {
-            List<Object> list = this.getKey(item);
+            List<Object> list = this.getValueFromKey(item);
             list.set(0, (Integer) list.get(0) + quantity);
         }
     }
 
     public void removeQuantity(Item item, int quantity) {
         if (isItemInStorage(item) && isValidQuantity(quantity)) {
-            List<Object> list = this.getKey(item);
+            List<Object> list = this.getValueFromKey(item);
             list.set(0, (Integer) list.get(0) - quantity);
         }
     }
@@ -153,16 +153,16 @@ public class Storage {
         return false;
     }
 
-    public List<Object> getKey(Item item) {
+    public List<Object> getValueFromKey(Item item) {
         return this.storageList.get(item);
     }
 
     public int getQuantity(Item item) {
-        return (Integer) this.getKey(item).get(0);
+        return (Integer) this.getValueFromKey(item).get(0);
     }
 
     public int getPrice(Item item) {
-        return (Integer) this.getKey(item).get(1);
+        return (Integer) this.getValueFromKey(item).get(1);
     }
 
     @Override
