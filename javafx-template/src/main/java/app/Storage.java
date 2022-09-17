@@ -18,8 +18,18 @@ public class Storage {
     - Antar at tekstfeltet for å legge til eller fjerne antall items fra lager gjør nettopp dette, og at man ikke
       bestemmer et oppdatert antall i tekstfeltet.
 
-    Ting kan lett endres på om forutsetningene mine viser seg til å være ugunstige
+    Jeg må mest sannsynlig endre en del på denne klassen, siden jeg arbeidet uten en eksisterende Item-klasse. Men grunnlaget for klassen er implementert,
+    må bare oppdatere noen metode-navn og kanskje gjøre om til HashMap<Item, Integer>.
     */ 
+
+    /*
+    Mine forslag til attributter til Item-klassen:
+    - Navn (String)
+    - Merke (String)
+    - Størrelse (Char)
+    - Pris (Float)
+    - påSalg (boolean)
+    */
 
     public Storage() {
         this.storageList = new HashMap<>();
@@ -92,12 +102,15 @@ public class Storage {
 
     /*
     Bruk denne metoden for å få alle items på lager på en fin måte, sammen med pris. Brukes i Controller i ListView.
-    Er på formatet:
+    Usikker på hvilket format det skal være...
+    Mitt forslag:
 
     Socks
+        Brand: Nike
         Sale: No
         Price: 5kr
     Jeans
+        Brand: Levi's
         Sale: Yes
         Price before: 10kr
         Price now: 6kr
@@ -105,7 +118,7 @@ public class Storage {
     
     */
 
-    public String MarketDisplay() { // ikke ferdig metode, Item-klassen må bli ferdig først
+    public String MarketDisplay() { // ikke ferdig metode, Item-klassen må bli ferdig først. Har bare kopiert fra homepageDisplay().
         String output = "";
         ArrayList<Item> keyList = new ArrayList<Item>(storageList.keySet());
 
@@ -117,7 +130,6 @@ public class Storage {
             }
         }
         return output;
-        
     }
 
     private boolean isValidQuantity(int quantity) {
