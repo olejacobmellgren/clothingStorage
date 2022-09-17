@@ -86,18 +86,14 @@ public class Storage {
 
     */
 
-    public String homepageDisplay() {
-        String output = "";
+    public List<String> homepageDisplay() {
+        List<String> list = new ArrayList<>();
         ArrayList<Item> keyList = new ArrayList<Item>(storageList.keySet());
 
         for (Item item : keyList) {
-            if (item.equals(keyList.get(keyList.size()-1))) {
-                output += item.getTitle() + ": " + this.getQuantity(item);
-            } else {
-                output += item.getTitle() + ": " + this.getQuantity(item) + "\n";
-            }
+            list.add(item.getTitle() + ": " + this.getQuantity(item));
         }
-        return output;
+        return list;
     }
 
     /*
@@ -118,7 +114,7 @@ public class Storage {
     
     */
 
-    public String MarketDisplay() { // ikke ferdig metode, Item-klassen må bli ferdig først. Har bare kopiert fra homepageDisplay().
+    public String MarketDisplay() { // ikke ferdig metode, Item-klassen må bli ferdig først. Har bare kopiert fra homepageDisplay(). Er også usikker på format
         String output = "";
         ArrayList<Item> keyList = new ArrayList<Item>(storageList.keySet());
 
