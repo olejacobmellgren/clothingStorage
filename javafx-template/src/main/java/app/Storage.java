@@ -133,6 +133,10 @@ public class Storage {
         return this.storageList.get(clothing);
     }
 
+    public HashMap<Clothing, Integer> getAllClothes() {
+        return this.storageList;
+    }
+
     @Override
     public String toString() {
         String output = "";
