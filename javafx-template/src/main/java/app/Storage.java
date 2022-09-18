@@ -38,30 +38,32 @@ public class Storage {
     }
 
     public void IncreaseInventoryByOne(Clothing clothing) {
-        this.AddQuantity(clothing, 1);
+        this.addQuantity(clothing, 1);
     } 
 
-    public void DecreaseInventoryByOne(Clothing clothing) {
+    public void decreaseInventoryByOne(Clothing clothing) {
         if (getQuantity(clothing) == 0) {
             throw new IllegalStateException("You can not have negative quantity of item");
         }
         this.removeQuantity(clothing, 1);
     }
 
-    public void AddQuantity(Clothing clothing, int quantity) {
+    public void addQuantity(Clothing clothing, int quantity) {
         if (isItemInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, this.getQuantity(clothing) + quantity);
         }
     }
 
     public void removeQuantity(Clothing clothing, int quantity) {
-        if (isItemInStorage(clothing) && isValidQuantity(quantity)) {
+        if (isItemInStorage(clothing) && isValidQuantity(quantity) && getQuantity(clothing) - quantity >= 0 ) {
             this.storageList.put(clothing, this.getQuantity(clothing) - quantity);
+        } else {
+            throw new IllegalStateException("Can not have negative quantity of an item");
         }
     }
 
     /*
-    Bruk denne metoden for å få alle items på lager på en fin måte, sammen med antall varer. Brukes i Controller i ListView.
+    Bruk denne metoden for å få alle items på lager på en fin måte til hjemsiden, sammen med antall varer. Brukes i Controller i ListView.
     Er på formatet:
 
     Jacket, S: 5
@@ -81,38 +83,26 @@ public class Storage {
     }
 
     /*
-    Bruk denne metoden for å få alle items på lager på en fin måte, sammen med pris. Brukes i Controller i ListView.
-    Usikker på hvilket format det skal være på... 
-    Mitt forslag:
+    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.¨
+    Er på formatet:
 
-    Socks
-        - Brand: Nike
-        - Size: M
-        - Sale: No
-        - Price: 5kr
-    Jeans
-        - Brand: Levi's
-        - Size: L
-        - Sale: Yes
-        - Price before: 10kr
-        - Price now: 6kr
-        - Total sale: 40%
-    
-    Blir dette for mye informasjon til et item?
+    Jacket, Nike: 54,-
+    Socks, Adidas: 36,-
+    Jeans, Levi's: 60,-
     */
 
-    public String MarketDisplay() { // ikke ferdig metode, er usikker på format
-        String output = "";
+    public List<String> marketDisplay() { 
+        List<String> list = new ArrayList<>();
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
 
         for (Clothing clothing : keyList) {
             if (clothing.equals(keyList.get(keyList.size()-1))) {
-                output += clothing.getName() + ": " + this.getQuantity(clothing);
+                list.add(clothing.getName() + ", " + clothing.getBrand() + ": " + clothing.getPrice() + ",-");
             } else {
-                output += clothing.getName() + ": " + this.getQuantity(clothing) + "\n";
+                list.add(clothing.getName() + ", " + clothing.getBrand() + ": " + clothing.getPrice() + ",-" + "\n");
             }
         }
-        return output;
+        return list;
     }
 
     private boolean isValidQuantity(int quantity) {
@@ -165,21 +155,22 @@ public class Storage {
         storage.addNewClothing(item2, 3);
         System.out.println(storage);
         System.out.println("---------");
-        storage.AddQuantity(item, 1);
+        storage.addQuantity(item, 1);
         System.out.println(storage);
         System.out.println("---------");
-        storage.removeQuantity(item, 2);
+        storage.removeQuantity(item, 1);
         System.out.println(storage);
         System.out.println("---------");
         storage.IncreaseInventoryByOne(item2);
         System.out.println(storage);
         System.out.println("---------");
-        storage.DecreaseInventoryByOne(item2);
+        storage.decreaseInventoryByOne(item2);
         System.out.println(storage);
         System.out.println("---------");
         storage.removeItem(item);
         System.out.println(storage);
         System.out.println("---------");
         System.out.println(storage.homepageDisplay());
+        System.out.println(storage.marketDisplay());
     }
 }
