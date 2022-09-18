@@ -6,7 +6,7 @@ public class Clothing {
     private String brand;
     private char size;
     private double price;
-    private boolean onSale;
+    private float onSale;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
     private final String[] validBrands = {"nike", "adidas", "h&m", "lacoste", "louis vuitton", "supreme", "levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
 
     /*
@@ -72,7 +72,7 @@ public class Clothing {
         this.price = price;
     }
 
-    public void setSale(boolean onSale) {
+    public void setSale(float onSale) {
         this.onSale = onSale;
     }
 
@@ -93,6 +93,14 @@ public class Clothing {
     }
 
     public boolean isOnSale() {
+        if (onSale == 0.0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public float getSale() {
         return this.onSale;
     }
 
