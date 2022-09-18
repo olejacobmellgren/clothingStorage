@@ -1,1 +1,1 @@
-type;Title;exchange;exchange_owner;exchange_title;exchange_type
+name;brand;size;price;onSale;quantity
