@@ -1,0 +1,2 @@
+type;Title;exchange;exchange_owner;exchange_title;exchange_type
+
