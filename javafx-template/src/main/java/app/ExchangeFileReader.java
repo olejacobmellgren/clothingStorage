@@ -11,38 +11,29 @@ import java.util.Scanner;
 
 public class ExchangeFileReader implements IFiles{
 
-    public void writeToFile(String filename, Marked marked) throws FileNotFoundException {
+    public void writeToFile(String filename, Storage storage) throws FileNotFoundException {
         try (PrintWriter writer = new PrintWriter(getFile(filename))) {
             writer.flush();
-            for (IItem item : marked.getMyMarkedItems()) {
+            for (Clothing clothing : storage.getAllClothes().keySet()) {
                 writer.println(String.format("%s;%s;%s;%s;%s;%s;%s", 
-                item.getType(), item.getTitle(), item.getOwner(), item.getExchange(),   
-                item.getExchangeOwner(), item.getExchangeType(), item.getExchangeTitle()));
+                clothing.getName(), clothing.getBrand(), clothing .getSize(), clothing.getPrice(),   
+                clothing.getSale(), storage.getQuantity(clothing)));
             }
         }   
     }//Merk at det skrives til filen som ligger i "target" mappen og ikke den som ligger under "src"
 
-    public Marked readFromFile(String filename) throws FileNotFoundException {
-        Marked libary = new Marked();
+    public Storage readFromFile(String filename) throws FileNotFoundException {
+        Storage storage = new Storage();
         try (Scanner scanner = new Scanner(getFile(filename))) {
             //scanner.nextLine(); (denne må legges til hvis man vil ha overskrifter på første linje)
             while (scanner.hasNextLine()) {
                 String[] properties = scanner.nextLine().split(";");
-                IItem newEntry;
-                switch (properties[0]) {
-                    case "book":
-                        newEntry = new Book((String)properties[1], (String)properties[2]);
-                        break;
-                    case "plant":
-                        newEntry = new Plant(properties[1], properties[2]); 
-                        break;
-                    default:
-                        throw new IllegalArgumentException("No such type");
-                        
-                }
+                Clothing newClothing = new Clothing(properties[0], properties[1], properties[2].charAt(0), Double.parseDouble(properties[3]));
+                newClothing.setSale(Float.parseFloat(properties[4]));
+                storage.addNewClothing(newClothing, Integer.parseInt(properties[5]));
             }
         }
-        return libary;
+        return storage;
     }
     public String readAsString(String filename) throws FileNotFoundException{
         try (Scanner scanner = new Scanner(getFile(filename))) {
@@ -56,6 +47,7 @@ public class ExchangeFileReader implements IFiles{
     }
 
 
+    // Her må det legges inn riktig mappe navn på hvor filene som skrevet ligger (ikke koden)
     @Override
     public File getFile(String filename) {
         return new File(ExchangeFileReader.class.getResource("brukerdata").getFile() + filename + ".txt");
