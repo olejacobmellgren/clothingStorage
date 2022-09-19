@@ -38,23 +38,23 @@ public class Storage {
     }
 
     public void increaseQuantityByOne(Clothing clothing) {
-        this.addQuantity(clothing, 1);
+        this.increaseQuantity(clothing, 1);
     } 
 
     public void decreaseQuantityByOne(Clothing clothing) {
         if (getQuantity(clothing) == 0) {
             throw new IllegalStateException("You can not have negative quantity of item");
         }
-        this.removeQuantity(clothing, 1);
+        this.decreaseQuantity(clothing, 1);
     }
 
-    public void addQuantity(Clothing clothing, int quantity) {
+    public void increaseQuantity(Clothing clothing, int quantity) {
         if (isClothingInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, this.getQuantity(clothing) + quantity);
         }
     }
 
-    public void removeQuantity(Clothing clothing, int quantity) {
+    public void decreaseQuantity(Clothing clothing, int quantity) {
         if (isClothingInStorage(clothing) && isValidQuantity(quantity) && getQuantity(clothing) - quantity >= 0 ) {
             this.storageList.put(clothing, this.getQuantity(clothing) - quantity);
         } else {
@@ -155,10 +155,10 @@ public class Storage {
         storage.addNewClothing(item2, 3);
         System.out.println(storage);
         System.out.println("---------");
-        storage.addQuantity(item, 1);
+        storage.increaseQuantity(item, 1);
         System.out.println(storage);
         System.out.println("---------");
-        storage.removeQuantity(item, 1);
+        storage.decreaseQuantity(item, 1);
         System.out.println(storage);
         System.out.println("---------");
         storage.increaseQuantityByOne(item2);
