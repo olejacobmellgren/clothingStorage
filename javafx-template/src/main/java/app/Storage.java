@@ -77,7 +77,7 @@ public class Storage {
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
 
         for (Clothing clothing : keyList) {
-            list.add(clothing.getName() + ", " + clothing.getSize() + ": " + this.getQuantity(clothing));
+            list.add(clothing.getName() + ", " + clothing.getBrand() + ", " + clothing.getSize() + ": " + this.getQuantity(clothing));
         }
         return list;
     }
