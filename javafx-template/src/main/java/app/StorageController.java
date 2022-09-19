@@ -111,6 +111,7 @@ public class StorageController implements Initializable{
 
     @FXML private void handleNewClothingItem() {
         newClothingPane.setVisible(true);
+        quantitiesList.setVisible(false);
         addQuantity.setDisable(true);
         removeQuantity.setDisable(true);
         newClothingItem.setDisable(true);
@@ -122,6 +123,7 @@ public class StorageController implements Initializable{
 
     @FXML private void handleCancel() {
         newClothingPane.setVisible(false);
+        quantitiesList.setVisible(true);
         addQuantity.setDisable(false);
         removeQuantity.setDisable(false);
         newClothingItem.setDisable(false);
