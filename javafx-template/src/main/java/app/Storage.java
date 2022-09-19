@@ -124,7 +124,7 @@ public class Storage {
     }
 
     public HashMap<Clothing, Integer> getAllClothes() {
-        return this.storageList;
+        return new HashMap<Clothing, Integer>(this.storageList);
     }
 
     @Override
