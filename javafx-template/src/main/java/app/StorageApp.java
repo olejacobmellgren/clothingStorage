@@ -18,7 +18,7 @@ public class StorageApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("Storage.fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        stage.setTitle("Exchange Market");
+        stage.setTitle("Clothing Storage");
         stage.show();
     }
 
