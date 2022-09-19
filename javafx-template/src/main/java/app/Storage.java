@@ -83,7 +83,7 @@ public class Storage {
     }
 
     /*
-    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.¨
+    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.
     Er på formatet:
 
     Jacket, Nike: 54,-
