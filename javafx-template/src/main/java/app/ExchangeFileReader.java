@@ -15,7 +15,7 @@ public class ExchangeFileReader implements IFiles{
         try (PrintWriter writer = new PrintWriter(getFile(filename))) {
             writer.flush();
             for (Clothing clothing : storage.getAllClothes().keySet()) {
-                writer.println(String.format("%s;%s;%s;%s;%s;%s;%s", 
+                writer.println(String.format("%s;%s;%s;%s;%s;%s", 
                 clothing.getName(), clothing.getBrand(), clothing .getSize(), clothing.getPrice(),   
                 clothing.getSale(), storage.getQuantity(clothing)));
             }

@@ -1,6 +1,8 @@
 package app;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -84,10 +86,12 @@ public class StorageController implements Initializable{
 
     // Profile Page
 
-    @FXML private Button addQuantity, removeQuantity, newClothingItem;
+    @FXML private Button addQuantity, removeQuantity, newClothingItem, increaseByOne, decreaseByOne, loadFromFile, writeToFile;
     @FXML private ListView<String> quantitiesList;
-    @FXML private TextField price, quantity, typeOfClothing;
+    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead;
     @FXML private Pane newClothingPane;
+
+    private IFiles storageFileHandler = new ExchangeFileReader();
 
     private void showErrorMessage(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
@@ -110,6 +114,10 @@ public class StorageController implements Initializable{
         addQuantity.setDisable(true);
         removeQuantity.setDisable(true);
         newClothingItem.setDisable(true);
+        increaseByOne.setDisable(true);
+        decreaseByOne.setDisable(true);
+        loadFromFile.setDisable(true);
+        writeToFile.setDisable(true);
     }
 
     @FXML private void handleCancel() {
@@ -117,6 +125,10 @@ public class StorageController implements Initializable{
         addQuantity.setDisable(false);
         removeQuantity.setDisable(false);
         newClothingItem.setDisable(false);
+        increaseByOne.setDisable(false);
+        decreaseByOne.setDisable(false);
+        loadFromFile.setDisable(false);
+        writeToFile.setDisable(false);
     }
 
     @FXML private void handleOK() {
@@ -142,17 +154,53 @@ public class StorageController implements Initializable{
         
     }
 
+    @FXML private void handleIncreaseByOne() {
+
+    }
+
+    @FXML private void handleDecreaseByOne() {
+        
+    }
+
 
     @FXML private void handleAddQuantity() {
         String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(",");
         String type = selectedClothing[0];
         //char size = String.valueOf(selectedClothing[1]);
+        //TODO
     }
 
     @FXML private void handleRemoveQuantity() {
         //String item = myList.getSelectionModel().getSelectedItem();
         //market.removeItemMyList(item);
         //updateMyList();
+        //TODO
+    }
+
+    @FXML private void handleWriteToFile() {
+        if (storage.getAllClothes().isEmpty()) {
+            showErrorMessage("There has not been added any clothes to storage");
+            return;
+        }
+        try {
+            String filename = fileToWriteOrRead.getText();
+            storageFileHandler.writeToFile(filename, storage);
+            showConfirmedMessage("Storage of clothing successfully saved to file:" + filename);
+        } catch (IOException e) {
+            showErrorMessage("Error occurred while trying to save to file");
+        }
+    }
+
+    @FXML private void handleLoadFromFile() {
+        try {
+            String filename = fileToWriteOrRead.getText();
+            storage = storageFileHandler.readFromFile(filename);
+            updateQuantitiesList();
+            updateMarketList();
+            showConfirmedMessage("Storage of Clothing successfully loaded from file:" + filename);
+        } catch (FileNotFoundException e) {
+            showErrorMessage("File not found!");
+        }
     }
 
     // Market Page
