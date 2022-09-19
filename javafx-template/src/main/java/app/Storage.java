@@ -37,7 +37,7 @@ public class Storage {
         this.storageList.remove(clothing);
     }
 
-    public void IncreaseInventoryByOne(Clothing clothing) {
+    public void increaseInventoryByOne(Clothing clothing) {
         this.addQuantity(clothing, 1);
     } 
 
@@ -157,7 +157,7 @@ public class Storage {
         storage.removeQuantity(item, 1);
         System.out.println(storage);
         System.out.println("---------");
-        storage.IncreaseInventoryByOne(item2);
+        storage.increaseInventoryByOne(item2);
         System.out.println(storage);
         System.out.println("---------");
         storage.decreaseInventoryByOne(item2);
