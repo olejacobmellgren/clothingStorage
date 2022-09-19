@@ -23,25 +23,25 @@ public class Storage {
     }
 
     public void addNewClothing(Clothing clothing, int quantity) {
-        if (!isItemInStorage(clothing) && isValidQuantity(quantity)) {
+        if (!isClothingInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, quantity);
         } else {
             throw new IllegalStateException("This item is already in storage");
         }
     }
 
-    public void removeItem(Clothing clothing) {
-        if (!isItemInStorage(clothing)) {
+    public void removeClothing(Clothing clothing) {
+        if (!isClothingInStorage(clothing)) {
             throw new IllegalStateException("This item is not in storage");
         }
         this.storageList.remove(clothing);
     }
 
-    public void IncreaseInventoryByOne(Clothing clothing) {
+    public void increaseQuantityByOne(Clothing clothing) {
         this.addQuantity(clothing, 1);
     } 
 
-    public void decreaseInventoryByOne(Clothing clothing) {
+    public void decreaseQuantityByOne(Clothing clothing) {
         if (getQuantity(clothing) == 0) {
             throw new IllegalStateException("You can not have negative quantity of item");
         }
@@ -49,13 +49,13 @@ public class Storage {
     }
 
     public void addQuantity(Clothing clothing, int quantity) {
-        if (isItemInStorage(clothing) && isValidQuantity(quantity)) {
+        if (isClothingInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, this.getQuantity(clothing) + quantity);
         }
     }
 
     public void removeQuantity(Clothing clothing, int quantity) {
-        if (isItemInStorage(clothing) && isValidQuantity(quantity) && getQuantity(clothing) - quantity >= 0 ) {
+        if (isClothingInStorage(clothing) && isValidQuantity(quantity) && getQuantity(clothing) - quantity >= 0 ) {
             this.storageList.put(clothing, this.getQuantity(clothing) - quantity);
         } else {
             throw new IllegalStateException("Can not have negative quantity of an item");
@@ -77,13 +77,13 @@ public class Storage {
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
 
         for (Clothing clothing : keyList) {
-            list.add(clothing.getName() + ", " + clothing.getSize() + ": " + this.getQuantity(clothing));
+            list.add(clothing.getName() + ", " + clothing.getBrand() + ", " + clothing.getSize() + ": " + this.getQuantity(clothing));
         }
         return list;
     }
 
     /*
-    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.¨
+    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.
     Er på formatet:
 
     Jacket, Nike: 54,-
@@ -112,7 +112,7 @@ public class Storage {
         return false;
     }
 
-    private boolean isItemInStorage(Clothing clothing) {
+    private boolean isClothingInStorage(Clothing clothing) {
         if (this.storageList.containsKey(clothing)) {
             return true;
         }
@@ -161,13 +161,13 @@ public class Storage {
         storage.removeQuantity(item, 1);
         System.out.println(storage);
         System.out.println("---------");
-        storage.IncreaseInventoryByOne(item2);
+        storage.increaseQuantityByOne(item2);
         System.out.println(storage);
         System.out.println("---------");
-        storage.decreaseInventoryByOne(item2);
+        storage.decreaseQuantityByOne(item2);
         System.out.println(storage);
         System.out.println("---------");
-        storage.removeItem(item);
+        storage.removeClothing(item);
         System.out.println(storage);
         System.out.println("---------");
         System.out.println(storage.homepageDisplay());

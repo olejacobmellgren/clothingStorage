@@ -95,7 +95,7 @@
                 <!-- Default configuration for running -->
                 <!-- Usage: mvn javafx:run -->
                 <configuration>
-                    <mainClass>app.App</mainClass>
+                    <mainClass>app.StorageApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
