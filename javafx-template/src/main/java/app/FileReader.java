@@ -9,7 +9,7 @@ import java.util.Scanner;
 //  øvingsforelesningene
 
 
-public class ExchangeFileReader implements IFiles{
+public class FileReader implements IFiles{
 
     public void writeToFile(String filename, Storage storage) throws FileNotFoundException {
         try (PrintWriter writer = new PrintWriter(getFile(filename))) {
@@ -50,7 +50,7 @@ public class ExchangeFileReader implements IFiles{
     // Her må det legges inn riktig mappe navn på hvor filene som skrevet ligger (ikke koden)
     @Override
     public File getFile(String filename) {
-        return new File(ExchangeFileReader.class.getResource("brukerdata").getFile() + filename + ".txt");
+        return new File(FileReader.class.getResource("brukerdata").getFile() + filename + ".txt");
     }
    
 }
