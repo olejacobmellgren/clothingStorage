@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.StorageController">
    <children>
-      <Pane fx:id="profilePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0" visible="false">
+      <Pane fx:id="profilePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
          <children>
             <Button fx:id="addQuantity" layoutX="43.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleAddQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Add Quantity">
                <font>
@@ -135,7 +135,7 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="marketPane" prefHeight="615.0" prefWidth="410.0">
+      <Pane fx:id="marketPane" prefHeight="615.0" prefWidth="410.0" visible="false">
          <children>
             <ListView fx:id="priceList" layoutX="55.0" layoutY="139.0" prefHeight="347.0" prefWidth="312.0" />
             <TextField fx:id="searchbar" layoutX="55.0" layoutY="103.0" prefHeight="26.0" prefWidth="184.0" />
