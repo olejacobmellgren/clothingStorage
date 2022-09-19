@@ -180,7 +180,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="fileToWriteOrRead" layoutX="37.0" layoutY="545.0" />
+            <TextField fx:id="fileToWriteOrRead" layoutX="37.0" layoutY="545.0" promptText="filename" />
             <Button fx:id="loadFromFile" layoutX="215.0" layoutY="565.0" mnemonicParsing="false" onAction="#handleLoadFromFile" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Load From File">
                <font>
                   <Font size="16.0" />
@@ -192,6 +192,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Label layoutX="37.0" layoutY="527.0" text="Filename to write to or load:" />
          </children>
       </Pane>
       <Pane fx:id="marketPane" prefHeight="615.0" prefWidth="410.0" visible="false">
