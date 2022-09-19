@@ -91,7 +91,7 @@ public class StorageController implements Initializable{
     @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead;
     @FXML private Pane newClothingPane;
 
-    private IFiles storageFileHandler = new ExchangeFileReader();
+    private IFiles storageFileHandler = new FileReader();
 
     private void showErrorMessage(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
