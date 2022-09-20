@@ -1,12 +1,11 @@
 package app;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
-//import java.util.Arrays;
-//import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-//import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 public class StorageController implements Initializable{
@@ -35,9 +33,6 @@ public class StorageController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         brand.getItems().addAll("nike", "adidas", "h&m", "lacoste", "louis vuitton", "supreme", "levi's");
         size.getItems().addAll('S', 'M', 'L');
-        //quantitiesList = new ListView<>();
-        //quantitiesList.getItems().addAll("Hei", "thea");
-        //priceList = new ListView<>();
     }
     private void updateQuantitiesList() {
         if (this.quantitiesList == null || quantitiesList.getItems().isEmpty()) {
@@ -84,10 +79,12 @@ public class StorageController implements Initializable{
 
     // Profile Page
 
-    @FXML private Button addQuantity, removeQuantity, newClothingItem;
+    @FXML private Button addQuantity, removeQuantity, newClothingItem, increaseByOne, decreaseByOne, loadFromFile, writeToFile;
     @FXML private ListView<String> quantitiesList;
-    @FXML private TextField price, quantity, typeOfClothing;
+    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead;
     @FXML private Pane newClothingPane;
+
+    private IFiles storageFileHandler = new FileReader();
 
     private void showErrorMessage(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
@@ -105,18 +102,37 @@ public class StorageController implements Initializable{
         alert.showAndWait();
     }
 
+    @FXML private void handleReset() {
+        typeOfClothing.clear();
+        brand.getSelectionModel().clearSelection();
+        size.getSelectionModel().clearSelection();
+        price.clear();
+        quantity.clear();
+    }
+
     @FXML private void handleNewClothingItem() {
+        handleReset();
         newClothingPane.setVisible(true);
+        quantitiesList.setVisible(false);
         addQuantity.setDisable(true);
         removeQuantity.setDisable(true);
         newClothingItem.setDisable(true);
+        increaseByOne.setDisable(true);
+        decreaseByOne.setDisable(true);
+        loadFromFile.setDisable(true);
+        writeToFile.setDisable(true);
     }
 
     @FXML private void handleCancel() {
         newClothingPane.setVisible(false);
+        quantitiesList.setVisible(true);
         addQuantity.setDisable(false);
         removeQuantity.setDisable(false);
         newClothingItem.setDisable(false);
+        increaseByOne.setDisable(false);
+        decreaseByOne.setDisable(false);
+        loadFromFile.setDisable(false);
+        writeToFile.setDisable(false);
     }
 
     @FXML private void handleOK() {
@@ -142,17 +158,53 @@ public class StorageController implements Initializable{
         
     }
 
+    @FXML private void handleIncreaseByOne() {
+
+    }
+
+    @FXML private void handleDecreaseByOne() {
+        
+    }
+
 
     @FXML private void handleAddQuantity() {
         String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(",");
         String type = selectedClothing[0];
         //char size = String.valueOf(selectedClothing[1]);
+        //TODO
     }
 
     @FXML private void handleRemoveQuantity() {
         //String item = myList.getSelectionModel().getSelectedItem();
         //market.removeItemMyList(item);
         //updateMyList();
+        //TODO
+    }
+
+    @FXML private void handleWriteToFile() {
+        if (storage.getAllClothes().isEmpty()) {
+            showErrorMessage("There has not been added any clothes to storage");
+            return;
+        }
+        try {
+            String filename = fileToWriteOrRead.getText();
+            storageFileHandler.writeToFile(filename, storage);
+            showConfirmedMessage("Storage of clothing successfully saved to file:" + filename);
+        } catch (IOException e) {
+            showErrorMessage("Error occurred while trying to save to file");
+        }
+    }
+
+    @FXML private void handleLoadFromFile() {
+        try {
+            String filename = fileToWriteOrRead.getText();
+            storage = storageFileHandler.readFromFile(filename);
+            updateQuantitiesList();
+            updateMarketList();
+            showConfirmedMessage("Storage of Clothing successfully loaded from file:" + filename);
+        } catch (FileNotFoundException e) {
+            showErrorMessage("File not found!");
+        }
     }
 
     // Market Page
