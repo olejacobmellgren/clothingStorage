@@ -31,7 +31,7 @@ public class StorageController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        brand.getItems().addAll("nike", "adidas", "h&m", "lacoste", "louis vuitton", "supreme", "levi's");
+        brand.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
     }
     private void updateQuantitiesList() {
