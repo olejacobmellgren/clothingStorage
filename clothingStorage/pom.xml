@@ -91,11 +91,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.0.0-M7</version>
+                <configuration>
+                    <outputDirectory>target/surefire-reports</outputDirectory>
+                    <linkXRef>false</linkXRef>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>test</phase>
                         <goals>
-                            <goal>report-only</goal>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
