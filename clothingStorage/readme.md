@@ -2,6 +2,11 @@
 
 Appen ClothingStorage har som hensikt å hjelpe klesbutikkeiere å holde kontroll på lagrene sine. Brukeren kan få en oversikt over klærne på lageret, legge til eller fjerne klær, endre priser, legge inn rabatter på klær og merker, samt mulighet for filtrering basert på klestype, merke, pris og rabatter.
 
+## Illustrerende skjermbilder
+Disse bildene viser hvordan vi tenker appen skal se ut når den er mer eller mindre ferdig.
+
+<img src="images/profilepage.png" width="200"> <img src="images/marketpage.png" width="200">
+
 # Brukerhistorie: Oversikt over klær
 Som eier av klesbutikk ønsker jeg å ha oversikt over klærne butikken har på lager, så jeg vet når jeg må bestille nye klær.
 
