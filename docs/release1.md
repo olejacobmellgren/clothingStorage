@@ -1,4 +1,4 @@
-# Dokumentasjon for innlevering 1
+# Dokumentasjon for release 1
 
 ## Valg av app
 
@@ -12,11 +12,11 @@ Etter å ha laget brukerhistorier lagde vi tilsvarende issues i GitLab. Vi forde
 
 ### - Clothing-klassen
 
-Et klesplagg i en butikk har normalt et navn, merke, størrelse, pris og eventuelt en lapp om den er på salgs. Nettopp slik kom vi fram til hva attributtene til Clothing-klassen skulle være. Disse attributtene gjør det lettere for brukeren til å skille mellom forskjellige klesplagg, som er i tråd med brukerhistorie 1.
+Et klesplagg i en butikk har normalt et navn, merke, størrelse, pris og eventuelt en lapp om den er på salgs. Nettopp slik kom vi fram til hva attributtene til Clothing-klassen skulle være. Disse attributtene gjør det lettere for brukeren å skille mellom forskjellige klesplagg, som er i tråd med brukerhistorie 1.
 
 ### - Storage-klassen
 
-Et lager består som regel av flere hyller med varer. For å gjøre det oversiktlig for brukeren, valgte vi å vise de forskjellige klesplaggene som er på lager i form av en liste. For hvert klesplagg i listen vises de viktigste, tilhørende attributtene ved siden av. Slik kan brukeren få en god oversikt over lagerstatusen, som da gjør det lettere vite når hun trenger å bestille nye klesplagg slik som er beskrevet i brukerhistorie 1. Denne klassen inneholder også en metode for å legge til nye klesplagg til lageret.
+Et lager består som regel av flere hyller med varer. For å gjøre det oversiktlig for brukeren, valgte vi å vise de forskjellige klesplaggene som er på lager i form av en liste. For hvert klesplagg i listen vises de viktigste, tilhørende attributtene ved siden av. Slik kan brukeren få en god oversikt over lagerstatusen, som gjør det lettere å vite når hun trenger å bestille nye klesplagg slik som er beskrevet i brukerhistorie 1. Denne klassen inneholder også en metode for å legge til nye klesplagg til lageret.
 
 ### - Filhåndtering-klassen
 
