@@ -7,9 +7,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-//import java.util.Arrays;
-//import java.util.List;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -19,7 +16,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-//import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 public class StorageController implements Initializable{
@@ -37,9 +33,6 @@ public class StorageController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         brand.getItems().addAll("nike", "adidas", "h&m", "lacoste", "louis vuitton", "supreme", "levi's");
         size.getItems().addAll('S', 'M', 'L');
-        //quantitiesList = new ListView<>();
-        //quantitiesList.getItems().addAll("Hei", "thea");
-        //priceList = new ListView<>();
     }
     private void updateQuantitiesList() {
         if (this.quantitiesList == null || quantitiesList.getItems().isEmpty()) {
@@ -109,7 +102,16 @@ public class StorageController implements Initializable{
         alert.showAndWait();
     }
 
+    @FXML private void handleReset() {
+        typeOfClothing.clear();
+        brand.getSelectionModel().clearSelection();
+        size.getSelectionModel().clearSelection();
+        price.clear();
+        quantity.clear();
+    }
+
     @FXML private void handleNewClothingItem() {
+        handleReset();
         newClothingPane.setVisible(true);
         quantitiesList.setVisible(false);
         addQuantity.setDisable(true);
