@@ -46,8 +46,8 @@ public class StorageController implements Initializable{
 
     private void updateMarketList() {
         if (this.marketList == null || marketList.getItems().isEmpty()) {
-            //List<String> clothingDisplays = storage.MarketDisplay();
-            //marketList.getItems().addAll(clothingDisplays);
+            List<String> clothingPriceDisplays = storage.marketDisplay();
+            marketList.getItems().addAll(clothingPriceDisplays);
         } else {
             marketList.getItems().clear();
             updateMarketList();
@@ -209,42 +209,7 @@ public class StorageController implements Initializable{
 
     // Market Page
 
-    //@FXML private Button search;
-    //@FXML private TextField searchbar;
     @FXML private ListView<String> marketList;
-    @FXML private CheckBox filterBook, filterPlant;
-
-    //TODO Startet på search-bar funksjon, men vet ikke om det ble for komplisert/unødvendig
-
-    @FXML private void handleSearch() {
-        //itemsList.getItems().clear();
-        //itemsList.getItems().addAll(searchList(searchbar.getText()), itemsList.getItems());
-    }
-
-    //private List<String> searchList(String searchWords, List<String> stringsList) {
-    //    
-    //    List<String> searchWordsList = Arrays.asList(searchWords.trim().split(" "));
-//
-    //    return stringsList.stream().filter(input -> searchWordsList.stream().allMatch(word -> input.toLowerCase().contains(word.toLowerCase())))
-    //
-    //private void filterItems(String type) {
-    //    for (Item item : market.getMarketList()) { //getItemsList() to be implemented
-    //        if (item.getType().equals(type)) {
-    //            marketList.getItems().add(item.getTitle());
-    //        }
-    //    }
-    //}
-
-    @FXML private void handleFilterItems() {
-        //if (filterBook.isSelected()) {
-        //    marketList.getItems().clear();
-        //    filterItems("book");
-        //}
-        //else if (filterPlant.isSelected()) {
-        //    marketList.getItems().clear();
-        //    filterItems("plant");
-        //}
-    }
 
     
 
