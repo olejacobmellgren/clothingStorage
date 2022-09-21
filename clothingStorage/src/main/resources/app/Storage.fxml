@@ -77,7 +77,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="newClothingItem" layoutX="121.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleNewClothingItem" prefHeight="46.0" prefWidth="173.0" style="-fx-background-color: lightgreen;" text="New Clothing Item">
+            <Button fx:id="newClothingItem" layoutX="116.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleNewClothingItem" prefHeight="46.0" prefWidth="184.0" style="-fx-background-color: lightgreen;" text="New Clothing Item">
                <font>
                   <Font size="19.0" />
                </font>
