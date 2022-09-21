@@ -2,6 +2,6 @@
 
 # Group gr2251 repository 
  
-Welcome to IT1901 Fall 2022 course 
- 
-Good luck! 
+- Prosjektet kan åpnes i gitpod ved å trykke på "Gitpod-Ready-to-Code" knappen over.
+- I mappen docs ligger de ulike dokumentasjonene for hver innlevering (release1, release2,...).
+- Selve kodingsprosjektet ligger i mappen "clothingStorage". Inne i denne ligger også en readme-fil som beskriver hva appen handler om og hva den ment å gjøre.

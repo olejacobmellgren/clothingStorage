@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class StorageTest {
     
     Storage storage = new Storage();
-    Clothing newJeans = new Clothing("jeans", "nike", 'M', 199);
+    Clothing newJeans = new Clothing("jeans", "Nike", 'M', 199);
 
     @Test
     public void CheckAddNewClothing(){

@@ -9,13 +9,13 @@ import java.util.Scanner;
 //  øvingsforelesningene
 
 
-public class ExchangeFileReader implements IFiles{
+public class FileReader implements IFiles{
 
     public void writeToFile(String filename, Storage storage) throws FileNotFoundException {
         try (PrintWriter writer = new PrintWriter(getFile(filename))) {
             writer.flush();
             for (Clothing clothing : storage.getAllClothes().keySet()) {
-                writer.println(String.format("%s;%s;%s;%s;%s;%s;%s", 
+                writer.println(String.format("%s;%s;%s;%s;%s;%s", 
                 clothing.getName(), clothing.getBrand(), clothing .getSize(), clothing.getPrice(),   
                 clothing.getSale(), storage.getQuantity(clothing)));
             }
@@ -50,7 +50,7 @@ public class ExchangeFileReader implements IFiles{
     // Her må det legges inn riktig mappe navn på hvor filene som skrevet ligger (ikke koden)
     @Override
     public File getFile(String filename) {
-        return new File(ExchangeFileReader.class.getResource("brukerdata").getFile() + filename + ".txt");
+        return new File(FileReader.class.getResource("brukerdata").getFile() + filename + ".txt");
     }
    
 }
