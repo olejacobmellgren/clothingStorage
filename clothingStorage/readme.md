@@ -7,7 +7,7 @@ Disse bildene viser hvordan vi tenker appen skal se ut når den er mer eller min
 
 <img src="images/profilepage.png" width="200"> <img src="images/marketpage.png" width="200">
 
-# Brukerhistorie: Oversikt over klær
+# Brukerhistorie 1: Oversikt over klær
 Som eier/ansatt av klesbutikk ønsker jeg å ha oversikt over klærne butikken har på lager, så jeg vet når jeg må bestille nye klær.
 
 Bruker har behov for en oversikt over klærne som er på lager med mulighet for å legge til flere klær når det kommer nye leveranser. I tillegg må bruker ha oversikt over antall av hver klestype for å vite når hun må bestille mer.
@@ -21,7 +21,7 @@ Det er også ønskelig for ansatte å ha en separat liste med oversikt over pris
 ### Viktig å kunne gjøre
 - legge til nye klær
 
-# Brukerhistorie: Lese og skrive til filer
+# Brukerhistorie 2: Lese og skrive til filer
 Som eier av klesbutikk ønsker jeg å kunne få filer med informasjon om klærne på lageret slik at jeg kan bruke filene når jeg må bestille flere klær eller til økonomiske rapporter.
 
 Bruker har behov for å skrive til og lese fra filer for å kunne bruke disse videre til bestilling og rapporter.

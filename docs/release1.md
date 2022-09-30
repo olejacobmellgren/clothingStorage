@@ -8,7 +8,7 @@ Vi bestemte oss for å lage en app med et enkelt konsept for å sikre god kvalit
 
 Etter å ha laget brukerhistorier lagde vi tilsvarende issues i GitLab. Vi fordelte deretter disse issuene likt på alle, og startet å jobbe. Vi hadde ukentlige møter hvor vi diskuterte issues som hadde blitt jobbet på i løpet av uken, og kom fram til eventuelle forbedringer/løsninger. I tillegg kontaktet vi hverandre over meldinger dersom noe ikke kunne vente til neste gruppemøte. Til slutt endte vi opp med det ferdige produktet for release 1.
 
-## Løsninger til brukerhistorie
+## Løsninger til brukerhistorie 1 og 2
 
 ### - Clothing-klassen
 
