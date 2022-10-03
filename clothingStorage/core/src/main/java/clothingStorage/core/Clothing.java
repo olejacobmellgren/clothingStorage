@@ -1,4 +1,4 @@
-package app;
+package clothingStorage.core;
 
 public class Clothing {
 
