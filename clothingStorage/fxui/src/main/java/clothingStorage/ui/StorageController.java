@@ -82,7 +82,7 @@ public class StorageController implements Initializable{
 
     @FXML private Button addQuantity, removeQuantity, newClothingItem, increaseByOne, decreaseByOne, loadFromFile, writeToFile;
     @FXML private ListView<String> quantitiesList;
-    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead;
+    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead, newQuantity;
     @FXML private Pane newClothingPane;
 
     private IFiles storageFileHandler = new FileReader();
