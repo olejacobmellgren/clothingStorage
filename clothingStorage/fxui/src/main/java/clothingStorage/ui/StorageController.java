@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 public class StorageController implements Initializable{
 
     private Storage storage;
+    private Clothing clothing;
 
     public StorageController() {
         storage = new Storage();
@@ -137,12 +138,12 @@ public class StorageController implements Initializable{
 
     @FXML private void handleOK() {
         try {
-            String type = typeOfClothing.getText();
+            String name = typeOfClothing.getText();
             String selectedBrand = brand.getValue();
             char selectedSize = size.getValue();
             Double selectedPrice = Double.parseDouble(price.getText());
 
-            Clothing clothing = new Clothing(type, selectedBrand, selectedSize, selectedPrice);
+            Clothing clothing = new Clothing(name, selectedBrand, selectedSize, selectedPrice);
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
             storage.addNewClothing(clothing, selectedQuantity);
@@ -155,30 +156,67 @@ public class StorageController implements Initializable{
         } catch (IllegalArgumentException e) {
             showErrorMessage(e.getMessage());
         } 
-        
+    }
+
+    @FXML private Clothing getClothing() {
+        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
+        String name = selectedClothing[0];
+        String brand = selectedClothing[1];
+        String size = selectedClothing[2];
+        return new Clothing(name, brand, size, 0);
     }
 
     @FXML private void handleIncreaseByOne() {
-
+        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
+        int quantity = selectedClothing[3];
+        for (Clothing clothing2 : storage.keySet()) {
+            if (getClothing().equals(clothing2)) {
+                storage.increaseQuantity(clothing2, 1);
+            }
+        }
+        updateQuantitiesList();
     }
 
     @FXML private void handleDecreaseByOne() {
-        
+        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
+        int quantity = selectedClothing[3];
+        for (Clothing clothing2 : storage.keySet()) {
+            if (getClothing().equals(clothing2)) {
+                storage.decreaseQuantity(clothing2, 1);
+            }
+        }
+        updateQuantitiesList();
     }
 
-
     @FXML private void handleAddQuantity() {
-        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(",");
-        String type = selectedClothing[0];
-        //char size = String.valueOf(selectedClothing[1]);
-        //TODO
+        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
+        int quantityToAdd = Integer.parseInt(quantity.getText());
+        String name = selectedClothing[0];
+        String brand = selectedClothing[1];
+        String size = selectedClothing[2];
+        Clothing clothing = new Clothing(name, brand, size, 0);
+        for (Clothing clothing2 : storage.keySet()) {
+            if (clothing.equals(clothing2)) {
+                storage.increaseQuantity(clothing2, quantity);
+            }
+        }
+        updateQuantitiesList();
     }
 
     @FXML private void handleRemoveQuantity() {
-        //String item = myList.getSelectionModel().getSelectedItem();
-        //market.removeItemMyList(item);
-        //updateMyList();
-        //TODO
+        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
+        int quantityToAdd = Integer.parseInt(quantity.getText());
+        String name = selectedClothing[0];
+        String brand = selectedClothing[1];
+        String size = selectedClothing[2];
+        int quantity = selectedClothing[3];
+        Clothing clothing = new Clothing(name, brand, size, 0);
+        for (Clothing clothing2 : storage.keySet()) {
+            if (clothing.equals(clothing2)) {
+                storage.decreaseQuantity(clothing2, quantity);
+            }
+        }
+        updateQuantitiesList();
     }
 
     @FXML private void handleWriteToFile() {

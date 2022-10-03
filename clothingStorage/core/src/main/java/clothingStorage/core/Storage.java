@@ -77,7 +77,7 @@ public class Storage {
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
 
         for (Clothing clothing : keyList) {
-            list.add(clothing.getName() + ", " + clothing.getBrand() + ", " + clothing.getSize() + ": " + this.getQuantity(clothing));
+            list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getSize() + "; " + this.getQuantity(clothing));
         }
         return list;
     }
@@ -97,9 +97,9 @@ public class Storage {
 
         for (Clothing clothing : keyList) {
             if (clothing.equals(keyList.get(keyList.size()-1))) {
-                list.add(clothing.getName() + ", " + clothing.getBrand() + ": " + clothing.getPrice() + ",-");
+                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
             } else {
-                list.add(clothing.getName() + ", " + clothing.getBrand() + ": " + clothing.getPrice() + ",-" + "\n");
+                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-" + "\n");
             }
         }
         return list;
