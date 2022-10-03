@@ -167,22 +167,18 @@ public class StorageController implements Initializable{
     }
 
     @FXML private void handleIncreaseByOne() {
-        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
-        int quantity = selectedClothing[3];
-        for (Clothing clothing2 : storage.keySet()) {
-            if (getClothing().equals(clothing2)) {
-                storage.increaseQuantity(clothing2, 1);
+        for (Clothing clothing : storage.getAllClothes().keySet()) {
+            if (getClothing().equals(clothing)) {
+                storage.increaseQuantity(clothing, 1);
             }
         }
         updateQuantitiesList();
     }
 
     @FXML private void handleDecreaseByOne() {
-        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
-        int quantity = selectedClothing[3];
-        for (Clothing clothing2 : storage.keySet()) {
-            if (getClothing().equals(clothing2)) {
-                storage.decreaseQuantity(clothing2, 1);
+        for (Clothing clothing : storage.getAllClothes().keySet()) {
+            if (getClothing().equals(clothing)) {
+                storage.decreaseQuantity(clothing, 1);
             }
         }
         updateQuantitiesList();
@@ -190,14 +186,10 @@ public class StorageController implements Initializable{
 
     @FXML private void handleAddQuantity() {
         String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
-        int quantityToAdd = Integer.parseInt(quantity.getText());
-        String name = selectedClothing[0];
-        String brand = selectedClothing[1];
-        String size = selectedClothing[2];
-        Clothing clothing = new Clothing(name, brand, size, 0);
-        for (Clothing clothing2 : storage.keySet()) {
-            if (clothing.equals(clothing2)) {
-                storage.increaseQuantity(clothing2, quantity);
+        int quantity = Integer.parseInt(selectedClothing[3]);
+        for (Clothing clothing : storage.getAllClothes().keySet()) {
+            if (getClothing().equals(clothing)) {
+                storage.increaseQuantity(clothing, quantity);
             }
         }
         updateQuantitiesList();
@@ -205,15 +197,10 @@ public class StorageController implements Initializable{
 
     @FXML private void handleRemoveQuantity() {
         String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(";");
-        int quantityToAdd = Integer.parseInt(quantity.getText());
-        String name = selectedClothing[0];
-        String brand = selectedClothing[1];
-        String size = selectedClothing[2];
-        int quantity = selectedClothing[3];
-        Clothing clothing = new Clothing(name, brand, size, 0);
-        for (Clothing clothing2 : storage.keySet()) {
-            if (clothing.equals(clothing2)) {
-                storage.decreaseQuantity(clothing2, quantity);
+        int quantity = Integer.parseInt(selectedClothing[3]);
+        for (Clothing clothing : storage.getAllClothes().keySet()) {
+            if (getClothing().equals(clothing)) {
+                storage.decreaseQuantity(clothing, quantity);
             }
         }
         updateQuantitiesList();
