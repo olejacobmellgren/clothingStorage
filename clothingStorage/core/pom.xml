@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>gr2251.clothingStorage</groupId>
-    <artifactId>parent</artifactId>
+    <groupId>it1901</groupId>
+    <artifactId>javafx-template</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
@@ -111,7 +111,7 @@
                 <!-- Default configuration for running -->
                 <!-- Usage: mvn javafx:run -->
                 <configuration>
-                    <mainClass>fxui.clothingStorage.ui.StorageApp</mainClass>
+                    <mainClass>app.StorageApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
