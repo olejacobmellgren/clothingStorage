@@ -72,8 +72,19 @@ public class Clothing {
         this.price = price;
     }
 
-    public void setSale(float onSale) {
-        this.onSale = onSale;
+    public void setSale(float discount) {
+        if (!isValidDiscount(discount)) {
+            throw new IllegalArgumentException("Given discount is not valid");
+        }
+        this.setPrice(this.getPrice()*discount/100);
+        this.onSale = 1;
+    }
+
+    public boolean isValidDiscount(float discount) {
+        if (discount>0 && discount<100) {
+            return true;
+        }
+        return false;
     }
 
     public String getName() {
