@@ -7,7 +7,7 @@ public class Clothing {
     private char size;
     private double price;
     private float onSale;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
-    private final String[] validBrands = {"nike", "adidas", "h&m", "lacoste", "louis vuitton", "supreme", "levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
+    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
 
     /*
     Antagelser:
@@ -38,7 +38,10 @@ public class Clothing {
                 return false;
             }
         }
-        return true; 
+        if (Character.isUpperCase(name.charAt(0))) {
+            return true; 
+        }
+        return false;
     }
 
     public void setBrand(String brand) {
@@ -50,7 +53,7 @@ public class Clothing {
 
     private boolean isValidBrand(String brand) {
         for (String s : validBrands) {
-            if (brand.toLowerCase().equals(s)) {
+            if (brand.equals(s)) {
                 return true;
             }
         }
@@ -72,19 +75,27 @@ public class Clothing {
         this.price = price;
     }
 
-    public void setSale(float discount) {
+    public void setDiscount(double discount) {
         if (!isValidDiscount(discount)) {
             throw new IllegalArgumentException("Given discount is not valid");
         }
-        this.setPrice(this.getPrice()*discount/100);
-        this.onSale = 1;
+        this.setPrice(this.getPrice()*(100-discount)/100);
+        this.setSale(1);
     }
 
-    public boolean isValidDiscount(float discount) {
+    public boolean isValidDiscount(double discount) {
         if (discount>0 && discount<100) {
             return true;
         }
         return false;
+    }
+
+    public void setSale(float sale) {
+        if (this.isOnSale()) {
+            this.onSale = 1;
+        } else {
+            this.onSale = 0;
+        }
     }
 
     public String getName() {
@@ -104,7 +115,7 @@ public class Clothing {
     }
 
     public boolean isOnSale() {
-        if (onSale == 0.0) {
+        if (onSale == 1.0) {
             return true;
         } else {
             return false;
