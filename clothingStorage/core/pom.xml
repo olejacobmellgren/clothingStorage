@@ -111,7 +111,7 @@
                 <!-- Default configuration for running -->
                 <!-- Usage: mvn javafx:run -->
                 <configuration>
-                    <mainClass>fxui.clothingStorage.ui.StorageApp</mainClass>
+                    <mainClass>app.StorageApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
