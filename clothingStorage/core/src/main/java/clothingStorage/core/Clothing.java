@@ -131,21 +131,21 @@ public class Clothing {
         return this.getName() + "\n" + "   - Brand: " + this.getBrand() + "\n" + "   - Size: " + String.valueOf(this.getSize()) + "\n" + "   - Price: " + String.valueOf(this.getPrice()) + ",-";
     }
 
-    @Override
-    public boolean equals(Clothing clothing) {
-        if (!(clothing.getBrand() == this.getBrand())) {
-            return false;
-        }
-        else if (!(clothing.getSize() == this.getSize())) {
-            return false;
-        }
-        else if (!(clothing.getName() == this.getName())) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
+    //@Override
+    //public boolean equals(Clothing clothing) {
+    //    if (!(clothing.getBrand() == this.getBrand())) {
+    //        return false;
+    //    }
+    //    else if (!(clothing.getSize() == this.getSize())) {
+    //        return false;
+    //    }
+    //    else if (!(clothing.getName() == this.getName())) {
+    //        return false;
+    //    }
+    //    else {
+    //        return true;
+    //    }
+    //}
 
     /*
     Små tester for oppførsel i main-metode

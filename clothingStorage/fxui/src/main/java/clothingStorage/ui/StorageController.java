@@ -7,6 +7,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import clothingStorage.core.Storage;
+import clothingStorage.core.Clothing;
+import clothingStorage.core.IFiles;
+import clothingStorage.core.FileReader;
+
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -164,7 +170,7 @@ public class StorageController implements Initializable{
             storage.increaseQuantityByOne(storage.getClothing(index));
             updateQuantitiesList();
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list")
+            showErrorMessage("You need to select an item from the list");
         }
         
     }
@@ -175,7 +181,7 @@ public class StorageController implements Initializable{
             storage.decreaseQuantityByOne(storage.getClothing(index));
             updateQuantitiesList();
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list")
+            showErrorMessage("You need to select an item from the list");
         }
     }
 
@@ -193,7 +199,7 @@ public class StorageController implements Initializable{
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list")
+            showErrorMessage("You need to select an item from the list");
         }
     }
 
@@ -210,7 +216,7 @@ public class StorageController implements Initializable{
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list")
+            showErrorMessage("You need to select an item from the list");
         }
     }
 

@@ -127,6 +127,14 @@ public class Storage {
         return new HashMap<Clothing, Integer>(this.storageList);
     }
 
+    public Clothing getClothing(int index) {
+        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
+        if (index>=keyList.size()) {
+            throw new IllegalStateException("Invalid index, not in storage");
+        }
+        return keyList.get(index);
+    }
+
     @Override
     public String toString() {
         String output = "";
