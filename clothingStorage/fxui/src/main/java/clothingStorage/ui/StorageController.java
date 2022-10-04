@@ -1,4 +1,4 @@
-package clothingStorage.fxui;
+package clothingStorage.ui;
 
 
 import java.io.FileNotFoundException;

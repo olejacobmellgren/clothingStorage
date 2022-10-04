@@ -7,11 +7,8 @@ module clothingStorage.ui {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires de.jensd.fx.glyphs.commons;
-    requires de.jensd.fx.glyphs.fontawesome;
 
     requires clothingStorage.core;
-    requires fxutil;
 
     opens clothingStorage.ui to javafx.graphics, javafx.fxml;
 }
