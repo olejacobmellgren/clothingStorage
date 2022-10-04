@@ -99,7 +99,7 @@ public class ClothingTest{
         assertEquals(75, clothing.getPrice());
         clothing.setDiscount(90);
         assertEquals(15, clothing.getPrice());
-        clothing.setDicount(37.5);
+        clothing.setDiscount(37.5);
         assertEquals(93.75, clothing.getPrice());
     }
 

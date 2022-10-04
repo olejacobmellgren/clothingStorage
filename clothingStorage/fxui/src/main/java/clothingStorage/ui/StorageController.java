@@ -7,6 +7,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import clothingStorage.core.Storage;
+import clothingStorage.core.Clothing;
+import clothingStorage.core.IFiles;
+import clothingStorage.core.FileReader;
+
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
