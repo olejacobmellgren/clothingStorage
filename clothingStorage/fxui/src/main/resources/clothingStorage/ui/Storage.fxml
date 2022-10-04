@@ -2,7 +2,6 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -21,12 +20,12 @@
    <children>
       <Pane fx:id="profilePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
          <children>
-            <Label layoutX="47.0" layoutY="380.0" text="Increase or Decrease" visible="false">
+            <Label layoutX="47.0" layoutY="380.0" text="Increase or Decrease">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="decreaseByOne" layoutX="291.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleDecreaseByOne" prefHeight="37.0" prefWidth="48.0" style="-fx-background-color: lightgreen;" text="-1" visible="false">
+            <Button fx:id="decreaseByOne" layoutX="291.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleDecreaseByOne" prefHeight="37.0" prefWidth="48.0" style="-fx-background-color: lightgreen;" text="-1">
                <font>
                   <Font size="19.0" />
                </font>
@@ -37,7 +36,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="increaseByOne" layoutX="218.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleIncreaseByOne" prefHeight="37.0" prefWidth="48.0" style="-fx-background-color: lightgreen;" text="+1" visible="false">
+            <Button fx:id="increaseByOne" layoutX="218.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleIncreaseByOne" prefHeight="37.0" prefWidth="48.0" style="-fx-background-color: lightgreen;" text="+1">
                <font>
                   <Font size="19.0" />
                </font>
@@ -48,7 +47,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="addQuantity" layoutX="42.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleAddQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Add Quantity" visible="false">
+            <Button fx:id="addQuantity" layoutX="42.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleAddQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Add Quantity">
                <font>
                   <Font size="19.0" />
                </font>
@@ -59,7 +58,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="removeQuantity" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleRemoveQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Quantity" visible="false">
+            <Button fx:id="removeQuantity" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleRemoveQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Quantity">
                <font>
                   <Font size="19.0" />
                </font>
@@ -71,8 +70,8 @@
                </cursor>
             </Button>
             <ListView fx:id="quantitiesList" layoutX="44.0" layoutY="97.0" prefHeight="275.0" prefWidth="338.0" />
-            <TextField fx:id="quantity" layoutX="275.0" layoutY="430.0" prefHeight="26.0" prefWidth="101.0" visible="false" />
-            <Label layoutX="45.0" layoutY="430.0" prefHeight="24.0" prefWidth="232.0" text="Quantity to add for Selected Item:" visible="false">
+            <TextField fx:id="newQuantity" layoutX="275.0" layoutY="430.0" prefHeight="26.0" prefWidth="101.0" />
+            <Label layoutX="45.0" layoutY="430.0" prefHeight="24.0" prefWidth="232.0" text="Quantity to add for Selected Item:">
                <font>
                   <Font size="16.0" />
                </font>
@@ -193,12 +192,13 @@
                </cursor>
             </Button>
             <Label layoutX="37.0" layoutY="527.0" text="Filename to write to or load:" />
+            <Label layoutX="45.0" layoutY="80.0" prefHeight="17.0" prefWidth="150.0" text="type;brand;size;quantity" />
          </children>
       </Pane>
       <Pane fx:id="marketPane" prefHeight="615.0" prefWidth="410.0" visible="false">
          <children>
             <ListView fx:id="marketList" layoutX="55.0" layoutY="154.0" prefHeight="332.0" prefWidth="312.0" />
-            <Button layoutX="251.0" layoutY="500.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm New Price" visible="false">
+            <Button layoutX="251.0" layoutY="500.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm New Price">
                <font>
                   <Font size="15.0" />
                </font>
@@ -209,7 +209,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button layoutX="253.0" layoutY="549.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm Discount" visible="false">
+            <Button layoutX="253.0" layoutY="549.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm Discount">
                <font>
                   <Font size="15.0" />
                </font>
@@ -220,10 +220,9 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="searchbar1" layoutX="72.0" layoutY="502.0" prefHeight="26.0" prefWidth="165.0" visible="false" />
-            <TextField fx:id="searchbar11" layoutX="72.0" layoutY="551.0" prefHeight="26.0" prefWidth="165.0" visible="false" />
-            <CheckBox layoutX="295.0" layoutY="107.0" mnemonicParsing="false" text="Shorts" visible="false" />
-            <MenuButton layoutX="61.0" layoutY="95.0" mnemonicParsing="false" style="-fx-background-color: lightgreen;" text="Type" visible="false">
+            <TextField fx:id="searchbar1" layoutX="72.0" layoutY="502.0" prefHeight="26.0" prefWidth="165.0" />
+            <TextField fx:id="searchbar11" layoutX="72.0" layoutY="551.0" prefHeight="26.0" prefWidth="165.0" />
+            <MenuButton layoutX="61.0" layoutY="95.0" mnemonicParsing="false" style="-fx-background-color: lightgreen;" text="Type">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -235,16 +234,11 @@
                   <Font size="16.0" />
                </font>
             </MenuButton>
-            <Label layoutX="63.0" layoutY="66.0" text="Filter on:" visible="false">
+            <Label layoutX="63.0" layoutY="66.0" text="Filter on:">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <CheckBox layoutX="196.0" layoutY="107.0" mnemonicParsing="false" text="Underwear" visible="false" />
-            <CheckBox layoutX="196.0" layoutY="77.0" mnemonicParsing="false" text="Jacket" visible="false" />
-            <CheckBox layoutX="295.0" layoutY="77.0" mnemonicParsing="false" text="T-shirt" visible="false" />
-            <CheckBox layoutX="196.0" layoutY="47.0" mnemonicParsing="false" text="Socks" visible="false" />
-            <CheckBox layoutX="295.0" layoutY="47.0" mnemonicParsing="false" text="Pants" visible="false" />
          </children>
       </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">

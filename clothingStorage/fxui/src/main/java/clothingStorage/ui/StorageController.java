@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 public class StorageController implements Initializable{
 
     private Storage storage;
+    private Clothing clothing;
 
     public StorageController() {
         storage = new Storage();
@@ -87,7 +88,7 @@ public class StorageController implements Initializable{
 
     @FXML private Button addQuantity, removeQuantity, newClothingItem, increaseByOne, decreaseByOne, loadFromFile, writeToFile;
     @FXML private ListView<String> quantitiesList;
-    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead;
+    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead, newQuantity;
     @FXML private Pane newClothingPane;
 
     private IFiles storageFileHandler = new FileReader();
@@ -143,12 +144,12 @@ public class StorageController implements Initializable{
 
     @FXML private void handleOK() {
         try {
-            String type = typeOfClothing.getText();
+            String name = typeOfClothing.getText();
             String selectedBrand = brand.getValue();
             char selectedSize = size.getValue();
             Double selectedPrice = Double.parseDouble(price.getText());
 
-            Clothing clothing = new Clothing(type, selectedBrand, selectedSize, selectedPrice);
+            Clothing clothing = new Clothing(name, selectedBrand, selectedSize, selectedPrice);
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
             storage.addNewClothing(clothing, selectedQuantity);
@@ -161,30 +162,62 @@ public class StorageController implements Initializable{
         } catch (IllegalArgumentException e) {
             showErrorMessage(e.getMessage());
         } 
-        
     }
 
     @FXML private void handleIncreaseByOne() {
-
+        try {
+            int index = quantitiesList.getSelectionModel().getSelectedIndex();
+            storage.increaseQuantityByOne(storage.getClothing(index));
+            updateQuantitiesList();
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
+        
     }
 
     @FXML private void handleDecreaseByOne() {
-        
+        try {
+            int index = quantitiesList.getSelectionModel().getSelectedIndex();
+            storage.decreaseQuantityByOne(storage.getClothing(index));
+            updateQuantitiesList();
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
     }
 
 
     @FXML private void handleAddQuantity() {
-        String[] selectedClothing = quantitiesList.getSelectionModel().getSelectedItem().split(",");
-        String type = selectedClothing[0];
-        //char size = String.valueOf(selectedClothing[1]);
-        //TODO
+        int index = quantitiesList.getSelectionModel().getSelectedIndex();
+        try {
+            int addQuantity = Integer.parseInt(newQuantity.getText());
+            storage.increaseQuantity(storage.getClothing(index), addQuantity);
+            updateQuantitiesList();
+        } catch (NumberFormatException e) {
+            if (newQuantity.getText().isEmpty()) {
+                showErrorMessage("Specify quantity first in textfield");
+            } else {
+                showErrorMessage("Input must be a number");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
     }
 
     @FXML private void handleRemoveQuantity() {
-        //String item = myList.getSelectionModel().getSelectedItem();
-        //market.removeItemMyList(item);
-        //updateMyList();
-        //TODO
+        int index = quantitiesList.getSelectionModel().getSelectedIndex();
+        try {
+            int decQuantity = Integer.parseInt(newQuantity.getText());
+            storage.decreaseQuantity(storage.getClothing(index), decQuantity);
+            updateQuantitiesList();
+        } catch (NumberFormatException e) {
+            if (newQuantity.getText().isEmpty()) {
+                showErrorMessage("Specify quantity first in textfield");
+            } else {
+                showErrorMessage("Input must be a number");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
     }
 
     @FXML private void handleWriteToFile() {

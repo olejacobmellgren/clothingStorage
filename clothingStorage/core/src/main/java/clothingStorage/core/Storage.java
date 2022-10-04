@@ -77,7 +77,7 @@ public class Storage {
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
 
         for (Clothing clothing : keyList) {
-            list.add(clothing.getName() + ", " + clothing.getBrand() + ", " + clothing.getSize() + ": " + this.getQuantity(clothing));
+            list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getSize() + "; " + this.getQuantity(clothing));
         }
         return list;
     }
@@ -97,9 +97,9 @@ public class Storage {
 
         for (Clothing clothing : keyList) {
             if (clothing.equals(keyList.get(keyList.size()-1))) {
-                list.add(clothing.getName() + ", " + clothing.getBrand() + ": " + clothing.getPrice() + ",-");
+                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
             } else {
-                list.add(clothing.getName() + ", " + clothing.getBrand() + ": " + clothing.getPrice() + ",-" + "\n");
+                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-" + "\n");
             }
         }
         return list;
@@ -125,6 +125,14 @@ public class Storage {
 
     public HashMap<Clothing, Integer> getAllClothes() {
         return new HashMap<Clothing, Integer>(this.storageList);
+    }
+
+    public Clothing getClothing(int index) {
+        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
+        if (index>=keyList.size()) {
+            throw new IllegalStateException("Invalid index, not in storage");
+        }
+        return keyList.get(index);
     }
 
     @Override
