@@ -12,11 +12,11 @@ public class ClothingTest{
 
     @BeforeEach
     public void setUp() {
-        Clothing clothing = new Clothing("Jeans", "Nike", 'M', 150);
+        clothing = new Clothing("Jeans", "Nike", 'M', 150);
     }
     
     @Test
-    public void checkConstructor(){
+    public void checkConstructor() {
         Assertions.assertEquals("Jeans", clothing.getName());
         Assertions.assertEquals("Nike", clothing.getBrand());
         Assertions.assertEquals('M', clothing.getSize());
@@ -97,8 +97,10 @@ public class ClothingTest{
 
         clothing.setDiscount(50);
         assertEquals(75, clothing.getPrice());
+        clothing.setPrice(150);
         clothing.setDiscount(90);
         assertEquals(15, clothing.getPrice());
+        clothing.setPrice(150);
         clothing.setDiscount(37.5);
         assertEquals(93.75, clothing.getPrice());
     }
@@ -108,6 +110,10 @@ public class ClothingTest{
         assertEquals(0, clothing.getSale());
         clothing.setDiscount(50);
         assertEquals(1, clothing.getSale());
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            clothing.setSale(2);
+        }, "Threw IllegalArgumentException since input was not 0 or 1");
     }
 }
 
