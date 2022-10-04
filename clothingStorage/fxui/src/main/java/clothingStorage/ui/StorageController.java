@@ -130,6 +130,16 @@ public class StorageController implements Initializable{
         writeToFile.setDisable(true);
     }
 
+    @FXML private void handleRemoveClothingItem() {
+        try {
+            int index = quantitiesList.getSelectionModel().getSelectedIndex();
+            storage.removeClothing(storage.getClothing(index));
+            updateQuantitiesList();
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
+    }
+
     @FXML private void handleCancel() {
         newClothingPane.setVisible(false);
         quantitiesList.setVisible(true);
