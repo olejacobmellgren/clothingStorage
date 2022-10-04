@@ -15,8 +15,8 @@ Bruker har behov for en oversikt over klærne som er på lager med mulighet for 
 Det er også ønskelig for ansatte å ha en separat liste med oversikt over prisene til ulike klesplagg. Disse vil variere avhengig av klesmerke.
 
 ### Viktig å se
-- Oversikt over klærne på lager
-- Oversikt over priser på klær avhengig av merker
+- Oversikt(liste) over klærne på lager
+- Oversikt(liste) over priser på klær avhengig av merker
 
 ### Viktig å kunne gjøre
 - Legge til nye klær
@@ -35,28 +35,42 @@ Bruker har behov for å skrive til og lese fra filer for å kunne bruke disse vi
 - Skrive til fil
 
 # Brukerhistorie 3: Endre beholdning av vare
-Som ansatt/eier av klesbutikk ønsker jeg å kunne å kunne øke antall av en type klær når butikken får inn nye varer. Jeg ønsker også å kunne minke antall varer i beholdningen når de blir solgt.
+Som ansatt/eier av klesbutikk ønsker jeg å kunne øke antall av en type klær når butikken får inn nye varer. Jeg ønsker også å kunne minke antall varer i beholdningen når de blir solgt.
 
 Bruker har behov for å øke og minke beholdning av varer.
 
 ### Viktig å se
+- Oversikt(liste) over klærne på lager slik at man kan trykke på et klesplagg
 - Tekstfelt for å skrive hvor mye beholdningen skal endres med
-- knapp for å øke beholdningen med gitt antall
-- knapp for å minke beholdningen med gitt antall
+- Knapp for å øke beholdningen med gitt antall
+- Knapp for å minke beholdningen med gitt antall
 
 ### Viktig å gjøre
-- Økee antallet for det valgte kles-objektet i listen
-- Minke antallet for det valgte kles-objektet i listen
+- Øke antallet for det valgte klesplagget i listen
+- Minke antallet for det valgte klesplagget i listen
 
 # Brukerhistorie 4: Endre pris for vare
-Som ansatt/eier av klesbutikk ønsker jeg å kunne å kunne endre prisen på en vare, enten dersom varen er på salg og det skal legges inn rabatt, eller om varen endrer pris fast.
+Som ansatt/eier av klesbutikk ønsker jeg å kunne endre prisen på en vare, enten dersom varen er på salg og det skal legges inn rabatt, eller om varen endrer pris fast.
 
 Bruker har behov for å endre pris for en vare gjennom rabatt eller helt ny pris.
 
 ### Viktig å se
+- Oversikt(liste) over klærne på lager slik at man kan trykke på et klesplagg
 - Tekstfelt for å skrive ny pris til vare og knapp for å bekrefte
 - Tekstfelt for å skrive rabatt til vare og knapp for å bekrefte
 
 ### Viktig å gjøre
-- Endre prisen for det valgte kles-objektet i listen til gitt pris
-- Endre prisen for det valgte kles-objektet i listen med hensyn på gitt rabatt
+- Endre prisen for det valgte klesplagget i listen til gitt pris
+- Endre prisen for det valgte klesplagget i listen med hensyn på gitt rabatt
+
+# Brukerhistorie 5: Fjerne vare
+Som ansatt/eier av klesbutikk ønsker jeg å kunne å kunne fjerne en vare fra listen over beholdninger, enten dersom en ny vare ble lagt til feil, eller dersom de går ut av beholdning og butikken ikke får inn flere varer av denne typen.
+
+Bruker har behov for fjerne vare fra liste.
+
+### Viktig å se
+- Oversikt(liste) over klærne på lager slik at man kan trykke på et klesplagg
+- Knapp for å fjerne valgt klesplagg
+
+### Viktig å gjøre
+- Fjerne klesplagget fra listen
