@@ -1,5 +1,5 @@
 package clothingStorage.json.internal;
 
-public class clothingStorageSerializer {
+public class ClothingStorageSerializer {
     
 }
