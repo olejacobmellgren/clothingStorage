@@ -127,6 +127,7 @@
     <modules>
         <module>core</module>
         <module>fxui</module>
+        <module>localpersistence</module>
     </modules>
 
 </project>
