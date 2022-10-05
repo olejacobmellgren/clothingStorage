@@ -18,7 +18,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StorageController">
    <children>
-      <Pane fx:id="storagePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0" visible="false">
+      <Pane fx:id="storagePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
          <children>
             <Label layoutX="47.0" layoutY="380.0" text="Increase or Decrease">
                <font>
@@ -206,7 +206,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="pricePane" prefHeight="615.0" prefWidth="410.0">
+      <Pane fx:id="pricePane" prefHeight="615.0" prefWidth="410.0" visible="false">
          <children>
             <ListView fx:id="priceList" layoutX="55.0" layoutY="154.0" prefHeight="332.0" prefWidth="312.0" />
             <Button fx:id="confirmNewPrice" layoutX="251.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleConfirmNewPrice" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm New Price">
