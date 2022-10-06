@@ -18,7 +18,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StorageController">
    <children>
-      <Pane fx:id="storagePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
+      <Pane fx:id="storagePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0" visible="false">
          <children>
             <Label layoutX="47.0" layoutY="380.0" text="Increase or Decrease">
                <font>
@@ -49,7 +49,7 @@
             </Button>
             <Button fx:id="addQuantity" layoutX="42.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleAddQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Add Quantity">
                <font>
-                  <Font size="19.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -60,7 +60,7 @@
             </Button>
             <Button fx:id="removeQuantity" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleRemoveQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Quantity">
                <font>
-                  <Font size="19.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -165,7 +165,7 @@
             </Pane>
             <Button fx:id="writeToFile" layoutX="215.0" layoutY="520.0" mnemonicParsing="false" onAction="#handleWriteToFile" prefHeight="20.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Write To File">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -182,7 +182,7 @@
             <TextField fx:id="fileToWriteOrRead" layoutX="37.0" layoutY="545.0" promptText="filename" />
             <Button fx:id="loadFromFile" layoutX="215.0" layoutY="565.0" mnemonicParsing="false" onAction="#handleLoadFromFile" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Load From File">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -206,12 +206,12 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="pricePane" prefHeight="615.0" prefWidth="410.0" visible="false">
+      <Pane fx:id="pricePane" prefHeight="615.0" prefWidth="410.0">
          <children>
             <ListView fx:id="priceList" layoutX="55.0" layoutY="154.0" prefHeight="332.0" prefWidth="312.0" />
-            <Button fx:id="confirmNewPrice" layoutX="251.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleConfirmNewPrice" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm New Price">
+            <Button fx:id="confirmNewPrice" layoutX="230.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleConfirmNewPrice" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: lightgreen;" text="Confirm New Price">
                <font>
-                  <Font size="15.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -220,9 +220,9 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="confirmDiscount" layoutX="253.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleConfirmDiscount" prefHeight="29.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="Confirm Discount">
+            <Button fx:id="confirmDiscount" layoutX="230.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleConfirmDiscount" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: lightgreen;" text="Confirm Discount">
                <font>
-                  <Font size="15.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -231,8 +231,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="newPrice" layoutX="72.0" layoutY="502.0" prefHeight="26.0" prefWidth="165.0" />
-            <TextField fx:id="discount" layoutX="72.0" layoutY="551.0" prefHeight="26.0" prefWidth="148.0" />
+            <TextField fx:id="newPrice" layoutX="55.0" layoutY="502.0" prefHeight="26.0" prefWidth="165.0" />
+            <TextField fx:id="discount" layoutX="55.0" layoutY="551.0" prefHeight="26.0" prefWidth="148.0" />
             <MenuButton layoutX="61.0" layoutY="95.0" mnemonicParsing="false" style="-fx-background-color: lightgreen;" text="Type" visible="false">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -250,7 +250,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="222.0" layoutY="556.0" text="\%" />
+            <Label layoutX="205.0" layoutY="556.0" text="\%" />
          </children>
       </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">
