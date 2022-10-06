@@ -76,9 +76,9 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="newClothingItem" layoutX="42.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleNewClothingItem" prefHeight="46.0" prefWidth="148.0" style="-fx-background-color: lightgreen;" text="New Clothing Item">
+            <Button fx:id="newClothingItem" layoutX="42.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleNewClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="New Clothing Item">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
@@ -193,9 +193,9 @@
             </Button>
             <Label layoutX="37.0" layoutY="527.0" text="Filename to write to or load:" />
             <Label layoutX="45.0" layoutY="80.0" prefHeight="17.0" prefWidth="150.0" text="type;brand;size;quantity" />
-            <Button fx:id="removeClothingItem" layoutX="198.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="184.0" style="-fx-background-color: lightgreen;" text="Remove Clothing Item">
+            <Button fx:id="removeClothingItem" layoutX="215.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Clothing Item">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <effect>
                   <DropShadow height="15.0" radius="8.5" />
