@@ -25,7 +25,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="decreaseByOne" layoutX="291.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleDecreaseByOne" prefHeight="37.0" prefWidth="48.0" style="-fx-background-color: lightgreen;" text="-1">
+            <Button fx:id="decreaseByOne" layoutX="291.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleDecreaseByOne" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: lightgreen;" text="-1">
                <font>
                   <Font size="19.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="increaseByOne" layoutX="218.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleIncreaseByOne" prefHeight="37.0" prefWidth="48.0" style="-fx-background-color: lightgreen;" text="+1">
+            <Button fx:id="increaseByOne" layoutX="201.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleIncreaseByOne" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: lightgreen;" text="+1">
                <font>
                   <Font size="19.0" />
                </font>
