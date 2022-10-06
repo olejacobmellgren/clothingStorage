@@ -65,7 +65,7 @@ public class StorageController implements Initializable{
     @FXML private Button storagePageButton, pricePageButton;
     @FXML private Pane storagePane, pricePane;
 
-    @FXML private void handleMarket() {
+    @FXML private void handlePricePageButton() {
         if (!pricePane.isVisible()) {
             storagePane.setVisible(false);
             pricePane.setVisible(true);
@@ -75,7 +75,7 @@ public class StorageController implements Initializable{
         
     }
 
-    @FXML private void handlestorage() {
+    @FXML private void handleStoragePageButton() {
         if (!storagePane.isVisible()) {
             storagePane.setVisible(true);
             pricePane.setVisible(false);
