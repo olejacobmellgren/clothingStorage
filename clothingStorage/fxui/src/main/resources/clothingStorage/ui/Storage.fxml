@@ -138,7 +138,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="ok" layoutX="96.0" layoutY="270.0" mnemonicParsing="false" onAction="#handleOK" prefHeight="41.0" prefWidth="91.0" style="-fx-background-color: lightgreen;" text="OK">
+                  <Button fx:id="ok" layoutX="96.0" layoutY="270.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="41.0" prefWidth="91.0" style="-fx-background-color: lightgreen;" text="Ok">
                      <effect>
                         <DropShadow height="15.0" radius="8.5" />
                      </effect>

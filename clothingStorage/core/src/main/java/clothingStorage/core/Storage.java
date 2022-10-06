@@ -1,12 +1,12 @@
 package clothingStorage.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Storage {
 
-    private HashMap<Clothing, Integer>  storageList;
+    private LinkedHashMap<Clothing, Integer>  storageList;
 
     /* 
     Forutsetninger:
@@ -19,7 +19,7 @@ public class Storage {
     */ 
 
     public Storage() {
-        this.storageList = new HashMap<>();
+        this.storageList = new LinkedHashMap<>();
     }
 
     public void addNewClothing(Clothing clothing, int quantity) {
@@ -72,10 +72,9 @@ public class Storage {
 
     */
 
-    public List<String> homepageDisplay() {
+    public List<String> storageDisplay() {
         List<String> list = new ArrayList<>();
-        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
-
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing : keyList) {
             list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getSize() + "; " + this.getQuantity(clothing));
         }
@@ -91,10 +90,9 @@ public class Storage {
     Jeans, Levi's: 60,-
     */
 
-    public List<String> marketDisplay() { 
+    public List<String> priceDisplay() { 
         List<String> list = new ArrayList<>();
-        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
-
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing : keyList) {
             if (clothing.equals(keyList.get(keyList.size()-1))) {
                 list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
@@ -123,8 +121,8 @@ public class Storage {
         return this.storageList.get(clothing);
     }
 
-    public HashMap<Clothing, Integer> getAllClothes() {
-        return new HashMap<Clothing, Integer>(this.storageList);
+    public LinkedHashMap<Clothing, Integer> getAllClothes() {
+        return new LinkedHashMap<Clothing, Integer>(this.storageList);
     }
 
     public Clothing getClothing(int index) {
@@ -158,14 +156,19 @@ public class Storage {
     public static void main(String[] args) {
         Storage storage = new Storage();
         Clothing item = new Clothing("Bukse", "Levi's", 'M', 25);
-        Clothing item2 = new Clothing("Jakke", "Nike", 'S', 54.5);
+        Clothing item2 = new Clothing("Jakke", "Adidas", 'S', 54.5);
         Clothing item3 = new Clothing("Jakke", "Nike", 'S', 100);
+        Clothing item4 = new Clothing("Sokker", "H&M", 'L', 122);
+
         
 
         
         storage.addNewClothing(item, 2);
         storage.addNewClothing(item2, 3);
         storage.addNewClothing(item3, 6);
+        storage.addNewClothing(item4, 8);
+
+        System.out.println(storage.storageDisplay());
 
         System.out.println(storage.getClothing(2));
         System.out.println(item2.equals(item3));
@@ -188,7 +191,7 @@ public class Storage {
         storage.removeClothing(item);
         System.out.println(storage);
         System.out.println("---------");
-        System.out.println(storage.homepageDisplay());
-        System.out.println(storage.marketDisplay());
+        System.out.println(storage.storageDisplay());
+        System.out.println(storage.priceDisplay());
     }
 }

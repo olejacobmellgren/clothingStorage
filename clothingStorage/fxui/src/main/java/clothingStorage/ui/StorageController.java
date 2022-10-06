@@ -54,10 +54,11 @@ public class StorageController implements Initializable{
         brand.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
     }
-    private void updateStorageList() {
+
+    public void updateStorageList() {
         if (this.storageList == null || storageList.getItems().isEmpty()) {
-            List<String> clothingDisplays = storage.homepageDisplay();
-            storageList.getItems().addAll(clothingDisplays);
+            List<String> clothingDisplays = storage.storageDisplay();
+            storageList.getItems().setAll(clothingDisplays);
         } else {
             storageList.getItems().clear();
             updateStorageList();
@@ -66,8 +67,8 @@ public class StorageController implements Initializable{
 
     private void updatePriceList() {
         if (this.priceList == null || priceList.getItems().isEmpty()) {
-            List<String> clothingPriceDisplays = storage.marketDisplay();
-            priceList.getItems().addAll(clothingPriceDisplays);
+            List<String> clothingPriceDisplays = storage.priceDisplay();
+            priceList.getItems().setAll(clothingPriceDisplays);
         } else {
             priceList.getItems().clear();
             updatePriceList();
@@ -165,7 +166,7 @@ public class StorageController implements Initializable{
         writeToFile.setDisable(false);
     }
 
-    @FXML private void handleOK() {
+    @FXML private void handleOk() {
         try {
             String name = typeOfClothing.getText();
             String selectedBrand = brand.getValue();

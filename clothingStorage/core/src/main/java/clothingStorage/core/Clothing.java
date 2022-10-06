@@ -134,18 +134,16 @@ public class Clothing {
     public boolean equals(Object object) {
         if (object instanceof Clothing) {
             Clothing clothing = (Clothing) object;
-            if (!(clothing.getBrand() == this.getBrand())) {
+            if (!(clothing.getBrand().equals(this.getBrand()))) {
                 return false;
             }
             else if (!(clothing.getSize() == this.getSize())) {
                 return false;
             }
-            else if (!(clothing.getName() == this.getName())) {
+            else if (!(clothing.getName().equals(this.getName()))) {
                 return false;
             }
-            else {
-                return true;
-            }
+            return true;
         }
         return false;
     }
