@@ -26,20 +26,12 @@ public class Clothing {
     /** 
      * If Clothing object is on sale
     */
-    private float onSale;  
+    private int onSale;  
 
     /** 
      * Valid brands for Clothing object
     */
-    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
-
-    /*
-    Antagelser:
-    - Et navn på et klesplagg kan ikke inneholde et tall.
-    - Kun størrelse small, medium og large eksisterer.
-    - Bruker kan kun legge inn et klesmerke som eksisterer
-    */
-
+    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"};
 
     /** 
      * Initializes Clothing object
@@ -169,11 +161,13 @@ public class Clothing {
      * 
      * @param sale on item you want to set
     */
-    public void setSale(float sale) {
-        if (this.isOnSale()) {
+    public void setSale(int sale) {
+        if (sale == 1) {
             this.onSale = 1;
-        } else {
+        } else if (sale == 0) {
             this.onSale = 0;
+        } else {
+            throw new IllegalArgumentException("Input must be either 0 or 1");
         }
     }
 
@@ -219,7 +213,7 @@ public class Clothing {
      * @return true if on sale, false if not on sale
     */
     public boolean isOnSale() {
-        if (onSale == 1.0) {
+        if (this.onSale == 1) {
             return true;
         } else {
             return false;
@@ -229,9 +223,9 @@ public class Clothing {
     /** 
      * Retrieves whether the item is on sale or not
      * 
-     * @return float value 1 if item is on sale, 0 if not on sale
+     * @return int value 1 if item is on sale, 0 if not on sale
     */
-    public float getSale() {
+    public int getSale() {
         return this.onSale;
     }
 
@@ -260,11 +254,6 @@ public class Clothing {
     //        return true;
     //    }
     //}
-
-    /*
-    Små tester for oppførsel i main-metode
-    Alt funker som det skal utifra forutsetninger
-    */
 
     /** 
      * Test to see if Clothing object is created
