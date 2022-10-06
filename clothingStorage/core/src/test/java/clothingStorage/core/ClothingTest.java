@@ -103,12 +103,27 @@ public class ClothingTest{
     @Test
     public void testOnSale() {
         assertEquals(0, clothing.getSale());
+        assertFalse(clothing.isOnSale());
+
         clothing.setDiscount(50);
         assertEquals(1, clothing.getSale());
+        assertTrue(clothing.isOnSale());
+
+        clothing.setSale(0);
+        assertEquals(0, clothing.getSale());
         
         assertThrows(IllegalArgumentException.class, () -> {
             clothing.setSale(2);
         }, "Threw IllegalArgumentException since input was not 0 or 1");
+    }
+
+    @Test
+    public void testToString() {
+        String output = "Jeans" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0,-";
+        assertEquals(output, clothing.toString());
+        clothing.setSize('S');
+        output = "Jeans" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
+        assertEquals(output, clothing.toString());
     }
 }
 
