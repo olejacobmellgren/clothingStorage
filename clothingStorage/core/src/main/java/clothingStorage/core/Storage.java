@@ -159,8 +159,18 @@ public class Storage {
         Storage storage = new Storage();
         Clothing item = new Clothing("Bukse", "Levi's", 'M', 25);
         Clothing item2 = new Clothing("Jakke", "Nike", 'S', 54.5);
+        Clothing item3 = new Clothing("Jakke", "Nike", 'S', 100);
+        
+
+        
         storage.addNewClothing(item, 2);
         storage.addNewClothing(item2, 3);
+        storage.addNewClothing(item3, 6);
+
+        System.out.println(storage.getClothing(2));
+        System.out.println(item2.equals(item3));
+        System.out.println(item2.equals(storage.getClothing(0)));
+        
         System.out.println(storage);
         System.out.println("---------");
         storage.increaseQuantity(item, 1);

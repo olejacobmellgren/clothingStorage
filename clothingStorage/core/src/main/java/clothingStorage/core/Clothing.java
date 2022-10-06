@@ -25,23 +25,20 @@ public class Clothing {
     }
 
     public void setName(String name) {
-        if (!isValidName(name)) {
-            throw new IllegalArgumentException("Name of clothing contains a number");
-        }
+        isValidName(name);
         this.name = name;
     }
 
-    private boolean isValidName(String name) {
+    private void isValidName(String name) {
         char[] charNumbers = name.toCharArray();
         for (char c : charNumbers) {
             if (Character.isDigit(c)) {
-                return false;
+                throw new IllegalArgumentException("Name of clothing contains a number");
             }
         }
-        if (Character.isUpperCase(name.charAt(0))) {
-            return true; 
+        if (Character.isLowerCase(name.charAt(0))) {
+            throw new IllegalArgumentException("Name of clothing must start with uppercase letter");
         }
-        return false;
     }
 
     public void setBrand(String brand) {
@@ -133,21 +130,25 @@ public class Clothing {
         return this.getName() + "\n" + "   - Brand: " + this.getBrand() + "\n" + "   - Size: " + String.valueOf(this.getSize()) + "\n" + "   - Price: " + String.valueOf(this.getPrice()) + ",-";
     }
 
-    //@Override
-    //public boolean equals(Clothing clothing) {
-    //    if (!(clothing.getBrand() == this.getBrand())) {
-    //        return false;
-    //    }
-    //    else if (!(clothing.getSize() == this.getSize())) {
-    //        return false;
-    //    }
-    //    else if (!(clothing.getName() == this.getName())) {
-    //        return false;
-    //    }
-    //    else {
-    //        return true;
-    //    }
-    //}
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Clothing) {
+            Clothing clothing = (Clothing) object;
+            if (!(clothing.getBrand() == this.getBrand())) {
+                return false;
+            }
+            else if (!(clothing.getSize() == this.getSize())) {
+                return false;
+            }
+            else if (!(clothing.getName() == this.getName())) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /*
     Små tester for oppførsel i main-metode
@@ -157,5 +158,7 @@ public class Clothing {
     public static void main(String[] args) {
         Clothing clothing = new Clothing("Bukse", "Levi's", 'S', 24);
         System.out.println(clothing);
+        Clothing clothing2 = new Clothing("Bukse", "Levi's", 'S', 43);
+        System.out.println(clothing.equals(clothing2));
     }
 }

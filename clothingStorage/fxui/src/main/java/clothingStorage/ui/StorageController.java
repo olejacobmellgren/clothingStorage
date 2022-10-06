@@ -33,6 +33,19 @@ public class StorageController implements Initializable{
         storage = new Storage();
     }
 
+    public Storage getController() {
+        return this.storage;
+    }
+
+    public void setStorage(Storage storage) {
+    if (this.storage != null) {
+        storageList.getItems().clear();
+    }
+    this.storage = storage;
+    updateStorageList();
+    }
+
+
     @FXML private ChoiceBox<String> brand;
     @FXML private ChoiceBox<Character> size;
 
