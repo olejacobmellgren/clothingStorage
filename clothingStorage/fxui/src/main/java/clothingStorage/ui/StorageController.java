@@ -28,13 +28,10 @@ public class StorageController implements Initializable{
 
     private Storage storage;
     private Clothing clothing;
+    private String errorMessage;
 
     public StorageController() {
-        storage = new Storage();
-    }
-
-    public Storage getController() {
-        return this.storage;
+        this.storage = new Storage();
     }
 
     public void setStorage(Storage storage) {
@@ -43,6 +40,10 @@ public class StorageController implements Initializable{
     }
     this.storage = storage;
     updateStorageList();
+    }
+
+    public String getErrorMessage() {
+        return this.errorMessage;
     }
 
 
@@ -112,6 +113,7 @@ public class StorageController implements Initializable{
         alert.setTitle("ERROR OCCURRED");
         alert.setHeaderText("Error!");
         alert.setContentText(errorMessage);
+        this.errorMessage = errorMessage;
         alert.showAndWait();
     }
 
@@ -194,9 +196,12 @@ public class StorageController implements Initializable{
             storage.increaseQuantityByOne(storage.getClothing(index));
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         }
-        
     }
 
     @FXML private void handleDecreaseByOne() {
@@ -205,14 +210,19 @@ public class StorageController implements Initializable{
             storage.decreaseQuantityByOne(storage.getClothing(index));
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before decreasing quantity");
+            }
         }
     }
 
 
     @FXML private void handleAddQuantity() {
+        int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            if (storage.getAllClothes().isEmpty() || index==-1) throw new IndexOutOfBoundsException();
             int addQuantity = Integer.parseInt(newQuantity.getText());
             storage.increaseQuantity(storage.getClothing(index), addQuantity);
             updateStorageList();
@@ -223,13 +233,18 @@ public class StorageController implements Initializable{
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         }
     }
 
     @FXML private void handleRemoveQuantity() {
+        int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            if (storage.getAllClothes().isEmpty() || index==-1) throw new IndexOutOfBoundsException();
             int decQuantity = Integer.parseInt(newQuantity.getText());
             storage.decreaseQuantity(storage.getClothing(index), decQuantity);
             updateStorageList();
@@ -240,7 +255,11 @@ public class StorageController implements Initializable{
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before decreasing quantity");
+            }
         }
     }
 

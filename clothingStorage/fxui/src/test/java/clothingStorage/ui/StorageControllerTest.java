@@ -29,6 +29,19 @@ public class StorageControllerTest extends ApplicationTest {
     private Parent root;
     private Storage storage;
 
+    /*
+     * Hva vi mangler: oppdatert 07/10/2022 14:48
+     * 
+     * Teste feilmeldinger når input er feil ved opprettelse av Clothing-objekt
+     * Teste å fjerne Clothing-objekt, samt eventuelle feilmeldinger
+     * Teste å bytte mellom sider (litt usikker på hvordan vi skal gjøre denne)
+     * Filhåndtering (usikker på denne også, siden vi skal bruke json)
+     * Endre på pris til Clothing-objekt, samt eventuelle feilmeldinger
+     * Legge til rabatt, samt eventuelle feilmeldinger
+     * 
+     * Alt over er basert på testcoverage med Jacoco. Antar at vi skal ha testcoverage på 100%, så da må alle feilmeldinger sjekkes
+     */
+
     @Override
     public void start(final Stage stage) throws Exception {
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("Storage_test.fxml"));
@@ -126,12 +139,70 @@ public class StorageControllerTest extends ApplicationTest {
         int quantity = Integer.parseInt(nikeJeans[3].strip());
         assertEquals(1, quantity);
     }
+
+    /*
+     * Dette tester alle feilmeldinger for å endre antall varer
+     * 
+     * controller.getErrorMessage() (ny metode i kontroller) henter ut teksten i feilmeldingen ( sjekk showErrorMessage()-metode, linje 116 )
+     * "String errorMessage" er nå en attributt til kontrolleren, som fra før er null. Slik at når en feilmelding oppstår endres denne, og vi
+     * kan sammenligne errorMessage med forventet feilmelding. Se hva jeg har gjort under med assertEquals.
+     * Kom ikke på en bedre metode enn dette
+     * 
+     * Er en litt lang metode under, men går relativt raskt under selve "mvn test"
+     * Er ikke mulig å gjøre denne metoden kortere for å fremdeles oppnå 100% test-coverage. Tro meg, jeg har prøvd...
+     */
+
+    @Test
+    public void testErrorOnChangingQuantity() {
+        controller.setStorage(new Storage());
+        clickOn("#increaseByOne");
+        assertEquals("Add a new clothing to storage first", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#decreaseByOne");
+        assertEquals("Add a new clothing to storage first", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#addQuantity");
+        assertEquals("Add a new clothing to storage first", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#removeQuantity");
+        assertEquals("Add a new clothing to storage first", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+
+        Storage storage2 = new Storage();
+        storage2.addNewClothing(new Clothing("Socks", "Adidas", 'S', 59), 4);
+        controller.setStorage(storage2);
+
+        clickOn("#increaseByOne");
+        assertEquals("Select a clothing before increasing quantity", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#decreaseByOne");
+        assertEquals("Select a clothing before decreasing quantity", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#addQuantity");
+        assertEquals("Select a clothing before increasing quantity", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#removeQuantity");
+        assertEquals("Select a clothing before decreasing quantity", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+
+        clickOn("#storageList").clickOn(LabeledMatchers.hasText("Socks; Adidas; S; 4"));
+        clickOn("#addQuantity");
+        assertEquals("Specify quantity first in textfield", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#removeQuantity");
+        assertEquals("Specify quantity first in textfield", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+
+        clickOn("#newQuantity").write("hei");
+        clickOn("#storageList").clickOn(LabeledMatchers.hasText("Socks; Adidas; S; 4"));
+        clickOn("#addQuantity");
+        assertEquals("Input must be a number", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+        clickOn("#removeQuantity");
+        assertEquals("Input must be a number", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+    }
     
-
-
-
-    
-
     private Clothing makeClothingFromListView(String clothing) {
         String[] clothingProperties = clothing.split(";");
         String type = clothingProperties[0].strip();
@@ -141,28 +212,12 @@ public class StorageControllerTest extends ApplicationTest {
     }
 
     /*
-    private void checkSelectedClothingItem(int index) {
-        final ListView<String> storageView = lookup("#storage").query();
-        assertEquals(index, storageView.getSelectionModel().getSelectedIndex());
-    }
-    */
-
-    
-
-
-    
-
-
-
-
-
-
-    /*
      * Tester vi trenger:
      * 
      * Legge til Clothing
      * Sjekke at errormessage dukker opp på feil input i jeans
      * Sjekke at errormessage dukker opp på feil input i quantity
+     * Sjekke at errormessage dukker opp på feil input i price
      * Fjerne Clothing
      * Øke beholdning med 1
      * Øke beholdning med x
@@ -172,9 +227,5 @@ public class StorageControllerTest extends ApplicationTest {
      * Legge til rabatt
      * 
      */
-
-
-
-
 }
 
