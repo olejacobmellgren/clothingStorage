@@ -17,4 +17,10 @@
     <Match>
         <Bug pattern="HE_SIGNATURE_DECLARES_HASHING_OF_UNHASHABLE_CLASS" />
     </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
 </FindBugsFilter>
