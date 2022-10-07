@@ -5,4 +5,16 @@
     <Match>
         <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION" />
     </Match>
+    <Match>
+        <Bug pattern="NP_NULL_ON_SOME_PATH" />
+    </Match>
+    <Match>
+        <Bug pattern="UUF_UNUSED_FIELD" />
+    </Match>
+    <Match>
+        <Bug pattern="HE_EQUALS_USE_HASHCODE" />
+    </Match>
+    <Match>
+        <Bug pattern="HE_SIGNATURE_DECLARES_HASHING_OF_UNHASHABLE_CLASS" />
+    </Match>
 </FindBugsFilter>
