@@ -1,6 +1,8 @@
 package clothingStorage.core;
 
-
+/**
+ * Represents a clothing item with name, brand, size and price, and corresponding get/set functions
+ */
 public class Clothing {
 
     /** 
@@ -33,11 +35,13 @@ public class Clothing {
     */
     private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"};
 
-    /** 
+    /**
      * Initializes Clothing object
-     * 
-     * @param name, brand, size, price
-    */
+     * @param name or type of clothing item
+     * @param brand of clothing item
+     * @param size of clothing item
+     * @param price of clothing item
+     */
     public Clothing(String name, String brand, char size, double price) {
         setName(name);
         setBrand(brand);
@@ -49,6 +53,7 @@ public class Clothing {
      * Sets name
      * 
      *  @param name of the name you want to set
+     *  @throws IllegalArgumentException if name is invalid
     */
     public void setName(String name) {
         if (!isValidName(name)) {
@@ -81,6 +86,7 @@ public class Clothing {
      * Sets the clothing brand
      * 
      *  @param brand you want to set
+     *  @throws IllegalArgumentException if brand is not valid
     */
     public void setBrand(String brand) {
         if (!isValidBrand(brand)) {
@@ -109,6 +115,7 @@ public class Clothing {
      * Sets clothing size
      * 
      * @param size you want to set
+     * @throws IllegalArgumentException if size is not S, M or L
     */
     public void setSize(char size) {
         if (size == 'S' || size == 'M' || size == 'L') {
@@ -122,6 +129,7 @@ public class Clothing {
      * Sets clothing price
      * 
      * @param price you want to set
+     * @throws IllegalArgumentException if price is 0 or below
     */
     public void setPrice(double price) { // konvertering fra String til double skjer i kontroller. Så opererer på at det faktisk er et tall som blir sendt inn som argument
         if (price <= 0) {
@@ -134,6 +142,7 @@ public class Clothing {
      * Sets discount
      * 
      * @param discount you want to set
+     * @throws IllegalArgumentException is discount is invalid
     */
     public void setDiscount(double discount) {
         if (!isValidDiscount(discount)) {
@@ -160,6 +169,7 @@ public class Clothing {
      * Sets item on sale
      * 
      * @param sale on item you want to set
+     * @throws IllegalArgumentException if input isn't 0 or 1
     */
     public void setSale(int sale) {
         if (sale == 1) {

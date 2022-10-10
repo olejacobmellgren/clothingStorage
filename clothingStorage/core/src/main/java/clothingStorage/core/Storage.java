@@ -4,24 +4,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Represents a storage in a clothing shop
+ */
 public class Storage {
 
+    /**
+     * Map of items in storage
+     */
     private HashMap<Clothing, Integer>  storageList;
 
-    /* 
-    Forutsetninger:
-    - Tar utgangspunkt i at når man legger til et item i lageret definerer man pris også. På denne måten slipper brukeren
-      å gå på oversiktssiden for å bestemme pris etter å ha lagt til et nytt item i lageret. Pris kan deretter oppdateres i 
-      oversiktssiden med tekstfelt  + knapp
-
-    - Antar at tekstfeltet for å legge til eller fjerne antall items fra lager gjør nettopp dette, og at man ikke
-      bestemmer et oppdatert antall i tekstfeltet.
-    */ 
-
+    /**
+     * Prerequisites:
+     *  - The price is set when an item is added to storage to prevent navigating to the overview page to set the price after the item has been added.
+     *    Subsequently, the price can be edited on the overview page with the text area and button.
+     * 
+     *  - Assume text area is used to add or remove a certain number of items from storage. The updated number of items is not determined in the text field.
+     */
     public Storage() {
         this.storageList = new HashMap<>();
     }
 
+    /**
+     * Adds a certain number of clothing items to storage
+     * @param clothing item to add to storage
+     * @param quantity number of clothing items to add
+     * @throws IllegalStateException if item is already in storage
+     */
     public void addNewClothing(Clothing clothing, int quantity) {
         if (!isClothingInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, quantity);
@@ -30,6 +39,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Removes clothing item from storage
+     * @param clothing item to be removed
+     * @throws IllegalStateException if item is not in storage
+     */
     public void removeClothing(Clothing clothing) {
         if (!isClothingInStorage(clothing)) {
             throw new IllegalStateException("This item is not in storage");
@@ -37,10 +51,19 @@ public class Storage {
         this.storageList.remove(clothing);
     }
 
+    /**
+     * Increases number of clothing items by one
+     * @param clothing to increase by one
+     */
     public void increaseQuantityByOne(Clothing clothing) {
         this.increaseQuantity(clothing, 1);
     } 
 
+    /**
+     * Decreases number of clothing items by one
+     * @param clothing to decrease by one
+     * @throws IllegalStateException if the quantity is less than 0
+     */
     public void decreaseQuantityByOne(Clothing clothing) {
         if (getQuantity(clothing) == 0) {
             throw new IllegalStateException("You can not have negative quantity of item");
@@ -48,12 +71,23 @@ public class Storage {
         this.decreaseQuantity(clothing, 1);
     }
 
+    /**
+     * Increases number of clothing items
+     * @param clothing item to be increased
+     * @param quantity number of clothing items to add
+     */
     public void increaseQuantity(Clothing clothing, int quantity) {
         if (isClothingInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, this.getQuantity(clothing) + quantity);
         }
     }
 
+    /**
+     * Decreases number of clothing items
+     * @param clothing item to be decreased
+     * @param quantity number of clothing items to remove
+     * @throws IllegalStateException if number of clothing items if less than 0
+     */
     public void decreaseQuantity(Clothing clothing, int quantity) {
         if (isClothingInStorage(clothing) && isValidQuantity(quantity) && getQuantity(clothing) - quantity >= 0 ) {
             this.storageList.put(clothing, this.getQuantity(clothing) - quantity);
@@ -62,16 +96,15 @@ public class Storage {
         }
     }
 
-    /*
-    Bruk denne metoden for å få alle items på lager på en fin måte til hjemsiden, sammen med antall varer. Brukes i Controller i ListView.
-    Er på formatet:
-
-    Jacket, S: 5
-    Jeans, L: 3
-    Socks, M: 8
-
-    */
-
+    /**
+     * Formats the way items are displayed on the home page, with number of items. Use in Controller in Listview
+     * 
+     * Example of format:
+     *  - Jacket, S: 5
+     *  - Jeans, L: 3
+     *  - Socks, M: 8
+     * @return formatted home page display list
+     */
     public List<String> homepageDisplay() {
         List<String> list = new ArrayList<>();
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
@@ -82,15 +115,15 @@ public class Storage {
         return list;
     }
 
-    /*
-    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.
-    Er på formatet:
-
-    Jacket, Nike: 54,-
-    Socks, Adidas: 36,-
-    Jeans, Levi's: 60,-
-    */
-
+    /**
+     * Formats the way items are displayed on the market page, with pricing. Use in Controller in Listview
+     * 
+     * Example:
+     *  - Jacket, Nike: 54,-
+     *  - Socks, Adidas: 36,-
+     *  - Jeans, Levi's: 60,-
+     * @return formatted market 
+     */
     public List<String> marketDisplay() { 
         List<String> list = new ArrayList<>();
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
