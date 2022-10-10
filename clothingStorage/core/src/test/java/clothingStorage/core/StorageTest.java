@@ -1,14 +1,28 @@
 package clothingStorage.core;
 
+import java.beans.Transient;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class StorageTest {
     
-    Storage storage = new Storage();
-    Clothing leviJeans = new Clothing("jeans", "levi's", 'M', 199);
+    @BeforeEach
+    public void testItems(){
+        Storage storage = new Storage();
+        Clothing leviJeans = new Clothing("jeans", "Levi's", 'M', 199);
+        Clothing supremeShorts = new Clothing("shorts", "Supreme", 'S', 159);
+        Clothing louisVuittonJacket = new Clothing("jacket", "Louis Vuitton", 'L', 1599);
+        Clothing adidasSocks = new Clothing("socks", "adidas", 'M', 99);
+        Clothing lacosteShirt = new Clothing("shirt", "Lacoste", 'L', 699);
+        Clothing lacosteShorts = new Clothing("shorts", "Lacoste", 'L', 699);
 
-    
+        storage.addNewClothing(lacosteShirt, 11);
+        storage.addNewClothing(supremeShorts, 15);
+        storage.addNewClothing(louisVuittonJacket, 14);
+        storage.addNewClothing(adidasSocks, 56);
+        storage.addNewClothing(lacosteShorts, 1);
+    }
 
     @Test
     public void CheckAddNewClothing(){
@@ -18,9 +32,7 @@ public class StorageTest {
 
     @Test
     public void CheckAddNewClothingErrorHandler(){
-    assertThrows(IllegalStateException.class, () -> {
-        storage.addNewClothing(supremeShorts)
-    }, "IllegalStateException should be thrown when trying to add clothing already in storage");
+        Assertions.assertEquals("This item is already in storage", storage.addNewClothing(supremeShorts));
     }
 
     @Test 
