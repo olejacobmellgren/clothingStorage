@@ -1,22 +1,30 @@
 package clothingStorage.core;
 
-import java.beans.Transient;
-
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class StorageTest {
+
+    private Storage storage;
+    private Clothing leviJeans;
+    private Clothing supremeShorts;
+    private Clothing louisVuittonJacket;
+    private Clothing adidasSocks;
+    private Clothing lacosteShirt;
+    private Clothing lacosteShorts;
     
     @BeforeEach
     public void testItems(){
         Storage storage = new Storage();
-        Clothing leviJeans = new Clothing("jeans", "Levi's", 'M', 199);
-        Clothing supremeShorts = new Clothing("shorts", "Supreme", 'S', 159);
-        Clothing louisVuittonJacket = new Clothing("jacket", "Louis Vuitton", 'L', 1599);
-        Clothing adidasSocks = new Clothing("socks", "adidas", 'M', 99);
-        Clothing lacosteShirt = new Clothing("shirt", "Lacoste", 'L', 699);
-        Clothing lacosteShorts = new Clothing("shorts", "Lacoste", 'L', 699);
+        leviJeans = new Clothing("Jeans", "Levi's", 'M', 199);
+        supremeShorts = new Clothing("Shorts", "Supreme", 'S', 159);
+        louisVuittonJacket = new Clothing("Jacket", "Louis Vuitton", 'L', 1599);
+        adidasSocks = new Clothing("Socks", "adidas", 'M', 99);
+        lacosteShirt = new Clothing("Shirt", "Lacoste", 'L', 699);
+        lacosteShorts = new Clothing("Shorts", "Lacoste", 'L', 699);
 
+        storage.addNewClothing(leviJeans, 3);
         storage.addNewClothing(lacosteShirt, 11);
         storage.addNewClothing(supremeShorts, 15);
         storage.addNewClothing(louisVuittonJacket, 14);
@@ -26,8 +34,9 @@ public class StorageTest {
 
     @Test
     public void CheckAddNewClothing(){
-        storage.addNewClothing(leviJeans, 3);
-        Assertions.assertEquals(3, storage.getQuantity(leviJeans));
+        Clothing clothing = new Clothing("Hat", "Nike", 'M', 39);
+        storage.addNewClothing(clothing, 0);
+        Assertions.assertEquals(3, storage.getQuantity(clothing));
     }
 
     @Test
