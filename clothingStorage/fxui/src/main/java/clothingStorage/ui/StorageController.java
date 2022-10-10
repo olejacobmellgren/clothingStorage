@@ -187,7 +187,9 @@ public class StorageController implements Initializable{
             showErrorMessage("Price must be a positive decimal number \nQuantity must a positive integer");
         } catch (IllegalArgumentException e) {
             showErrorMessage(e.getMessage());
-        } 
+        } catch (NullPointerException e) {
+            showErrorMessage("Fill in all fields");
+        }
     }
 
     @FXML private void handleIncreaseByOne() {

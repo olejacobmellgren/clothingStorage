@@ -94,11 +94,7 @@ public class Storage {
         List<String> list = new ArrayList<>();
         List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing : keyList) {
-            if (clothing.equals(keyList.get(keyList.size()-1))) {
-                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
-            } else {
-                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-" + "\n");
-            }
+            list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
         }
         return list;
     }

@@ -13,6 +13,11 @@ import java.io.IOException;
  */
 public class StorageApp extends Application {
 
+    /**
+     * Starting the app
+     *
+     * @result "Clothing Storage" will be setup and be ready to be launched
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("Storage.fxml"));
@@ -22,6 +27,11 @@ public class StorageApp extends Application {
         stage.show();
     }
 
+    /**
+     * Launches the app
+     *
+     * @result "Clothing Storage" will be openend and ready for interaction
+     */
     public static void main(String[] args) {
         launch();
     }
