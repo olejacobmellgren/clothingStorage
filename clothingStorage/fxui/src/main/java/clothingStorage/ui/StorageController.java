@@ -28,10 +28,24 @@ public class StorageController implements Initializable{
 
     private Storage storage;
     private Clothing clothing;
+    private String errorMessage;
 
     public StorageController() {
-        storage = new Storage();
+        this.storage = new Storage();
     }
+
+    public void setStorage(Storage storage) {
+    if (this.storage != null) {
+        storageList.getItems().clear();
+    }
+    this.storage = storage;
+    updateStorageList();
+    }
+
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
+
 
     @FXML private ChoiceBox<String> brand;
     @FXML private ChoiceBox<Character> size;
@@ -41,20 +55,21 @@ public class StorageController implements Initializable{
         brand.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
     }
-    private void updateStorageList() {
+
+    public void updateStorageList() {
         if (this.storageList == null || storageList.getItems().isEmpty()) {
-            List<String> clothingDisplays = storage.homepageDisplay();
-            storageList.getItems().addAll(clothingDisplays);
+            List<String> clothingDisplays = storage.storageDisplay();
+            storageList.getItems().setAll(clothingDisplays);
         } else {
             storageList.getItems().clear();
             updateStorageList();
         }
     }
 
-    private void updatePriceList() {
+    public void updatePriceList() {
         if (this.priceList == null || priceList.getItems().isEmpty()) {
-            List<String> clothingPriceDisplays = storage.marketDisplay();
-            priceList.getItems().addAll(clothingPriceDisplays);
+            List<String> clothingPriceDisplays = storage.priceDisplay();
+            priceList.getItems().setAll(clothingPriceDisplays);
         } else {
             priceList.getItems().clear();
             updatePriceList();
@@ -98,6 +113,7 @@ public class StorageController implements Initializable{
         alert.setTitle("ERROR OCCURRED");
         alert.setHeaderText("Error!");
         alert.setContentText(errorMessage);
+        this.errorMessage = errorMessage;
         alert.showAndWait();
     }
 
@@ -152,7 +168,7 @@ public class StorageController implements Initializable{
         writeToFile.setDisable(false);
     }
 
-    @FXML private void handleOK() {
+    @FXML private void handleOk() {
         try {
             String name = typeOfClothing.getText();
             String selectedBrand = brand.getValue();
@@ -171,7 +187,9 @@ public class StorageController implements Initializable{
             showErrorMessage("Price must be a positive decimal number \nQuantity must a positive integer");
         } catch (IllegalArgumentException e) {
             showErrorMessage(e.getMessage());
-        } 
+        } catch (NullPointerException e) {
+            showErrorMessage("Fill in all fields");
+        }
     }
 
     @FXML private void handleIncreaseByOne() {
@@ -180,9 +198,12 @@ public class StorageController implements Initializable{
             storage.increaseQuantityByOne(storage.getClothing(index));
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         }
-        
     }
 
     @FXML private void handleDecreaseByOne() {
@@ -191,14 +212,19 @@ public class StorageController implements Initializable{
             storage.decreaseQuantityByOne(storage.getClothing(index));
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before decreasing quantity");
+            }
         }
     }
 
 
     @FXML private void handleAddQuantity() {
+        int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            if (storage.getAllClothes().isEmpty() || index==-1) throw new IndexOutOfBoundsException();
             int addQuantity = Integer.parseInt(newQuantity.getText());
             storage.increaseQuantity(storage.getClothing(index), addQuantity);
             updateStorageList();
@@ -209,13 +235,18 @@ public class StorageController implements Initializable{
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         }
     }
 
     @FXML private void handleRemoveQuantity() {
+        int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            if (storage.getAllClothes().isEmpty() || index==-1) throw new IndexOutOfBoundsException();
             int decQuantity = Integer.parseInt(newQuantity.getText());
             storage.decreaseQuantity(storage.getClothing(index), decQuantity);
             updateStorageList();
@@ -226,7 +257,11 @@ public class StorageController implements Initializable{
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storage.getAllClothes().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before decreasing quantity");
+            }
         }
     }
 
@@ -264,9 +299,9 @@ public class StorageController implements Initializable{
 
     @FXML private void handleConfirmNewPrice() {
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
-            storage.getClothing(index).setPrice(price);
+            storage.getClothing(index).setPrice(price, true);
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -281,9 +316,9 @@ public class StorageController implements Initializable{
 
     @FXML private void handleConfirmDiscount() {
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
-            storage.getClothing(index).setDiscount(discountToAdd);
+            storage.getClothing(index).setDiscount(discountToAdd/100);
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -293,6 +328,22 @@ public class StorageController implements Initializable{
             }
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
+        } catch (IllegalArgumentException e) {
+            showErrorMessage(e.getMessage());
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML private void handleRemoveDiscount() {
+        try {
+            int index = priceList.getSelectionModel().getSelectedIndex();
+            storage.getClothing(index).removeDiscount();
+            updatePriceList();
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
         }
     }
 

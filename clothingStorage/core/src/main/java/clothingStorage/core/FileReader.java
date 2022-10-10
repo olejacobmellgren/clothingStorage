@@ -17,7 +17,7 @@ public class FileReader implements IFiles{
             for (Clothing clothing : storage.getAllClothes().keySet()) {
                 writer.println(String.format("%s;%s;%s;%s;%s;%s", 
                 clothing.getName(), clothing.getBrand(), clothing .getSize(), clothing.getPrice(),   
-                clothing.getSale(), storage.getQuantity(clothing)));
+                clothing.getDiscount(), storage.getQuantity(clothing)));
             }
         }   
     }//Merk at det skrives til filen som ligger i "target" mappen og ikke den som ligger under "src"
