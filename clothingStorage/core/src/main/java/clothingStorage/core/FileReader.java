@@ -29,7 +29,7 @@ public class FileReader implements IFiles{
             while (scanner.hasNextLine()) {
                 String[] properties = scanner.nextLine().split(";");
                 Clothing newClothing = new Clothing(properties[0], properties[1], properties[2].charAt(0), Double.parseDouble(properties[3]));
-                newClothing.setSale(Integer.parseInt(properties[4]));
+                newClothing.setSale(Double.parseDouble(properties[4]));
                 storage.addNewClothing(newClothing, Integer.parseInt(properties[5]));
             }
         }
