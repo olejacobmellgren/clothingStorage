@@ -16,11 +16,11 @@ public class StorageTest {
     
     @BeforeEach
     public void testItems(){
-        Storage storage = new Storage();
+        storage = new Storage();
         leviJeans = new Clothing("Jeans", "Levi's", 'M', 199);
         supremeShorts = new Clothing("Shorts", "Supreme", 'S', 159);
         louisVuittonJacket = new Clothing("Jacket", "Louis Vuitton", 'L', 1599);
-        adidasSocks = new Clothing("Socks", "adidas", 'M', 99);
+        adidasSocks = new Clothing("Socks", "Adidas", 'M', 99);
         lacosteShirt = new Clothing("Shirt", "Lacoste", 'L', 699);
         lacosteShorts = new Clothing("Shorts", "Lacoste", 'L', 699);
 
@@ -35,7 +35,7 @@ public class StorageTest {
     @Test
     public void CheckAddNewClothing(){
         Clothing clothing = new Clothing("Hat", "Nike", 'M', 39);
-        storage.addNewClothing(clothing, 0);
+        storage.addNewClothing(clothing, 3);
         Assertions.assertEquals(3, storage.getQuantity(clothing));
     }
 
