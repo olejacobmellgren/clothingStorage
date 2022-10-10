@@ -33,7 +33,7 @@ public class Clothing {
     /** 
      * Valid brands for Clothing object
     */
-    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"};
+    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; /*May be expanded */
 
     /**
      * Initializes Clothing object
