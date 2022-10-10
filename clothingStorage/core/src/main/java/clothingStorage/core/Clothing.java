@@ -1,5 +1,7 @@
 package clothingStorage.core;
 
+import java.text.DecimalFormat;
+
 /**
  * Represents a clothing item with name, brand, size and price, and corresponding get/set functions
  */
@@ -208,7 +210,8 @@ public class Clothing {
      * @return price of clothing item
     */
     public double getPrice() {
-        return this.price;
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(this.price));
     }
 
     /** 
