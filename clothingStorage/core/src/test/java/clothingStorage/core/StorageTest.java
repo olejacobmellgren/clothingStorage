@@ -5,10 +5,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+/**
+ * Contains tests of all functions in Storage.java
+ */
 public class StorageTest {
     
+    /**
+     * Initializes storage
+     */
     private Storage storage;
+
+    /**
+     * Initializes example clothing items
+     */
     private Clothing leviJeans;
     private Clothing supremeShorts;
     private Clothing louisVuittonJacket;
@@ -16,6 +25,9 @@ public class StorageTest {
     private Clothing lacosteShirt;
     private Clothing lacosteShorts;
 
+    /**
+     * Creates test objects before each test and adds some to storage
+     */
     @BeforeEach
     public void testItems(){
         storage = new Storage();
@@ -34,12 +46,20 @@ public class StorageTest {
         storage.decreaseQuantity(lacosteShorts, 2);
     }
 
+    /**
+     * Checks if clothing can be added to storage
+     * @result 3 Levi jeans will be added to storage
+     */
     @Test
     public void CheckAddNewClothing(){
         storage.addNewClothing(leviJeans, 3);
         Assertions.assertEquals(3, storage.getQuantity(leviJeans));
     }
 
+    /**
+     * Checks if exception to AddNewClothing function is thrown when existing clothing items is added to storage
+     * @result Adds three clothing items to storage that already exist and exception is thrown
+     */
     @Test
     public void CheckAddNewClothingErrorHandler(){
         assertThrows(IllegalStateException.class, () -> 
@@ -48,6 +68,10 @@ public class StorageTest {
     }
 
 
+    /**
+     * Checks if clothing items can be removed from storage
+     * @result One key is removed from hashmap
+     */
     @Test 
     public void CheckRemoveClothing(){
         Assertions.assertEquals(5, storage.getAllClothes().size());
