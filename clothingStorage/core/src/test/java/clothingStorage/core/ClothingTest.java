@@ -66,15 +66,15 @@ public class ClothingTest{
     @Test
     public void testPrice() {
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setPrice(-10);
+            clothing.setPrice(-10, false);
         }, "Threw IllegalArgumentException since price can't be negative");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setPrice(0);
+            clothing.setPrice(0, false);
         }, "Threw IllegalArgumentException because price can't be zero");
 
-        clothing.setPrice(49);
+        clothing.setPrice(49, false);
         assertEquals(49, clothing.getPrice());
-        clothing.setPrice(30.55);
+        clothing.setPrice(30.55, false);
         assertEquals(30.55, clothing.getPrice());
     }
 
@@ -90,27 +90,27 @@ public class ClothingTest{
             clothing.setDiscount(0);
         }, "Threw IllegalArgumentException since discount can't be 0");
 
-        clothing.setDiscount(50);
+        clothing.setDiscount(0.50);
         assertEquals(75, clothing.getPrice());
-        clothing.setPrice(150);
-        clothing.setDiscount(90);
+        clothing.setPrice(150, true);
+        clothing.setDiscount(0.90);
         assertEquals(15, clothing.getPrice());
-        clothing.setPrice(150);
-        clothing.setDiscount(37.5);
+        clothing.setPrice(150, true);
+        clothing.setDiscount(0.375);
         assertEquals(93.75, clothing.getPrice());
     }
 
     @Test
     public void testOnSale() {
-        assertEquals(0, clothing.getSale());
+        assertEquals(0, clothing.getDiscount());
         assertFalse(clothing.isOnSale());
 
-        clothing.setDiscount(50);
-        assertEquals(1, clothing.getSale());
+        clothing.setDiscount(0.5);
+        assertEquals(0.5, clothing.getDiscount());
         assertTrue(clothing.isOnSale());
 
         clothing.setSale(0);
-        assertEquals(0, clothing.getSale());
+        assertEquals(0, clothing.getDiscount());
         
         assertThrows(IllegalArgumentException.class, () -> {
             clothing.setSale(2);

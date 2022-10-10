@@ -1,21 +1,12 @@
 package clothingStorage.core;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class StorageTest {
-
-    private Storage storage;
-    private Clothing leviJeans;
-    private Clothing supremeShorts;
-    private Clothing louisVuittonJacket;
-    private Clothing adidasSocks;
-    private Clothing lacosteShirt;
-    private Clothing lacosteShorts;
     
     private Storage storage;
     private Clothing leviJeans;
@@ -35,7 +26,6 @@ public class StorageTest {
         lacosteShirt = new Clothing("Shirt", "Lacoste", 'L', 699);
         lacosteShorts = new Clothing("Shorts", "Lacoste", 'L', 699);
 
-        storage.addNewClothing(leviJeans, 3);
         storage.addNewClothing(lacosteShirt, 11);
         storage.addNewClothing(supremeShorts, 15);
         storage.addNewClothing(louisVuittonJacket, 14);
@@ -46,9 +36,8 @@ public class StorageTest {
 
     @Test
     public void CheckAddNewClothing(){
-        Clothing clothing = new Clothing("Hat", "Nike", 'M', 39);
-        storage.addNewClothing(clothing, 3);
-        Assertions.assertEquals(3, storage.getQuantity(clothing));
+        storage.addNewClothing(leviJeans, 3);
+        Assertions.assertEquals(3, storage.getQuantity(leviJeans));
     }
 
     @Test
