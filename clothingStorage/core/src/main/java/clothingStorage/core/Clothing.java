@@ -1,22 +1,49 @@
 package clothingStorage.core;
 
+/**
+ * Represents a clothing item with name, brand, size and price, and corresponding get/set functions
+ */
 public class Clothing {
 
+    /** 
+     * Name of Clothing object
+    */
     private String name;
+
+    /** 
+     * Brand of Clothing object
+    */
     private String brand;
+
+    /** 
+     * Size of Clothing object
+    */
     private char size;
+
+    /** 
+     * Price of Clothing object
+    */
     private double price;
     private int onSale;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
     private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
 
-    /*
-    Antagelser:
-    - Et navn på et klesplagg kan ikke inneholde et tall.
-    - Kun størrelse small, medium og large eksisterer.
-    - Bruker kan kun legge inn et klesmerke som eksisterer
+    /** 
+     * If Clothing object is on sale
     */
+    private int onSale;  
 
+    /** 
+     * Valid brands for Clothing object
+    */
+    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"};
 
+    /**
+     * Initializes Clothing object
+     * @param name or type of clothing item
+     * @param brand of clothing item
+     * @param size of clothing item
+     * @param price of clothing item
+     */
     public Clothing(String name, String brand, char size, double price) {
         setName(name);
         setBrand(brand);
@@ -24,6 +51,12 @@ public class Clothing {
         setPrice(price);
     }
 
+    /** 
+     * Sets name
+     * 
+     *  @param name of the name you want to set
+     *  @throws IllegalArgumentException if name is invalid
+    */
     public void setName(String name) {
         if (!isValidName(name)) {
             throw new IllegalArgumentException("Name of clothing contains a number");
@@ -31,6 +64,13 @@ public class Clothing {
         this.name = name;
     }
 
+
+    /** 
+     * Checks if the clothing name is valid
+     * 
+     * @param name of the name you want to check
+     * @return true if valid, false if invalid
+    */
     private boolean isValidName(String name) {
         char[] charNumbers = name.toCharArray();
         for (char c : charNumbers) {
@@ -44,6 +84,12 @@ public class Clothing {
         return false;
     }
 
+    /** 
+     * Sets the clothing brand
+     * 
+     *  @param brand you want to set
+     *  @throws IllegalArgumentException if brand is not valid
+    */
     public void setBrand(String brand) {
         if (!isValidBrand(brand)) {
             throw new IllegalArgumentException("Clothing brand does not exist");
@@ -51,6 +97,12 @@ public class Clothing {
         this.brand = brand;
     }
 
+    /** 
+     * Checks if the brand is valid
+     * 
+     * @param brand of the name you want to check
+     * @return true if valid, false if invalid
+    */
     private boolean isValidBrand(String brand) {
         for (String s : validBrands) {
             if (brand.equals(s)) {
@@ -60,6 +112,13 @@ public class Clothing {
         return false;
     }
 
+
+    /** 
+     * Sets clothing size
+     * 
+     * @param size you want to set
+     * @throws IllegalArgumentException if size is not S, M or L
+    */
     public void setSize(char size) {
         if (size == 'S' || size == 'M' || size == 'L') {
             this.size = size;
@@ -68,6 +127,12 @@ public class Clothing {
         }
     }
 
+    /** 
+     * Sets clothing price
+     * 
+     * @param price you want to set
+     * @throws IllegalArgumentException if price is 0 or below
+    */
     public void setPrice(double price) { // konvertering fra String til double skjer i kontroller. Så opererer på at det faktisk er et tall som blir sendt inn som argument
         if (price <= 0) {
             throw new IllegalArgumentException("Given price is negative or zero");
@@ -75,6 +140,12 @@ public class Clothing {
         this.price = price;
     }
 
+    /** 
+     * Sets discount
+     * 
+     * @param discount you want to set
+     * @throws IllegalArgumentException is discount is invalid
+    */
     public void setDiscount(double discount) {
         if (!isValidDiscount(discount)) {
             throw new IllegalArgumentException("Given discount is not valid");
@@ -83,6 +154,12 @@ public class Clothing {
         this.setSale(1);
     }
 
+    /** 
+     * Checks if the discount is valid
+     * 
+     * @param discount you want to check
+     * @return true if valid, false if invalid
+    */
     public boolean isValidDiscount(double discount) {
         if (discount>0 && discount<100) {
             return true;
@@ -100,22 +177,47 @@ public class Clothing {
         }
     }
 
+    /** 
+     * Retrieves clothing name
+     * 
+     * @return name of clothing item
+    */
     public String getName() {
         return this.name;
     }
 
+    /** 
+     * Retrieves clothing brand
+     * 
+     * @return brand of clothing item
+    */
     public String getBrand() {
         return this.brand;
     }
 
+    /** 
+     * Retrieves clothing size
+     * 
+     * @return size of clothing item
+    */
     public char getSize() {
         return this.size;
     }
 
+    /** 
+     * Retrieves price of clothing item
+     * 
+     * @return price of clothing item
+    */
     public double getPrice() {
         return this.price;
     }
 
+    /** 
+     * Checks if clothing item is on sale
+     * 
+     * @return true if on sale, false if not on sale
+    */
     public boolean isOnSale() {
         if (this.onSale == 1) {
             return true;
@@ -128,6 +230,11 @@ public class Clothing {
         return this.onSale;
     }
 
+    /** 
+     * Formats name, brand, size and price values to string
+     * 
+     * @return formatted string with values of name, brand, size and price
+    */
     @Override
     public String toString() {
         return this.getName() + "\n" + "   - Brand: " + this.getBrand() + "\n" + "   - Size: " + String.valueOf(this.getSize()) + "\n" + "   - Price: " + String.valueOf(this.getPrice()) + ",-";
@@ -149,11 +256,10 @@ public class Clothing {
     //    }
     //}
 
-    /*
-    Små tester for oppførsel i main-metode
-    Alt funker som det skal utifra forutsetninger
+    /** 
+     * Test to see if Clothing object is created
+     * 
     */
-
     public static void main(String[] args) {
         Clothing clothing = new Clothing("Bukse", "Levi's", 'S', 24);
         System.out.println(clothing);
