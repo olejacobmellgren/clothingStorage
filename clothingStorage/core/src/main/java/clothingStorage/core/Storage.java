@@ -1,7 +1,7 @@
 package clothingStorage.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -9,10 +9,7 @@ import java.util.List;
  */
 public class Storage {
 
-    /**
-     * Map of items in storage
-     */
-    private HashMap<Clothing, Integer>  storageList;
+    private LinkedHashMap<Clothing, Integer>  storageList;
 
     /**
      * Prerequisites:
@@ -22,7 +19,7 @@ public class Storage {
      *  - Assume text area is used to add or remove a certain number of items from storage. The updated number of items is not determined in the text field.
      */
     public Storage() {
-        this.storageList = new HashMap<>();
+        this.storageList = new LinkedHashMap<>();
     }
 
     /**
@@ -96,44 +93,39 @@ public class Storage {
         }
     }
 
-    /**
-     * Formats the way items are displayed on the home page, with number of items. Use in Controller in Listview
-     * 
-     * Example of format:
-     *  - Jacket, S: 5
-     *  - Jeans, L: 3
-     *  - Socks, M: 8
-     * @return formatted home page display list
-     */
-    public List<String> homepageDisplay() {
-        List<String> list = new ArrayList<>();
-        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
+    /*
+    Bruk denne metoden for å få alle items på lager på en fin måte til hjemsiden, sammen med antall varer. Brukes i Controller i ListView.
+    Er på formatet:
 
+    Jacket, S: 5
+    Jeans, L: 3
+    Socks, M: 8
+
+    */
+
+    public List<String> storageDisplay() {
+        List<String> list = new ArrayList<>();
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing : keyList) {
             list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getSize() + "; " + this.getQuantity(clothing));
         }
         return list;
     }
 
-    /**
-     * Formats the way items are displayed on the market page, with pricing. Use in Controller in Listview
-     * 
-     * Example:
-     *  - Jacket, Nike: 54,-
-     *  - Socks, Adidas: 36,-
-     *  - Jeans, Levi's: 60,-
-     * @return formatted market 
-     */
-    public List<String> marketDisplay() { 
-        List<String> list = new ArrayList<>();
-        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
+    /*
+    Bruk denne metoden for å få alle items på lager på en fin måte til oversiktssiden, sammen med pris. Brukes i Controller i ListView.
+    Er på formatet:
 
+    Jacket, Nike: 54,-
+    Socks, Adidas: 36,-
+    Jeans, Levi's: 60,-
+    */
+
+    public List<String> priceDisplay() { 
+        List<String> list = new ArrayList<>();
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing : keyList) {
-            if (clothing.equals(keyList.get(keyList.size()-1))) {
-                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
-            } else {
-                list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-" + "\n");
-            }
+            list.add(clothing.getName() + "; " + clothing.getBrand() + "; " + clothing.getPrice() + ",-");
         }
         return list;
     }
@@ -175,8 +167,8 @@ public class Storage {
      * Retrieves all clothes in storage with a hashmap
      * @return hashmap with all clothing items in storage
      */
-    public HashMap<Clothing, Integer> getAllClothes() {
-        return new HashMap<Clothing, Integer>(this.storageList);
+    public LinkedHashMap<Clothing, Integer> getAllClothes() {
+        return new LinkedHashMap<Clothing, Integer>(this.storageList);
     }
 
     /**
@@ -215,9 +207,24 @@ public class Storage {
     public static void main(String[] args) {
         Storage storage = new Storage();
         Clothing item = new Clothing("Bukse", "Levi's", 'M', 25);
-        Clothing item2 = new Clothing("Jakke", "Nike", 'S', 54.5);
+        Clothing item2 = new Clothing("Jakke", "Adidas", 'S', 54.5);
+        Clothing item3 = new Clothing("Jakke", "Nike", 'S', 100);
+        Clothing item4 = new Clothing("Sokker", "H&M", 'L', 122);
+
+        
+
+        
         storage.addNewClothing(item, 2);
         storage.addNewClothing(item2, 3);
+        storage.addNewClothing(item3, 6);
+        storage.addNewClothing(item4, 8);
+
+        System.out.println(storage.storageDisplay());
+
+        System.out.println(storage.getClothing(2));
+        System.out.println(item2.equals(item3));
+        System.out.println(item2.equals(storage.getClothing(0)));
+        
         System.out.println(storage);
         System.out.println("---------");
         storage.increaseQuantity(item, 1);
@@ -235,7 +242,8 @@ public class Storage {
         storage.removeClothing(item);
         System.out.println(storage);
         System.out.println("---------");
-        System.out.println(storage.homepageDisplay());
-        System.out.println(storage.marketDisplay());
-    } */
+        System.out.println(storage.storageDisplay());
+        System.out.println(storage.priceDisplay());
+    }
+    */
 }
