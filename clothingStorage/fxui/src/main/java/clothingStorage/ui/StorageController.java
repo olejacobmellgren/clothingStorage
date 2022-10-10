@@ -66,7 +66,7 @@ public class StorageController implements Initializable{
         }
     }
 
-    private void updatePriceList() {
+    public void updatePriceList() {
         if (this.priceList == null || priceList.getItems().isEmpty()) {
             List<String> clothingPriceDisplays = storage.priceDisplay();
             priceList.getItems().setAll(clothingPriceDisplays);
