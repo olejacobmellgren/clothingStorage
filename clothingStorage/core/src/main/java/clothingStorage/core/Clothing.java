@@ -24,6 +24,8 @@ public class Clothing {
      * Price of Clothing object
     */
     private double price;
+    private int onSale;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
+    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
 
     /** 
      * If Clothing object is on sale
@@ -165,12 +167,6 @@ public class Clothing {
         return false;
     }
 
-    /** 
-     * Sets item on sale
-     * 
-     * @param sale on item you want to set
-     * @throws IllegalArgumentException if input isn't 0 or 1
-    */
     public void setSale(int sale) {
         if (sale == 1) {
             this.onSale = 1;
@@ -230,11 +226,6 @@ public class Clothing {
         }
     }
 
-    /** 
-     * Retrieves whether the item is on sale or not
-     * 
-     * @return int value 1 if item is on sale, 0 if not on sale
-    */
     public int getSale() {
         return this.onSale;
     }

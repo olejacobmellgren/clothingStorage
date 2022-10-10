@@ -41,53 +41,53 @@ public class StorageController implements Initializable{
         brand.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
     }
-    private void updateQuantitiesList() {
-        if (this.quantitiesList == null || quantitiesList.getItems().isEmpty()) {
+    private void updateStorageList() {
+        if (this.storageList == null || storageList.getItems().isEmpty()) {
             List<String> clothingDisplays = storage.homepageDisplay();
-            quantitiesList.getItems().addAll(clothingDisplays);
+            storageList.getItems().addAll(clothingDisplays);
         } else {
-            quantitiesList.getItems().clear();
-            updateQuantitiesList();
+            storageList.getItems().clear();
+            updateStorageList();
         }
     }
 
-    private void updateMarketList() {
-        if (this.marketList == null || marketList.getItems().isEmpty()) {
+    private void updatePriceList() {
+        if (this.priceList == null || priceList.getItems().isEmpty()) {
             List<String> clothingPriceDisplays = storage.marketDisplay();
-            marketList.getItems().addAll(clothingPriceDisplays);
+            priceList.getItems().addAll(clothingPriceDisplays);
         } else {
-            marketList.getItems().clear();
-            updateMarketList();
+            priceList.getItems().clear();
+            updatePriceList();
         }
     }
 
 
-    @FXML private Button profileButton, marketButton;
-    @FXML private Pane profilePane, marketPane;
+    @FXML private Button storagePageButton, pricePageButton;
+    @FXML private Pane storagePane, pricePane;
 
-    @FXML private void handleMarket() {
-        if (!marketPane.isVisible()) {
-            profilePane.setVisible(false);
-            marketPane.setVisible(true);
-            marketButton.setDisable(true);
-            profileButton.setDisable(false);
+    @FXML private void handlePricePageButton() {
+        if (!pricePane.isVisible()) {
+            storagePane.setVisible(false);
+            pricePane.setVisible(true);
+            pricePageButton.setDisable(true);
+            storagePageButton.setDisable(false);
         }
         
     }
 
-    @FXML private void handleProfile() {
-        if (!profilePane.isVisible()) {
-            profilePane.setVisible(true);
-            marketPane.setVisible(false);
-            marketButton.setDisable(false);
-            profileButton.setDisable(true);
+    @FXML private void handleStoragePageButton() {
+        if (!storagePane.isVisible()) {
+            storagePane.setVisible(true);
+            pricePane.setVisible(false);
+            pricePageButton.setDisable(false);
+            storagePageButton.setDisable(true);
         }
     }
 
-    // Profile Page
+    // Storage Page
 
     @FXML private Button addQuantity, removeQuantity, newClothingItem, increaseByOne, decreaseByOne, loadFromFile, writeToFile;
-    @FXML private ListView<String> quantitiesList;
+    @FXML private ListView<String> storageList;
     @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead, newQuantity;
     @FXML private Pane newClothingPane;
 
@@ -120,7 +120,7 @@ public class StorageController implements Initializable{
     @FXML private void handleNewClothingItem() {
         handleReset();
         newClothingPane.setVisible(true);
-        quantitiesList.setVisible(false);
+        storageList.setVisible(false);
         addQuantity.setDisable(true);
         removeQuantity.setDisable(true);
         newClothingItem.setDisable(true);
@@ -130,9 +130,19 @@ public class StorageController implements Initializable{
         writeToFile.setDisable(true);
     }
 
+    @FXML private void handleRemoveClothingItem() {
+        try {
+            int index = storageList.getSelectionModel().getSelectedIndex();
+            storage.removeClothing(storage.getClothing(index));
+            updateStorageList();
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
+    }
+
     @FXML private void handleCancel() {
         newClothingPane.setVisible(false);
-        quantitiesList.setVisible(true);
+        storageList.setVisible(true);
         addQuantity.setDisable(false);
         removeQuantity.setDisable(false);
         newClothingItem.setDisable(false);
@@ -153,8 +163,8 @@ public class StorageController implements Initializable{
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
             storage.addNewClothing(clothing, selectedQuantity);
-            updateQuantitiesList();
-            updateMarketList();
+            updateStorageList();
+            updatePriceList();
             handleCancel();
             showConfirmedMessage("You successfully added the following: " + clothing.toString());
         } catch (NumberFormatException e) {
@@ -166,9 +176,9 @@ public class StorageController implements Initializable{
 
     @FXML private void handleIncreaseByOne() {
         try {
-            int index = quantitiesList.getSelectionModel().getSelectedIndex();
+            int index = storageList.getSelectionModel().getSelectedIndex();
             storage.increaseQuantityByOne(storage.getClothing(index));
-            updateQuantitiesList();
+            updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
         }
@@ -177,9 +187,9 @@ public class StorageController implements Initializable{
 
     @FXML private void handleDecreaseByOne() {
         try {
-            int index = quantitiesList.getSelectionModel().getSelectedIndex();
+            int index = storageList.getSelectionModel().getSelectedIndex();
             storage.decreaseQuantityByOne(storage.getClothing(index));
-            updateQuantitiesList();
+            updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
         }
@@ -187,11 +197,11 @@ public class StorageController implements Initializable{
 
 
     @FXML private void handleAddQuantity() {
-        int index = quantitiesList.getSelectionModel().getSelectedIndex();
         try {
+            int index = storageList.getSelectionModel().getSelectedIndex();
             int addQuantity = Integer.parseInt(newQuantity.getText());
             storage.increaseQuantity(storage.getClothing(index), addQuantity);
-            updateQuantitiesList();
+            updateStorageList();
         } catch (NumberFormatException e) {
             if (newQuantity.getText().isEmpty()) {
                 showErrorMessage("Specify quantity first in textfield");
@@ -204,11 +214,11 @@ public class StorageController implements Initializable{
     }
 
     @FXML private void handleRemoveQuantity() {
-        int index = quantitiesList.getSelectionModel().getSelectedIndex();
         try {
+            int index = storageList.getSelectionModel().getSelectedIndex();
             int decQuantity = Integer.parseInt(newQuantity.getText());
             storage.decreaseQuantity(storage.getClothing(index), decQuantity);
-            updateQuantitiesList();
+            updateStorageList();
         } catch (NumberFormatException e) {
             if (newQuantity.getText().isEmpty()) {
                 showErrorMessage("Specify quantity first in textfield");
@@ -238,17 +248,53 @@ public class StorageController implements Initializable{
         try {
             String filename = fileToWriteOrRead.getText();
             storage = storageFileHandler.readFromFile(filename);
-            updateQuantitiesList();
-            updateMarketList();
+            updateStorageList();
+            updatePriceList();
             showConfirmedMessage("Storage of Clothing successfully loaded from file:" + filename);
         } catch (FileNotFoundException e) {
             showErrorMessage("File not found!");
         }
     }
 
-    // Market Page
+    // Price Page
 
-    @FXML private ListView<String> marketList;
+    @FXML private ListView<String> priceList;
+    @FXML private Button confirmNewPrice, confirmDiscount;
+    @FXML private TextField newPrice, discount;
+
+    @FXML private void handleConfirmNewPrice() {
+        try {
+            int index = storageList.getSelectionModel().getSelectedIndex();
+            double price = Double.parseDouble(newPrice.getText());
+            storage.getClothing(index).setPrice(price);
+            updatePriceList();
+        } catch (NumberFormatException e) {
+            if (newPrice.getText().isEmpty()) {
+                showErrorMessage("Specify price first in textfield");
+            } else {
+                showErrorMessage("Input must be a number");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
+    }
+
+    @FXML private void handleConfirmDiscount() {
+        try {
+            int index = storageList.getSelectionModel().getSelectedIndex();
+            double discountToAdd = Double.parseDouble(discount.getText());
+            storage.getClothing(index).setDiscount(discountToAdd);
+            updatePriceList();
+        } catch (NumberFormatException e) {
+            if (newPrice.getText().isEmpty()) {
+                showErrorMessage("Specify price first in textfield");
+            } else {
+                showErrorMessage("Input must be a number");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        }
+    }
 
     
 
