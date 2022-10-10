@@ -79,8 +79,6 @@ public class StorageControllerTest extends ApplicationTest {
         assertTrue(clothing.equals(newClothing));
     }
 
-    
-
     /**
      *
      */
@@ -117,7 +115,6 @@ public class StorageControllerTest extends ApplicationTest {
         assertEquals("Price must be a positive decimal number \nQuantity must a positive integer", controller.getErrorMessage());
     }
 
-    
     @Test
     public void testRemoveClothing() {
         clickOn("#storageList");
@@ -276,15 +273,37 @@ public class StorageControllerTest extends ApplicationTest {
     }
 
     @Test
+    public void testRemoveDiscount() {
+        clickOn("#pricePageButton");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
+        clickOn("#discount").write("50");
+        clickOn("#confirmDiscount");
+        clickOn("#removeDiscount");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String[] nikeJeans = priceList.get(0).split(";");
+        double price = Double.parseDouble(nikeJeans[2].split(",")[0].strip());
+        assertEquals(5, price);
+    }
+
+    @Test
+    public void testErrorNoItemSelectedForDiscount() {
+        clickOn("#pricePageButton");
+        clickOn("#discount").write("50");
+        clickOn("#confirmDiscount");
+        assertEquals("You need to select an item from the list", controller.getErrorMessage());
+        clickOn("#removeDiscount");
+        assertEquals("You need to select an item from the list", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+    }
+
+    @Test
     public void testErrorNoItemSelectedForPriceChange() {
         clickOn("#pricePageButton");
         clickOn("#newPrice").write("30");
         clickOn("#confirmNewPrice");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
-        clickOn("#discount").write("50");
-        clickOn("#confirmDiscount");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());
+        assertEquals("You need to select an item from the list", controller.getErrorMessage());        
     }
 
     @Test
