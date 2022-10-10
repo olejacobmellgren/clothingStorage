@@ -24,13 +24,11 @@ public class Clothing {
      * Price of Clothing object
     */
     private double price;
-    private double discount;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
-    private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
 
     /** 
-     * If Clothing object is on sale
+     * Discount of Clothing object
     */
-    private int onSale;  
+    private double discount;  
 
     /** 
      * Valid brands for Clothing object
@@ -70,7 +68,7 @@ public class Clothing {
      * @param name of the name you want to check
      * @return true if valid, false if invalid
     */
-    private boolean isValidName(String name) {
+    private void isValidName(String name) {
         char[] charNumbers = name.toCharArray();
         for (char c : charNumbers) {
             if (Character.isDigit(c)) {
