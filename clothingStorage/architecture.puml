@@ -1,0 +1,26 @@
+@startuml architecture
+
+component core {
+	package clothingStorage.core
+}
+
+component fxui {
+	package clothingStorage.ui
+}
+
+component localpersistence {
+	package clothingStorage.localpersistence
+}
+
+clothingStorage.ui ..> clothingStorage.core
+clothingStorage.ui ..> clothingStorage.localpersistence
+
+component javafx {
+	component fxml {
+	}
+}
+
+fxui ..> javafx
+fxui ..> fxml
+
+@enduml
