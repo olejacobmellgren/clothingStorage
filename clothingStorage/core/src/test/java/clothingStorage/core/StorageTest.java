@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class StorageTest {
@@ -19,19 +18,20 @@ public class StorageTest {
 
     @BeforeEach
     public void testItems(){
-        Storage storage = new Storage();
-        Clothing leviJeans = new Clothing("jeans", "Levi's", 'M', 199);
-        Clothing supremeShorts = new Clothing("shorts", "Supreme", 'S', 159);
-        Clothing louisVuittonJacket = new Clothing("jacket", "Louis Vuitton", 'L', 1599);
-        Clothing adidasSocks = new Clothing("socks", "adidas", 'M', 99);
-        Clothing lacosteShirt = new Clothing("shirt", "Lacoste", 'L', 699);
-        Clothing lacosteShorts = new Clothing("shorts", "Lacoste", 'L', 699);
+        storage = new Storage();
+        leviJeans = new Clothing("Jeans", "Levi's", 'M', 199);
+        supremeShorts = new Clothing("Shorts", "Supreme", 'S', 159);
+        louisVuittonJacket = new Clothing("Jacket", "Louis Vuitton", 'L', 1599);
+        adidasSocks = new Clothing("Socks", "Adidas", 'M', 99);
+        lacosteShirt = new Clothing("Shirt", "Lacoste", 'L', 699);
+        lacosteShorts = new Clothing("Shorts", "Lacoste", 'L', 699);
 
         storage.addNewClothing(lacosteShirt, 11);
         storage.addNewClothing(supremeShorts, 15);
         storage.addNewClothing(louisVuittonJacket, 14);
         storage.addNewClothing(adidasSocks, 56);
         storage.addNewClothing(lacosteShorts, 1);
+        storage.decreaseQuantityByOne(lacosteShorts);
     }
 
     @Test
@@ -42,30 +42,24 @@ public class StorageTest {
 
     @Test
     public void CheckAddNewClothingErrorHandler(){
-        IllegalArgumentException thrown = assertThrows(
-           IllegalArgumentException.class,
-           () -> storage.addNewClothing(supremeShorts, 3),
-           "This item is already in storage"
-    );
-
-    assertTrue(thrown.getMessage().contains("This item is already in storage"));
+        assertThrows(IllegalStateException.class, () -> 
+        {storage.addNewClothing(supremeShorts, 3);}, 
+        "This item is already in storage");
     }
 
 
     @Test 
     public void CheckRemoveClothing(){
+        Assertions.assertEquals(5, storage.getAllClothes().size());
         storage.removeClothing(adidasSocks);
         Assertions.assertEquals(4, storage.getAllClothes().size());
     }
 
     @Test
     public void CheckRemoveClothingErrorHandler(){
-        IllegalArgumentException thrown = assertThrows(
-           IllegalArgumentException.class,
-           () -> storage.removeClothing(leviJeans),
+        assertThrows(IllegalStateException.class,
+           () -> {storage.removeClothing(leviJeans);},
            "This item is not in storage");
-
-    assertTrue(thrown.getMessage().contains("This item is not in storage"));
     }
 
     @Test
@@ -82,12 +76,9 @@ public class StorageTest {
 
     @Test
     public void CheckDecreaseQuantityByOneErrorHandler(){
-        IllegalArgumentException thrown = assertThrows(
-           IllegalArgumentException.class,
-           () -> storage.decreaseQuantityByOne(lacosteShorts),
+        assertThrows(IllegalStateException.class,
+           () -> {storage.decreaseQuantityByOne(lacosteShorts);},
            "You can not have negative quantity of item");
-
-    assertTrue(thrown.getMessage().contains("You can not have negative quantity of item"));
     }
 
     @Test
@@ -104,12 +95,10 @@ public class StorageTest {
 
     @Test
     public void CheckDecreaseQuantityErrorHandler(){
-        IllegalArgumentException thrown = assertThrows(
-           IllegalArgumentException.class,
-           () -> storage.decreaseQuantity(lacosteShirt, 15),
-           "Can not have negative quantity of an item");
-
-    assertTrue(thrown.getMessage().contains("Can not have negative quantity of an item"));
+        // bruk dette formatet for å sjekke exceptions
+        assertThrows(IllegalStateException.class, () -> {
+        storage.decreaseQuantity(lacosteShirt, 15);
+        }, "Can not have negative quantity of an item");
     }
 
     @Test
