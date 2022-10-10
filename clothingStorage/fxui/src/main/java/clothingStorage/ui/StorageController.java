@@ -277,7 +277,7 @@ public class StorageController implements Initializable{
 
     @FXML private void handleConfirmNewPrice() {
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
             storage.getClothing(index).setPrice(price);
             updatePriceList();
@@ -294,7 +294,7 @@ public class StorageController implements Initializable{
 
     @FXML private void handleConfirmDiscount() {
         try {
-            int index = storageList.getSelectionModel().getSelectedIndex();
+            int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
             storage.getClothing(index).setDiscount(discountToAdd);
             updatePriceList();
