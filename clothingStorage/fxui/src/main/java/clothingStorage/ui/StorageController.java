@@ -301,7 +301,7 @@ public class StorageController implements Initializable{
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
-            storage.getClothing(index).setPrice(price);
+            storage.getClothing(index).setPrice(price, true);
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -318,7 +318,7 @@ public class StorageController implements Initializable{
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
-            storage.getClothing(index).setDiscount(discountToAdd);
+            storage.getClothing(index).setDiscount(discountToAdd/100);
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -328,6 +328,22 @@ public class StorageController implements Initializable{
             }
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
+        } catch (IllegalArgumentException e) {
+            showErrorMessage(e.getMessage());
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML private void handleRemoveDiscount() {
+        try {
+            int index = priceList.getSelectionModel().getSelectedIndex();
+            storage.getClothing(index).removeDiscount();
+            updatePriceList();
+        } catch (IndexOutOfBoundsException e) {
+            showErrorMessage("You need to select an item from the list");
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
         }
     }
 

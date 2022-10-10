@@ -6,7 +6,7 @@ public class Clothing {
     private String brand;
     private char size;
     private double price;
-    private int onSale;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
+    private double discount;  // Kan denne endres til en float? Siden et tall er false hvis det er 0? Lettere med tanke på lagring tror jeg -Å
     private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's"}; //denne listen kan utvides med klesmerker som selges i butikken
 
     /*
@@ -21,7 +21,8 @@ public class Clothing {
         setName(name);
         setBrand(brand);
         setSize(size);
-        setPrice(price);
+        setPrice(price, false);
+        setSale(0);
     }
 
     public void setName(String name) {
@@ -65,35 +66,49 @@ public class Clothing {
         }
     }
 
-    public void setPrice(double price) { // konvertering fra String til double skjer i kontroller. Så opererer på at det faktisk er et tall som blir sendt inn som argument
+    public void setPrice(double price, boolean isOnSale) { // konvertering fra String til double skjer i kontroller. Så opererer på at det faktisk er et tall som blir sendt inn som argument
         if (price <= 0) {
             throw new IllegalArgumentException("Given price is negative or zero");
+        }
+        if (isOnSale) {
+            this.setSale(0);
         }
         this.price = price;
     }
 
     public void setDiscount(double discount) {
         if (!isValidDiscount(discount)) {
-            throw new IllegalArgumentException("Given discount is not valid");
+            if (this.getDiscount() != 0) {
+                throw new IllegalStateException("Clothing is already on discount");
+            } else {
+                throw new IllegalArgumentException("Given discount is not valid");
+            }
         }
-        this.setPrice(this.getPrice()*(100-discount)/100);
-        this.setSale(1);
+        this.setSale(discount);
+        this.setPrice(this.getPrice()*(1-this.getDiscount()), false);
     }
 
-    public boolean isValidDiscount(double discount) {
-        if (discount>0 && discount<100) {
+    public void removeDiscount() {
+        if (this.getDiscount() > 0) {
+            this.setPrice(this.getPrice()/(1-discount), true);
+            this.setSale(0);
+        } else {
+            throw new IllegalStateException("Clothing is not on discount");
+        }
+    }
+
+    private boolean isValidDiscount(double discount) {
+        if (discount>0 && discount<1 && this.getDiscount() == 0) {
             return true;
         }
         return false;
     }
 
-    public void setSale(int sale) {
-        if (sale == 1) {
-            this.onSale = 1;
-        } else if (sale == 0) {
-            this.onSale = 0;
+    public void setSale(double sale) {
+        if (sale>=0 && sale<1) {
+            this.discount = sale;
         } else {
-            throw new IllegalArgumentException("Input must be either 0 or 1");
+            throw new IllegalArgumentException("Input must be between 0 and 1");
         }
     }
 
@@ -114,15 +129,14 @@ public class Clothing {
     }
 
     public boolean isOnSale() {
-        if (this.onSale == 1) {
-            return true;
-        } else {
+        if (this.discount == 0.0) {
             return false;
         }
+        return true;
     }
 
-    public int getSale() {
-        return this.onSale;
+    public double getDiscount() {
+        return this.discount;
     }
 
     @Override
@@ -154,9 +168,14 @@ public class Clothing {
     */
 
     public static void main(String[] args) {
-        Clothing clothing = new Clothing("Bukse", "Levi's", 'S', 24);
+        Clothing clothing = new Clothing("Bukse", "Levi's", 'S', 188);
         System.out.println(clothing);
-        Clothing clothing2 = new Clothing("Bukse", "Levi's", 'S', 43);
+        Clothing clothing2 = new Clothing("Bukse", "Levi's", 'S', 100);
         System.out.println(clothing.equals(clothing2));
+        clothing.setDiscount(60);
+        System.out.println(clothing.getPrice());
+        clothing.removeDiscount();
+        System.out.println(clothing.getPrice());
+
     }
 }
