@@ -12,7 +12,7 @@ public class ClothingTest{
 
     @BeforeEach
     public void setUp() {
-        Clothing clothing = new Clothing("Jeans", "Nike", 'M', 150);
+        clothing = new Clothing("Jeans", "Nike", 'M', 150);
     }
     
     @Test
