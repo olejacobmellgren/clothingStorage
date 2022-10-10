@@ -30,8 +30,8 @@ public class StorageTest {
         storage.addNewClothing(supremeShorts, 15);
         storage.addNewClothing(louisVuittonJacket, 14);
         storage.addNewClothing(adidasSocks, 56);
-        storage.addNewClothing(lacosteShorts, 1);
-        storage.decreaseQuantityByOne(lacosteShorts);
+        storage.addNewClothing(lacosteShorts, 2);
+        storage.decreaseQuantity(lacosteShorts, 2);
     }
 
     @Test
