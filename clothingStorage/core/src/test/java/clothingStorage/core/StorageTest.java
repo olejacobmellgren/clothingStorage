@@ -3,6 +3,9 @@ package clothingStorage.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class StorageTest {
 
@@ -14,6 +17,14 @@ public class StorageTest {
     private Clothing lacosteShirt;
     private Clothing lacosteShorts;
     
+    private Storage storage;
+    private Clothing leviJeans;
+    private Clothing supremeShorts;
+    private Clothing louisVuittonJacket;
+    private Clothing adidasSocks;
+    private Clothing lacosteShirt;
+    private Clothing lacosteShorts;
+
     @BeforeEach
     public void testItems(){
         storage = new Storage();
@@ -29,7 +40,8 @@ public class StorageTest {
         storage.addNewClothing(supremeShorts, 15);
         storage.addNewClothing(louisVuittonJacket, 14);
         storage.addNewClothing(adidasSocks, 56);
-        storage.addNewClothing(lacosteShorts, 1);
+        storage.addNewClothing(lacosteShorts, 2);
+        storage.decreaseQuantity(lacosteShorts, 2);
     }
 
     @Test
@@ -41,59 +53,63 @@ public class StorageTest {
 
     @Test
     public void CheckAddNewClothingErrorHandler(){
-        Assertions.assertEquals("This item is already in storage", storage.addNewClothing(supremeShorts));
+        assertThrows(IllegalStateException.class, () -> 
+        {storage.addNewClothing(supremeShorts, 3);}, 
+        "This item is already in storage");
     }
+
 
     @Test 
     public void CheckRemoveClothing(){
-        Assertions.assertEquals(null, storage.removeClothing(adidasSocks));
+        Assertions.assertEquals(5, storage.getAllClothes().size());
+        storage.removeClothing(adidasSocks);
+        Assertions.assertEquals(4, storage.getAllClothes().size());
     }
 
     @Test
     public void CheckRemoveClothingErrorHandler(){
-        Assertions.assertEquals("This item is not in storage", storage.removeClothing(leviJeans));
+        assertThrows(IllegalStateException.class,
+           () -> {storage.removeClothing(leviJeans);},
+           "This item is not in storage");
     }
 
     @Test
     public void CheckIncreaseQuantityByOne(){
-        Assertions.assertEquals(12, storage.increaseQuantityByOne(lacosteShirt));
+        storage.increaseQuantityByOne(lacosteShirt);
+        Assertions.assertEquals(12, storage.getQuantity(lacosteShirt));
     }
 
     @Test
     public void CheckDecreaseQuantityByOne(){
-        Assertions.assertEquals(10, storage.decreaseQuantityByOne(lacosteShirt));
+        storage.decreaseQuantityByOne(lacosteShirt);
+        Assertions.assertEquals(10, storage.getQuantity(lacosteShirt));
     }
 
     @Test
     public void CheckDecreaseQuantityByOneErrorHandler(){
-        Assertions.assertEquals("You can not have negative quantity of item", storage.decreaseQuantityByOne(lacosteShorts));
+        assertThrows(IllegalStateException.class,
+           () -> {storage.decreaseQuantityByOne(lacosteShorts);},
+           "You can not have negative quantity of item");
     }
 
     @Test
     public void CheckIncreaseQuantity(){
-        Assertions.assertEquals(21, storage.increaseQuantity(lacosteShirt, 10));
+        storage.increaseQuantity(lacosteShirt, 10);
+        Assertions.assertEquals(21, storage.getQuantity(lacosteShirt));
     }
 
     @Test
     public void CheckDecreaseQuantity(){
-        Assertions.assertEquals(1, storage.decreaseQuantity(lacosteShirt, 10));
+        storage.decreaseQuantity(lacosteShirt, 10);
+        Assertions.assertEquals(1, storage.getQuantity(lacosteShirt));
     }
 
     @Test
     public void CheckDecreaseQuantityErrorHandler(){
-        Assertions.assertEquals("Can not have negative quantity of an item", storage.decreaseQuantity(lacosteShirt, 15));
-    }
-
-    @Test
-    public void CheckisValidQuantity(){
-        Assertions.assertEquals(true, storage.isValidQuantity(4));
-        Assertions.assertEquals(false, storage.isValidQuantity(0));
-    }
-
-    @Test
-    public void CheckisClothingInStorage(){
-        Assertions.assertEquals(true, storage.isClothingInStorage(lacosteShirt));
-        Assertions.assertEquals(false, storage.isClothingInStorage(leviJeans));
+        // bruk dette formatet for å sjekke exceptions
+        assertThrows(IllegalStateException.class, () -> {
+        storage.decreaseQuantity(lacosteShirt, 15);
+        }, "Can not have negative quantity of an item");
     }
 
     @Test
@@ -101,12 +117,12 @@ public class StorageTest {
         Assertions.assertEquals(56, storage.getQuantity(adidasSocks));
     }
 
-    @Test
+    /* @Test
     public void CheckHomageDisplay(){
         storage.homepageDisplay();
 
-        Assertions.assertEquals("jeans", storage.homepageDisplay().getName("jeans"));
-        Assertions.assertEquals("jeans", storage.homepageDisplay().getName("jeans"));
+        Assertions.assertEquals("shorts", storage.homepageDisplay().get(1));
+        Assertions.assertEquals("jeans", storage.homepageDisplay().get(3));
     }
 
     
@@ -114,9 +130,9 @@ public class StorageTest {
     public void CheckMarketDisplay(){
         storage.marketDisplay();
 
-        Assertions.assertEquals("jeans", storage.marketDisplay().getName("jeans"));
-    }
-}
+        Assertions.assertEquals("jeans", storage.marketDisplay().getName(leviJeans));
+    }*/
+} 
 
 
 /*
