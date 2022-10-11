@@ -1,4 +1,4 @@
-# Dokumentasjon for release 1
+# Dokumentasjon for release 2
 
 ## Arbeidsvaner og arbeidsflyt
 
@@ -16,8 +16,8 @@ Sammen med denne releasen ble det implementert ulike verktøy for sjekk av både
 
 ### Jacoco
 
-Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementert for alle moduler og sjekker i hvilken grad testene dekker koden som har blitt skrevet. Innstillinger... (?)
+Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementert for alle moduler og sjekker i hvilken grad testene dekker koden som har blitt skrevet. Jacoco er implementert som "plugin" for maven i pom.xml-fil, med versjon 0.8.7
 
 ### Checkstyle og Spotbugs
 
-Disse to verktøyene har blitt implementert for å sjekke kodekvaliteten. Checkstyle skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard, og Spotbugs ser etter feil(bugs) i koden. Innstillinger... (?)
+Disse to verktøyene har blitt implementert for å sjekke kodekvaliteten. Checkstyle skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard, og Spotbugs ser etter feil(bugs) i koden. Verktøyene er lagt inn som "plugins" for maven i pom.xml, der checkstyle bruker versjon 9.0 og spotbugs bruker versjon 4.7.2.
