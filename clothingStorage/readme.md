@@ -19,35 +19,7 @@ Med utgangspunkt i en slik arkitektur deles appen i et sett med moduler der hver
 
 Et diagram for denne arkitekturen og avhengigheten mellom de ulike modulene er vist i et diagram under.
 
-[plantuml]
-....
-
-component core {
-	package clothingStorage.core
-}
-
-component fxui {
-	package clothingStorage.ui
-}
-
-component localpersistence {
-	package clothingStorage.localpersistence
-}
-
-clothingStorage.ui ..> clothingStorage.core
-clothingStorage.ui ..> clothingStorage.localpersistence
-
-component javafx {
-	component fxml {
-	}
-}
-
-fxui ..> javafx
-fxui ..> fxml
-
-....
-
-
+<img src="images/architecture.png" width="500">
 
 # Brukerhistorier
 
