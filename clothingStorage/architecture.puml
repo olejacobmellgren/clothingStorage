@@ -5,7 +5,7 @@ component core {
 }
 
 component localpersistence {
-	package clothingStorage.localpersistence
+	package clothingStorage.json
 }
 
 component fxui {
@@ -13,12 +13,12 @@ component fxui {
 }
 
 clothingStorage.ui ..> clothingStorage.core
-clothingStorage.ui ..> clothingStorage.localpersistence
+clothingStorage.ui ..> clothingStorage.json
 
 component jackson {
 }
 
-clothingStorage.localpersistence ..> jackson
+clothingStorage.json ..> jackson
 
 component javafx {
 	component fxml {
