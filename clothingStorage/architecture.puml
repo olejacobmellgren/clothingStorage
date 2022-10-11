@@ -4,16 +4,16 @@ component core {
 	package clothingStorage.core
 }
 
+component localpersistence {
+	package clothingStorage.localpersistence
+}
+
 component fxui {
 	package clothingStorage.ui
 }
 
 clothingStorage.ui ..> clothingStorage.core
 clothingStorage.ui ..> clothingStorage.localpersistence
-
-component localpersistence {
-	package clothingStorage.localpersistence
-}
 
 component jackson {
 }
