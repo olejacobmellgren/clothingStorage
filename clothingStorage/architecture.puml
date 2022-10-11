@@ -8,12 +8,17 @@ component fxui {
 	package clothingStorage.ui
 }
 
+clothingStorage.ui ..> clothingStorage.core
+clothingStorage.ui ..> clothingStorage.localpersistence
+
 component localpersistence {
 	package clothingStorage.localpersistence
 }
 
-clothingStorage.ui ..> clothingStorage.core
-clothingStorage.ui ..> clothingStorage.localpersistence
+component jackson {
+}
+
+clothingStorage.localpersistence ..> jackson
 
 component javafx {
 	component fxml {
