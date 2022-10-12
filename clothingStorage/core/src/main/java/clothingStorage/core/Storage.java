@@ -140,9 +140,12 @@ public class Storage {
      * @param clothing item to check
      * @return true if clothing item is in storage, false if not in storage
      */
-    private boolean isClothingInStorage(Clothing clothing) {
-        if (this.storageList.containsKey(clothing)) {
-            return true;
+    public boolean isClothingInStorage(Clothing clothing) {
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
+        for (Clothing clothing2 : keyList) {
+            if (clothing.equals(clothing2)) {
+                return true;
+            }
         }
         return false;
     }
