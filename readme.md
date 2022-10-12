@@ -6,8 +6,8 @@ Clothing Storage er en applikasjon for lagring av klær som er skrevet i Java. P
 
 ## Bygging og kjøring av applikasjonen
 
-Prosjektet er konfigurert til å bygge med maven. Dette vil si at man kan kjøre applikasjonen ved å navigere til **clothingStorage/fxui** og kjør `mvn javafx:run` og kjøre testene ved å navigere til **clothingStorage** og kjøre `mvn test`.
+Prosjektet er konfigurert til å bygge med maven. Ved å kjøre `mvn install` i **clothingStorage** vil man forberede prosjektet for å kunne kjøre. Vær oppmerksom på at dette vil kompilere prosjektet og kjøre testene. Ui-testene kan ta litt tid, og kommer til å ta kontroll over musen. Deretter kan man kjøre applikasjonen ved å navigere til **clothingStorage/fxui** og kjøre `mvn javafx:run` eller navigere til **clothingStorage** og kjøre `mvn javafx:run -f fxui/pom.xml`. Testene for prosjektet kjøres ved `mvn test` i **clothingStorage**.
 
 ## Dokumentasjon 
 
-I mappen docs ligger de ulike dokumentasjonene for hver innlevering (release1, release2, ...).
+I mappen **[docs](docs)** ligger de ulike release-dokumentasjonene for hver innlevering (**[release1](docs/release1.md)**, **[release2](docs/release2.md)**, ...). I mappen **[other-documentation](docs)** ligger annen dokumentasjon som et diagram for arkitektur(**[architecture](other-documentation/architecture/architecture.png)**), illustrasjoner av design konseptet (**[design-concept](design-concept)**) og beskrivelse av arbeidsvaner (**[workflow](other-documentation/workflow.md)**).
