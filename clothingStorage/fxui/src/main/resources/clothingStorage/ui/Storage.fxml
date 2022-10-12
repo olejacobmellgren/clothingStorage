@@ -16,16 +16,16 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StorageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StorageController">
    <children>
       <Pane fx:id="storagePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
          <children>
-            <Label layoutX="47.0" layoutY="380.0" text="Increase or Decrease">
+            <Label layoutX="60.0" layoutY="393.0" text="Increase or Decrease:">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="decreaseByOne" layoutX="291.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleDecreaseByOne" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: lightgreen;" text="-1">
+            <Button fx:id="decreaseByOne" layoutX="310.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleDecreaseByOne" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: lightgreen;" text="-1">
                <font>
                   <Font size="19.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="increaseByOne" layoutX="201.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleIncreaseByOne" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: lightgreen;" text="+1">
+            <Button fx:id="increaseByOne" layoutX="240.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleIncreaseByOne" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: lightgreen;" text="+1">
                <font>
                   <Font size="19.0" />
                </font>
@@ -73,10 +73,10 @@
             <TextField fx:id="newQuantity" layoutX="275.0" layoutY="430.0" prefHeight="26.0" prefWidth="101.0" />
             <Label layoutX="45.0" layoutY="430.0" prefHeight="24.0" prefWidth="232.0" text="Quantity to add for Selected Item:">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <Button fx:id="newClothingItem" layoutX="42.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleNewClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="New Clothing Item">
+            <Button fx:id="newClothingItem" layoutX="42.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleNewClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="New Clothing">
                <font>
                   <Font size="14.0" />
                </font>
@@ -191,9 +191,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Label layoutX="37.0" layoutY="527.0" text="Filename to write to or load:" />
-            <Label layoutX="45.0" layoutY="80.0" prefHeight="17.0" prefWidth="150.0" text="type;brand;size;quantity" />
-            <Button fx:id="removeClothingItem" layoutX="215.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Clothing Item">
+            <Label layoutX="37.0" layoutY="527.0" text="Filename to write to or load:">
+               <font>
+                  <Font size="12.0" />
+               </font></Label>
+            <Label layoutX="45.0" layoutY="80.0" prefHeight="17.0" prefWidth="238.0" text="type;brand;size;quantity" />
+            <Button fx:id="removeClothingItem" layoutX="215.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Clothing">
                <font>
                   <Font size="14.0" />
                </font>
