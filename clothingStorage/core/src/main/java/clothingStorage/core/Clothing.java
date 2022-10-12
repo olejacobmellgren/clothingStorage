@@ -40,6 +40,7 @@ public class Clothing {
 
     /**
      * Initializes Clothing object
+     * 
      * @param name or type of clothing item
      * @param brand of clothing item
      * @param size of clothing item
@@ -57,7 +58,6 @@ public class Clothing {
      * Sets name
      * 
      *  @param name of the name you want to set
-     *  @throws IllegalArgumentException if name is invalid
     */
     public void setName(String name) {
         isValidName(name);
@@ -69,7 +69,8 @@ public class Clothing {
      * Checks if the clothing name is valid
      * 
      * @param name of the name you want to check
-     * @return true if valid, false if invalid
+     * @throws IllegalArgumentException if name contains a number
+     * @throws IllegalArgumentException if name does not start with uppercase letter
     */
     private void isValidName(String name) {
         char[] charNumbers = name.toCharArray();
@@ -84,7 +85,7 @@ public class Clothing {
     }
 
     /** 
-     * Sets the clothing brand
+     * Sets clothing brand
      * 
      *  @param brand you want to set
      *  @throws IllegalArgumentException if brand is not valid
@@ -99,7 +100,7 @@ public class Clothing {
     /** 
      * Checks if the brand is valid
      * 
-     * @param brand of the name you want to check
+     * @param brand to check
      * @return true if valid, false if invalid
     */
     private boolean isValidBrand(String brand) {
@@ -126,7 +127,14 @@ public class Clothing {
         }
     }
 
-    public void setPrice(double price, boolean isOnSale) { // konvertering fra String til double skjer i kontroller. Så opererer på at det faktisk er et tall som blir sendt inn som argument
+    /**
+     * Sets clothing price
+     * 
+     * @param price to be set
+     * @param isOnSale true if clothing is on sale, false if not on sale
+     * @throws IllegalArgumentException if given price is zero or below
+     */
+    public void setPrice(double price, boolean isOnSale) {
         if (price <= 0) {
             throw new IllegalArgumentException("Given price is negative or zero");
         }
@@ -140,6 +148,7 @@ public class Clothing {
      * Sets discount
      * 
      * @param discount you want to set
+     * @throws IllegalStateException if clothing is already on discount
      * @throws IllegalArgumentException is discount is invalid
     */
     public void setDiscount(double discount) {
@@ -154,6 +163,12 @@ public class Clothing {
         this.setPrice(this.getPrice()*(1-this.getDiscount()), false);
     }
 
+    /**
+     * Removes discount from clothing item and 
+     * reverts price to original price
+     * 
+     * @throws IllegalStateException if clothing item is not on discount
+     */
     public void removeDiscount() {
         if (this.getDiscount() > 0) {
             this.setPrice(this.getPrice()/(1-discount), true);
@@ -163,6 +178,12 @@ public class Clothing {
         }
     }
 
+    /**
+     * Checks if discount is a valid discount
+     * 
+     * @param discount to be checked
+     * @return true if discount is valid, false if discount is not valid
+     */
     private boolean isValidDiscount(double discount) {
         if (discount>0 && discount<1 && this.getDiscount() == 0) {
             return true;
@@ -170,6 +191,12 @@ public class Clothing {
         return false;
     }
 
+    /**
+     * Sets the discount of clothing item
+     * 
+     * @param sale discount to be set
+     * @throws IllegalArgumentException if discount is not between 0 and 1
+     */
     public void setSale(double sale) {
         if (sale>=0 && sale<1) {
             this.discount = sale;
@@ -206,7 +233,7 @@ public class Clothing {
     }
 
     /** 
-     * Retrieves price of clothing item
+     * Retrieves clothing price
      * 
      * @return price of clothing item
     */
@@ -226,6 +253,11 @@ public class Clothing {
         return true;
     }
 
+    /**
+     * Retrieves clothing discount
+     * 
+     * @return discount of clothing item
+     */
     public double getDiscount() {
         return this.discount;
     }
@@ -240,6 +272,11 @@ public class Clothing {
         return this.getName() + "\n" + "   - Brand: " + this.getBrand() + "\n" + "   - Size: " + String.valueOf(this.getSize()) + "\n" + "   - Price: " + String.valueOf(this.getPrice()) + ",-";
     }
 
+    /**
+     * Check if two Clothing-objects have the same attributes
+     * 
+     * @return true if same attributes, false if not same attributes
+     */
     @Override
     public boolean equals(Object object) {
         if (object instanceof Clothing) {
