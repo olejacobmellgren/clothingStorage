@@ -17,11 +17,11 @@ import clothingStorage.core.Storage;
 
 public class ClothingStoragePersistenceTest {
 
-  private ClothingStoragePersistence storagePersistence = new ClothingStoragePersistence();
+  private ClothingStoragePersistence clothingStoragePersistence = new ClothingStoragePersistence();
 
   private Storage createSampleStorage() {
-    Clothing clothing1 = new Clothing("pans", "Nike", 'M', 199.0);
-    Clothing clothing2 = new Clothing("top", "Adidas", 'S', 599.9);
+    Clothing clothing1 = new Clothing("Pans", "Nike", 'M', 199.0);
+    Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
     Clothing clothing3 = new Clothing("Leggings", "Nike", 'L', 20.0);
     clothing3.setDiscount(0.8);
     Storage storage = new Storage();
@@ -33,7 +33,7 @@ public class ClothingStoragePersistenceTest {
 
   private void checkSampleStorage(Storage storage, Storage storage2) {
     assertTrue(storage.getAllClothes().size() == storage2.getAllClothes().size());
-    for (i = 0; i < storage.getAllClothes().size(); i++) {
+    for (int i = 0; i < storage.getAllClothes().size(); i++) {
       assertEquals(storage.getClothing(i), storage2.getClothing(i));
     }
   }
@@ -43,9 +43,9 @@ public class ClothingStoragePersistenceTest {
     Storage storage = createSampleStorage();
     try {
       StringWriter writer = new StringWriter();
-      ClothingStoragePersistence.writeClothingStorage(storage, writer);
+      clothingStoragePersistence.writeClothingStorage(storage, writer);
       String json = writer.toString();
-      Storage storage2 = ClothingStragePersistence.readClothingStorage(new StringReader(json));
+      Storage storage2 = clothingStoragePersistence.readClothingStorage(new StringReader(json));
       checkSampleStorage(storage, storage2);
     } catch (IOException e) {
       fail(e.getMessage());
@@ -55,13 +55,12 @@ public class ClothingStoragePersistenceTest {
   @Test
   public void testSerializersDeserializers_usingSaveFile() {
     Storage storage = createSampleStorage();
-    // set unique save file path --> Tror neste linje må endres på 
-    ClothingStoragePersistence.setSaveFile("storage-" + System.currentTimeMillis() + ".json"); 
-    Path saveFilePath = ClothingStoragePersistence.getSaveFilePath();
+    clothingStoragePersistence.setSaveFile(); 
+    Path saveFilePath = clothingStoragePersistence.getSaveFilePath();
     try {
-      ClothingStoragePersistence.saveClothingStorage(storage);
+      clothingStoragePersistence.saveClothingStorage(storage);
       assertTrue(Files.exists(saveFilePath));
-      Storage storage2 = ClothingStoragePersistence.loadClothingStorage();
+      Storage storage2 = clothingStoragePersistence.loadClothingStorage();
       checkSampleStorage(storage, storage2);
     } catch (IOException e) {
       fail(e.getMessage());
