@@ -20,10 +20,6 @@ import clothingStorage.json.internal.ClothingStorageModule;
 
 public class ClothingStoragePersistence {
 
-  /**
-   * Used to indicate what parts of a ClothingStorage (Storage) to serialize.
-   */
-
   private ObjectMapper mapper;
 
   public ClothingStoragePersistence() {

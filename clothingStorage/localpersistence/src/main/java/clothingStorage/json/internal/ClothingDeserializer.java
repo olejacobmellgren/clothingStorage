@@ -19,6 +19,12 @@ class ClothingDeserializer extends JsonDeserializer<Clothing> {
     return deserialize((JsonNode) treeNode);
   }
 
+  /**
+   * Deserializes JsonNode to Clothing object
+   * 
+   * @param jsonNode to be deserialized
+   * @return Clothing object
+   */
   Clothing deserialize(JsonNode jsonNode) {
     if (jsonNode instanceof ObjectNode objectNode) {
       String name;

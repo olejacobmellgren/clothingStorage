@@ -23,8 +23,6 @@ public class ClothingStorageModule extends SimpleModule {
 
     addSerializer(Storage.class, new StorageSerializer());
     addDeserializer(Storage.class, new StorageDeserializer());
-
   }
-
 }
 

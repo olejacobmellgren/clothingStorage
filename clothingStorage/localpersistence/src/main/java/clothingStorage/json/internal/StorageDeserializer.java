@@ -22,6 +22,13 @@ class StorageDeserializer extends JsonDeserializer<Storage> {
     TreeNode treeNode = parser.getCodec().readTree(parser);
     return deserialize((JsonNode) treeNode);
   }
+
+  /**
+   * Deserializes JsonNode to Storage object
+   * 
+   * @param jsonNode to be deserialized
+   * @return Storage object
+   */
   Storage deserialize(JsonNode jsonNode) {
     if (jsonNode instanceof ObjectNode objectNode) {
       JsonNode itemsNode = objectNode.get("clothes");

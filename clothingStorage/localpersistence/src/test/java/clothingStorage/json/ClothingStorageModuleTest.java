@@ -69,7 +69,7 @@ public class ClothingStorageModuleTest {
             assertFalse(storage.getAllClothes().isEmpty());
             LinkedHashMap<Clothing, Integer> clothes = storage.getAllClothes();
             ArrayList<Clothing> keys = new ArrayList<>(clothes.keySet());
-            checkClothing(keys.get(0), "Pants", "Nike", 'M', 199.0*0.5, 0.5);
+            checkClothing(keys.get(0), "Pants", "Nike", 'M', 99.5, 0.5);
             checkClothing(keys.get(1), "Top", "Adidas", 'S', 59.99, 0.9);
             assertFalse(clothes.size() > 2);
         } catch (JsonProcessingException e) {

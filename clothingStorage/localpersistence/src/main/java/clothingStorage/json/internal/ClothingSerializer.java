@@ -18,7 +18,6 @@ class ClothingSerializer extends JsonSerializer<Clothing> {
    *    "discount": ...}
    */
 
-
   @Override
   public void serialize(Clothing clothing, JsonGenerator jsonGen, SerializerProvider serializerProvider) throws IOException {
     jsonGen.writeStartObject();
