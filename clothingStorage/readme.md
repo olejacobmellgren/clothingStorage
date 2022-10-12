@@ -5,7 +5,7 @@ Appen ClothingStorage har som hensikt å hjelpe klesbutikkeiere/-ansatte å hold
 ## Illustrerende skjermbilder
 Disse bildene viser hvordan vi tenker appen skal se ut når den er mer eller mindre ferdig.
 
-<img src="images/profilepage.png" width="200"> <img src="images/marketpage.png" width="200">
+<img src="other-documentation/images/profilepage.png" width="200"> <img src="other-documentation/images/marketpage.png" width="200">
 
 # Arkitektur og modularisering
 
@@ -19,7 +19,7 @@ Med utgangspunkt i en slik arkitektur deles appen i et sett med moduler der hver
 
 Et diagram for denne arkitekturen og avhengigheten mellom de ulike modulene er vist i et diagram under.
 
-<img src="images/architecture.png" width="500">
+<img src="other-documentation/architecture/architecture.png" width="500">
 
 # Brukerhistorier
 
