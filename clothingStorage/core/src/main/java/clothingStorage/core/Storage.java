@@ -130,6 +130,11 @@ public class Storage {
         return list;
     }
 
+    /**
+     * Checks if the input quantity is valid
+     * @param quantity to check
+     * @return true if valid, false if invalid
+     */
     private boolean isValidQuantity(int quantity) {
         if (quantity>=1) {
             return true;
@@ -137,6 +142,11 @@ public class Storage {
         return false;
     }
 
+    /**
+     * Checks if the clothing item is in storage
+     * @param clothing item to check
+     * @return true if clothing item is in storage, false if not in storage
+     */
     private boolean isClothingInStorage(Clothing clothing) {
         if (this.storageList.containsKey(clothing)) {
             return true;
@@ -144,14 +154,28 @@ public class Storage {
         return false;
     }
 
+    /**
+     * Retrieves quantity of clothing item
+     * @param clothing to retrieve quantity of
+     * @return number of clothing items
+     */
     public int getQuantity(Clothing clothing) {
         return this.storageList.get(clothing);
     }
 
+    /**
+     * Retrieves all clothes in storage with a hashmap
+     * @return hashmap with all clothing items in storage
+     */
     public LinkedHashMap<Clothing, Integer> getAllClothes() {
         return new LinkedHashMap<Clothing, Integer>(this.storageList);
     }
 
+    /**
+     * Retrieves clothing item in hashmap
+     * @param index of the clothing item to retrieve
+     * @return clothing item 
+     */
     public Clothing getClothing(int index) {
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
         if (index>=keyList.size()) {
@@ -160,6 +184,9 @@ public class Storage {
         return keyList.get(index);
     }
 
+    /**
+     * Custom string formatting, overrides default toString() function
+     */
     @Override
     public String toString() {
         String output = "";
@@ -175,11 +202,8 @@ public class Storage {
         return output;
     }
 
-    /*
-    Små tester for oppførsel i main-metode
-    Alt funker som det skal utifra forutsetninger
-    */
-
+    /* Original tests to see if the functions work */
+    /* 
     public static void main(String[] args) {
         Storage storage = new Storage();
         Clothing item = new Clothing("Bukse", "Levi's", 'M', 25);
@@ -221,4 +245,5 @@ public class Storage {
         System.out.println(storage.storageDisplay());
         System.out.println(storage.priceDisplay());
     }
+    */
 }

@@ -5,7 +5,7 @@ Appen ClothingStorage har som hensikt å hjelpe klesbutikkeiere/-ansatte å hold
 ## Illustrerende skjermbilder
 Disse bildene viser hvordan vi tenker appen skal se ut når den er mer eller mindre ferdig.
 
-<img src="images/profilepage.png" width="200"> <img src="images/marketpage.png" width="200">
+<img src="other-documentation/images/profilepage.png" width="200"> <img src="other-documentation/images/marketpage.png" width="200">
 
 # Arkitektur og modularisering
 
@@ -19,35 +19,7 @@ Med utgangspunkt i en slik arkitektur deles appen i et sett med moduler der hver
 
 Et diagram for denne arkitekturen og avhengigheten mellom de ulike modulene er vist i et diagram under.
 
-[plantuml]
-....
-
-component core {
-	package clothingStorage.core
-}
-
-component fxui {
-	package clothingStorage.ui
-}
-
-component localpersistence {
-	package clothingStorage.localpersistence
-}
-
-clothingStorage.ui ..> clothingStorage.core
-clothingStorage.ui ..> clothingStorage.localpersistence
-
-component javafx {
-	component fxml {
-	}
-}
-
-fxui ..> javafx
-fxui ..> fxml
-
-....
-
-
+<img src="other-documentation/architecture/architecture.png" width="500">
 
 # Brukerhistorier
 
@@ -96,18 +68,20 @@ Bruker har behov for å øke og minke beholdning av varer.
 - Minke antallet for det valgte klesplagget i listen
 
 ## Brukerhistorie 4: Endre pris for vare
-Som ansatt/eier av klesbutikk ønsker jeg å kunne endre prisen på en vare, enten dersom varen er på salg og det skal legges inn rabatt, eller om varen endrer pris fast.
+Som ansatt/eier av klesbutikk ønsker jeg å kunne endre prisen på en vare, enten dersom varen er på salg og det skal legges inn rabatt, eller om varen endrer pris fast. Det er også ønskelig å kunne fjerne rabatt og få tilbake original pris.
 
-Bruker har behov for å endre pris for en vare gjennom rabatt eller helt ny pris.
+Bruker har behov for å endre pris for en vare gjennom rabatt eller helt ny pris, og fjerne rabatt.
 
 ### Viktig å se
 - Oversikt(liste) over klærne på lager slik at man kan trykke på et klesplagg
 - Tekstfelt for å skrive ny pris til vare og knapp for å bekrefte
 - Tekstfelt for å skrive rabatt til vare og knapp for å bekrefte
+- Knapp for å fjerne rabatt
 
 ### Viktig å gjøre
 - Endre prisen for det valgte klesplagget i listen til gitt pris
 - Endre prisen for det valgte klesplagget i listen med hensyn på gitt rabatt
+- Fjerne rabatt og få tilbake originalpris
 
 ## Brukerhistorie 5: Fjerne vare
 Som ansatt/eier av klesbutikk ønsker jeg å kunne å kunne fjerne en vare fra listen over beholdninger, enten dersom en ny vare ble lagt til feil, eller dersom de går ut av beholdning og butikken ikke får inn flere varer av denne typen.
