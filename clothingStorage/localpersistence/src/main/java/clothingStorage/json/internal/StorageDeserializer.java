@@ -14,47 +14,47 @@ import clothingStorage.core.Storage;
 
 class StorageDeserializer extends JsonDeserializer<Storage> {
 
-  private ClothingDeserializer clothingDeserializer = new ClothingDeserializer();
-  
-  @Override
-  public Storage deserialize(JsonParser parser, DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
-    TreeNode treeNode = parser.getCodec().readTree(parser);
-    return deserialize((JsonNode) treeNode);
-  }
-
-  /**
-   * Deserializes JsonNode to Storage object
-   * 
-   * @param jsonNode to be deserialized
-   * @return Storage object
-   */
-  Storage deserialize(JsonNode jsonNode) {
-    if (jsonNode instanceof ObjectNode objectNode) {
-      JsonNode itemsNode = objectNode.get("clothes");
-      boolean hasItems = itemsNode instanceof ArrayNode;
-      Storage storage = new Storage();
-
-      Clothing clothing = new Clothing("Jeans", "Nike", 'M', 199); 
-      boolean isClothing = true;
-
-      if (hasItems) {
-        for (JsonNode elementNode : ((ArrayNode) itemsNode)) {
-          if (isClothing) {
-            clothing = clothingDeserializer.deserialize(elementNode);
-            isClothing = false;
-          } else {
-              JsonNode quantityNode = elementNode.get("quantity");
-              int quantity = quantityNode.asInt();
-              storage.addNewClothing(clothing, quantity);
-              isClothing = true;
-          }
-        }
-      }
-      return storage;
+    private ClothingDeserializer clothingDeserializer = new ClothingDeserializer();
+    
+    @Override
+    public Storage deserialize(JsonParser parser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
+        TreeNode treeNode = parser.getCodec().readTree(parser);
+        return deserialize((JsonNode) treeNode);
     }
-    return null;
-  }   
+
+    /**
+     * Deserializes JsonNode to Storage object
+     * 
+     * @param jsonNode to be deserialized
+     * @return Storage object
+     */
+    Storage deserialize(JsonNode jsonNode) {
+        if (jsonNode instanceof ObjectNode objectNode) {
+            JsonNode itemsNode = objectNode.get("clothes");
+            boolean hasItems = itemsNode instanceof ArrayNode;
+            Storage storage = new Storage();
+
+            Clothing clothing = new Clothing("Jeans", "Nike", 'M', 199); 
+            boolean isClothing = true;
+
+            if (hasItems) {
+                for (JsonNode elementNode : ((ArrayNode) itemsNode)) {
+                    if (isClothing) {
+                        clothing = clothingDeserializer.deserialize(elementNode);
+                        isClothing = false;
+                    } else {
+                        JsonNode quantityNode = elementNode.get("quantity");
+                        int quantity = quantityNode.asInt();
+                        storage.addNewClothing(clothing, quantity);
+                        isClothing = true;
+                    }
+                }
+            }
+            return storage;
+        }
+        return null;
+    }   
 }
 
 

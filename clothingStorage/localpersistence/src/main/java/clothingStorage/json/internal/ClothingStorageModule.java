@@ -11,18 +11,18 @@ import clothingStorage.core.Storage;
 @SuppressWarnings("serial")
 public class ClothingStorageModule extends SimpleModule {
 
-  private static final String NAME = "ClothingStorageModule";
+    private static final String NAME = "ClothingStorageModule";
 
-  /**
-   * Initializes this ClothingStorageModule with appropriate serializers and deserializers.
-   */
-  public ClothingStorageModule() {
-    super(NAME, Version.unknownVersion());
-    addSerializer(Clothing.class, new ClothingSerializer());
-    addDeserializer(Clothing.class, new ClothingDeserializer());
+    /**
+     * Initializes this ClothingStorageModule with appropriate serializers and deserializers.
+     */
+    public ClothingStorageModule() {
+        super(NAME, Version.unknownVersion());
+        addSerializer(Clothing.class, new ClothingSerializer());
+        addDeserializer(Clothing.class, new ClothingDeserializer());
 
-    addSerializer(Storage.class, new StorageSerializer());
-    addDeserializer(Storage.class, new StorageDeserializer());
-  }
+        addSerializer(Storage.class, new StorageSerializer());
+        addDeserializer(Storage.class, new StorageDeserializer());
+    }
 }
 
