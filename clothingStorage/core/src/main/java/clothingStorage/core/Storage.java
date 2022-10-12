@@ -68,10 +68,13 @@ public class Storage {
      * Increases number of clothing items
      * @param clothing item to be increased
      * @param quantity number of clothing items to add
+     * @throws IllegalArgumentException if quantity is less than 1
      */
     public void increaseQuantity(Clothing clothing, int quantity) {
         if (isClothingInStorage(clothing) && isValidQuantity(quantity)) {
             this.storageList.put(clothing, this.getQuantity(clothing) + quantity);
+        } else {
+            throw new IllegalArgumentException("Quantity must be greater or equal to 1");
         }
     }
 
@@ -79,11 +82,14 @@ public class Storage {
      * Decreases number of clothing items
      * @param clothing item to be decreased
      * @param quantity number of clothing items to remove
+     * @throws IllegalArgumentException if quantity is less than 1
      * @throws IllegalStateException if number of clothing items is less than 0
      */
     public void decreaseQuantity(Clothing clothing, int quantity) {
         if (isClothingInStorage(clothing) && isValidQuantity(quantity) && getQuantity(clothing) - quantity >= 0 ) {
             this.storageList.put(clothing, this.getQuantity(clothing) - quantity);
+        } else if (!isValidQuantity(quantity)) {
+            throw new IllegalArgumentException("Quantity must be greater or equal to 1");
         } else {
             throw new IllegalStateException("Can not have negative quantity of an item");
         }
