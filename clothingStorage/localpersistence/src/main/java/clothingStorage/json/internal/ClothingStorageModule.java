@@ -6,7 +6,7 @@ import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 
 /**
- * A Jackson module for configuring JSON serialization of ClothingStorageModel instances.
+ * A Jackson module for configuring JSON serialization of Storage instances.
  */
 @SuppressWarnings("serial")
 public class ClothingStorageModule extends SimpleModule {

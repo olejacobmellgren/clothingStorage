@@ -1,7 +1,6 @@
 package clothingStorage.json;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
@@ -9,8 +8,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;

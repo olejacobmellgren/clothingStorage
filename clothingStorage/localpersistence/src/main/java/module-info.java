@@ -4,6 +4,5 @@ module clothingStorage.json {
     requires transitive clothingStorage.core;
 
     exports clothingStorage.json;
-    // exports clothingStorage.json;
 }
 

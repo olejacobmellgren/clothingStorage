@@ -15,10 +15,7 @@ import clothingStorage.core.Storage;
 class StorageDeserializer extends JsonDeserializer<Storage> {
 
   private ClothingDeserializer clothingDeserializer = new ClothingDeserializer();
-  /*
-   * format: { "clothes": [ ... ] }
-   */
-
+  
   @Override
   public Storage deserialize(JsonParser parser, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {

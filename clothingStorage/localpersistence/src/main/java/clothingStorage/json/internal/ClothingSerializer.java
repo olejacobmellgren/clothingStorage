@@ -9,7 +9,13 @@ import clothingStorage.core.Clothing;
 class ClothingSerializer extends JsonSerializer<Clothing> {
 
   /*
-   * format: { "name": "...", "brand": ..., "size": ..., "price": ..., "discount": ...}
+   * format: 
+   * { 
+   *    "name": "...", 
+   *    "brand": ..., 
+   *    "size": ..., 
+   *    "price": ..., 
+   *    "discount": ...}
    */
 
 

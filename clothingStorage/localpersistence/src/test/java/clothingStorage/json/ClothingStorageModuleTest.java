@@ -2,11 +2,8 @@ package clothingStorage.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,8 +13,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-
-//format: { "name": "...", "brand": ..., "size": ..., "price": ..., "discount": ...}
 
 
 public class ClothingStorageModuleTest {
@@ -65,10 +60,6 @@ public class ClothingStorageModuleTest {
             fail(e.getMessage());
         }
     }
-
-    //  [{"clothes":[{"name":"Pants","brand":"Nike","size":"M","price":199.0,"discount":0.5,},{"quantity":1},{"name":"Top","brand":"Adidas","size":"S","price":599.9,"discount":0.9,},{"quantity":5}]}]
-    //  [{"clothes":[{"name":"Pants","brand":"Nike","size":"M","price":99.5,"discount":0.5,},{"quantity":1},{"name":"Top","brand":"Adidas","size":"S","price":59.99,"discount":0.9,},{"quantity":5}]}]
-    //  [{"clothes":[{"name":"Pants","brand":"Nike","size":"M","price":99.5,"discount":0.5},{"quantity":1},{"name":"Top","brand":"Adidas","size":"S","price":59.99,"discount":0.9},{"quantity":5}]}]
 
     @Test
     public void testDeserializers() {

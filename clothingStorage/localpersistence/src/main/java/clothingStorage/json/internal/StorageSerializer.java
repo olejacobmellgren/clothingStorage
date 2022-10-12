@@ -12,6 +12,34 @@ import clothingStorage.core.Storage;
 
 class StorageSerializer extends JsonSerializer<Storage> {
 
+  /*
+   * format: 
+   * {
+   *     "clothes": [
+   *         {
+   *             "name": "Pants",
+   *             "brand": "Nike",
+   *             "size": "M",
+   *             "price": 99.5,
+   *             "discount": 0.5
+   *         },
+   *         {
+   *             "quantity": 1
+   *         },
+   *         {
+   *             "name": "Top",
+   *             "brand": "Adidas",
+   *             "size": "S",
+   *             "price": 59.99,
+   *             "discount": 0.9
+   *         },
+   *         {
+   *             "quantity": 5
+   *         }
+   *     ]
+   * }
+   */
+
   @Override
   public void serialize(Storage storage, JsonGenerator jsonGen,
       SerializerProvider serializerProvider) throws IOException {

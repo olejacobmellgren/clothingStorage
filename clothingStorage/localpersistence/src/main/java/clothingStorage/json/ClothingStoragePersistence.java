@@ -17,14 +17,12 @@ import clothingStorage.json.internal.ClothingStorageModule;
  * Wrapper class for JSON serialization,
  * to avoid direct compile dependencies on Jackson for other modules.
  */
+
 public class ClothingStoragePersistence {
 
   /**
-   * Used to indicate what parts of a ClothingStorageModel to serialize.
+   * Used to indicate what parts of a ClothingStorage (Storage) to serialize.
    */
-  // public enum ClothingStorageModelParts {
-  //   STORAGE
-  // }
 
   private ObjectMapper mapper;
 
@@ -59,9 +57,9 @@ public class ClothingStoragePersistence {
   }
 
   /**
-   * Loads a ClothingStorageModel from the saved file (saveFilePath) in the user.home folder.
+   * Loads a ClothingStorage (Storage) from the saved file (saveFilePath).
    *
-   * @return the loaded ClothingStorageModel
+   * @return the loaded ClothingStorage (Storage)
    */
   public Storage loadClothingStorage() throws IOException, IllegalStateException {
     if (saveFilePath == null) {
@@ -73,9 +71,9 @@ public class ClothingStoragePersistence {
   }
 
   /**
-   * Saves a ClothingStorage to the saveFilePath in the user.home folder.
+   * Saves a ClothingStorage (Storage) to the saveFilePath.
    *
-   * @param Storage the ClothingStorage to save
+   * @param Storage the ClothingStorage (Storage) to save
    */
   public void saveClothingStorage(Storage storage) throws IOException, IllegalStateException {
     if (saveFilePath == null) {
