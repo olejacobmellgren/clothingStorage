@@ -9,6 +9,12 @@ Denne releasen hadde fokus på modularisering, arkitektur, kodekvalitet og utvid
 - Javadoc er skrevet for alle metoder
 - Persistens til fil med JSON, og ikke til tekstfil
 
+## Persistens gjennom implisitt lagring
+
+For den lokale persistensen til appen vår har vi valgt implisitt lagring. Grunnen til dette er at det generelt er forventet at slike apper beholder og lagrer dataen som blir lagt inn, også etter man lukker den. Dersom bruker er nødt til å laste opp lagerbeholdningen av klær hver gang for å gjøre endringer vil dette kunne ta unødvendig med tid og gi dårligere flyt i bruken av appen. En annen fordel med å lagre implisitt er at bruker slipper å lagre når appen skal lukkes. Dermed slipper man å risikere at man for eksempel glemmer å lagre og alle endringer blir forkastet.
+
+På en annen side kunne det vært fordelsmessig å bruke en dokumentmetafor dersom man ønsker at appen skal kunne lagre flere ulike lagere for klær. Men ettersom det er tenkt at appen kun skal brukes av èn butikk for deres beholdning av klær, vil implisitt lagring være mer hensiktsmessig.
+
 ## Verktøy for sjekking av testdekningsgrad og kodekvalitet
 
 Sammen med denne releasen ble det implementert ulike verktøy for sjekk av både testdekningsgrad og kodekvalitet. 
