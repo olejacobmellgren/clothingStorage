@@ -3,7 +3,11 @@ package clothingStorage.json;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,21 +25,25 @@ public class ClothingStorageModuleTest {
     private static ObjectMapper mapper;
     final static String storageWithTwoClothes = """
     {
-        "clothing": [
+        "clothes": [
             {
-                "name": "pants",
+                "name": "Pants",
                 "brand": "Nike",
                 "size": "M",
-                "price": 199.0,
-                "discount": 0.5,
+                "price": 99.5,
+                "discount": 0.5
+            },
+            {
                 "quantity": 1
             },
             {
-                "name": "top",
+                "name": "Top",
                 "brand": "Adidas",
                 "size": "S",
-                "price": 599.9,
-                "discount": 0.0
+                "price": 59.99,
+                "discount": 0.9
+            },
+            {
                 "quantity": 5
             }
         ]
@@ -58,7 +66,9 @@ public class ClothingStorageModuleTest {
         }
     }
 
-    
+    //  [{"clothes":[{"name":"Pants","brand":"Nike","size":"M","price":199.0,"discount":0.5,},{"quantity":1},{"name":"Top","brand":"Adidas","size":"S","price":599.9,"discount":0.9,},{"quantity":5}]}]
+    //  [{"clothes":[{"name":"Pants","brand":"Nike","size":"M","price":99.5,"discount":0.5,},{"quantity":1},{"name":"Top","brand":"Adidas","size":"S","price":59.99,"discount":0.9,},{"quantity":5}]}]
+    //  [{"clothes":[{"name":"Pants","brand":"Nike","size":"M","price":99.5,"discount":0.5},{"quantity":1},{"name":"Top","brand":"Adidas","size":"S","price":59.99,"discount":0.9},{"quantity":5}]}]
 
     @Test
     public void testDeserializers() {
@@ -66,9 +76,10 @@ public class ClothingStorageModuleTest {
             Storage storage = mapper.readValue(storageWithTwoClothes, Storage.class);
             //Så inser dette mest sannsynelig ikke funker ettersom vi ikker har iteratorer 
             assertFalse(storage.getAllClothes().isEmpty());
-            HashMap<Clothing, Integer> clothes = storage.getAllClothes();
-            checkClothing(clothes[0].getKey(), "pans", "Nike", 'M', 199.0, 0.5);
-            checkClothing(clothes[1].getKey(), "top", "Adidas", 'S', 599.9, 0.0);
+            LinkedHashMap<Clothing, Integer> clothes = storage.getAllClothes();
+            ArrayList<Clothing> keys = new ArrayList<>(clothes.keySet());
+            checkClothing(keys.get(0), "Pants", "Nike", 'M', 199.0*0.5, 0.5);
+            checkClothing(keys.get(1), "Top", "Adidas", 'S', 59.99, 0.9);
             assertFalse(clothes.size() > 2);
         } catch (JsonProcessingException e) {
             fail(e.getMessage());
@@ -78,22 +89,22 @@ public class ClothingStorageModuleTest {
     @Test
     public void testSerializersDeserializers() {
         Storage storage = new Storage();
-        Clothing clothing1 = new Clothing("pans", "Nike", 'M', 199.0);
-        Clothing clothing2 = new Clothing("top", "Adidas", 'S', 599.9);
+        Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 199.0);
+        Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
         Clothing clothing3 = new Clothing("Leggings", "Nike", 'L', 20.0);
-        storage.addNewClothing(clothing1);
-        storage.addNewClothing(clothing2);
-        storage.addNewClothing(clothing3);
+        storage.addNewClothing(clothing1, 1);
+        storage.addNewClothing(clothing2, 1);
+        storage.addNewClothing(clothing3, 2);
         try {
             String json = mapper.writeValueAsString(storage);
             Storage storage2 = mapper.readValue(json, Storage.class);
             Clothing c1 = storage2.getClothing(0);
             Clothing c2 = storage2.getClothing(1);
-            assertEquals("pans", c1.getName());
-            assertEquals("top", c1.getName());
+            assertEquals("Pants", c1.getName());
+            assertEquals("Top", c2.getName());
             checkClothing(clothing1, c1);
             checkClothing(clothing2, c2);
-            assertFalse(clothing1.getName(), clothing3.getName());
+            assertFalse(clothing1.getName() == clothing3.getName());
         } catch (JsonProcessingException e) {
         fail(e.getMessage());
         }
@@ -103,16 +114,16 @@ public class ClothingStorageModuleTest {
 
     static Storage createStorageWithTwoClothes() {
         Storage storage = new Storage();
-        Clothing clothing1 = new Clothing("pans", "Nike", 'M', 199.0);
-        Clothing clothing2 = new Clothing("top", "Adidas", 'S', 599.9);
+        Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 199.0);
+        Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
         clothing1.setDiscount(0.5);
-        clothing2.setDiscount(0.0);
+        clothing2.setDiscount(0.9);
         storage.addNewClothing(clothing1, 1);
         storage.addNewClothing(clothing2, 5);
         return storage;
     }
 
-    static void checkClothing(Clothing clothing, String name, String brand, Char size, Double price, Double discount) {
+    static void checkClothing(Clothing clothing, String name, String brand, char size, Double price, Double discount) {
         assertEquals(name, clothing.getName());
         assertEquals(brand, clothing.getBrand());
         assertEquals(size, clothing.getSize());
