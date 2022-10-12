@@ -257,20 +257,4 @@ public class Clothing {
         }
         return false;
     }
-
-    /** 
-     * Test to see if Clothing object is created
-     * 
-    */
-    public static void main(String[] args) {
-        Clothing clothing = new Clothing("Bukse", "Levi's", 'S', 188);
-        System.out.println(clothing);
-        Clothing clothing2 = new Clothing("Bukse", "Levi's", 'S', 100);
-        System.out.println(clothing.equals(clothing2));
-        clothing.setDiscount(60);
-        System.out.println(clothing.getPrice());
-        clothing.removeDiscount();
-        System.out.println(clothing.getPrice());
-
-    }
 }
