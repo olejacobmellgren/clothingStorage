@@ -1,7 +1,7 @@
 module clothingStorage.json {
     requires transitive com.fasterxml.jackson.databind;
 
-    requires clothingStorage.core;
+    requires transitive clothingStorage.core;
 
     exports clothingStorage.json;
     // exports clothingStorage.json;

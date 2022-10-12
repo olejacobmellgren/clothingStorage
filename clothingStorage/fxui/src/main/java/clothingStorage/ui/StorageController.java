@@ -1,17 +1,13 @@
 package clothingStorage.ui;
 
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import clothingStorage.core.Storage;
+import clothingStorage.json.ClothingStoragePersistence;
 import clothingStorage.core.Clothing;
-import clothingStorage.core.IFiles;
-import clothingStorage.core.FileReader;
-
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +26,10 @@ public class StorageController implements Initializable{
      * Storage containing Clothing and corresponding quantity
      */
     private Storage storage;
+    /**
+     * Storage containing Clothing and corresponding quantity
+     */
+    private ClothingStoragePersistence storagePersistence;
     /**
      * Current errormessage as shown in ui
      */
@@ -83,6 +83,28 @@ public class StorageController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         brand.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
+        try {
+            this.storagePersistence = new ClothingStoragePersistence();
+            storagePersistence.setSaveFile();
+            this.setStorage(storagePersistence.loadClothingStorage());
+            updateStorageList();
+            updatePriceList();
+        } catch (Exception e) {
+            //ignore
+        }   
+    }
+
+    /**
+     * Autosaves storage to json-file
+     */
+    private void fireAutoSaveStorage() {    
+        if (storagePersistence != null) {
+          try {
+            storagePersistence.saveClothingStorage(storage);
+          } catch (Exception e) {
+            System.err.println("Fikk ikke lagret storage: " + e.getMessage());
+          }
+        }
     }
 
     /**
@@ -92,6 +114,7 @@ public class StorageController implements Initializable{
         if (this.storageList == null || storageList.getItems().isEmpty()) {
             List<String> clothingDisplays = storage.storageDisplay();
             storageList.getItems().setAll(clothingDisplays);
+            fireAutoSaveStorage();
         } else {
             storageList.getItems().clear();
             updateStorageList();
@@ -105,6 +128,7 @@ public class StorageController implements Initializable{
         if (this.priceList == null || priceList.getItems().isEmpty()) {
             List<String> clothingPriceDisplays = storage.priceDisplay();
             priceList.getItems().setAll(clothingPriceDisplays);
+            fireAutoSaveStorage();
         } else {
             priceList.getItems().clear();
             updatePriceList();
@@ -177,14 +201,6 @@ public class StorageController implements Initializable{
      */
     @FXML private Button decreaseByOne;
     /**
-     * Button for loading from file
-     */
-    @FXML private Button loadFromFile;
-    /**
-     * Button for writing to file
-     */
-    @FXML private Button writeToFile;
-    /**
      * Listview with all clothing-items and their quantities
      */
     @FXML private ListView<String> storageList;
@@ -201,10 +217,6 @@ public class StorageController implements Initializable{
      */
     @FXML private TextField typeOfClothing;
     /**
-     * Textfield for file to be written or read
-     */
-    @FXML private TextField fileToWriteOrRead;
-    /**
      * Textfield for quantity to be added
      */
     @FXML private TextField newQuantity;
@@ -212,11 +224,6 @@ public class StorageController implements Initializable{
      * Pane for adding a new clothing-item
      */
     @FXML private Pane newClothingPane;
-
-    /**
-     * storageFileHandler that handles reading and writing
-     */
-    private IFiles storageFileHandler = new FileReader();
 
     /**
      * Shows alert with error-message
@@ -268,8 +275,6 @@ public class StorageController implements Initializable{
         newClothingItem.setDisable(true);
         increaseByOne.setDisable(true);
         decreaseByOne.setDisable(true);
-        loadFromFile.setDisable(true);
-        writeToFile.setDisable(true);
     }
 
      /**
@@ -296,8 +301,6 @@ public class StorageController implements Initializable{
         newClothingItem.setDisable(false);
         increaseByOne.setDisable(false);
         decreaseByOne.setDisable(false);
-        loadFromFile.setDisable(false);
-        writeToFile.setDisable(false);
     }
 
     /**
@@ -321,6 +324,8 @@ public class StorageController implements Initializable{
         } catch (NumberFormatException e) {
             showErrorMessage("Price must be a positive decimal number \nQuantity must a positive integer");
         } catch (IllegalArgumentException e) {
+            showErrorMessage(e.getMessage());
+        } catch (IllegalStateException e) {
             showErrorMessage(e.getMessage());
         } catch (NullPointerException e) {
             showErrorMessage("Fill in all fields");
@@ -408,38 +413,6 @@ public class StorageController implements Initializable{
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
             }
-        }
-    }
-
-    /**
-     * Writes to text-file specified in textfield
-     */
-    @FXML private void handleWriteToFile() {
-        if (storage.getAllClothes().isEmpty()) {
-            showErrorMessage("There has not been added any clothes to storage");
-            return;
-        }
-        try {
-            String filename = fileToWriteOrRead.getText();
-            storageFileHandler.writeToFile(filename, storage);
-            showConfirmedMessage("Storage of clothing successfully saved to file:" + filename);
-        } catch (IOException e) {
-            showErrorMessage("Error occurred while trying to save to file");
-        }
-    }
-
-    /**
-     * Loads from text-file specified in textfield
-     */
-    @FXML private void handleLoadFromFile() {
-        try {
-            String filename = fileToWriteOrRead.getText();
-            storage = storageFileHandler.readFromFile(filename);
-            updateStorageList();
-            updatePriceList();
-            showConfirmedMessage("Storage of Clothing successfully loaded from file:" + filename);
-        } catch (FileNotFoundException e) {
-            showErrorMessage("File not found!");
         }
     }
 

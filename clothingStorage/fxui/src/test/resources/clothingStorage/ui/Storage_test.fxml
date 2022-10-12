@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StorageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StorageController">
    <children>
       <Pane fx:id="storagePane" layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
          <children>
@@ -159,38 +159,11 @@
                   <TextField fx:id="typeOfClothing" layoutX="165.0" layoutY="45.0" prefHeight="26.0" prefWidth="148.0" />
                </children>
             </Pane>
-            <Button fx:id="writeToFile" layoutX="215.0" layoutY="520.0" mnemonicParsing="false" onAction="#handleWriteToFile" prefHeight="20.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Write To File">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <effect>
-                  <DropShadow height="15.0" radius="8.5" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
             <Label layoutX="47.0" layoutY="395.0" text="Selected Item by 1:" visible="false">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="fileToWriteOrRead" layoutX="37.0" layoutY="545.0" promptText="filename" />
-            <Button fx:id="loadFromFile" layoutX="215.0" layoutY="565.0" mnemonicParsing="false" onAction="#handleLoadFromFile" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Load From File">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <effect>
-                  <DropShadow height="15.0" radius="8.5" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Label layoutX="37.0" layoutY="527.0" text="Filename to write to or load:">
-               <font>
-                  <Font size="12.0" />
-               </font></Label>
             <Label layoutX="45.0" layoutY="80.0" prefHeight="17.0" prefWidth="238.0" text="type;brand;size;quantity" />
             <Button fx:id="removeClothingItem" layoutX="215.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Clothing">
                <font>
