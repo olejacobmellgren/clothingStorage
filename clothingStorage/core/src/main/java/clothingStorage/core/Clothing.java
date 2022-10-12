@@ -1,6 +1,7 @@
 package clothingStorage.core;
 
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Represents a clothing item with name, brand, size and price, and corresponding get/set functions
@@ -210,8 +211,7 @@ public class Clothing {
      * @return price of clothing item
     */
     public double getPrice() {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return Double.parseDouble(df.format(this.price));
+        return new BigDecimal(this.price).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     /** 
