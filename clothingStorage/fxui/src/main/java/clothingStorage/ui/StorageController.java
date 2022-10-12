@@ -26,14 +26,27 @@ import javafx.scene.layout.Pane;
 
 public class StorageController implements Initializable{
 
+    /**
+     * Storage containing Clothing and corresponding quantity
+     */
     private Storage storage;
-    private Clothing clothing;
+    /**
+     * Current errormessage as shown in ui
+     */
     private String errorMessage;
 
+    /**
+     * Constructor for StorageController initializing it with empty storage
+     */
     public StorageController() {
         this.storage = new Storage();
     }
 
+    /**
+     * Sets storage to the given storage, helps controller test-class
+     * 
+     * @param storage to be set as storage for the controller
+     */
     public void setStorage(Storage storage) {
     if (this.storage != null) {
         storageList.getItems().clear();
@@ -42,20 +55,39 @@ public class StorageController implements Initializable{
     updateStorageList();
     }
 
+    /**
+     * Gets error-message for controller as shown in ui, helps controller test-class
+     * 
+     * @return the error-message
+     */
     public String getErrorMessage() {
         return this.errorMessage;
     }
 
-
+    /**
+     * Choicebox of valid brands
+     */
     @FXML private ChoiceBox<String> brand;
+    /**
+     * Choicebox for valid sizes
+     */
     @FXML private ChoiceBox<Character> size;
 
+    /**
+     * Initializes controller with the choiceboxes
+     * 
+     * @param location to initialize
+     * @param resources locale-specific objects
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         brand.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
     }
 
+    /**
+     * Updates StorageList after change has been made
+     */
     public void updateStorageList() {
         if (this.storageList == null || storageList.getItems().isEmpty()) {
             List<String> clothingDisplays = storage.storageDisplay();
@@ -66,6 +98,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Updates PriceList after change has been made
+     */
     public void updatePriceList() {
         if (this.priceList == null || priceList.getItems().isEmpty()) {
             List<String> clothingPriceDisplays = storage.priceDisplay();
@@ -77,9 +112,26 @@ public class StorageController implements Initializable{
     }
 
 
-    @FXML private Button storagePageButton, pricePageButton;
-    @FXML private Pane storagePane, pricePane;
+    /**
+     * Button for storage-page
+     */
+    @FXML private Button storagePageButton;
+    /**
+     * Button for price-page
+     */
+    @FXML private Button pricePageButton;
+    /**
+     * Pane for storage-page
+     */
+    @FXML private Pane storagePane;
+    /**
+     * Pane for price-page
+     */
+    @FXML private Pane pricePane;
 
+    /**
+     * Changes ui-view to the price-page
+     */
     @FXML private void handlePricePageButton() {
         if (!pricePane.isVisible()) {
             storagePane.setVisible(false);
@@ -90,6 +142,9 @@ public class StorageController implements Initializable{
         
     }
 
+    /**
+     * Changes ui-view to the storage-page
+     */
     @FXML private void handleStoragePageButton() {
         if (!storagePane.isVisible()) {
             storagePane.setVisible(true);
@@ -101,13 +156,73 @@ public class StorageController implements Initializable{
 
     // Storage Page
 
-    @FXML private Button addQuantity, removeQuantity, newClothingItem, increaseByOne, decreaseByOne, loadFromFile, writeToFile;
+    /**
+     * Button for adding quantity
+     */
+    @FXML private Button addQuantity;
+    /**
+     * Button for removing quantity
+     */
+    @FXML private Button removeQuantity;
+    /**
+     * Button for adding new clothing-item
+     */
+    @FXML private Button newClothingItem;
+    /**
+     * Button for increasing quantity by one
+     */
+    @FXML private Button increaseByOne;
+    /**
+     * Button for decreasing quantity by one
+     */
+    @FXML private Button decreaseByOne;
+    /**
+     * Button for loading from file
+     */
+    @FXML private Button loadFromFile;
+    /**
+     * Button for writing to file
+     */
+    @FXML private Button writeToFile;
+    /**
+     * Listview with all clothing-items and their quantities
+     */
     @FXML private ListView<String> storageList;
-    @FXML private TextField price, quantity, typeOfClothing, fileToWriteOrRead, newQuantity;
+    /**
+     * Textfield for price for clothing
+     */
+    @FXML private TextField price;
+    /**
+     * Textfield for quantity of clothing
+     */
+    @FXML private TextField quantity;
+    /**
+     * Textfield for type of clothing
+     */
+    @FXML private TextField typeOfClothing;
+    /**
+     * Textfield for file to be written or read
+     */
+    @FXML private TextField fileToWriteOrRead;
+    /**
+     * Textfield for quantity to be added
+     */
+    @FXML private TextField newQuantity;
+    /**
+     * Pane for adding a new clothing-item
+     */
     @FXML private Pane newClothingPane;
 
+    /**
+     * storageFileHandler that handles reading and writing
+     */
     private IFiles storageFileHandler = new FileReader();
 
+    /**
+     * Shows alert with error-message
+     * 
+     * @param errorMessage to be shown in alert
+     */
     private void showErrorMessage(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("ERROR OCCURRED");
@@ -117,6 +232,11 @@ public class StorageController implements Initializable{
         alert.showAndWait();
     }
 
+    /**
+     * Shows alert with confirmed-message
+     * 
+     * @param confirmedMessage to be shown in alert
+     */
     private void showConfirmedMessage(String confirmedMessage) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("SUCCESS");
@@ -125,6 +245,9 @@ public class StorageController implements Initializable{
         alert.showAndWait();
     }
 
+    /**
+     * Resets inputs for making a new clothing-item
+     */
     @FXML private void handleReset() {
         typeOfClothing.clear();
         brand.getSelectionModel().clearSelection();
@@ -133,6 +256,9 @@ public class StorageController implements Initializable{
         quantity.clear();
     }
 
+    /**
+     * Resets inputs and shows pane for adding a new clothing-item
+     */
     @FXML private void handleNewClothingItem() {
         handleReset();
         newClothingPane.setVisible(true);
@@ -146,6 +272,9 @@ public class StorageController implements Initializable{
         writeToFile.setDisable(true);
     }
 
+     /**
+     * Removes clothing-item for the list
+     */
     @FXML private void handleRemoveClothingItem() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
@@ -156,6 +285,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Cancels the adding of clothing-item
+     */
     @FXML private void handleCancel() {
         newClothingPane.setVisible(false);
         storageList.setVisible(true);
@@ -168,6 +300,9 @@ public class StorageController implements Initializable{
         writeToFile.setDisable(false);
     }
 
+    /**
+     * Confirms the adding of a new clothing-item and adds it to list if succesful
+     */
     @FXML private void handleOk() {
         try {
             String name = typeOfClothing.getText();
@@ -192,6 +327,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Increases quantity for a selected clothing-item by one
+     */
     @FXML private void handleIncreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
@@ -206,6 +344,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Decreases quantity for a selected clothing-item by one
+     */
     @FXML private void handleDecreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
@@ -220,7 +361,9 @@ public class StorageController implements Initializable{
         }
     }
 
-
+    /**
+     * Increases quantity for a selected clothing-item by amount specified in textfield
+     */
     @FXML private void handleAddQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
@@ -243,6 +386,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Decreases quantity for a selected clothing-item by amount specified in textfield
+     */
     @FXML private void handleRemoveQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
@@ -265,6 +411,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Writes to text-file specified in textfield
+     */
     @FXML private void handleWriteToFile() {
         if (storage.getAllClothes().isEmpty()) {
             showErrorMessage("There has not been added any clothes to storage");
@@ -279,6 +428,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Loads from text-file specified in textfield
+     */
     @FXML private void handleLoadFromFile() {
         try {
             String filename = fileToWriteOrRead.getText();
@@ -293,10 +445,30 @@ public class StorageController implements Initializable{
 
     // Price Page
 
+    /**
+     * Listview with all clothing-items and their prices
+     */
     @FXML private ListView<String> priceList;
-    @FXML private Button confirmNewPrice, confirmDiscount;
-    @FXML private TextField newPrice, discount;
+    /**
+     * Button for confirming new price
+     */
+    @FXML private Button confirmNewPrice;
+    /**
+     * Button for confirming discount
+     */
+    @FXML private Button confirmDiscount;
+    /**
+     * Textfield for new price
+     */
+    @FXML private TextField newPrice;
+    /**
+     * Textfield for discount to add
+     */
+    @FXML private TextField discount;
 
+    /**
+     * Updates price-list with new price for selected clothing-item
+     */
     @FXML private void handleConfirmNewPrice() {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
@@ -314,6 +486,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Updates price-list with new price after adding discount
+     */
     @FXML private void handleConfirmDiscount() {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
@@ -335,6 +510,9 @@ public class StorageController implements Initializable{
         }
     }
 
+    /**
+     * Updates price-list with new price after removing discount
+     */
     @FXML private void handleRemoveDiscount() {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
@@ -346,16 +524,4 @@ public class StorageController implements Initializable{
             showErrorMessage(e.getMessage());
         }
     }
-
-    
-
-  
-
-
-
-
-
-
-
-    
 }
