@@ -1,39 +1,13 @@
 <FindBugsFilter>
-    <Match>
-        <Bug pattern="DM_DEFAULT_ENCODING" />
-    </Match>
+    
     <Match>
         <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION" />
-    </Match>
-    <Match>
-        <Bug pattern="NP_NULL_ON_SOME_PATH" />
-    </Match>
-    <Match>
-        <Bug pattern="UUF_UNUSED_FIELD" />
-    </Match>
-    <Match>
-        <Bug pattern="HE_EQUALS_USE_HASHCODE" />
-    </Match>
-    <Match>
-        <Bug pattern="HE_SIGNATURE_DECLARES_HASHING_OF_UNHASHABLE_CLASS" />
-    </Match>
-    <Match>
-        <Bug pattern="EI_EXPOSE_REP" />
     </Match>
     <Match>
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
     <Match>
-        <Bug pattern="DCN_NULLPOINTER_EXCEPTION" />
-    </Match>
-    <Match>
         <Bug pattern="SA_LOCAL_SELF_COMPARISON" />
-    </Match>
-    <Match>
-        <Bug pattern="A_LOCAL_SELF_COMPARISON" />
-    </Match>
-    <Match>
-        <Bug pattern="BC_VACUOUS_INSTANCEOF" />
     </Match>
     <Match>
         <Bug pattern="DE_MIGHT_IGNORE" />
