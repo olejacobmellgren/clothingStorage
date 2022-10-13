@@ -74,10 +74,8 @@ public class StorageController implements Initializable {
 
     /**
      * Initializes controller with the choiceboxes.
-     *
-     * @param location to initialize
-     * @param resources locale-specific objects
      */
+    @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         brand.getItems().addAll("Nike", "Adidas", "H&M", 
@@ -111,28 +109,24 @@ public class StorageController implements Initializable {
      * Updates StorageList after change has been made.
      */
     public void updateStorageList() {
-        if (this.storageList == null || storageList.getItems().isEmpty()) {
-            List<String> clothingDisplays = storage.storageDisplay();
-            storageList.getItems().setAll(clothingDisplays);
-            fireAutoSaveStorage();
-        } else {
+        while (!(storageList.getItems().isEmpty())) {
             storageList.getItems().clear();
-            updateStorageList();
         }
+        List<String> clothingDisplays = storage.storageDisplay();
+        storageList.getItems().setAll(clothingDisplays);
+        fireAutoSaveStorage();   
     }
 
     /**
      * Updates PriceList after change has been made.
      */
     public void updatePriceList() {
-        if (this.priceList == null || priceList.getItems().isEmpty()) {
-            List<String> clothingPriceDisplays = storage.priceDisplay();
-            priceList.getItems().setAll(clothingPriceDisplays);
-            fireAutoSaveStorage();
-        } else {
+        while (!(priceList.getItems().isEmpty())) {
             priceList.getItems().clear();
-            updatePriceList();
         }
+        List<String> priceDisplays = storage.priceDisplay();
+        priceList.getItems().setAll(priceDisplays);
+        fireAutoSaveStorage(); 
     }
 
 
@@ -310,8 +304,14 @@ public class StorageController implements Initializable {
         try {
             String name = typeOfClothing.getText();
             String selectedBrand = brand.getValue();
-            char selectedSize = size.getValue();
+            Character selectedSize = size.getValue();
             Double selectedPrice = Double.parseDouble(price.getText());
+
+            if (name == null || selectedBrand == null 
+                || selectedSize == null || selectedPrice == null) {
+                showErrorMessage("Fill in all fields");
+                return;
+            }
 
             Clothing clothing = new Clothing(name, selectedBrand, selectedSize, selectedPrice);
 
@@ -328,8 +328,6 @@ public class StorageController implements Initializable {
             showErrorMessage(e.getMessage());
         } catch (IllegalStateException e) {
             showErrorMessage(e.getMessage());
-        } catch (NullPointerException e) {
-            showErrorMessage("Fill in all fields");
         }
     }
 
