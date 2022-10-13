@@ -52,6 +52,7 @@ public class StorageController implements Initializable {
         }
         this.storage = storage;
         updateStorageList();
+        updatePriceList();
     }
 
     /**
@@ -82,12 +83,11 @@ public class StorageController implements Initializable {
             "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
         try {
-            if (Thread.currentThread().getStackTrace()[5].getClassName() != "clothingStorage.ui.StorageControllerTest") {
+            if (Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.StorageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());
-                updateStorageList();
-                updatePriceList();
             }
         } catch (Exception e) {
             //ignore

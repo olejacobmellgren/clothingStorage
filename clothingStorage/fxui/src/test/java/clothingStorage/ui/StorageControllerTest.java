@@ -25,11 +25,6 @@ public class StorageControllerTest extends ApplicationTest {
     private Parent root;
     private Storage storage;
 
-    /**
-     * Starting the app
-     *
-     * @result ClothingStorage will be openend and used for the tests
-     */
     @Override
     public void start(final Stage stage) throws Exception {
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("Storage_test.fxml"));
@@ -39,11 +34,6 @@ public class StorageControllerTest extends ApplicationTest {
         stage.show();
     }
     
-    /**
-     * Setting up clothing items
-     *
-     * @result initialize controller with Storage containing three Clothing-items
-     */
     @BeforeEach
     public void setupClothingItems() {
         storage = new Storage();
@@ -54,8 +44,6 @@ public class StorageControllerTest extends ApplicationTest {
         storage.addNewClothing(clothing2, 8);
         storage.addNewClothing(clothing3, 4);
         controller.setStorage(storage);
-        controller.updateStorageList();
-        controller.updatePriceList();
     }
 
     
@@ -72,16 +60,12 @@ public class StorageControllerTest extends ApplicationTest {
 
         
         Clothing clothing = new Clothing("Jeans", "Adidas", 'S', 150);
-        //assertEquals(clothing.toString(), storage.getClothing(storage.getAllClothes().size()-1).toString());
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
         Clothing newClothing = makeClothingFromListView(storageList.get(storageList.size()-1));
         assertTrue(clothing.equalsButDifferentPrice(newClothing));
     }
 
-    /**
-     *
-     */
     @Test
     public void testErrorNewClothingNoFields() {
         clickOn("#newClothingItem");
@@ -266,6 +250,7 @@ public class StorageControllerTest extends ApplicationTest {
         clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
+        clickOn("#storagePageButton");
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikeJeans = priceList.get(0).split(";");
@@ -330,7 +315,6 @@ public class StorageControllerTest extends ApplicationTest {
         clickOn("#confirmDiscount");
         assertEquals("Input must be a number", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
-        clickOn("#storagePageButton");
     }
 }
 
