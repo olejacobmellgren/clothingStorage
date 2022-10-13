@@ -76,7 +76,7 @@ public class StorageControllerTest extends ApplicationTest {
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
         Clothing newClothing = makeClothingFromListView(storageList.get(storageList.size()-1));
-        assertTrue(clothing.equals(newClothing));
+        assertTrue(clothing.equalsButDifferentPrice(newClothing));
     }
 
     /**
@@ -112,7 +112,8 @@ public class StorageControllerTest extends ApplicationTest {
         clickOn("#price").write("hei");
         clickOn("#quantity").write("8");
         clickOn("#ok");
-        assertEquals("Price must be a positive decimal number \nQuantity must a positive integer", controller.getErrorMessage());
+        assertEquals("Price must be a positive decimal number" +  "\n" 
+            + "Quantity must a positive integer", controller.getErrorMessage());
     }
 
     @Test
