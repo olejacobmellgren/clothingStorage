@@ -26,4 +26,19 @@
     <Match>
         <Bug pattern="DCN_NULLPOINTER_EXCEPTION" />
     </Match>
+    <Match>
+        <Bug pattern="SA_LOCAL_SELF_COMPARISON" />
+    </Match>
+    <Match>
+        <Bug pattern="A_LOCAL_SELF_COMPARISON" />
+    </Match>
+    <Match>
+        <Bug pattern="BC_VACUOUS_INSTANCEOF" />
+    </Match>
+    <Match>
+        <Bug pattern="DE_MIGHT_IGNORE" />
+    </Match>
+    <Match>
+        <Bug pattern="REC_CATCH_EXCEPTION" />
+    </Match>
 </FindBugsFilter>

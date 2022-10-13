@@ -1,20 +1,20 @@
 package clothingStorage.ui;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX App.
  */
 public class StorageApp extends Application {
 
     /**
-     * The app will be setup and be ready to be launched
+     * The app will be setup and be ready to be launched.
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -26,7 +26,7 @@ public class StorageApp extends Application {
     }
 
     /**
-     * Launches the app
+     * Launches the app.
      */
     public static void main(String[] args) {
         launch();

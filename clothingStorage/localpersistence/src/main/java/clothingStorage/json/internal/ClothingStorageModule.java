@@ -1,9 +1,9 @@
 package clothingStorage.json.internal;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
  * A Jackson module for configuring JSON serialization of Storage instances.
