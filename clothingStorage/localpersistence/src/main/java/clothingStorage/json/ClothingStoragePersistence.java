@@ -1,5 +1,7 @@
 package clothingStorage.json;
 
+import clothingStorage.core.Storage;
+import clothingStorage.json.internal.ClothingStorageModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.FileReader;
@@ -10,8 +12,6 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import clothingStorage.core.Storage;
-import clothingStorage.json.internal.ClothingStorageModule;
 
 /**
  * Wrapper class for JSON serialization,
@@ -69,7 +69,7 @@ public class ClothingStoragePersistence {
     /**
      * Saves a ClothingStorage (Storage) to the saveFilePath.
      *
-     * @param Storage the ClothingStorage (Storage) to save
+     * @param storage the ClothingStorage (Storage) to save
      */
     public void saveClothingStorage(Storage storage) throws IOException, IllegalStateException {
         if (saveFilePath == null) {

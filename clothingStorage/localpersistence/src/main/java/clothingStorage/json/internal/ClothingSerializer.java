@@ -1,10 +1,11 @@
 package clothingStorage.json.internal;
 
+import clothingStorage.core.Clothing;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
-import clothingStorage.core.Clothing;
+
 
 class ClothingSerializer extends JsonSerializer<Clothing> {
 
@@ -19,7 +20,8 @@ class ClothingSerializer extends JsonSerializer<Clothing> {
     */
 
     @Override
-    public void serialize(Clothing clothing, JsonGenerator jsonGen, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(Clothing clothing, JsonGenerator jsonGen,
+        SerializerProvider serializerProvider) throws IOException {
         jsonGen.writeStartObject();
         jsonGen.writeStringField("name", clothing.getName());
         jsonGen.writeStringField("brand", clothing.getBrand());

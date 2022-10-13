@@ -1,14 +1,12 @@
 package clothingStorage.json.internal;
 
+import clothingStorage.core.Clothing;
+import clothingStorage.core.Storage;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.util.HashMap;
-
-
-import clothingStorage.core.Clothing;
-import clothingStorage.core.Storage;
 
 class StorageSerializer extends JsonSerializer<Storage> {
 

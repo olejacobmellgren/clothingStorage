@@ -1,5 +1,6 @@
 package clothingStorage.json.internal;
 
+import clothingStorage.core.Clothing;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
-import clothingStorage.core.Clothing;
+
 
 class ClothingDeserializer extends JsonDeserializer<Clothing> {
 
@@ -20,31 +21,30 @@ class ClothingDeserializer extends JsonDeserializer<Clothing> {
     }
 
     /**
-     * Deserializes JsonNode to Clothing object
-     * 
+     * Deserializes JsonNode to Clothing object.
+     *
      * @param jsonNode to be deserialized
      * @return Clothing object
      */
     Clothing deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode objectNode) {
             String name;
-            String brand;
-            char size;
-            double price;
-            double discount;
-
             JsonNode nameNode = objectNode.get("name");
             name = nameNode.asText();
             
+            String brand;
             JsonNode brandNode = objectNode.get("brand");
             brand = brandNode.asText();
             
+            char size;
             JsonNode sizeNode = objectNode.get("size");
             size = sizeNode.asText().charAt(0);
 
+            double price;
             JsonNode priceNode = objectNode.get("price");
             price = priceNode.asDouble();
 
+            double discount;
             JsonNode discountNode = objectNode.get("discount");
             discount = discountNode.asDouble();
 
