@@ -21,11 +21,29 @@ Sammen med denne releasen ble det implementert ulike verktøy for sjekk av både
 
 ### Jacoco
 
-Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementert for alle moduler og sjekker i hvilken grad testene dekker koden som har blitt skrevet. Jacoco er implementert som "plugin" for maven i pom.xml-fil, med versjon 0.8.7.
+Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementert for alle moduler og sjekker i hvilken grad testene dekker koden som har blitt skrevet. Jacoco er implementert som "plugin" for maven i pom.xml-fil, med versjon 0.8.7. Man kan sjekke testdekningsgrad etter man har kjørt `mvn install`og navigerer til den modulen man vil sjekke for og inn i **target/site/jacoco/index.html** denne kan man åpne i en "live server" og man får oversikten over hvor mange prosent av koden som er dekket av testene for ulike klasser.
 
-### Checkstyle og Spotbugs
+### Checkstyle
 
-Disse to verktøyene har blitt implementert for å sjekke kodekvaliteten. Checkstyle skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard, og Spotbugs ser etter feil(bugs) i koden. Verktøyene er lagt inn som "plugins" for maven i pom.xml, der checkstyle bruker versjon 9.0 og spotbugs bruker versjon 4.7.2.
+Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard. Checkstyle er lagt inn som "plugin" for maven i pom.xml, der checkstyle bruker versjon 9.0. Både Checkstyle og Spotbugs sier ifra om feil når man kjører `mvn install`eller `mvn verify`.
+
+### Spotbugs
+
+Slik som checkstyle er også Spotbugs implementert for å sjekke kodekvaliteten. Spotbugs ser etter feil(bugs) i koden og er også lagt inn som "plugin" for maven i ytterste pom-fil. Spotbugs bruker versjon 4.7.2. I filen **[exclude.xml](../clothingStorage/config/spotbugs/exclude.xml)** ligger Spotbugs som har blitt valgt å bli ignorert. Disse har blitt ignorert av ulike årsaker:
+
+- Bug: "EI_EXPOSE_REP2"
+  - Hva klages på: Lagrer Storage i Controller og endrer på dens interne tilstand
+  - Forklaring på ignorering: Vi har behov for å lagre tilstanden til Storage som kan bli oppdatert gjennom interaksjon med ui-et. Controller må derfor lagre dette.
+- Bug: "SA_LOCAL_SELF_COMPARISON"
+  - Hva klages på: Sjekker om JsonNode instanceof ObjectNode
+  - Forklaring på ignorering: Vi ønsker å sjekke om noden er ObjectNode slik at vi vet at vi kan bruke de tilhørende metodene
+- Bug: "DE_MIGHT_IGNORE"
+  - Hva klages på: Exception kan utløses i initialize() for controller som blir ignorert når man prøver å laste opp innhold fra json-fil
+  - Forklaring på ignorering: Vi ønsker at Exception skal bli ignorert dersom det ikke er noe innhold å laste fra json-fil. Dette hindrer at man får feilmelding ved åpning av appen første gang
+- Bug: "REC_CATCH_EXCEPTION"
+  - Hva klages på: Kommer av samme valg som ble tatt over, her klages det på at det ikke blir gjort noe når man catcher exception
+  - Forklaring på ignorering: Se forklaring på **Bug: "DE_MIGHT_IGNORE"**
+
 
 ## Løsninger til brukerhistorie 3, 4 og 5
 
@@ -36,3 +54,12 @@ For å løse brukerhistorie 3, 4 og 5 måtte flere knapper legges til i ui-et. F
 ### Clothing-klassen
 
 For å løse brukerhistorie 4 måtte vi endre og legge til en del metoder i Clothing-klassen. Metodene gjorde det mulig å endre pris, legge til rabatt, og i tillegg fjerne rabatt og få tilbake originalpris.
+
+## Planlagte endringer som ikke ble gjennomført i release2
+
+- Dele opp kontroller og fxml-fil i flere kontrollere og med tilhørende fxml-filer. En mulighet for splitting vi har tenkt på:
+  - Storage-siden
+  - Pris-siden
+  - Siden for å legge til nye clothing-objekter
+- Å kunne filtrere clothing-objekter på pris-siden etter merke, pris, osv
+- Når man legger til to clothing-objekter av samme type og merke, men forskjellig størrelse, er det ønskelig å disse skal vises med samme pris på pris-siden. For eksempel: Nå kan man ha et visst antall Adidas sokker i S og et visst antall Adidas sokker i M på storage-siden. Disse vises da med forskjellig pris på pris-siden. Det er normalt for klær at ulike størrelser fortsatt har samme pris, og nettopp dette ønsker vi å få fram på de to sidene.

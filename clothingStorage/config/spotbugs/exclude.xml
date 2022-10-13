@@ -1,8 +1,4 @@
 <FindBugsFilter>
-    
-    <Match>
-        <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION" />
-    </Match>
     <Match>
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
