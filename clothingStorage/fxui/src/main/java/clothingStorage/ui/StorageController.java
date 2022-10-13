@@ -281,6 +281,7 @@ public class StorageController implements Initializable {
             int index = storageList.getSelectionModel().getSelectedIndex();
             storage.removeClothing(storage.getClothing(index));
             updateStorageList();
+            updatePriceList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
         }
