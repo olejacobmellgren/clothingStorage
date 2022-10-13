@@ -18,7 +18,7 @@ class StorageSerializer extends JsonSerializer<Storage> {
     *             "name": "Pants",
     *             "brand": "Nike",
     *             "size": "M",
-    *             "price": 99.5,
+    *             "price": 199.0,
     *             "discount": 0.5
     *         },
     *         {
@@ -28,7 +28,7 @@ class StorageSerializer extends JsonSerializer<Storage> {
     *             "name": "Top",
     *             "brand": "Adidas",
     *             "size": "S",
-    *             "price": 59.99,
+    *             "price": 599.9,
     *             "discount": 0.9
     *         },
     *         {

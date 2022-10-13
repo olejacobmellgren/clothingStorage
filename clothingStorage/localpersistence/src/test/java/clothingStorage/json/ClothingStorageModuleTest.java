@@ -25,7 +25,7 @@ public class ClothingStorageModuleTest {
                 "name": "Pants",
                 "brand": "Nike",
                 "size": "M",
-                "price": 99.5,
+                "price": 199.0,
                 "discount": 0.5
             },
             {
@@ -35,7 +35,7 @@ public class ClothingStorageModuleTest {
                 "name": "Top",
                 "brand": "Adidas",
                 "size": "S",
-                "price": 59.99,
+                "price": 599.9,
                 "discount": 0.9
             },
             {
@@ -69,8 +69,8 @@ public class ClothingStorageModuleTest {
             assertFalse(storage.getAllClothes().isEmpty());
             LinkedHashMap<Clothing, Integer> clothes = storage.getAllClothes();
             ArrayList<Clothing> keys = new ArrayList<>(clothes.keySet());
-            checkClothing(keys.get(0), "Pants", "Nike", 'M', 99.5, 0.5);
-            checkClothing(keys.get(1), "Top", "Adidas", 'S', 59.99, 0.9);
+            checkClothing(keys.get(0), "Pants", "Nike", 'M', 199.0, 0.5);
+            checkClothing(keys.get(1), "Top", "Adidas", 'S', 599.9, 0.9);
             assertFalse(clothes.size() > 2);
         } catch (JsonProcessingException e) {
             fail(e.getMessage());
