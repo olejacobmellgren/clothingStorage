@@ -279,9 +279,9 @@ public class StorageControllerTest extends ApplicationTest {
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
         assertEquals("You need to select an item from the list", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
         clickOn("#removeDiscount");
         assertEquals("You need to select an item from the list", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
     }
 
     @Test
