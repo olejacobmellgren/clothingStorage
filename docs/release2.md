@@ -62,4 +62,4 @@ For å løse brukerhistorie 4 måtte vi endre og legge til en del metoder i Clot
   - Pris-siden
   - Siden for å legge til nye clothing-objekter
 - Å kunne filtrere clothing-objekter på pris-siden etter merke, pris, osv
-- Når man legger til to clothing-objekter av samme type og merke, men forskjellig størrelse, er det ønskelig å disse skal vises med samme pris på pris-siden. For eksempel: Nå kan man ha et visst antall Adidas sokker i S og et visst antall Adidas sokker i M på storage-siden. Disse vises da med forskjellig pris på pris-siden. Det er normalt for klær at ulike størrelser fortsatt har samme pris, og nettopp dette ønsker vi å få fram på de to sidene.
+- Når man legger til to clothing-objekter av samme type og merke, men forskjellig størrelse, er det ønskelig å disse skal vises med samme pris på pris-siden. For mer detaljer se **Lager-side vs pris-side** i [readme-md](clothingStorage/../../clothingStorage/readme.md)
