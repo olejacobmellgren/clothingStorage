@@ -5,7 +5,13 @@ Appen ClothingStorage har som hensikt å hjelpe klesbutikkeiere/-ansatte å hold
 ## Illustrerende skjermbilder
 Disse bildene viser hvordan vi tenker appen skal se ut når den er mer eller mindre ferdig.
 
-<img src="other-documentation/images/profilepage.png" width="200"> <img src="other-documentation/images/marketpage.png" width="200">
+<img src="other-documentation/../../other-documentation/design-concept/storagePage.png" width="200"> <img src="other-documentation/../../other-documentation/design-concept/pricePage.png" width="200">
+
+### Lager-side vs Pris-side
+
+Lager-siden har oversikt over klær med type, merke, størrelse og antall av dette klesplagget på lager. Her får man ingen informasjon om pris, men kan øke og minke beholdningen av et klesplagg og legge til nye klesplagg
+
+Pris-siden har også en slags oversikt over klærne, men uten størrelser. Her kan man oppdatere pris og legge til rabatt.Det er en kjent konvensjon at et klesplagg kan ha flere størrelser, men fortsatt samme pris. Dette brukes pris-siden til å vise. For eksempel dersom lager har 20 par Nike sokker i størrelse "S", og 10 par Nike sokker i størrelse "M", skal disse fortsatt vises med samme pris, altså kr 229,- på pris-siden. Nettopp dette er grunnen til at vi skiller mellom de to sidene og ikke har alt på én side.
 
 # Arkitektur og modularisering
 
@@ -19,7 +25,7 @@ Med utgangspunkt i en slik arkitektur deles appen i et sett med moduler der hver
 
 Et diagram for denne arkitekturen og avhengigheten mellom de ulike modulene er vist i et diagram under.
 
-<img src="other-documentation/architecture/architecture.png" width="500">
+<img src="other-documentation/../../other-documentation/architecture/architecture.png" width="500">
 
 # Brukerhistorier
 
