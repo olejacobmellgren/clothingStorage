@@ -281,18 +281,14 @@ public class Clothing {
      *
      * @return true if same attributes, false if not same attributes
      */
-    public boolean equalsButDifferentPrice(Object object) {
-        if (object instanceof Clothing) {
-            Clothing clothing = (Clothing) object;
-            if (!(clothing.getBrand().equals(this.getBrand()))) {
-                return false;
-            } else if (!(clothing.getSize() == this.getSize())) {
-                return false;
-            } else if (!(clothing.getName().equals(this.getName()))) {
-                return false;
-            }
-            return true;
+    public boolean equalsButDifferentPrice(Clothing clothing) {
+        if (!(clothing.getBrand().equals(this.getBrand()))) {
+            return false;
+        } else if (!(clothing.getSize() == this.getSize())) {
+            return false;
+        } else if (!(clothing.getName().equals(this.getName()))) {
+            return false;
         }
-        return false;
+        return true;
     }
 }
