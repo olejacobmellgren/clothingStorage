@@ -125,7 +125,7 @@ public class StorageController implements Initializable {
             priceList.getItems().clear();
         }
         List<String> priceDisplays = storage.priceDisplay();
-        storageList.getItems().setAll(priceDisplays);
+        priceList.getItems().setAll(priceDisplays);
         fireAutoSaveStorage(); 
     }
 
