@@ -42,16 +42,14 @@ class StorageSerializer extends JsonSerializer<Storage> {
     public void serialize(Storage storage, JsonGenerator jsonGen,
         SerializerProvider serializerProvider) throws IOException {
         jsonGen.writeStartObject();
-        if (storage instanceof Storage) {
-            jsonGen.writeArrayFieldStart("clothes");
-            for (HashMap.Entry<Clothing, Integer> set : storage.getAllClothes().entrySet()) {
-                jsonGen.writeObject(set.getKey());
-                jsonGen.writeStartObject();
-                jsonGen.writeNumberField("quantity", set.getValue());
-                jsonGen.writeEndObject();
-            }
-            jsonGen.writeEndArray();
+        jsonGen.writeArrayFieldStart("clothes");
+        for (HashMap.Entry<Clothing, Integer> set : storage.getAllClothes().entrySet()) {
+            jsonGen.writeObject(set.getKey());
+            jsonGen.writeStartObject();
+            jsonGen.writeNumberField("quantity", set.getValue());
+            jsonGen.writeEndObject();
         }
+        jsonGen.writeEndArray();
         jsonGen.writeEndObject();
     }
 }
