@@ -21,11 +21,19 @@ Sammen med denne releasen ble det implementert ulike verktøy for sjekk av både
 
 ### Jacoco
 
-Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementert for alle moduler og sjekker i hvilken grad testene dekker koden som har blitt skrevet. Jacoco er implementert som "plugin" for maven i pom.xml-fil, med versjon 0.8.7. Man kan sjekke testdekningsgrad etter man har kjørt `mvn install`og navigerer til den modulen man vil sjekke for og inn i **target/site/jacoco/index.html** denne kan man åpne i en "live server" og man får oversikten over hvor mange prosent av koden som er dekket av testene for ulike klasser.
+Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementert for alle moduler og sjekker i hvilken grad testene dekker koden som har blitt skrevet. Jacoco er implementert som "plugin" for maven i pom.xml-fil, med versjon 0.8.7. Man kan sjekke testdekningsgrad etter man har kjørt `mvn install` og navigerer til den modulen man vil sjekke for og inn i **target/site/jacoco/index.html** denne kan man åpne i en "live server" og man får oversikten over hvor mange prosent av koden som er dekket av testene for ulike klasser.
 
 ### Checkstyle
 
-Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard. Checkstyle er lagt inn som "plugin" for maven i pom.xml, der checkstyle bruker versjon 9.0. Både Checkstyle og Spotbugs sier ifra om feil når man kjører `mvn install`eller `mvn verify`.
+Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard. Checkstyle er lagt inn som "plugin" for maven i pom.xml, der checkstyle bruker versjon 9.0. Både Checkstyle og Spotbugs sier ifra om feil når man kjører `mvn install` eller `mvn verify`. Vi valgte å bruke google_checks.xml som mal for vår egen checkstyle og ga denne noen hensiktsmessige modifikasjoner. Checkstylen som brukes i vårt prosjekt er altså **[checks.xml](../clothingStorage/config/checkstyle/checks.xml)**. Endringene som ble gjort er:
+
+- Error i steden for warning
+  - Forklaring på valg: Ved å endre til at checkstyle violations gir error vil man ikke kunne kjøre `mvn install` eller `mvn verify` uten at alle checkstyles er fikset.
+    I tillegg vil man få et totalt antall checkstyles i terminalen, i motsetning til hvis man bruker warnings
+- Innhopp på 4 mellomrom
+  - Forklaring på valg: google_checks.xml sin standard er at et innhopp på 2 mellomrom skal brukes. Siden hele gruppen bruker et innhopp på 4, endret vi dette i filen.
+- Pakkenavn følger et annet mønster
+  - Forklaring på valg: Pakkenavnene våre slik de er nå fører til checkstyle violations. Det er ikke tillat med stor bokstav i et pakkenavn med google_checks.xml. I steden for å endre på pakkenavnene våre endret vi på mønsteret som er tillat slik at checkstyle violations ikke dukker opp for dette.
 
 ### Spotbugs
 
