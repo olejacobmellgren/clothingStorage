@@ -121,15 +121,15 @@ public class ClothingTest{
     }
 
     @Test
-    public void testEquals() {
-        Clothing clothing2 = new Clothing("Jeans", "Nike", 'M', 150);
-        assertTrue(clothing.equals(clothing2));
+    public void testEqualsButDifferentPrice() {
+        Clothing clothing2 = new Clothing("Jeans", "Nike", 'M', 200);
+        assertTrue(clothing.equalsButDifferentPrice(clothing2));
         clothing2.setName("Jacket");
-        assertFalse(clothing.equals(clothing2));
+        assertFalse(clothing.equalsButDifferentPrice(clothing2));
         clothing2.setSize('L');
-        assertFalse(clothing.equals(clothing2));
+        assertFalse(clothing.equalsButDifferentPrice(clothing2));
         clothing2.setBrand("Supreme");
-        assertFalse(clothing.equals(clothing2));
+        assertFalse(clothing.equalsButDifferentPrice(clothing2));
     }
 
     @Test

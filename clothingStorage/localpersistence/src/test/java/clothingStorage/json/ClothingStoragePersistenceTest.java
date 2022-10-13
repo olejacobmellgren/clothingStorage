@@ -31,7 +31,7 @@ public class ClothingStoragePersistenceTest {
   private void checkSampleStorage(Storage storage, Storage storage2) {
     assertTrue(storage.getAllClothes().size() == storage2.getAllClothes().size());
     for (int i = 0; i < storage.getAllClothes().size(); i++) {
-      assertEquals(storage.getClothing(i), storage2.getClothing(i));
+      assertTrue(storage.getClothing(i).equalsButDifferentPrice(storage2.getClothing(i)));
     }
   }
 

@@ -281,8 +281,7 @@ public class Clothing {
      *
      * @return true if same attributes, false if not same attributes
      */
-    @Override
-    public boolean equals(Object object) {
+    public boolean equalsButDifferentPrice(Object object) {
         if (object instanceof Clothing) {
             Clothing clothing = (Clothing) object;
             if (!(clothing.getBrand().equals(this.getBrand()))) {
