@@ -44,8 +44,8 @@ public class ClothingStoragePersistence {
 
     private Path saveFilePath = null;
 
-    public void setSaveFile() {
-        this.saveFilePath = Paths.get(System.getProperty("user.home"), "storage.json");
+    public void setSaveFile(String filename) {
+        this.saveFilePath = Paths.get(System.getProperty("user.home"), filename);
     }
 
     public Path getSaveFilePath() {

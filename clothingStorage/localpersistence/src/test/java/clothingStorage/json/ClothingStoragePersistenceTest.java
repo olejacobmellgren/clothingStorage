@@ -1,6 +1,5 @@
 package clothingStorage.json;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class ClothingStoragePersistenceTest {
   @Test
   public void testSerializersDeserializers_usingSaveFile() {
     Storage storage = createSampleStorage();
-    clothingStoragePersistence.setSaveFile(); 
+    clothingStoragePersistence.setSaveFile("storage_json_tests.json"); 
     Path saveFilePath = clothingStoragePersistence.getSaveFilePath();
     try {
       clothingStoragePersistence.saveClothingStorage(storage);

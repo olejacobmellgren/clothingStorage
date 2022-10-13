@@ -82,11 +82,13 @@ public class StorageController implements Initializable {
             "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
         try {
-            this.storagePersistence = new ClothingStoragePersistence();
-            storagePersistence.setSaveFile();
-            this.setStorage(storagePersistence.loadClothingStorage());
-            updateStorageList();
-            updatePriceList();
+            if (Thread.currentThread().getStackTrace()[5].getClassName() != "clothingStorage.ui.StorageControllerTest") {
+                this.storagePersistence = new ClothingStoragePersistence();
+                this.storagePersistence.setSaveFile("storage.json");
+                this.setStorage(storagePersistence.loadClothingStorage());
+                updateStorageList();
+                updatePriceList();
+            }
         } catch (Exception e) {
             //ignore
         }   
@@ -302,16 +304,15 @@ public class StorageController implements Initializable {
      */
     @FXML private void handleOk() {
         try {
+            if (typeOfClothing.getText() == null || brand.getValue() == null 
+                || size.getValue() == null || price.getText() == null) {
+                showErrorMessage("Fill in all fields");
+                return;
+            }
             String name = typeOfClothing.getText();
             String selectedBrand = brand.getValue();
             Character selectedSize = size.getValue();
             Double selectedPrice = Double.parseDouble(price.getText());
-
-            if (name == null || selectedBrand == null 
-                || selectedSize == null || selectedPrice == null) {
-                showErrorMessage("Fill in all fields");
-                return;
-            }
 
             Clothing clothing = new Clothing(name, selectedBrand, selectedSize, selectedPrice);
 
