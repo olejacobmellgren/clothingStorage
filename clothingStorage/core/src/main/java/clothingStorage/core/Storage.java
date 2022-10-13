@@ -156,7 +156,7 @@ public class Storage {
     public boolean isClothingInStorage(Clothing clothing) {
         List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing2 : keyList) {
-            if (clothing.equals(clothing2)) {
+            if (clothing.equalsButDifferentPrice(clothing2)) {
                 return true;
             }
         }
@@ -201,18 +201,18 @@ public class Storage {
      */
     @Override
     public String toString() {
-        String output = "";
+        StringBuffer output = new StringBuffer();
         ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
 
         for (Clothing clothing : keyList) {
             if (clothing.equals(keyList.get(keyList.size() - 1))) {
-                output += clothing + "\n" + "   - Quantity: "
-                    + String.valueOf(this.getQuantity(clothing));
+                output.append(clothing + "\n" + "   - Quantity: "
+                    + String.valueOf(this.getQuantity(clothing)));
             } else {
-                output += clothing + "\n" + "   - Quantity: "
-                    + String.valueOf(this.getQuantity(clothing)) + "\n";
+                output.append(clothing + "\n" + "   - Quantity: "
+                    + String.valueOf(this.getQuantity(clothing)) + "\n");
             }
         }
-        return output;
+        return output.toString();
     }
 }
