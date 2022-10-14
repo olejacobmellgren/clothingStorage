@@ -107,8 +107,8 @@ public class ClothingStorageModuleTest {
         Storage storage = new Storage();
         Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 199.0);
         Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
-        clothing1.setDiscount(0.5);
-        clothing2.setDiscount(0.9);
+        clothing1.setSale(0.5);
+        clothing2.setSale(0.9);
         storage.addNewClothing(clothing1, 1);
         storage.addNewClothing(clothing2, 5);
         return storage;
