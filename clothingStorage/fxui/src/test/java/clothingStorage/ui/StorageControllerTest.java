@@ -84,7 +84,6 @@ public class StorageControllerTest extends ApplicationTest {
         clickOn("#quantity").write("8");
         clickOn("#ok");
         assertEquals("Name of clothing must start with uppercase letter", controller.getErrorMessage());
-
     }
 
     @Test

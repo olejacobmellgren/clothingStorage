@@ -178,64 +178,6 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="pricePane" prefHeight="615.0" prefWidth="410.0" visible="false">
-         <children>
-            <ListView fx:id="priceList" layoutX="55.0" layoutY="130.0" prefHeight="332.0" prefWidth="312.0" />
-            <Button fx:id="confirmNewPrice" layoutX="230.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleConfirmNewPrice" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: lightgreen;" text="Confirm New Price">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <effect>
-                  <DropShadow height="15.0" radius="8.5" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="confirmDiscount" layoutX="230.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleConfirmDiscount" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: lightgreen;" text="Confirm Discount">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <effect>
-                  <DropShadow height="15.0" radius="8.5" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <TextField fx:id="newPrice" layoutX="55.0" layoutY="482.0" prefHeight="26.0" prefWidth="165.0" />
-            <TextField fx:id="discount" layoutX="55.0" layoutY="531.0" prefHeight="26.0" prefWidth="148.0" />
-            <MenuButton layoutX="61.0" layoutY="95.0" mnemonicParsing="false" style="-fx-background-color: lightgreen;" text="Type" visible="false">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-               <effect>
-                  <DropShadow />
-               </effect>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </MenuButton>
-            <Label layoutX="63.0" layoutY="66.0" text="Filter on:" visible="false">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="205.0" layoutY="535.0" text="\%" />
-            <Button fx:id="removeDiscount" layoutX="114.0" layoutY="571.0" mnemonicParsing="false" onAction="#handleRemoveDiscount" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: lightgreen;" text="Remove Discount">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <effect>
-                  <DropShadow height="15.0" radius="8.5" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-         </children>
-      </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">
          <children>
             <Button fx:id="storagePageButton" disable="true" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="211.0" style="-fx-background-color: lightgreen;">

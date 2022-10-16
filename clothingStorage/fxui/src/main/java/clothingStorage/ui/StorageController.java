@@ -3,6 +3,8 @@ package clothingStorage.ui;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -52,7 +54,6 @@ public class StorageController implements Initializable {
         }
         this.storage = storage;
         updateStorageList();
-        updatePriceList();
     }
 
     /**
@@ -119,18 +120,6 @@ public class StorageController implements Initializable {
         fireAutoSaveStorage();   
     }
 
-    /**
-     * Updates PriceList after change has been made.
-     */
-    public void updatePriceList() {
-        while (!(priceList.getItems().isEmpty())) {
-            priceList.getItems().clear();
-        }
-        List<String> priceDisplays = storage.priceDisplay();
-        priceList.getItems().setAll(priceDisplays);
-        fireAutoSaveStorage(); 
-    }
-
 
     /**
      * Button for storage-page.
@@ -152,14 +141,8 @@ public class StorageController implements Initializable {
     /**
      * Changes ui-view to the price-page.
      */
-    @FXML private void handlePricePageButton() {
-        if (!pricePane.isVisible()) {
-            storagePane.setVisible(false);
-            pricePane.setVisible(true);
-            pricePageButton.setDisable(true);
-            storagePageButton.setDisable(false);
-        }
-        
+    @FXML private void handlePricePageButton() throws IOException {
+        StorageApp.setRoot("PricePage.fxml");
     }
 
     /**
@@ -281,7 +264,6 @@ public class StorageController implements Initializable {
             int index = storageList.getSelectionModel().getSelectedIndex();
             storage.removeClothing(storage.getClothing(index));
             updateStorageList();
-            updatePriceList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
         }
@@ -320,7 +302,6 @@ public class StorageController implements Initializable {
             int selectedQuantity = Integer.parseInt(quantity.getText());
             storage.addNewClothing(clothing, selectedQuantity);
             updateStorageList();
-            updatePriceList();
             handleCancel();
             showConfirmedMessage("You successfully added the following: " + clothing.toString());
         } catch (NumberFormatException e) {
@@ -418,88 +399,6 @@ public class StorageController implements Initializable {
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
             }
-        }
-    }
-
-    // Price Page
-
-    /**
-     * Listview with all clothing-items and their prices.
-     */
-    @FXML private ListView<String> priceList;
-    /**
-     * Button for confirming new price.
-     */
-    @FXML private Button confirmNewPrice;
-    /**
-     * Button for confirming discount.
-     */
-    @FXML private Button confirmDiscount;
-    /**
-     * Textfield for new price.
-     */
-    @FXML private TextField newPrice;
-    /**
-     * Textfield for discount to add.
-     */
-    @FXML private TextField discount;
-
-    /**
-     * Updates price-list with new price for selected clothing-item.
-     */
-    @FXML private void handleConfirmNewPrice() {
-        try {
-            int index = priceList.getSelectionModel().getSelectedIndex();
-            double price = Double.parseDouble(newPrice.getText());
-            storage.getClothing(index).setPrice(price, true);
-            updatePriceList();
-        } catch (NumberFormatException e) {
-            if (newPrice.getText().isEmpty()) {
-                showErrorMessage("Specify price first in textfield");
-            } else {
-                showErrorMessage("Input must be a number");
-            }
-        } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
-        }
-    }
-
-    /**
-     * Updates price-list with new price after adding discount.
-     */
-    @FXML private void handleConfirmDiscount() {
-        try {
-            int index = priceList.getSelectionModel().getSelectedIndex();
-            double discountToAdd = Double.parseDouble(discount.getText());
-            storage.getClothing(index).setDiscount(discountToAdd / 100);
-            updatePriceList();
-        } catch (NumberFormatException e) {
-            if (newPrice.getText().isEmpty()) {
-                showErrorMessage("Specify price first in textfield");
-            } else {
-                showErrorMessage("Input must be a number");
-            }
-        } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
-        } catch (IllegalArgumentException e) {
-            showErrorMessage(e.getMessage());
-        } catch (IllegalStateException e) {
-            showErrorMessage(e.getMessage());
-        }
-    }
-
-    /**
-     * Updates price-list with new price after removing discount.
-     */
-    @FXML private void handleRemoveDiscount() {
-        try {
-            int index = priceList.getSelectionModel().getSelectedIndex();
-            storage.getClothing(index).removeDiscount();
-            updatePriceList();
-        } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
-        } catch (IllegalStateException e) {
-            showErrorMessage(e.getMessage());
         }
     }
 }

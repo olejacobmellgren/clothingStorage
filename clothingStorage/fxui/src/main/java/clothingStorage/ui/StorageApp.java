@@ -14,15 +14,28 @@ import javafx.stage.Stage;
 public class StorageApp extends Application {
 
     /**
+     * The scene for the app.
+     */
+    private static Scene scene;
+
+    /**
      * The app will be setup and be ready to be launched.
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("Storage.fxml"));
-        Parent parent = fxmlLoader.load();
-        stage.setScene(new Scene(parent));
+        scene = new Scene(loadFxml("Storage.fxml"));
+        stage.setScene(scene);
         stage.setTitle("Clothing Storage");
         stage.show();
+    }
+
+    public static void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFxml(fxml));
+    }
+
+    private static final Parent loadFxml(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StorageApp.class.getResource(fxml));
+        return fxmlLoader.load();
     }
 
     /**
