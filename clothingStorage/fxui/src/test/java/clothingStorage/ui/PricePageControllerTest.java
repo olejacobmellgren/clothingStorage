@@ -21,11 +21,13 @@ public class PricePageControllerTest extends ApplicationTest {
     
     private PricePageController controller;
     private Parent root;
+    private Stage stage;
     private Storage storage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("PricePage_test.fxml"));
+        this.stage = stage;
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("PricePage.fxml"));
         root = loader.load();
         this.controller = loader.getController();
         stage.setScene(new Scene(root));
@@ -43,7 +45,15 @@ public class PricePageControllerTest extends ApplicationTest {
         storage.addNewClothing(clothing3, 4);
         controller.setStorage(storage);
     }
-    
+
+    @Test
+    public void testStoragePageButton() {
+        clickOn("#storagePageButton");
+        assertEquals("Clothing Storage", this.stage.getTitle());
+        clickOn("#pricePageButton");
+        assertEquals("Clothing Prices", this.stage.getTitle());
+    }
+
     @Test
     public void testNewPrice() {
         clickOn("#priceList");
@@ -76,7 +86,45 @@ public class PricePageControllerTest extends ApplicationTest {
         clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 5.0,-"));
         clickOn("#removeDiscount");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String[] nikeJeans = priceList.get(0).split(";");
+        double price = Double.parseDouble(nikeJeans[2].split(",")[0].strip());
+        assertEquals(10, price);
+    }
+
+    @Test
+    public void testErrorClothingNotOnDiscount() {
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
+        clickOn("#removeDiscount");
+        assertEquals("Clothing is not on discount", controller.getErrorMessage());
+    }
+
+    @Test
+    public void testErrorDiscountNotValid() {
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
+        clickOn("#discount").write("120");
+        clickOn("#confirmDiscount");
+        assertEquals("Given discount is not valid", controller.getErrorMessage());
+        clickOn(LabeledMatchers.hasText("OK"));
+    }
+
+    @Test
+    public void testErrorClothingAlreadyOnDiscount() {
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
+        clickOn("#discount").write("50");
+        clickOn("#confirmDiscount");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 5.0,-"));
+        clickOn("#discount").write("50");
+        clickOn("#confirmDiscount");
+        assertEquals("Clothing is already on discount", controller.getErrorMessage());
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikeJeans = priceList.get(0).split(";");

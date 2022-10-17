@@ -1,9 +1,7 @@
 package clothingStorage.ui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +18,16 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 
-public class StorageControllerTest extends ApplicationTest {
+public class StoragePageControllerTest extends ApplicationTest {
 
     private StoragePageController controller;
     private Parent root;
+    private Stage stage;
     private Storage storage;
     
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("StoragePage.fxml"));
         root = loader.load();
         this.controller = loader.getController();
@@ -47,71 +47,20 @@ public class StorageControllerTest extends ApplicationTest {
         controller.setStorage(storage);
     }
 
-    // fullfør denne testen
     @Test
-    public void handleChangeScene() {
+    public void testPricePageButton() {
         clickOn("#pricePageButton");
-        clickOn("#removeDiscount");
+        assertEquals("Clothing Prices", this.stage.getTitle());
+        clickOn("#storagePageButton");
+        assertEquals("Clothing Storage", this.stage.getTitle());
     }
-    
+
     @Test
     public void testNewClothingItem() {
         clickOn("#newClothingItem");
-        clickOn("#typeOfClothing").write("Jeans");
-        clickOn("#brand").clickOn("Adidas");
-        clickOn("#size").clickOn("S");
-        clickOn("#price").write("150");
-        clickOn("#quantity").write("5");
-        clickOn("#ok");
-        clickOn(LabeledMatchers.hasText("OK"));
-
-        
-        Clothing clothing = new Clothing("Jeans", "Adidas", 'S', 150);
-        ListView<String> storageView = lookup("#storageList").query();
-        List<String> storageList = storageView.getItems();
-        Clothing newClothing = makeClothingFromListView(storageList.get(storageList.size()-1));
-        assertTrue(clothing.equalsButDifferentPrice(newClothing));
-    }
-
-    private Clothing makeClothingFromListView(String clothing) {
-        String[] clothingProperties = clothing.split(";");
-        String type = clothingProperties[0].strip();
-        String brand = clothingProperties[1].strip();
-        char size = clothingProperties[2].strip().charAt(0);
-        return new Clothing(type, brand, size, 150);
-    }
-
-    @Test
-    public void testErrorNewClothingNoFields() {
-        clickOn("#newClothingItem");
-        clickOn("#ok");
-        assertEquals("Fill in all fields", controller.getErrorMessage());
-
-    }
-
-    @Test
-    public void testErrorNewClothingWrongName() {
-        clickOn("#newClothingItem");
-        clickOn("#typeOfClothing").write("jacket");
-        clickOn("#brand").clickOn("Adidas");
-        clickOn("#size").clickOn("L");
-        clickOn("#price").write("159");
-        clickOn("#quantity").write("8");
-        clickOn("#ok");
-        assertEquals("Name of clothing must start with uppercase letter", controller.getErrorMessage());
-    }
-
-    @Test
-    public void testErrorNewClothingWrongNumber() {
-        clickOn("#newClothingItem");
-        clickOn("#typeOfClothing").write("Jacket");
-        clickOn("#brand").clickOn("Adidas");
-        clickOn("#size").clickOn("L");
-        clickOn("#price").write("hei");
-        clickOn("#quantity").write("8");
-        clickOn("#ok");
-        assertEquals("Price must be a positive decimal number" +  "\n" 
-            + "Quantity must a positive integer", controller.getErrorMessage());
+        assertEquals("New Clothing", this.stage.getTitle());
+        clickOn("#cancel");
+        assertEquals("Clothing Storage", this.stage.getTitle());
     }
 
     @Test
@@ -158,7 +107,7 @@ public class StorageControllerTest extends ApplicationTest {
     public void testAddQuantity() {
         clickOn("#storageList");
         clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
-        clickOn("#newQuantity").write("3");
+        clickOn("#quantity").write("3");
         clickOn("#addQuantity");
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
@@ -170,7 +119,7 @@ public class StorageControllerTest extends ApplicationTest {
     @Test
     public void testRemoveQuantity() {
         clickOn("#storageList").clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
-        clickOn("#newQuantity").write("4");
+        clickOn("#quantity").write("4");
         clickOn("#removeQuantity");
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
@@ -225,7 +174,7 @@ public class StorageControllerTest extends ApplicationTest {
 
     @Test
     public void testErrorInputNotNumber() {
-        clickOn("#newQuantity").write("hei");
+        clickOn("#quantity").write("hei");
         clickOn("#storageList").clickOn(LabeledMatchers.hasText("Socks; Adidas; L; 4"));
         clickOn("#addQuantity");
         assertEquals("Input must be a number", controller.getErrorMessage());
@@ -234,5 +183,6 @@ public class StorageControllerTest extends ApplicationTest {
         assertEquals("Input must be a number", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
     }
+    
 }
 
