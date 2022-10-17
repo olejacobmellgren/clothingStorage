@@ -108,6 +108,44 @@
                 <!-- Usage: mvn javafx:run -->
                 <configuration>
                     <mainClass>clothingStorage.ui.StorageApp</mainClass>
+
+                     <!-- rest is for jlink -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>clothingStorage</launcher>
+                    <jlinkImageName>clothingStorage</jlinkImageName>
+                    <jlinkZipName>clothingStorage</jlinkZipName>
+
+                </configuration>
+            </plugin>
+
+            <!-- config for jlink and jpackage taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <name>clothingStorage</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>it1901</vendor>
+                    <destination>target/dist</destination>
+                    <module>clothingStorage.ui/clothingStorage.ui.StorageApp</module>
+                    <runtimeImage>target/clothingStorage</runtimeImage>
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                    <!-- linux options --> 
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxMenuGroup>clothingStorage</linuxMenuGroup>
+
+                    <!-- windows options --> 
+                    <winDirChooser>true</winDirChooser>
+                    <winShortcut>true</winShortcut>
+                    <winMenu>true</winMenu>
+                    <winMenuGroup>clothingStorage</winMenuGroup>
                 </configuration>
             </plugin>
         </plugins>
