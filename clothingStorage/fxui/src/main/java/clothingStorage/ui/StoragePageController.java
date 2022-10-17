@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 /**
  * Controller for JavaFX app.
  */
-public class StorageController implements Initializable {
+public class StoragePageController implements Initializable {
 
     /**
      * Storage containing Clothing and corresponding quantity.
@@ -43,7 +43,7 @@ public class StorageController implements Initializable {
     /**
      * Constructor for StorageController initializing it with empty storage.
      */
-    public StorageController() {
+    public StoragePageController() {
         this.storage = new Storage();
     }
 

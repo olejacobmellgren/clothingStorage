@@ -51,9 +51,10 @@ public class PricePageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println(Thread.currentThread().getStackTrace()[5].getClassName());
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StorageControllerTest") {
+                != "clothingStorage.ui.PricePageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());

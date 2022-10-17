@@ -63,7 +63,6 @@ public class PricePageControllerTest extends ApplicationTest {
         clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
-        clickOn("#storagePageButton");
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikeJeans = priceList.get(0).split(";");
@@ -124,4 +123,5 @@ public class PricePageControllerTest extends ApplicationTest {
         assertEquals("Input must be a number", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
     }
+    
 }

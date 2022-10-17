@@ -22,13 +22,13 @@ import javafx.stage.Stage;
 
 public class StorageControllerTest extends ApplicationTest {
 
-    private StorageController controller;
+    private StoragePageController controller;
     private Parent root;
     private Storage storage;
     
     @Override
     public void start(Stage stage) throws Exception {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("StoragePage_test.fxml"));
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("StoragePage.fxml"));
         root = loader.load();
         this.controller = loader.getController();
         stage.setScene(new Scene(root));
@@ -47,6 +47,12 @@ public class StorageControllerTest extends ApplicationTest {
         controller.setStorage(storage);
     }
 
+    // fullfør denne testen
+    @Test
+    public void handleChangeScene() {
+        clickOn("#pricePageButton");
+        clickOn("#removeDiscount");
+    }
     
     @Test
     public void testNewClothingItem() {
