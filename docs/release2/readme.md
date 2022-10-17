@@ -25,7 +25,7 @@ Jacoco ble brukt for å sjekke testdekningsgrad. Dette verktøyet er implementer
 
 ### Checkstyle
 
-Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard. Checkstyle er lagt inn som "plugin" for maven i pom.xml, der checkstyle bruker versjon 9.0. Både Checkstyle og Spotbugs sier ifra om feil når man kjører `mvn install` eller `mvn verify`. Vi valgte å bruke google_checks.xml som mal for vår egen checkstyle og ga denne noen hensiktsmessige modifikasjoner. Checkstylen som brukes i vårt prosjekt er altså **[checks.xml](../clothingStorage/config/checkstyle/checks.xml)**. Endringene som ble gjort er:
+Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard. Checkstyle er lagt inn som "plugin" for maven i pom.xml, der checkstyle bruker versjon 9.0. Både Checkstyle og Spotbugs sier ifra om feil når man kjører `mvn install` eller `mvn verify`. Vi valgte å bruke google_checks.xml som mal for vår egen checkstyle og ga denne noen hensiktsmessige modifikasjoner. Checkstylen som brukes i vårt prosjekt er altså **[checks.xml](/clothingStorage/config/checkstyle/checks.xml)**. Endringene som ble gjort er:
 
 - Error i steden for warning
   - Forklaring på valg: Ved å endre til at checkstyle violations gir error vil man ikke kunne kjøre `mvn install` eller `mvn verify` uten at alle checkstyles er fikset.
@@ -37,7 +37,7 @@ Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet
 
 ### Spotbugs
 
-Slik som checkstyle er også Spotbugs implementert for å sjekke kodekvaliteten. Spotbugs ser etter feil(bugs) i koden og er også lagt inn som "plugin" for maven i ytterste pom-fil. Spotbugs bruker versjon 4.7.2. I filen **[exclude.xml](../clothingStorage/config/spotbugs/exclude.xml)** ligger Spotbugs som har blitt valgt å bli ignorert. Disse har blitt ignorert av ulike årsaker:
+Slik som checkstyle er også Spotbugs implementert for å sjekke kodekvaliteten. Spotbugs ser etter feil(bugs) i koden og er også lagt inn som "plugin" for maven i ytterste pom-fil. Spotbugs bruker versjon 4.7.2. I filen **[exclude.xml](/clothingStorage/config/spotbugs/exclude.xml)** ligger Spotbugs som har blitt valgt å bli ignorert. Disse har blitt ignorert av ulike årsaker:
 
 - Bug: "EI_EXPOSE_REP2"
   - Hva klages på: Lagrer Storage i Controller og endrer på dens interne tilstand
@@ -54,6 +54,8 @@ Slik som checkstyle er også Spotbugs implementert for å sjekke kodekvaliteten.
 
 
 ## Løsninger til brukerhistorie 3, 4 og 5
+
+Brukerhistoriene som ble lagt til i release 2 finnes i **[user-stories](/docs/release2/user-stories.md)**.
 
 ### StorageController-klassen og Storage.fxml
 
