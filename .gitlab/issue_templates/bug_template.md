@@ -7,5 +7,5 @@
 ## Faktisk oppførsel
 - 
 
-## Hvordan fikse
+## Antatt fiks
 - 
