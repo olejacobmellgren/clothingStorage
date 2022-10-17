@@ -1,17 +1,14 @@
-## Hva?
+## What?
 - 
 
-## Hvorfor?
+## How?
 - 
 
-## Hvordan?
+## Why?
 - 
 
 ## Testing?
 - 
 
-## Screenshots (valgfri)
-- 
-
-## Andre kommentarer
+## Comments
 - 
