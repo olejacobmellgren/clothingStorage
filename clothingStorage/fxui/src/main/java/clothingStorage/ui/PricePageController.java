@@ -1,6 +1,5 @@
 package clothingStorage.ui;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -54,7 +52,9 @@ public class PricePageController implements Initializable {
         System.out.println(Thread.currentThread().getStackTrace()[5].getClassName());
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.PricePageControllerTest") {
+                != "clothingStorage.ui.PricePageControllerTest" &&
+                Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.StoragePageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());

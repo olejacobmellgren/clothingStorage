@@ -1,6 +1,5 @@
 package clothingStorage.ui;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 
@@ -16,10 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -48,26 +45,18 @@ public class StoragePageController implements Initializable {
     }
 
     /**
-     * Choicebox of valid brands.
-     */
-    @FXML private ChoiceBox<String> brand;
-    /**
-     * Choicebox for valid sizes.
-     */
-    @FXML private ChoiceBox<Character> size;
-
-    /**
      * Initializes controller with the choiceboxes.
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        brand.getItems().addAll("Nike", "Adidas", "H&M", 
-            "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
-        size.getItems().addAll('S', 'M', 'L');
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StorageControllerTest") {
+                != "clothingStorage.ui.StoragePageControllerTest" &&
+                Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.PricePageControllerTest" && 
+                Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.NewClothingPageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());
@@ -123,24 +112,11 @@ public class StoragePageController implements Initializable {
         storageList.getItems().setAll(clothingDisplays);
         fireAutoSaveStorage();   
     }
-
-
-    /**
-     * Button for storage-page.
-     */
-    @FXML private Button storagePageButton;
+    
     /**
      * Button for price-page.
      */
     @FXML private Button pricePageButton;
-    /**
-     * Pane for storage-page.
-     */
-    @FXML private Pane storagePane;
-    /**
-     * Pane for price-page.
-     */
-    @FXML private Pane pricePane;
 
     /**
      * Changes ui-view to the price-page.
@@ -150,7 +126,19 @@ public class StoragePageController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage)pricePageButton.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Clothing Storage");
+        stage.setTitle("Clothing Prices");
+        stage.show();
+    }
+
+    /**
+     * Resets inputs and shows pane for adding a new clothing-item.
+     */
+    @FXML private void handleNewClothingItem() throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("NewClothingPage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)pricePageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("New Clothing");
         stage.show();
     }
 
@@ -179,25 +167,9 @@ public class StoragePageController implements Initializable {
      */
     @FXML private ListView<String> storageList;
     /**
-     * Textfield for price for clothing.
-     */
-    @FXML private TextField price;
-    /**
-     * Textfield for quantity of clothing.
-     */
-    @FXML private TextField quantity;
-    /**
-     * Textfield for type of clothing.
-     */
-    @FXML private TextField typeOfClothing;
-    /**
      * Textfield for quantity to be added.
      */
-    @FXML private TextField newQuantity;
-    /**
-     * Pane for adding a new clothing-item.
-     */
-    @FXML private Pane newClothingPane;
+    @FXML private TextField quantity;
 
     /**
      * Shows alert with error-message.
@@ -214,44 +186,6 @@ public class StoragePageController implements Initializable {
     }
 
     /**
-     * Shows alert with confirmed-message.
-     *
-     * @param confirmedMessage to be shown in alert
-     */
-    private void showConfirmedMessage(String confirmedMessage) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("SUCCESS");
-        alert.setHeaderText("Success!");
-        alert.setContentText(confirmedMessage);
-        alert.showAndWait();
-    }
-
-    /**
-     * Resets inputs for making a new clothing-item.
-     */
-    @FXML private void handleReset() {
-        typeOfClothing.clear();
-        brand.getSelectionModel().clearSelection();
-        size.getSelectionModel().clearSelection();
-        price.clear();
-        quantity.clear();
-    }
-
-    /**
-     * Resets inputs and shows pane for adding a new clothing-item.
-     */
-    @FXML private void handleNewClothingItem() {
-        handleReset();
-        newClothingPane.setVisible(true);
-        storageList.setVisible(false);
-        addQuantity.setDisable(true);
-        removeQuantity.setDisable(true);
-        newClothingItem.setDisable(true);
-        increaseByOne.setDisable(true);
-        decreaseByOne.setDisable(true);
-    }
-
-    /**
      * Removes clothing-item for the list.
      */
     @FXML private void handleRemoveClothingItem() {
@@ -261,51 +195,6 @@ public class StoragePageController implements Initializable {
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
-        }
-    }
-
-    /**
-     * Cancels the adding of clothing-item.
-     */
-    @FXML private void handleCancel() {
-        newClothingPane.setVisible(false);
-        storageList.setVisible(true);
-        addQuantity.setDisable(false);
-        removeQuantity.setDisable(false);
-        newClothingItem.setDisable(false);
-        increaseByOne.setDisable(false);
-        decreaseByOne.setDisable(false);
-    }
-
-    /**
-     * Confirms the adding of a new clothing-item and adds it to list if succesful.
-     */
-    @FXML private void handleOk() {
-        try {
-            if (typeOfClothing.getText() == null || brand.getValue() == null 
-                || size.getValue() == null || price.getText() == null) {
-                showErrorMessage("Fill in all fields");
-                return;
-            }
-            String name = typeOfClothing.getText();
-            String selectedBrand = brand.getValue();
-            Character selectedSize = size.getValue();
-            Double selectedPrice = Double.parseDouble(price.getText());
-
-            Clothing clothing = new Clothing(name, selectedBrand, selectedSize, selectedPrice);
-
-            int selectedQuantity = Integer.parseInt(quantity.getText());
-            storage.addNewClothing(clothing, selectedQuantity);
-            updateStorageList();
-            handleCancel();
-            showConfirmedMessage("You successfully added the following: " + clothing.toString());
-        } catch (NumberFormatException e) {
-            showErrorMessage("Price must be a positive decimal number" +  "\n" 
-                + "Quantity must a positive integer");
-        } catch (IllegalArgumentException e) {
-            showErrorMessage(e.getMessage());
-        } catch (IllegalStateException e) {
-            showErrorMessage(e.getMessage());
         }
     }
 
@@ -352,11 +241,11 @@ public class StoragePageController implements Initializable {
             if (storage.getAllClothes().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
-            int addQuantity = Integer.parseInt(newQuantity.getText());
+            int addQuantity = Integer.parseInt(quantity.getText());
             storage.increaseQuantity(storage.getClothing(index), addQuantity);
             updateStorageList();
         } catch (NumberFormatException e) {
-            if (newQuantity.getText().isEmpty()) {
+            if (quantity.getText().isEmpty()) {
                 showErrorMessage("Specify quantity first in textfield");
             } else {
                 showErrorMessage("Input must be a number");
@@ -379,11 +268,11 @@ public class StoragePageController implements Initializable {
             if (storage.getAllClothes().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
-            int decQuantity = Integer.parseInt(newQuantity.getText());
+            int decQuantity = Integer.parseInt(quantity.getText());
             storage.decreaseQuantity(storage.getClothing(index), decQuantity);
             updateStorageList();
         } catch (NumberFormatException e) {
-            if (newQuantity.getText().isEmpty()) {
+            if (quantity.getText().isEmpty()) {
                 showErrorMessage("Specify quantity first in textfield");
             } else {
                 showErrorMessage("Input must be a number");
