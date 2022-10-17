@@ -10,6 +10,8 @@ Etter å ha laget brukerhistorier lagde vi tilsvarende issues i GitLab. Vi forde
 
 ## Løsninger til brukerhistorie 1 og 2
 
+Brukerhistoriene som ble lagt til i release 1 finnes i **[readme](/clothingStorage/readme.md)**.
+
 ### - Clothing-klassen
 
 Et klesplagg i en butikk har normalt et navn, merke, størrelse, pris og eventuelt en lapp om den er på salgs. Nettopp slik kom vi fram til hva attributtene til Clothing-klassen skulle være. Disse attributtene gjør det lettere for brukeren å skille mellom forskjellige klesplagg, som er i tråd med brukerhistorie 1.
