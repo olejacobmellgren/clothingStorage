@@ -9,7 +9,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * Controller for JavaFX app.
@@ -41,28 +45,6 @@ public class StorageController implements Initializable {
      */
     public StorageController() {
         this.storage = new Storage();
-    }
-
-    /**
-     * Sets storage to the given storage, helps controller test-class.
-     *
-     * @param storage to be set as storage for the controller
-     */
-    public void setStorage(Storage storage) {
-        if (this.storage != null) {
-            storageList.getItems().clear();
-        }
-        this.storage = storage;
-        updateStorageList();
-    }
-
-    /**
-     * Gets error-message for controller as shown in ui, helps controller test-class.
-     *
-     * @return the error-message
-     */
-    public String getErrorMessage() {
-        return this.errorMessage;
     }
 
     /**
@@ -93,6 +75,28 @@ public class StorageController implements Initializable {
         } catch (Exception e) {
             //ignore
         }   
+    }
+
+    /**
+     * Sets storage to the given storage, helps controller test-class.
+     *
+     * @param storage to be set as storage for the controller
+     */
+    public void setStorage(Storage storage) {
+        if (this.storage != null) {
+            storageList.getItems().clear();
+        }
+        this.storage = storage;
+        updateStorageList();
+    }
+
+    /**
+     * Gets error-message for controller as shown in ui, helps controller test-class.
+     *
+     * @return the error-message
+     */
+    public String getErrorMessage() {
+        return this.errorMessage;
     }
 
     /**
@@ -142,22 +146,13 @@ public class StorageController implements Initializable {
      * Changes ui-view to the price-page.
      */
     @FXML private void handlePricePageButton() throws IOException {
-        StorageApp.setRoot("PricePage.fxml");
+        Parent root = FXMLLoader.load(getClass().getResource("PricePage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)pricePageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Clothing Storage");
+        stage.show();
     }
-
-    /**
-     * Changes ui-view to the storage-page.
-     */
-    @FXML private void handleStoragePageButton() {
-        if (!storagePane.isVisible()) {
-            storagePane.setVisible(true);
-            pricePane.setVisible(false);
-            pricePageButton.setDisable(false);
-            storagePageButton.setDisable(true);
-        }
-    }
-
-    // Storage Page
 
     /**
      * Button for adding quantity.

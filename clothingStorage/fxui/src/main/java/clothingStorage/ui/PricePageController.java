@@ -8,14 +8,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 
 /**
  * Controller for JavaFX app.
@@ -43,6 +46,24 @@ public class PricePageController implements Initializable {
     }
 
     /**
+     * Initializes controller with the choiceboxes.
+     */
+    @FXML
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            if (Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.StorageControllerTest") {
+                this.storagePersistence = new ClothingStoragePersistence();
+                this.storagePersistence.setSaveFile("storage.json");
+                this.setStorage(storagePersistence.loadClothingStorage());
+            }
+        } catch (Exception e) {
+            //ignore
+        }   
+    }
+
+    /**
      * Sets storage to the given storage, helps controller test-class.
      *
      * @param storage to be set as storage for the controller
@@ -62,24 +83,6 @@ public class PricePageController implements Initializable {
      */
     public String getErrorMessage() {
         return this.errorMessage;
-    }
-
-    /**
-     * Initializes controller with the choiceboxes.
-     */
-    @FXML
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StorageControllerTest") {
-                this.storagePersistence = new ClothingStoragePersistence();
-                this.storagePersistence.setSaveFile("storage.json");
-                this.setStorage(storagePersistence.loadClothingStorage());
-            }
-        } catch (Exception e) {
-            //ignore
-        }   
     }
 
     /**
@@ -108,18 +111,6 @@ public class PricePageController implements Initializable {
     }
 
     /**
-     * Button for storage-page.
-     */
-    @FXML private Button storagePageButton;
-
-    /**
-     * Changes ui-view to the storage-page.
-     */
-    @FXML private void handleStoragePageButton() throws IOException {
-        StorageApp.setRoot("Storage.fxml");
-    }
-
-    /**
      * Shows alert with error-message.
      *
      * @param errorMessage to be shown in alert
@@ -133,6 +124,10 @@ public class PricePageController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Button for storage-page.
+     */
+    @FXML private Button storagePageButton;
     /**
      * Listview with all clothing-items and their prices.
      */
@@ -153,6 +148,18 @@ public class PricePageController implements Initializable {
      * Textfield for discount to add.
      */
     @FXML private TextField discount;
+
+    /**
+     * Changes ui-view to the storage-page.
+     */
+    @FXML private void handleStoragePageButton() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)storagePageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Clothing Storage");
+        stage.show();
+    }
 
     /**
      * Updates price-list with new price for selected clothing-item.

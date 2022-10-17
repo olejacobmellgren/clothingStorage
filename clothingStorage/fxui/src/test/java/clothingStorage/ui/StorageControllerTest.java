@@ -3,6 +3,7 @@ package clothingStorage.ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,10 +25,10 @@ public class StorageControllerTest extends ApplicationTest {
     private StorageController controller;
     private Parent root;
     private Storage storage;
-
+    
     @Override
-    public void start(final Stage stage) throws Exception {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("Storage_test.fxml"));
+    public void start(Stage stage) throws Exception {
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("StoragePage_test.fxml"));
         root = loader.load();
         this.controller = loader.getController();
         stage.setScene(new Scene(root));
@@ -64,6 +65,14 @@ public class StorageControllerTest extends ApplicationTest {
         List<String> storageList = storageView.getItems();
         Clothing newClothing = makeClothingFromListView(storageList.get(storageList.size()-1));
         assertTrue(clothing.equalsButDifferentPrice(newClothing));
+    }
+
+    private Clothing makeClothingFromListView(String clothing) {
+        String[] clothingProperties = clothing.split(";");
+        String type = clothingProperties[0].strip();
+        String brand = clothingProperties[1].strip();
+        char size = clothingProperties[2].strip().charAt(0);
+        return new Clothing(type, brand, size, 150);
     }
 
     @Test
@@ -113,14 +122,6 @@ public class StorageControllerTest extends ApplicationTest {
     public void testRemoveClothingError() {
         clickOn("#removeClothingItem");
         assertEquals("You need to select an item from the list", controller.getErrorMessage());
-    }
-
-    private Clothing makeClothingFromListView(String clothing) {
-        String[] clothingProperties = clothing.split(";");
-        String type = clothingProperties[0].strip();
-        String brand = clothingProperties[1].strip();
-        char size = clothingProperties[2].strip().charAt(0);
-        return new Clothing(type, brand, size, 150);
     }
 
     @Test
@@ -224,94 +225,6 @@ public class StorageControllerTest extends ApplicationTest {
         assertEquals("Input must be a number", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
         clickOn("#removeQuantity");
-        assertEquals("Input must be a number", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
-    }
-    
-    @Test
-    public void testNewPrice() {
-        clickOn("#pricePageButton");
-        clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Shorts; Louis Vuitton; 20.0,-"));
-        clickOn("#newPrice").write("30");
-        clickOn("#confirmNewPrice");
-        ListView<String> priceView = lookup("#priceList").query();
-        List<String> priceList = priceView.getItems();
-        String[] nikeJeans = priceList.get(1).split(";");
-        double price = Double.parseDouble(nikeJeans[2].split(",")[0].strip());
-        assertEquals(30, price);
-    }
-
-    @Test
-    public void testDiscount() {
-        clickOn("#pricePageButton");
-        clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
-        clickOn("#discount").write("50");
-        clickOn("#confirmDiscount");
-        clickOn("#storagePageButton");
-        ListView<String> priceView = lookup("#priceList").query();
-        List<String> priceList = priceView.getItems();
-        String[] nikeJeans = priceList.get(0).split(";");
-        double price = Double.parseDouble(nikeJeans[2].split(",")[0].strip());
-        assertEquals(5, price);
-    }
-
-    @Test
-    public void testRemoveDiscount() {
-        clickOn("#pricePageButton");
-        clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
-        clickOn("#discount").write("50");
-        clickOn("#confirmDiscount");
-        clickOn("#removeDiscount");
-        ListView<String> priceView = lookup("#priceList").query();
-        List<String> priceList = priceView.getItems();
-        String[] nikeJeans = priceList.get(0).split(";");
-        double price = Double.parseDouble(nikeJeans[2].split(",")[0].strip());
-        assertEquals(5, price);
-    }
-
-    @Test
-    public void testErrorNoItemSelectedForDiscount() {
-        clickOn("#pricePageButton");
-        clickOn("#discount").write("50");
-        clickOn("#confirmDiscount");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
-        clickOn("#removeDiscount");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());
-    }
-
-    @Test
-    public void testErrorNoItemSelectedForPriceChange() {
-        clickOn("#pricePageButton");
-        clickOn("#newPrice").write("30");
-        clickOn("#confirmNewPrice");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());        
-    }
-
-    @Test
-    public void testErrorNotSpecifyPrice() {
-        clickOn("#pricePageButton");
-        clickOn("#priceList").clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
-        clickOn("#confirmNewPrice");
-        assertEquals("Specify price first in textfield", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
-        clickOn("#confirmDiscount");
-        assertEquals("Specify price first in textfield", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
-    }
-
-    @Test
-    public void testErrorInputNotNumberForPrice() {
-        clickOn("#pricePageButton");
-        clickOn("#newPrice").write("hei");
-        clickOn("#priceList").clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
-        clickOn("#confirmNewPrice");
-        assertEquals("Input must be a number", controller.getErrorMessage());
-        clickOn(LabeledMatchers.hasText("OK"));
-        clickOn("#confirmDiscount");
         assertEquals("Input must be a number", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
     }
