@@ -2,7 +2,6 @@ package clothingStorage.ui;
 
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -52,10 +51,10 @@ public class StoragePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StoragePageControllerTest" &&
-                Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.PricePageControllerTest" && 
-                Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.StoragePageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.PricePageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.NewClothingPageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
@@ -124,7 +123,7 @@ public class StoragePageController implements Initializable {
     @FXML private void handlePricePageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("PricePage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage)pricePageButton.getScene().getWindow();
+        Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Clothing Prices");
         stage.show();
@@ -133,10 +132,10 @@ public class StoragePageController implements Initializable {
     /**
      * Resets inputs and shows pane for adding a new clothing-item.
      */
-    @FXML private void handleNewClothingItem() throws IOException{
+    @FXML private void handleNewClothingItem() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("NewClothingPage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage)pricePageButton.getScene().getWindow();
+        Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("New Clothing");
         stage.show();

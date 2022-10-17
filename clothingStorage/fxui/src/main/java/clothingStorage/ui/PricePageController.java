@@ -13,10 +13,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * Controller for JavaFX app.
@@ -51,8 +51,8 @@ public class PricePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.PricePageControllerTest" &&
-                Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.PricePageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StoragePageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
@@ -155,7 +155,7 @@ public class PricePageController implements Initializable {
     @FXML private void handleStoragePageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage)storagePageButton.getScene().getWindow();
+        Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Clothing Storage");
         stage.show();

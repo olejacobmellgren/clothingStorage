@@ -3,7 +3,6 @@ package clothingStorage.ui;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,7 +36,7 @@ public class NewClothingPageController implements Initializable {
      */
     private String errorMessage;
     /**
-     * Currernt confirm message as shown in ui
+     * Currernt confirm message as shown in ui.
      */
     private String confirmMessage;
 
@@ -68,8 +67,8 @@ public class NewClothingPageController implements Initializable {
         size.getItems().addAll('S', 'M', 'L');
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.NewClothingPageControllerTest" && 
-                Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.NewClothingPageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StoragePageControllerTest") {
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
@@ -187,13 +186,13 @@ public class NewClothingPageController implements Initializable {
         handleReset();
         Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage)cancel.getScene().getWindow();
+        Stage stage = (Stage) cancel.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Clothing Storage");
         stage.show();
     }
 
-        /**
+    /**
      * Confirms the adding of a new clothing-item and adds it to list if succesful.
      */
     @FXML private void handleOk() throws IOException {
