@@ -1,9 +1,12 @@
 package clothingStorage.ui;
 
+import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -44,11 +48,30 @@ public class PricePageController implements Initializable {
     }
 
     /**
+     * Choicebox for what to filter on.
+     */
+    @FXML private ChoiceBox<String> filters;
+    /**
+     * Choicebox for what type of clothing to filter on.
+     */
+    @FXML private ChoiceBox<String> typeOfClothingFilter;
+    /**
+     * Choicebox for what brand to filter on.
+     */
+    @FXML private ChoiceBox<String> brands;
+
+    /**
      * Initializes controller with the choiceboxes.
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        filters.getItems().addAll("Lowest Price", "Highest Price", "Brand", 
+            "Type", "On Sale");
+        typeOfClothingFilter.getItems().addAll("Jeans", "T-shirt",
+            "Socks", "Sweater", "Jacket", "Shorts", "Other");
+        brands.getItems().addAll("Nike", "Adidas", "H&M", 
+            "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.PricePageControllerTest"
@@ -148,6 +171,10 @@ public class PricePageController implements Initializable {
      * Textfield for discount to add.
      */
     @FXML private TextField discount;
+    /**
+     * Button to confirm filter.
+     */
+    @FXML private Button confirmFilter;
 
     /**
      * Changes ui-view to the storage-page.
@@ -159,6 +186,62 @@ public class PricePageController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("Clothing Storage");
         stage.show();
+    }
+
+    /**
+     * Detects if extra choice boxes needs to be shown or removed.
+     */
+    @FXML private void handleFilterChoice() {
+        if (filters.getValue() == "Brand") {
+            brands.setVisible(true);
+            typeOfClothingFilter.setVisible(false);
+        }
+        else if (filters.getValue() == "Type") {
+            brands.setVisible(false);
+            typeOfClothingFilter.setVisible(true);
+        }
+        else if (filters.getValue() == "Lowest Price") {
+            brands.setVisible(false);
+            typeOfClothingFilter.setVisible(false);
+        }
+        else if (filters.getValue() == "Highest Price") {
+            brands.setVisible(false);
+            typeOfClothingFilter.setVisible(false);
+        }
+        else if (filters.getValue() == "On Sale") {
+            brands.setVisible(false);
+            typeOfClothingFilter.setVisible(false);
+        }
+    }
+    
+
+    /**
+     * Filters price-list with chosen filter.
+     */
+    @FXML private void handleConfirmFilter() {
+        if (filters.getValue() == null) {
+            showErrorMessage("You must choose a filter in the choice box first");
+        }
+        else if (filters.getValue() == "Type" && typeOfClothingFilter.getValue() == null) {
+            showErrorMessage("You must choose a type of Clothing in the choice box first");
+        }
+        else if (filters.getValue() == "Brand" && brands.getValue() == null) {
+            showErrorMessage("You must choose a type of Clothing in the choice box first");
+        }
+        else if (filters.getValue() == "Lowest Price") {
+            priceList.getItems().clear();
+            List<Clothing> keyList = new ArrayList<Clothing>(storage.getAllClothes().keySet());
+            List<Clothing> sortedList = keyList.stream()
+                                                .sorted(Comparator.comparing(Clothing::getPrice))
+                                                .toList();
+            List<String> list = new ArrayList<>();
+            for (Clothing clothing : sortedList) {
+                list.add(clothing.getName() + "; " + clothing.getBrand()
+                    + "; " + clothing.getPrice() + ",-");
+            }
+            priceList.getItems().setAll(list);
+
+        }
     }
 
     /**
