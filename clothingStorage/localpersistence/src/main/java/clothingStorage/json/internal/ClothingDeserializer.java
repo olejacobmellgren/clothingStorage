@@ -28,9 +28,9 @@ class ClothingDeserializer extends JsonDeserializer<Clothing> {
      */
     Clothing deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode objectNode) {
-            String name;
-            JsonNode nameNode = objectNode.get("name");
-            name = nameNode.asText();
+            String type;
+            JsonNode typeNode = objectNode.get("type");
+            type = typeNode.asText();
             
             String brand;
             JsonNode brandNode = objectNode.get("brand");
@@ -48,7 +48,7 @@ class ClothingDeserializer extends JsonDeserializer<Clothing> {
             JsonNode discountNode = objectNode.get("discount");
             discount = discountNode.asDouble();
 
-            Clothing clothing = new Clothing(name, brand, size, price);
+            Clothing clothing = new Clothing(type, brand, size, price);
             clothing.setSale(discount);
             return clothing;
         }

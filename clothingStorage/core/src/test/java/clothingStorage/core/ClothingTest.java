@@ -16,24 +16,24 @@ public class ClothingTest{
     
     @Test
     public void testConstructor() {
-        assertEquals("Jeans", clothing.getName());
+        assertEquals("Jeans", clothing.getType());
         assertEquals("Nike", clothing.getBrand());
         assertEquals('M', clothing.getSize());
         assertEquals(150, clothing.getPrice());
     }
 
     @Test
-    public void testName() {
+    public void testType() {
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setName("J3sper");
-        }, "Threw IllegalArgumentException due to number in name");
-        clothing.setName("Jesper");
+            clothing.setType("J3sper");
+        }, "Threw IllegalArgumentException due to number in type");
+        clothing.setType("Jesper");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setName("jesper");
+            clothing.setType("jesper");
         }, "Threw IllegalArgumentException since input doesn't start with uppercase letter");
 
-        clothing.setName("Jesper");
-        assertEquals("Jesper", clothing.getName());
+        clothing.setType("Jesper");
+        assertEquals("Jesper", clothing.getType());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class ClothingTest{
     public void testEqualsButDifferentPrice() {
         Clothing clothing2 = new Clothing("Jeans", "Nike", 'M', 200);
         assertTrue(clothing.equalsButDifferentPrice(clothing2));
-        clothing2.setName("Jacket");
+        clothing2.setType("Jacket");
         assertFalse(clothing.equalsButDifferentPrice(clothing2));
         clothing2.setSize('L');
         assertFalse(clothing.equalsButDifferentPrice(clothing2));

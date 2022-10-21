@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Represents a clothing item with name, brand, size and price, and corresponding get/set functions.
+ * Represents a clothing item with type, brand, size and price, and corresponding get/set functions.
  */
 public class Clothing {
 
     /** 
-     * Name of Clothing object.
+     * Type of Clothing object.
     */
-    private String name;
+    private String type;
 
     /** 
      * Brand of Clothing object.
@@ -42,13 +42,13 @@ public class Clothing {
     /**
      * Initializes Clothing object.
      *
-     * @param name or type of clothing item
+     * @param type or type of clothing item
      * @param brand of clothing item
      * @param size of clothing item
      * @param price of clothing item
     */
-    public Clothing(String name, String brand, char size, double price) {
-        setName(name);
+    public Clothing(String type, String brand, char size, double price) {
+        setType(type);
         setBrand(brand);
         setSize(size);
         setPrice(price, false);
@@ -56,32 +56,32 @@ public class Clothing {
     }
 
     /** 
-     * Sets name.
+     * Sets type.
      *
-     *  @param name of the name you want to set
+     *  @param type of the type you want to set
     */
-    public void setName(String name) {
-        isValidName(name);
-        this.name = name;
+    public void setType(String type) {
+        isValidType(type);
+        this.type = type;
     }
 
 
     /** 
-     * Checks if the clothing name is valid.
+     * Checks if the clothing type is valid.
      *
-     * @param name of the name you want to check
-     * @throws IllegalArgumentException if name contains a number
-     * @throws IllegalArgumentException if name does not start with uppercase letter
+     * @param type of the type you want to check
+     * @throws IllegalArgumentException if type contains a number
+     * @throws IllegalArgumentException if type does not start with uppercase letter
     */
-    private void isValidName(String name) {
-        char[] charNumbers = name.toCharArray();
+    private void isValidType(String type) {
+        char[] charNumbers = type.toCharArray();
         for (char c : charNumbers) {
             if (Character.isDigit(c)) {
-                throw new IllegalArgumentException("Name of clothing contains a number");
+                throw new IllegalArgumentException("Type of clothing contains a number");
             }
         }
-        if (Character.isLowerCase(name.charAt(0))) {
-            throw new IllegalArgumentException("Name of clothing must start with uppercase letter");
+        if (Character.isLowerCase(type.charAt(0))) {
+            throw new IllegalArgumentException("Type of clothing must start with uppercase letter");
         }
     }
 
@@ -207,12 +207,12 @@ public class Clothing {
     }
 
     /** 
-     * Retrieves clothing name.
+     * Retrieves clothing type.
      *
-     * @return name of clothing item
+     * @return type of clothing item
     */
-    public String getName() {
-        return this.name;
+    public String getType() {
+        return this.type;
     }
 
     /** 
@@ -264,13 +264,13 @@ public class Clothing {
     }
 
     /** 
-     * Formats name, brand, size and price values to string.
+     * Formats type, brand, size and price values to string.
      *
-     * @return formatted string with values of name, brand, size and price
+     * @return formatted string with values of type, brand, size and price
     */
     @Override
     public String toString() {
-        String toString = this.getName() + "\n" + "   - Brand: " + this.getBrand() + "\n"
+        String toString = this.getType() + "\n" + "   - Brand: " + this.getBrand() + "\n"
             + "   - Size: " + String.valueOf(this.getSize()) + "\n"
             + "   - Price: " + String.valueOf(this.getPrice()) + ",-";
         return toString;
@@ -286,7 +286,7 @@ public class Clothing {
             return false;
         } else if (!(clothing.getSize() == this.getSize())) {
             return false;
-        } else if (!(clothing.getName().equals(this.getName()))) {
+        } else if (!(clothing.getType().equals(this.getType()))) {
             return false;
         }
         return true;
