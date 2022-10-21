@@ -1,8 +1,10 @@
 package clothingStorage.core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Represents a storage in a clothing shop.
@@ -112,7 +114,7 @@ public class Storage {
         List<String> list = new ArrayList<>();
         List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         for (Clothing clothing : keyList) {
-            list.add(clothing.getName() + "; " + clothing.getBrand() + "; "
+            list.add(clothing.getType() + "; " + clothing.getBrand() + "; "
                 + clothing.getSize() + "; " + this.getQuantity(clothing));
         }
         return list;
@@ -122,13 +124,13 @@ public class Storage {
      * Iterates through all clothing items and formats them to a string.
      * Used to display clothes in price-page.
      *
+     * @param clothings to convert to display for prices
      * @return list of strings for every clothing in storage
      */
-    public List<String> priceDisplay() { 
+    public List<String> priceDisplay(List<Clothing> clothings) { 
         List<String> list = new ArrayList<>();
-        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
-        for (Clothing clothing : keyList) {
-            list.add(clothing.getName() + "; " + clothing.getBrand()
+        for (Clothing clothing : clothings) {
+            list.add(clothing.getType() + "; " + clothing.getBrand()
                 + "; " + clothing.getPrice() + ",-");
         }
         return list;
@@ -180,6 +182,72 @@ public class Storage {
      */
     public LinkedHashMap<Clothing, Integer> getAllClothes() {
         return new LinkedHashMap<Clothing, Integer>(this.storageList);
+    }
+
+    /**
+     * Retrieves a sorted list based on lowest price.
+     *
+     * @return list with clothing sorted on lowest price
+     */
+    public List<Clothing> sortOnLowestPrice() {
+        List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
+        List<Clothing> sortedList = keyList.stream()
+                                            .sorted(Comparator.comparing(Clothing::getPrice))
+                                            .toList();
+        return sortedList;
+    }
+
+    /**
+     * Retrieves a sorted list based on highest price.
+     *
+     * @return list with clothing sorted on highest price
+     */
+    public List<Clothing> sortOnHighestPrice() {
+        List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
+        List<Clothing> sortedList = keyList.stream()
+                                        .sorted(Comparator.comparing(Clothing::getPrice).reversed())
+                                        .toList();
+        return sortedList;
+    }
+
+    /**
+     * Retrieves a sorted list based on highest price.
+     *
+     * @return list with clothing sorted on highest price
+     */
+    public List<Clothing> sortOnBrand(String brand) {
+        List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
+        List<Clothing> sortedList = keyList.stream()
+                                        .sorted(Comparator.comparing(Clothing::getPrice).reversed())
+                                        .toList();
+        return sortedList;
+    }
+
+    /**
+     * Retrieves a sorted list based on highest price.
+     *
+     * @return list with clothing sorted on highest price
+     */
+    public List<Clothing> sortOnType(String type) {
+        List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
+        List<Clothing> sortedList = Stream.concat(
+                                keyList.stream().filter(c -> c.getType().equals(type)),
+                                keyList.stream().filter(c -> !(c.getType().equals(type)))).toList();
+                                        
+        return sortedList;
+    }
+
+    /**
+     * Retrieves a sorted list based on highest price.
+     *
+     * @return list with clothing sorted on highest price
+     */
+    public List<Clothing> sortOnSale() {
+        List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
+        List<Clothing> sortedList = keyList.stream()
+                                        .sorted(Comparator.comparing(Clothing::getPrice).reversed())
+                                        .toList();
+        return sortedList;
     }
 
     /**

@@ -6,7 +6,7 @@ import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -128,9 +128,10 @@ public class PricePageController implements Initializable {
         while (!(priceList.getItems().isEmpty())) {
             priceList.getItems().clear();
         }
-        List<String> priceDisplays = storage.priceDisplay();
+        List<Clothing> clothings = new ArrayList<Clothing>(storage.getAllClothes().keySet());
+        List<String> priceDisplays = storage.priceDisplay(clothings);
         priceList.getItems().setAll(priceDisplays);
-        fireAutoSaveStorage(); 
+        fireAutoSaveStorage();
     }
 
     /**
@@ -195,20 +196,16 @@ public class PricePageController implements Initializable {
         if (filters.getValue() == "Brand") {
             brands.setVisible(true);
             typeOfClothingFilter.setVisible(false);
-        }
-        else if (filters.getValue() == "Type") {
+        } else if (filters.getValue() == "Type") {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(true);
-        }
-        else if (filters.getValue() == "Lowest Price") {
+        } else if (filters.getValue() == "Lowest Price") {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(false);
-        }
-        else if (filters.getValue() == "Highest Price") {
+        } else if (filters.getValue() == "Highest Price") {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(false);
-        }
-        else if (filters.getValue() == "On Sale") {
+        } else if (filters.getValue() == "On Sale") {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(false);
         }
@@ -221,27 +218,24 @@ public class PricePageController implements Initializable {
     @FXML private void handleConfirmFilter() {
         if (filters.getValue() == null) {
             showErrorMessage("You must choose a filter in the choice box first");
-        }
-        else if (filters.getValue() == "Type" && typeOfClothingFilter.getValue() == null) {
+        } else if (filters.getValue() == "Type" && typeOfClothingFilter.getValue() == null) {
             showErrorMessage("You must choose a type of Clothing in the choice box first");
-        }
-        else if (filters.getValue() == "Brand" && brands.getValue() == null) {
+        } else if (filters.getValue() == "Brand" && brands.getValue() == null) {
             showErrorMessage("You must choose a type of Clothing in the choice box first");
-        }
-        else if (filters.getValue() == "Lowest Price") {
+        } else if (filters.getValue() == "Lowest Price") {
             priceList.getItems().clear();
-            List<Clothing> keyList = new ArrayList<Clothing>(storage.getAllClothes().keySet());
-            List<Clothing> sortedList = keyList.stream()
-                                                .sorted(Comparator.comparing(Clothing::getPrice))
-                                                .toList();
-            List<String> list = new ArrayList<>();
-            for (Clothing clothing : sortedList) {
-                list.add(clothing.getName() + "; " + clothing.getBrand()
-                    + "; " + clothing.getPrice() + ",-");
-            }
-            priceList.getItems().setAll(list);
-
-        }
+            priceList.getItems().setAll(storage.priceDisplay(storage.sortOnLowestPrice()));
+        } else if (filters.getValue() == "Highest Price") {
+            priceList.getItems().clear();
+            priceList.getItems().setAll(storage.priceDisplay(storage.sortOnHighestPrice()));
+        } else if (filters.getValue() == "Brand") {
+            priceList.getItems().clear();
+            String brand = brands.getValue();
+            priceList.getItems().setAll(storage.priceDisplay(storage.sortOnBrand(brand)));
+        } //else if (filters.getValue() == "Lowest Price") {
+        //    priceList.getItems().clear();
+        //    priceList.getItems().setAll(storage.priceDisplay(storage.sortOnLowestPrice()));
+        //}
     }
 
     /**
