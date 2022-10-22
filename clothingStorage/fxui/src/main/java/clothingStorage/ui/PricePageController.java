@@ -6,7 +6,6 @@ import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -67,11 +66,11 @@ public class PricePageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         filters.getItems().addAll("Lowest Price", "Highest Price", "Brand", 
-            "Type", "On Sale");
+        "Type", "On Sale");
         typeOfClothingFilter.getItems().addAll("Jeans", "T-shirt",
-            "Socks", "Sweater", "Jacket", "Shorts", "Other");
-        brands.getItems().addAll("Nike", "Adidas", "H&M", 
-            "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
+        "Socks", "Sweater", "Jacket", "Shorts", "Other");
+        brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
+        "Louis Vuitton", "Supreme", "Levi's");
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.PricePageControllerTest"
@@ -125,9 +124,9 @@ public class PricePageController implements Initializable {
      * Updates PriceList after change has been made.
      */
     public void updatePriceList() {
-        while (!(priceList.getItems().isEmpty())) {
-            priceList.getItems().clear();
-        }
+        //while (!(priceList.getItems().isEmpty())) {
+        //    priceList.getItems().clear();
+        //}
         List<Clothing> clothings = new ArrayList<Clothing>(storage.getAllClothes().keySet());
         List<String> priceDisplays = storage.priceDisplay(clothings);
         priceList.getItems().setAll(priceDisplays);
@@ -205,7 +204,7 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Highest Price") {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(false);
-        } else if (filters.getValue() == "On Sale") {
+        } else {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(false);
         }
@@ -223,19 +222,26 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Brand" && brands.getValue() == null) {
             showErrorMessage("You must choose a type of Clothing in the choice box first");
         } else if (filters.getValue() == "Lowest Price") {
-            priceList.getItems().clear();
             priceList.getItems().setAll(storage.priceDisplay(storage.sortOnLowestPrice()));
         } else if (filters.getValue() == "Highest Price") {
-            priceList.getItems().clear();
             priceList.getItems().setAll(storage.priceDisplay(storage.sortOnHighestPrice()));
         } else if (filters.getValue() == "Brand") {
-            priceList.getItems().clear();
             String brand = brands.getValue();
-            priceList.getItems().setAll(storage.priceDisplay(storage.sortOnBrand(brand)));
-        } //else if (filters.getValue() == "Lowest Price") {
-        //    priceList.getItems().clear();
-        //    priceList.getItems().setAll(storage.priceDisplay(storage.sortOnLowestPrice()));
-        //}
+            priceList.getItems().setAll(storage.priceDisplay(storage.filterOnBrand(brand)));
+        } else if (filters.getValue() == "Type") {
+            String type = typeOfClothingFilter.getValue();
+            priceList.getItems().setAll(storage.priceDisplay(storage.filterOnType(type)));
+        } else if (filters.getValue() == "On Sale") {
+            priceList.getItems().setAll(storage.priceDisplay(storage.filterOnSale()));
+        }
+    }
+
+    /**
+     * Resets filter if there is any.
+     */
+    @FXML private void handleResetFilter() {
+        filters.setValue(null);
+        updatePriceList();
     }
 
     /**
@@ -243,6 +249,10 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleConfirmNewPrice() {
         try {
+            if (filters.getValue() != null) {
+                showErrorMessage("Please reset filter first");
+                return;
+            }
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
             storage.getClothing(index).setPrice(price, true);
@@ -263,6 +273,10 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleConfirmDiscount() {
         try {
+            if (priceList.getItems().size() < storage.getAllClothes().size()) {
+                showErrorMessage("Please reset filter first");
+                return;
+            }
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
             storage.getClothing(index).setDiscount(discountToAdd / 100);
@@ -287,6 +301,10 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleRemoveDiscount() {
         try {
+            if (priceList.getItems().size() < storage.getAllClothes().size()) {
+                showErrorMessage("Please reset filter first");
+                return;
+            }
             int index = priceList.getSelectionModel().getSelectedIndex();
             storage.getClothing(index).removeDiscount();
             updatePriceList();

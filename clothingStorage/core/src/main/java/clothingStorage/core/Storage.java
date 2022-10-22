@@ -211,43 +211,44 @@ public class Storage {
     }
 
     /**
-     * Retrieves a sorted list based on highest price.
+     * Retrieves a filtered list based on brand.
      *
-     * @return list with clothing sorted on highest price
+     * @param brand to be filtered on
+     * @return list with clothing of specific brand
      */
-    public List<Clothing> sortOnBrand(String brand) {
+    public List<Clothing> filterOnBrand(String brand) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
-        List<Clothing> sortedList = keyList.stream()
-                                        .sorted(Comparator.comparing(Clothing::getPrice).reversed())
-                                        .toList();
-        return sortedList;
+        List<Clothing> filteredList = keyList.stream()
+                                    .filter(c -> c.getType().equals(brand))
+                                    .toList();
+        System.out.println(filteredList);                     
+        return filteredList;
     }
 
     /**
      * Retrieves a sorted list based on highest price.
      *
+     * @param type to be filtered on
      * @return list with clothing sorted on highest price
      */
-    public List<Clothing> sortOnType(String type) {
+    public List<Clothing> filterOnType(String type) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
-        List<Clothing> sortedList = Stream.concat(
-                                keyList.stream().filter(c -> c.getType().equals(type)),
-                                keyList.stream().filter(c -> !(c.getType().equals(type)))).toList();
-                                        
-        return sortedList;
+        List<Clothing> filteredList = keyList.stream()
+                                    .filter(c -> c.getType().equals(type))
+                                    .toList();                      
+        return filteredList;
     }
 
     /**
-     * Retrieves a sorted list based on highest price.
+     * Retrieves a filtered list based on sale.
      *
-     * @return list with clothing sorted on highest price
+     * @return list with clothing on sale
      */
-    public List<Clothing> sortOnSale() {
+    public List<Clothing> filterOnSale() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
-        List<Clothing> sortedList = keyList.stream()
-                                        .sorted(Comparator.comparing(Clothing::getPrice).reversed())
-                                        .toList();
-        return sortedList;
+        List<Clothing> filteredList = keyList.stream()
+                                        .filter(c -> c.isOnSale() == true).toList();
+        return filteredList;
     }
 
     /**
