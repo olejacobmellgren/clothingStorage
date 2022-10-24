@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Represents a storage in a clothing shop.
@@ -219,9 +218,8 @@ public class Storage {
     public List<Clothing> filterOnBrand(String brand) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
-                                    .filter(c -> c.getType().equals(brand))
+                                    .filter(c -> c.getBrand().equals(brand))
                                     .toList();
-        System.out.println(filteredList);                     
         return filteredList;
     }
 

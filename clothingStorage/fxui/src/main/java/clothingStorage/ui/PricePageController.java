@@ -124,9 +124,6 @@ public class PricePageController implements Initializable {
      * Updates PriceList after change has been made.
      */
     public void updatePriceList() {
-        //while (!(priceList.getItems().isEmpty())) {
-        //    priceList.getItems().clear();
-        //}
         List<Clothing> clothings = new ArrayList<Clothing>(storage.getAllClothes().keySet());
         List<String> priceDisplays = storage.priceDisplay(clothings);
         priceList.getItems().setAll(priceDisplays);
@@ -198,19 +195,12 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Type") {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(true);
-        } else if (filters.getValue() == "Lowest Price") {
-            brands.setVisible(false);
-            typeOfClothingFilter.setVisible(false);
-        } else if (filters.getValue() == "Highest Price") {
-            brands.setVisible(false);
-            typeOfClothingFilter.setVisible(false);
         } else {
             brands.setVisible(false);
             typeOfClothingFilter.setVisible(false);
         }
     }
     
-
     /**
      * Filters price-list with chosen filter.
      */
