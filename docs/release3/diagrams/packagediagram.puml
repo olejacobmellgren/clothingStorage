@@ -1,0 +1,50 @@
+@startuml architecture
+
+component core {
+	package clothingStorage.core
+}
+
+component localpersistence {
+	package clothingStorage.json
+}
+
+component client {
+    package clothingStorage.client
+}
+
+component fxui {
+	package clothingStorage.ui
+}
+
+clothingStorage.ui ..> clothingStorage.json
+clothingStorage.ui ..> clothingStorage.client
+
+component jackson {
+}
+
+clothingStorage.json ..> jackson
+clothingStorage.json ..> clothingStorage.core
+
+component javafx {
+	component fxml {
+	}
+}
+
+fxui ..> javafx
+fxui ..> fxml
+
+client ..> localpersistence
+
+component restserver {
+    package clothingStorage.restserver
+}
+
+clothingStorage.restserver ..> localpersistence
+clothingStorage.restserver ..> clothingStorage.core
+restserver ..> spring
+
+component spring {
+
+}
+
+@enduml
