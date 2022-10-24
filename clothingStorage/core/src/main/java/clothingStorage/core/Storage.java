@@ -11,6 +11,8 @@ import java.util.List;
 public class Storage {
 
     private LinkedHashMap<Clothing, Integer>  storageList;
+    private ArrayList<Clothing> sortedClothes;
+    private boolean isSortedPricePage = false;
 
     /**
      * Initializes Storage object.
@@ -126,9 +128,13 @@ public class Storage {
      * @param clothings to convert to display for prices
      * @return list of strings for every clothing in storage
      */
-    public List<String> priceDisplay(List<Clothing> clothings) { 
+    public List<String> priceDisplay() {
         List<String> list = new ArrayList<>();
-        for (Clothing clothing : clothings) {
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
+        if (this.isSortedPricePage == true) {
+            keyList = sortedClothes;
+        }
+        for (Clothing clothing : keyList) {
             list.add(clothing.getType() + "; " + clothing.getBrand()
                 + "; " + clothing.getPrice() + ",-");
         }
@@ -164,6 +170,10 @@ public class Storage {
         return false;
     }
 
+    public void setIsSortedPricePage(boolean bool) {
+        this.isSortedPricePage = bool;
+    }
+
     /**
      * Retrieves quantity of clothing item.
      *
@@ -183,17 +193,22 @@ public class Storage {
         return new LinkedHashMap<Clothing, Integer>(this.storageList);
     }
 
+    public ArrayList<Clothing> getSortedClothings() {
+        return new ArrayList<Clothing>(this.sortedClothes);
+    }
+
     /**
      * Retrieves a sorted list based on lowest price.
      *
      * @return list with clothing sorted on lowest price
      */
-    public List<Clothing> sortOnLowestPrice() {
+    public void sortOnLowestPrice() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> sortedList = keyList.stream()
                                             .sorted(Comparator.comparing(Clothing::getPrice))
                                             .toList();
-        return sortedList;
+        sortedClothes = new ArrayList<>(sortedList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
@@ -201,12 +216,13 @@ public class Storage {
      *
      * @return list with clothing sorted on highest price
      */
-    public List<Clothing> sortOnHighestPrice() {
+    public void sortOnHighestPrice() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> sortedList = keyList.stream()
                                         .sorted(Comparator.comparing(Clothing::getPrice).reversed())
                                         .toList();
-        return sortedList;
+        sortedClothes = new ArrayList<>(sortedList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
@@ -215,12 +231,13 @@ public class Storage {
      * @param brand to be filtered on
      * @return list with clothing of specific brand
      */
-    public List<Clothing> filterOnBrand(String brand) {
+    public void filterOnBrand(String brand) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
                                     .filter(c -> c.getBrand().equals(brand))
                                     .toList();
-        return filteredList;
+        sortedClothes = new ArrayList<>(filteredList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
@@ -229,12 +246,13 @@ public class Storage {
      * @param type to be filtered on
      * @return list with clothing sorted on highest price
      */
-    public List<Clothing> filterOnType(String type) {
+    public void filterOnType(String type) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
                                     .filter(c -> c.getType().equals(type))
                                     .toList();                      
-        return filteredList;
+        sortedClothes = new ArrayList<>(filteredList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
@@ -242,11 +260,12 @@ public class Storage {
      *
      * @return list with clothing on sale
      */
-    public List<Clothing> filterOnSale() {
+    public void filterOnSale() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
                                         .filter(c -> c.isOnSale() == true).toList();
-        return filteredList;
+        sortedClothes = new ArrayList<>(filteredList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
@@ -261,6 +280,13 @@ public class Storage {
             throw new IllegalStateException("Invalid index, not in storage");
         }
         return keyList.get(index);
+    }
+
+    public Clothing getClothingFromSortedClothes(int index) {
+        if (index >= sortedClothes.size()) {
+            throw new IllegalStateException("Invalid index, not in storage");
+        }
+        return this.sortedClothes.get(index);
     }
 
     /**

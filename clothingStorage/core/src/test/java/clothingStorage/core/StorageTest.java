@@ -102,8 +102,7 @@ public class StorageTest {
     public void testPriceDisplay() {
         storage = new Storage();
         storage.addNewClothing(leviJeans, 4);
-        List<Clothing> clothings = new ArrayList<Clothing>(storage.getAllClothes().keySet());
-        assertEquals("Jeans; Levi's; 199.0,-", storage.priceDisplay(clothings).get(0));
+        assertEquals("Jeans; Levi's; 199.0,-", storage.priceDisplay().get(0));
     }
 
     @Test
