@@ -1,8 +1,8 @@
-@startuml class-diagram
+@startuml Clothing Storage Server diagram  
 
 class storage
 {
-    -HashMap<Clothing, Integer> storageList
+    -LinkedHashMap<Clothing, Integer> storageList
     --
     +void addNewClothing(Clothing, int)
     +void removeClothing()
