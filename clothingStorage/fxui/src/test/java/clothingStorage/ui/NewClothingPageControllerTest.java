@@ -81,14 +81,14 @@ public class NewClothingPageControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testErrorNewClothingWrongName() {
+    public void testErrorNewClothingWrongType() {
         clickOn("#typeOfClothing").write("jacket");
         clickOn("#brand").clickOn("Adidas");
         clickOn("#size").clickOn("L");
         clickOn("#price").write("159");
         clickOn("#quantity").write("8");
         clickOn("#ok");
-        assertEquals("Name of clothing must start with uppercase letter", controller.getErrorMessage());
+        assertEquals("Type of clothing must start with uppercase letter", controller.getErrorMessage());
     }
 
     @Test

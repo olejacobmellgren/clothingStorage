@@ -104,9 +104,6 @@ public class StoragePageController implements Initializable {
      * Updates StorageList after change has been made.
      */
     public void updateStorageList() {
-        while (!(storageList.getItems().isEmpty())) {
-            storageList.getItems().clear();
-        }
         List<String> clothingDisplays = storage.storageDisplay();
         storageList.getItems().setAll(clothingDisplays);
         fireAutoSaveStorage();   

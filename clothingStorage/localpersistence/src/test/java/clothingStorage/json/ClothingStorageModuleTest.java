@@ -22,7 +22,7 @@ public class ClothingStorageModuleTest {
     {
         "clothes": [
             {
-                "name": "Pants",
+                "type": "Pants",
                 "brand": "Nike",
                 "size": "M",
                 "price": 199.0,
@@ -32,7 +32,7 @@ public class ClothingStorageModuleTest {
                 "quantity": 1
             },
             {
-                "name": "Top",
+                "type": "Top",
                 "brand": "Adidas",
                 "size": "S",
                 "price": 599.9,
@@ -91,11 +91,11 @@ public class ClothingStorageModuleTest {
             Storage storage2 = mapper.readValue(json, Storage.class);
             Clothing c1 = storage2.getClothing(0);
             Clothing c2 = storage2.getClothing(1);
-            assertEquals("Pants", c1.getName());
-            assertEquals("Top", c2.getName());
+            assertEquals("Pants", c1.getType());
+            assertEquals("Top", c2.getType());
             checkClothing(clothing1, c1);
             checkClothing(clothing2, c2);
-            assertFalse(clothing1.getName() == clothing3.getName());
+            assertFalse(clothing1.getType() == clothing3.getType());
         } catch (JsonProcessingException e) {
         fail(e.getMessage());
         }
@@ -114,8 +114,8 @@ public class ClothingStorageModuleTest {
         return storage;
     }
 
-    static void checkClothing(Clothing clothing, String name, String brand, char size, Double price, Double discount) {
-        assertEquals(name, clothing.getName());
+    static void checkClothing(Clothing clothing, String type, String brand, char size, Double price, Double discount) {
+        assertEquals(type, clothing.getType());
         assertEquals(brand, clothing.getBrand());
         assertEquals(size, clothing.getSize());
         assertTrue(price == clothing.getPrice());
@@ -123,7 +123,7 @@ public class ClothingStorageModuleTest {
     }
 
     static void checkClothing(Clothing clothing1, Clothing clothing2) {
-        checkClothing(clothing1, clothing2.getName(), clothing2.getBrand(), clothing2.getSize(), clothing2.getPrice(), clothing2.getDiscount());
+        checkClothing(clothing1, clothing2.getType(), clothing2.getBrand(), clothing2.getSize(), clothing2.getPrice(), clothing2.getDiscount());
     }
 
 

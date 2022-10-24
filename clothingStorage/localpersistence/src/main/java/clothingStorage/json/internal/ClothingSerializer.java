@@ -12,7 +12,7 @@ class ClothingSerializer extends JsonSerializer<Clothing> {
     /*
     * format: 
     * { 
-    *    "name": "...", 
+    *    "type": "...", 
     *    "brand": ..., 
     *    "size": ..., 
     *    "price": ..., 
@@ -23,7 +23,7 @@ class ClothingSerializer extends JsonSerializer<Clothing> {
     public void serialize(Clothing clothing, JsonGenerator jsonGen,
         SerializerProvider serializerProvider) throws IOException {
         jsonGen.writeStartObject();
-        jsonGen.writeStringField("name", clothing.getName());
+        jsonGen.writeStringField("type", clothing.getType());
         jsonGen.writeStringField("brand", clothing.getBrand());
         jsonGen.writeStringField("size", Character.toString(clothing.getSize()));
         jsonGen.writeNumberField("price", clothing.getPrice());
