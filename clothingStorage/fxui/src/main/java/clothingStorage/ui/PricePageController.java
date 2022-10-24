@@ -249,7 +249,11 @@ public class PricePageController implements Initializable {
             */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
-            storage.getClothingFromSortedClothes(index).setPrice(price, true);
+            if (storage.getIsSortedClothes() == true) {
+                storage.getClothingFromSortedClothes(index).setPrice(price, true);
+            } else {
+                storage.getClothing(index).setPrice(price, true);
+            }
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -275,7 +279,11 @@ public class PricePageController implements Initializable {
             */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
-            storage.getClothingFromSortedClothes(index).setDiscount(discountToAdd / 100);
+            if (storage.getIsSortedClothes() == true) {
+                storage.getClothingFromSortedClothes(index).setDiscount(discountToAdd / 100);
+            } else {
+                storage.getClothing(index).setDiscount(discountToAdd / 100);
+            }
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
