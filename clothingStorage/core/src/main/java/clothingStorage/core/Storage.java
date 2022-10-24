@@ -125,7 +125,6 @@ public class Storage {
      * Iterates through all clothing items and formats them to a string.
      * Used to display clothes in price-page.
      *
-     * @param clothings to convert to display for prices
      * @return list of strings for every clothing in storage
      */
     public List<String> priceDisplay() {
@@ -170,8 +169,22 @@ public class Storage {
         return false;
     }
 
+    /**
+     * Sets if Price-Page is sorted or not.
+     *
+     * @param bool boolean to set
+     */
     public void setIsSortedPricePage(boolean bool) {
         this.isSortedPricePage = bool;
+    }
+
+    /**
+     * Retrieves boolean of wether Price-Page is sorted or not.
+     *
+     * @return true if sorted, false if not
+     */
+    public boolean getIsSortedClothes() {
+        return this.isSortedPricePage;
     }
 
     /**
@@ -193,14 +206,17 @@ public class Storage {
         return new LinkedHashMap<Clothing, Integer>(this.storageList);
     }
 
+    /**
+     * Retrieves sorted clothes in Price-Page. 
+     *
+     * @return sorted list
+     */
     public ArrayList<Clothing> getSortedClothings() {
         return new ArrayList<Clothing>(this.sortedClothes);
     }
 
     /**
-     * Retrieves a sorted list based on lowest price.
-     *
-     * @return list with clothing sorted on lowest price
+     * Sorts the storage-list based on lowest price.
      */
     public void sortOnLowestPrice() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
@@ -212,9 +228,7 @@ public class Storage {
     }
 
     /**
-     * Retrieves a sorted list based on highest price.
-     *
-     * @return list with clothing sorted on highest price
+     * Sorts the storage-list based on highest price.
      */
     public void sortOnHighestPrice() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
@@ -226,10 +240,9 @@ public class Storage {
     }
 
     /**
-     * Retrieves a filtered list based on brand.
+     * Filters the storage-list based on brand.
      *
      * @param brand to be filtered on
-     * @return list with clothing of specific brand
      */
     public void filterOnBrand(String brand) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
@@ -241,10 +254,9 @@ public class Storage {
     }
 
     /**
-     * Retrieves a sorted list based on highest price.
+     * Filters the storage-list based on type.
      *
      * @param type to be filtered on
-     * @return list with clothing sorted on highest price
      */
     public void filterOnType(String type) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
@@ -256,9 +268,7 @@ public class Storage {
     }
 
     /**
-     * Retrieves a filtered list based on sale.
-     *
-     * @return list with clothing on sale
+     * Filters the storage-list based on sale.
      */
     public void filterOnSale() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
@@ -282,6 +292,12 @@ public class Storage {
         return keyList.get(index);
     }
 
+    /**
+     * Retrieves clothing item in sorted list.
+     *
+     * @param index of the clothing item to retrieve
+     * @return clothing item
+     */
     public Clothing getClothingFromSortedClothes(int index) {
         if (index >= sortedClothes.size()) {
             throw new IllegalStateException("Invalid index, not in storage");
