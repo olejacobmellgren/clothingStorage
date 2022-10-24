@@ -66,11 +66,11 @@ public class PricePageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         filters.getItems().addAll("Lowest Price", "Highest Price", "Brand", 
-        "Type", "On Sale");
+            "Type", "On Sale");
         typeOfClothingFilter.getItems().addAll("Jeans", "T-shirt",
-        "Socks", "Sweater", "Jacket", "Shorts", "Other");
+            "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
-        "Louis Vuitton", "Supreme", "Levi's");
+            "Louis Vuitton", "Supreme", "Levi's");
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.PricePageControllerTest"
