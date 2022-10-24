@@ -1,11 +1,9 @@
 package clothingStorage.ui;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -251,6 +249,7 @@ public class PricePageController implements Initializable {
             double price = Double.parseDouble(newPrice.getText());
             if (storage.getIsSortedClothes() == true) {
                 storage.getClothingFromSortedClothes(index).setPrice(price, true);
+                this.handleConfirmFilter();
             } else {
                 storage.getClothing(index).setPrice(price, true);
             }
@@ -281,6 +280,7 @@ public class PricePageController implements Initializable {
             double discountToAdd = Double.parseDouble(discount.getText());
             if (storage.getIsSortedClothes() == true) {
                 storage.getClothingFromSortedClothes(index).setDiscount(discountToAdd / 100);
+                this.handleConfirmFilter();
             } else {
                 storage.getClothing(index).setDiscount(discountToAdd / 100);
             }
@@ -305,12 +305,19 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleRemoveDiscount() {
         try {
+            /*
             if (priceList.getItems().size() < storage.getAllClothes().size()) {
                 showErrorMessage("Please reset filter first");
                 return;
             }
+            */
             int index = priceList.getSelectionModel().getSelectedIndex();
-            storage.getClothing(index).removeDiscount();
+            if (storage.getIsSortedClothes() == true) {
+                storage.getClothingFromSortedClothes(index).removeDiscount();
+                this.handleConfirmFilter();
+            } else {
+                storage.getClothing(index).removeDiscount();
+            }
             updatePriceList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
