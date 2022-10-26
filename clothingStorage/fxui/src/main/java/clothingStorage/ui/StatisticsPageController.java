@@ -1,6 +1,7 @@
 package clothingStorage.ui;
 
 import clothingStorage.core.Storage;
+import clothingStorage.core.StorageStatistics;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +16,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -37,10 +38,25 @@ public class StatisticsPageController implements Initializable {
     private String errorMessage;
 
     /**
+     * Label for total quantity in storage.
+     */
+    @FXML 
+    private Label totalQuantityLabel;
+    /**
+     * Label for total value of storage.
+     */
+    @FXML 
+    private Label totalValueLabel;
+    /**
      * Button for storage-page.
      */
     @FXML 
     private Button storagePageButton;
+    /**
+     * Button for statistics-page.
+     */
+    @FXML 
+    private Button pricePageButton;
     /**
      * Button for storage-page.
      */
@@ -48,7 +64,7 @@ public class StatisticsPageController implements Initializable {
     private BarChart<String, Integer> quantityChart;
 
     /**
-     * Constructor for StorageController initializing it with empty storage.
+     * Constructor for StatisticsPageController initializing it with empty storage.
      */
     public StatisticsPageController() {
         this.storage = new Storage();
@@ -60,11 +76,6 @@ public class StatisticsPageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        XYChart.Series<String, Integer> series1 = new XYChart.Series<>();
-        series1.getData().add(new XYChart.Data<String, Integer>("Socks", 60));
-        //getQuantityForType(storage, "Socks"))
-        
-
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StatisticsPageControllerTest"
@@ -78,7 +89,43 @@ public class StatisticsPageController implements Initializable {
             }
         } catch (Exception e) {
             //ignore
-        }   
+        }
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        series.setName("Quantity");
+        series.getData().add(new XYChart.Data<String, Integer>("Jeans",
+                        StorageStatistics.getQuantityForType(storage, "Jeans")));
+        series.getData().add(new XYChart.Data<String, Integer>("T-shirt",
+                        StorageStatistics.getQuantityForType(storage, "T-shirt")));
+        series.getData().add(new XYChart.Data<String, Integer>("Socks",
+                        StorageStatistics.getQuantityForType(storage, "Socks")));
+        series.getData().add(new XYChart.Data<String, Integer>("Sweater",
+                        StorageStatistics.getQuantityForType(storage, "Sweater")));
+        series.getData().add(new XYChart.Data<String, Integer>("Jacket",
+                        StorageStatistics.getQuantityForType(storage, "Jacket")));
+        series.getData().add(new XYChart.Data<String, Integer>("Shorts",
+                        StorageStatistics.getQuantityForType(storage, "Shorts")));          
+        series.getData().add(new XYChart.Data<String, Integer>("Other",
+                        StorageStatistics.getQuantityForType(storage, "Other")));
+        quantityChart.getData().add(series);
+
+        setTotalQuantityLabel();
+        setTotalValueLabel();
+    }
+
+    /**
+     * Sets label for total quantity.
+     */
+    private void setTotalQuantityLabel() {
+        int totalQuantity = StorageStatistics.getTotalQuantity(storage);
+        totalQuantityLabel.setText(String.valueOf(totalQuantity));
+    }
+
+    /**
+     * Sets label for total quantity.
+     */
+    private void setTotalValueLabel() {
+        double totalValue = StorageStatistics.getTotalValue(storage);
+        totalValueLabel.setText(String.valueOf(totalValue));
     }
 
     /**
@@ -133,7 +180,7 @@ public class StatisticsPageController implements Initializable {
     private void handlePricePageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("PricePage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage) storagePageButton.getScene().getWindow();
+        Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Clothing Prices");
         stage.show();
