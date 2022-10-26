@@ -5,42 +5,56 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StatisticsPageController">
    <children>
       <Pane prefHeight="615.0" prefWidth="410.0">
          <children>
-            <BarChart layoutX="-9.0" layoutY="226.0" prefHeight="389.0" prefWidth="423.0" title="Quantities for Types of Clothing">
+            <BarChart fx:id="quantityChart" layoutX="-6.0" layoutY="212.0" prefHeight="389.0" prefWidth="423.0" title="Quantities for Types of Clothing">
               <xAxis>
-                <CategoryAxis fx:id="quantityChart" label="Type" side="BOTTOM" />
+                <CategoryAxis label="Type" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis label="Quantity" side="LEFT" />
+                <NumberAxis side="LEFT" upperBound="1000.0" />
               </yAxis>
             </BarChart>
+            <Label layoutX="39.0" layoutY="50.0" text="Total Quantity in Storage:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="39.0" layoutY="100.0" text="Total Value of Storage:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalQuantityLabel" layoutX="220.0" layoutY="52.0" prefHeight="17.0" prefWidth="169.0" />
+            <Label fx:id="totalValueLabel" layoutX="220.0" layoutY="102.0" prefHeight="17.0" prefWidth="181.0" />
          </children>
       </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">
          <children>
-            <Button fx:id="storagePageButton" disable="false" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
+            <Button disable="true" layoutX="280.0" layoutY="12.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="138.0" style="-fx-background-color: lightgreen;">
                <effect>
-                  <DropShadow height="40.0" radius="14.75" />
+                  <DropShadow height="30.0" radius="12.25" />
                </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
                <graphic>
                   <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@storage.png" />
+                        <Image url="@statistics.png" />
                      </image>
                   </ImageView>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="pricePageButton" layoutX="140.0" layoutY="12.0" mnemonicParsing="false" onAction="#handlePricePageButton" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
                <effect>
@@ -57,20 +71,20 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button disable="true" layoutX="280.0" layoutY="12.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="138.0" style="-fx-background-color: lightgreen;">
+            <Button fx:id="storagePageButton" disable="false" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
                <effect>
-                  <DropShadow height="30.0" radius="12.25" />
+                  <DropShadow height="40.0" radius="14.75" />
                </effect>
-               <graphic>
-                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@statistics.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@storage.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </Pane>

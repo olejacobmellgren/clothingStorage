@@ -128,22 +128,7 @@
       </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">
          <children>
-            <Button fx:id="storagePageButton" disable="false" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="211.0" style="-fx-background-color: lightgreen;">
-               <effect>
-                  <DropShadow height="40.0" radius="14.75" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@storage.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="pricePageButton" disable="true" layoutX="210.0" layoutY="12.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="205.0" style="-fx-background-color: lightgreen;">
+            <Button disable="true" layoutX="140.0" layoutY="12.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
                <effect>
                   <DropShadow height="30.0" radius="12.25" />
                </effect>
@@ -157,6 +142,36 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+            </Button>
+            <Button fx:id="statisticsPageButton" layoutX="280.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleStatisticsPageButton" prefHeight="114.0" prefWidth="138.0" style="-fx-background-color: lightgreen;">
+               <effect>
+                  <DropShadow height="30.0" radius="12.25" />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@statistics.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="storagePageButton" disable="false" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
+               <effect>
+                  <DropShadow height="40.0" radius="14.75" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@storage.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </Pane>
