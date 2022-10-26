@@ -56,6 +56,7 @@ public class StoragePageController implements Initializable {
                 != "clothingStorage.ui.PricePageControllerTest"
                 && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.NewClothingPageControllerTest") {
+
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());

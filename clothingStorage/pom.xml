@@ -140,6 +140,9 @@
         <module>core</module>
         <module>fxui</module>
         <module>localpersistence</module>
+        <module>client</module>
+        <module>restserver</module>
+        <module>integrationtests</module>
     </modules>
 
 </project>

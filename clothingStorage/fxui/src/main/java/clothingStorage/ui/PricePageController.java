@@ -1,11 +1,9 @@
 package clothingStorage.ui;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -76,6 +74,7 @@ public class PricePageController implements Initializable {
                 != "clothingStorage.ui.PricePageControllerTest"
                 && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StoragePageControllerTest") {
+
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());
@@ -124,8 +123,7 @@ public class PricePageController implements Initializable {
      * Updates PriceList after change has been made.
      */
     public void updatePriceList() {
-        List<Clothing> clothings = new ArrayList<Clothing>(storage.getAllClothes().keySet());
-        List<String> priceDisplays = storage.priceDisplay(clothings);
+        List<String> priceDisplays = storage.priceDisplay();
         priceList.getItems().setAll(priceDisplays);
         fireAutoSaveStorage();
     }
@@ -212,18 +210,19 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Brand" && brands.getValue() == null) {
             showErrorMessage("You must choose a type of Clothing in the choice box first");
         } else if (filters.getValue() == "Lowest Price") {
-            priceList.getItems().setAll(storage.priceDisplay(storage.sortOnLowestPrice()));
+            storage.sortOnLowestPrice();
         } else if (filters.getValue() == "Highest Price") {
-            priceList.getItems().setAll(storage.priceDisplay(storage.sortOnHighestPrice()));
+            storage.sortOnHighestPrice();;
         } else if (filters.getValue() == "Brand") {
             String brand = brands.getValue();
-            priceList.getItems().setAll(storage.priceDisplay(storage.filterOnBrand(brand)));
+            storage.filterOnBrand(brand);
         } else if (filters.getValue() == "Type") {
             String type = typeOfClothingFilter.getValue();
-            priceList.getItems().setAll(storage.priceDisplay(storage.filterOnType(type)));
+            storage.filterOnType(type);
         } else if (filters.getValue() == "On Sale") {
-            priceList.getItems().setAll(storage.priceDisplay(storage.filterOnSale()));
+            storage.filterOnSale();
         }
+        updatePriceList();
     }
 
     /**
@@ -231,6 +230,7 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleResetFilter() {
         filters.setValue(null);
+        storage.setIsSortedPricePage(false);
         updatePriceList();
     }
 
@@ -239,13 +239,20 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleConfirmNewPrice() {
         try {
+            /*
             if (filters.getValue() != null) {
                 showErrorMessage("Please reset filter first");
                 return;
             }
+            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
-            storage.getClothing(index).setPrice(price, true);
+            if (storage.getIsSortedClothes() == true) {
+                storage.getClothingFromSortedClothes(index).setPrice(price, true);
+                this.handleConfirmFilter();
+            } else {
+                storage.getClothing(index).setPrice(price, true);
+            }
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -263,13 +270,20 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleConfirmDiscount() {
         try {
+            /*
             if (priceList.getItems().size() < storage.getAllClothes().size()) {
                 showErrorMessage("Please reset filter first");
                 return;
             }
+            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
-            storage.getClothing(index).setDiscount(discountToAdd / 100);
+            if (storage.getIsSortedClothes() == true) {
+                storage.getClothingFromSortedClothes(index).setDiscount(discountToAdd / 100);
+                this.handleConfirmFilter();
+            } else {
+                storage.getClothing(index).setDiscount(discountToAdd / 100);
+            }
             updatePriceList();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -291,12 +305,19 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleRemoveDiscount() {
         try {
+            /*
             if (priceList.getItems().size() < storage.getAllClothes().size()) {
                 showErrorMessage("Please reset filter first");
                 return;
             }
+            */
             int index = priceList.getSelectionModel().getSelectedIndex();
-            storage.getClothing(index).removeDiscount();
+            if (storage.getIsSortedClothes() == true) {
+                storage.getClothingFromSortedClothes(index).removeDiscount();
+                this.handleConfirmFilter();
+            } else {
+                storage.getClothing(index).removeDiscount();
+            }
             updatePriceList();
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");

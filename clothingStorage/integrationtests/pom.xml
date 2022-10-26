@@ -14,7 +14,12 @@
 
         <dependency>
             <groupId>gr2251.clothingStorage</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>gr2251.clothingStorage</groupId>
+            <artifactId>fxui</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

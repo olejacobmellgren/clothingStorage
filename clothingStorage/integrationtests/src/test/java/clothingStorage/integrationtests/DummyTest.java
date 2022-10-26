@@ -1,9 +1,10 @@
 package clothingStorage.integrationtests;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
 
-public class DummyTests {
+public class DummyTest {
 
     @Test
     public void testDummy() {
