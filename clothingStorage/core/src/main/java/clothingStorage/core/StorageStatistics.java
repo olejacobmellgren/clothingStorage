@@ -1,5 +1,8 @@
 package clothingStorage.core;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Statistics class for storage.
  */
@@ -7,7 +10,7 @@ public class StorageStatistics {
     
     /**
      * Returns the quantity for a type of clohting.
-     * 
+     *
      * @param storage to count clohting of certain type
      * @return total quantity of all clothes in storage
      */
@@ -20,20 +23,21 @@ public class StorageStatistics {
 
     /**
      * Returns the value of the storage.
-     * 
+     *
      * @param storage to calculate total value for
      * @return total value of storage
      */
     public static double getTotalValue(final Storage storage) {
-        return storage.getAllClothes()
+        double totalValue = storage.getAllClothes()
                         .keySet().stream()
                         .mapToDouble(c -> c.getPrice())
                         .sum();
+        return new BigDecimal(totalValue).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
      * Returns the quantity for a type of clohting.
-     * 
+     *
      * @param storage to count clohting of certain type
      * @param type to count amount of
      * @return quantity of type
