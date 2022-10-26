@@ -117,7 +117,7 @@ public class StatisticsPageController implements Initializable {
      */
     private void setTotalQuantityLabel() {
         int totalQuantity = StorageStatistics.getTotalQuantity(storage);
-        totalQuantityLabel.setText(String.valueOf(totalQuantity));
+        totalQuantityLabel.setText(String.valueOf("Totalt Quantity in Storage: " + totalQuantity));
     }
 
     /**
@@ -125,7 +125,7 @@ public class StatisticsPageController implements Initializable {
      */
     private void setTotalValueLabel() {
         double totalValue = StorageStatistics.getTotalValue(storage);
-        totalValueLabel.setText(String.valueOf(totalValue));
+        totalValueLabel.setText("Totalt Value of Storage: " + totalValue);
     }
 
     /**
