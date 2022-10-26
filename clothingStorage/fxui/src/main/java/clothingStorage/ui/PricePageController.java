@@ -208,7 +208,7 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Type" && typeOfClothingFilter.getValue() == null) {
             showErrorMessage("You must choose a type of Clothing in the choice box first");
         } else if (filters.getValue() == "Brand" && brands.getValue() == null) {
-            showErrorMessage("You must choose a type of Clothing in the choice box first");
+            showErrorMessage("You must choose a brand in the choice box first");
         } else if (filters.getValue() == "Lowest Price") {
             storage.sortOnLowestPrice();
         } else if (filters.getValue() == "Highest Price") {
@@ -229,9 +229,16 @@ public class PricePageController implements Initializable {
      * Resets filter if there is any.
      */
     @FXML private void handleResetFilter() {
-        filters.setValue(null);
-        storage.setIsSortedPricePage(false);
-        updatePriceList();
+        try {
+            if (storage.getIsSortedClothes() == false) {
+                throw new IllegalStateException("Filter is not applied");
+            } 
+            filters.setValue(null);
+            storage.setIsSortedPricePage(false);
+            updatePriceList();
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
+        }
     }
 
     /**
