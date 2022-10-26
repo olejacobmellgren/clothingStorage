@@ -11,6 +11,8 @@ import java.util.List;
 public class Storage {
 
     private LinkedHashMap<Clothing, Integer>  storageList;
+    private ArrayList<Clothing> sortedClothes;
+    private boolean isSortedPricePage = false;
 
     /**
      * Initializes Storage object.
@@ -123,12 +125,15 @@ public class Storage {
      * Iterates through all clothing items and formats them to a string.
      * Used to display clothes in price-page.
      *
-     * @param clothings to convert to display for prices
      * @return list of strings for every clothing in storage
      */
-    public List<String> priceDisplay(List<Clothing> clothings) { 
+    public List<String> priceDisplay() {
         List<String> list = new ArrayList<>();
-        for (Clothing clothing : clothings) {
+        List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
+        if (this.isSortedPricePage == true) {
+            keyList = sortedClothes;
+        }
+        for (Clothing clothing : keyList) {
             list.add(clothing.getType() + "; " + clothing.getBrand()
                 + "; " + clothing.getPrice() + ",-");
         }
@@ -165,6 +170,24 @@ public class Storage {
     }
 
     /**
+     * Sets if Price-Page is sorted or not.
+     *
+     * @param bool boolean to set
+     */
+    public void setIsSortedPricePage(boolean bool) {
+        this.isSortedPricePage = bool;
+    }
+
+    /**
+     * Retrieves boolean of wether Price-Page is sorted or not.
+     *
+     * @return true if sorted, false if not
+     */
+    public boolean getIsSortedClothes() {
+        return this.isSortedPricePage;
+    }
+
+    /**
      * Retrieves quantity of clothing item.
      *
      * @param clothing to retrieve quantity of
@@ -184,69 +207,75 @@ public class Storage {
     }
 
     /**
-     * Retrieves a sorted list based on lowest price.
+     * Retrieves sorted clothes in Price-Page. 
      *
-     * @return list with clothing sorted on lowest price
+     * @return sorted list
      */
-    public List<Clothing> sortOnLowestPrice() {
+    public ArrayList<Clothing> getSortedClothings() {
+        return new ArrayList<Clothing>(this.sortedClothes);
+    }
+
+    /**
+     * Sorts the storage-list based on lowest price.
+     */
+    public void sortOnLowestPrice() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> sortedList = keyList.stream()
                                             .sorted(Comparator.comparing(Clothing::getPrice))
                                             .toList();
-        return sortedList;
+        sortedClothes = new ArrayList<>(sortedList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
-     * Retrieves a sorted list based on highest price.
-     *
-     * @return list with clothing sorted on highest price
+     * Sorts the storage-list based on highest price.
      */
-    public List<Clothing> sortOnHighestPrice() {
+    public void sortOnHighestPrice() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> sortedList = keyList.stream()
                                         .sorted(Comparator.comparing(Clothing::getPrice).reversed())
                                         .toList();
-        return sortedList;
+        sortedClothes = new ArrayList<>(sortedList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
-     * Retrieves a filtered list based on brand.
+     * Filters the storage-list based on brand.
      *
      * @param brand to be filtered on
-     * @return list with clothing of specific brand
      */
-    public List<Clothing> filterOnBrand(String brand) {
+    public void filterOnBrand(String brand) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
                                     .filter(c -> c.getBrand().equals(brand))
                                     .toList();
-        return filteredList;
+        sortedClothes = new ArrayList<>(filteredList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
-     * Retrieves a sorted list based on highest price.
+     * Filters the storage-list based on type.
      *
      * @param type to be filtered on
-     * @return list with clothing sorted on highest price
      */
-    public List<Clothing> filterOnType(String type) {
+    public void filterOnType(String type) {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
                                     .filter(c -> c.getType().equals(type))
                                     .toList();                      
-        return filteredList;
+        sortedClothes = new ArrayList<>(filteredList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
-     * Retrieves a filtered list based on sale.
-     *
-     * @return list with clothing on sale
+     * Filters the storage-list based on sale.
      */
-    public List<Clothing> filterOnSale() {
+    public void filterOnSale() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
                                         .filter(c -> c.isOnSale() == true).toList();
-        return filteredList;
+        sortedClothes = new ArrayList<>(filteredList);
+        this.setIsSortedPricePage(true);
     }
 
     /**
@@ -261,6 +290,19 @@ public class Storage {
             throw new IllegalStateException("Invalid index, not in storage");
         }
         return keyList.get(index);
+    }
+
+    /**
+     * Retrieves clothing item in sorted list.
+     *
+     * @param index of the clothing item to retrieve
+     * @return clothing item
+     */
+    public Clothing getClothingFromSortedClothes(int index) {
+        if (index >= sortedClothes.size()) {
+            throw new IllegalStateException("Invalid index, not in storage");
+        }
+        return this.sortedClothes.get(index);
     }
 
     /**
