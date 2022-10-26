@@ -2,6 +2,7 @@ package clothingStorage.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -172,4 +173,116 @@ public class PricePageControllerTest extends ApplicationTest {
         clickOn(LabeledMatchers.hasText("OK"));
     }
     
+    @Test
+    public void testFilterType() {
+        clickOn("#filters").clickOn("Type");
+        clickOn("#typeOfClothingFilter").clickOn("Socks");
+        clickOn("#confirmFilter");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String adidasSocks = priceList.get(0);
+        String expected = "Socks; Adidas; 30.0,-";
+        assertEquals(expected, adidasSocks);
+    }
+    
+    @Test
+    public void testFilterBrand() {
+        clickOn("#filters").clickOn("Brand");
+        clickOn("#brands").clickOn("Nike");
+        clickOn("#confirmFilter");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String nikeJeans = priceList.get(0);
+        String expected = "Jeans; Nike; 10.0,-";
+        assertEquals(expected, nikeJeans);
+    }
+
+    @Test
+    public void testFilterLowPrice() {
+        clickOn("#filters").clickOn("Lowest Price");
+        clickOn("#confirmFilter");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        List<String> expectedList = new ArrayList<String>(List.of(
+            "Jeans; Nike; 10.0,-",
+            "Shorts; Louis Vuitton; 20.0,-",
+            "Socks; Adidas; 30.0,-"
+        ));
+        assertEquals(expectedList, priceList);
+    }
+
+    @Test
+    public void testFilterHighPrice() {
+        clickOn("#filters").clickOn("Highest Price");
+        clickOn("#confirmFilter");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        List<String> expectedList = new ArrayList<String>(List.of(
+            "Socks; Adidas; 30.0,-",
+            "Shorts; Louis Vuitton; 20.0,-",
+            "Jeans; Nike; 10.0,-"
+        ));
+        assertEquals(expectedList, priceList);
+    }
+
+    @Test
+    public void testFilterOnSale() {
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Jeans; Nike; 10.0,-"));
+        clickOn("#discount").write("40");
+        clickOn("#confirmDiscount");
+
+        clickOn("#filters").clickOn("On Sale");
+        clickOn("#confirmFilter");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        List<String> expectedList = new ArrayList<String>(List.of(
+            "Jeans; Nike; 6.0,-"
+        ));
+        assertEquals(expectedList, priceList);
+    }
+
+    @Test
+    public void testResetFilter() {
+        clickOn("#filters").clickOn("Highest Price");
+        clickOn("#confirmFilter");
+        clickOn("#resetFilter");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        List<String> expectedList = new ArrayList<String>(List.of(
+            "Jeans; Nike; 10.0,-",
+            "Shorts; Louis Vuitton; 20.0,-",
+            "Socks; Adidas; 30.0,-"
+        ));
+        assertEquals(expectedList, priceList);
+    }
+
+    @Test
+    public void testErrorNoFilterSelected() {
+        clickOn("#confirmFilter");
+        assertEquals("You must choose a filter in the choice box first", controller.getErrorMessage());
+    }
+    
+
+    @Test
+    public void testErrorNoSecondFilterBrand() {
+        clickOn("#filters").clickOn("Brand");
+        clickOn("#confirmFilter");
+        assertEquals("You must choose a brand in the choice box first",
+            controller.getErrorMessage());
+    }
+
+    @Test
+    public void testErrorNoSecondFilterType() {
+        clickOn("#filters").clickOn("Type");
+        clickOn("#confirmFilter");
+        assertEquals("You must choose a type of Clothing in the choice box first",
+            controller.getErrorMessage());
+    }
+    
+    @Test
+    public void testErrorResetFilter() {
+        clickOn("#resetFilter");
+        assertEquals("Filter is not applied", controller.getErrorMessage());
+    }
 }
