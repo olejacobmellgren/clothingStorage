@@ -14,7 +14,7 @@ public class clothingStorageApplication {
     /**
      * Starts spring server
      * 
-     * @param string launches args
+     * @param args launched by string
      */
     public static void main(String[] args){
         SpringApplication.run(clothingStorageApplication, args);
