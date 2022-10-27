@@ -15,6 +15,7 @@ import clothingStorage.core.Storage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
@@ -244,6 +245,13 @@ public class PricePageControllerTest extends ApplicationTest {
 
     @Test
     public void testResetFilter() {
+        clickOn("#filters").clickOn("Lowest Price");
+        ChoiceBox<String> box = lookup("#filters").query();
+        assertEquals("Lowest Price", box.getValue());
+        clickOn("#resetFilter");
+        ChoiceBox<String> box2 = lookup("#filters").query();
+        assertEquals(null, box2.getValue());
+
         clickOn("#filters").clickOn("Highest Price");
         clickOn("#confirmFilter");
         clickOn("#resetFilter");
