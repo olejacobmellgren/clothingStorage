@@ -63,8 +63,8 @@ public class PricePageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        filters.getItems().addAll("Lowest Price", "Highest Price", "Brand", 
-            "Type", "On Sale");
+        filters.getItems().addAll("Lowest Price", "Highest Price", "Type", 
+            "Brand", "On Sale");
         typeOfClothingFilter.getItems().addAll("Jeans", "Shirt",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
