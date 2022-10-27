@@ -29,8 +29,8 @@ public class StorageStatistics {
      */
     public static double getTotalValue(final Storage storage) {
         double totalValue = storage.getAllClothes()
-                        .keySet().stream()
-                        .mapToDouble(c -> c.getPrice())
+                        .entrySet().stream()
+                        .mapToDouble(e -> e.getKey().getPrice() * e.getValue())
                         .sum();
         return new BigDecimal(totalValue).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
