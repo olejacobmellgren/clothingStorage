@@ -12,10 +12,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -53,15 +55,25 @@ public class StatisticsPageController implements Initializable {
     @FXML 
     private Button storagePageButton;
     /**
-     * Button for statistics-page.
+     * Button for price-page.
      */
     @FXML 
     private Button pricePageButton;
     /**
-     * Button for storage-page.
+     * Choicebox for type for diagram on statistics-page.
+     */
+    @FXML 
+    private ChoiceBox<String> typeForDiagram;
+    /**
+     * Bar-chart for statistics-page.
      */
     @FXML 
     private BarChart<String, Integer> quantityChart;
+    /**
+     * Category-Axis for statistics-page.
+     */
+    @FXML 
+    private CategoryAxis categoryAxis;
 
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
@@ -76,6 +88,9 @@ public class StatisticsPageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        typeForDiagram.getItems().addAll("All Clothes", "Jeans", "Shirt",
+            "Socks", "Sweater", "Jacket", "Shorts", "Other");
+        typeForDiagram.setValue("All Clothes");
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StatisticsPageControllerTest"
@@ -90,42 +105,10 @@ public class StatisticsPageController implements Initializable {
         } catch (Exception e) {
             //ignore
         }
-        XYChart.Series<String, Integer> series = new XYChart.Series<>();
-        series.setName("Quantity");
-        series.getData().add(new XYChart.Data<String, Integer>("Jeans",
-                        StorageStatistics.getQuantityForType(storage, "Jeans")));
-        series.getData().add(new XYChart.Data<String, Integer>("T-shirt",
-                        StorageStatistics.getQuantityForType(storage, "T-shirt")));
-        series.getData().add(new XYChart.Data<String, Integer>("Socks",
-                        StorageStatistics.getQuantityForType(storage, "Socks")));
-        series.getData().add(new XYChart.Data<String, Integer>("Sweater",
-                        StorageStatistics.getQuantityForType(storage, "Sweater")));
-        series.getData().add(new XYChart.Data<String, Integer>("Jacket",
-                        StorageStatistics.getQuantityForType(storage, "Jacket")));
-        series.getData().add(new XYChart.Data<String, Integer>("Shorts",
-                        StorageStatistics.getQuantityForType(storage, "Shorts")));          
-        series.getData().add(new XYChart.Data<String, Integer>("Other",
-                        StorageStatistics.getQuantityForType(storage, "Other")));
-        quantityChart.getData().add(series);
+        setDiagramForAllClothes();
 
         setTotalQuantityLabel();
         setTotalValueLabel();
-    }
-
-    /**
-     * Sets label for total quantity.
-     */
-    private void setTotalQuantityLabel() {
-        int totalQuantity = StorageStatistics.getTotalQuantity(storage);
-        totalQuantityLabel.setText(String.valueOf("Totalt Quantity in Storage: " + totalQuantity));
-    }
-
-    /**
-     * Sets label for total quantity.
-     */
-    private void setTotalValueLabel() {
-        double totalValue = StorageStatistics.getTotalValue(storage);
-        totalValueLabel.setText("Totalt Value of Storage: " + totalValue);
     }
 
     /**
@@ -147,10 +130,56 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
+     * Sets bar-chart for all types of clothing.
+     */
+    @FXML
+    private void setDiagramForAllClothes() {
+        quantityChart.setTitle("Quantities for all types");
+        categoryAxis.setLabel("Type");
+        quantityChart.getData().clear();
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        series.setName("Quantity");
+        series.getData().add(new XYChart.Data<String, Integer>("Jeans",
+                        StorageStatistics.getQuantityForType(storage, "Jeans")));
+        series.getData().add(new XYChart.Data<String, Integer>("Shirt",
+                        StorageStatistics.getQuantityForType(storage, "T-shirt")));
+        series.getData().add(new XYChart.Data<String, Integer>("Socks",
+                        StorageStatistics.getQuantityForType(storage, "Socks")));
+        series.getData().add(new XYChart.Data<String, Integer>("Sweater",
+                        StorageStatistics.getQuantityForType(storage, "Sweater")));
+        series.getData().add(new XYChart.Data<String, Integer>("Jacket",
+                        StorageStatistics.getQuantityForType(storage, "Jacket")));
+        series.getData().add(new XYChart.Data<String, Integer>("Shorts",
+                        StorageStatistics.getQuantityForType(storage, "Shorts")));          
+        series.getData().add(new XYChart.Data<String, Integer>("Other",
+                        StorageStatistics.getQuantityForType(storage, "Other")));
+        quantityChart.getData().add(series);
+    }
+
+    /**
+     * Sets label for total quantity.
+     */
+    @FXML
+    private void setTotalQuantityLabel() {
+        int totalQuantity = StorageStatistics.getTotalQuantity(storage);
+        totalQuantityLabel.setText(String.valueOf("Totalt Quantity in Storage: " + totalQuantity));
+    }
+
+    /**
+     * Sets label for total quantity.
+     */
+    @FXML
+    private void setTotalValueLabel() {
+        double totalValue = StorageStatistics.getTotalValue(storage);
+        totalValueLabel.setText("Totalt Value of Storage: " + totalValue);
+    }
+
+    /**
      * Shows alert with error-message.
      *
      * @param errorMessage to be shown in alert
      */
+    @FXML
     private void showErrorMessage(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("ERROR OCCURRED");
@@ -185,6 +214,44 @@ public class StatisticsPageController implements Initializable {
         stage.setTitle("Clothing Prices");
         stage.show();
     }
+
+    /**
+     * Changes bar-chart to diagram for type of Clothing chosen in choicebox.
+     */
+    @FXML 
+    private void handleTypeForDiagram() throws IOException {
+        if (typeForDiagram.getValue() == "All Clothes") {
+            setDiagramForAllClothes();
+        } else {
+            String typeChosenForDiagram = typeForDiagram.getValue();
+            if (StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                            typeChosenForDiagram,
+                                                            'S') == 0) {
+                showErrorMessage("Unable to display diagram because quantity"
+                                + " for this type of clothing is 0");
+            } else {
+                quantityChart.setTitle("Quantity of sizes for " + typeChosenForDiagram);
+                categoryAxis.setLabel("Sizes");
+                quantityChart.getData().clear();
+                XYChart.Series<String, Integer> series = new XYChart.Series<>();
+                series.setName("Quantity");
+                series.getData().add(new XYChart.Data<String, Integer>("S",
+                                StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                                            typeChosenForDiagram,
+                                                                            'S')));
+                series.getData().add(new XYChart.Data<String, Integer>("M",
+                                StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                                            typeChosenForDiagram,
+                                                                            'M')));
+                series.getData().add(new XYChart.Data<String, Integer>("L",
+                                StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                                            typeChosenForDiagram, 
+                                                                            'L')));
+                quantityChart.getData().add(series);
+            }
+        }
+    }
+
 
     
 }

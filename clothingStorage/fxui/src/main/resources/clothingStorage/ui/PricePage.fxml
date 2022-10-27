@@ -73,7 +73,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ChoiceBox fx:id="filters" layoutX="55.0" layoutY="21.0" onAction="#handleFilterChoice" onDragEntered="#handleFilterChoice" prefHeight="26.0" prefWidth="159.0" style="-fx-background-color: lightgreen;">
+            <ChoiceBox fx:id="filters" layoutX="55.0" layoutY="21.0" onAction="#handleFilterChoice" prefHeight="26.0" prefWidth="159.0" style="-fx-background-color: lightgreen;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
