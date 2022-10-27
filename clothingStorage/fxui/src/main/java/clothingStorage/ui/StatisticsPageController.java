@@ -154,6 +154,7 @@ public class StatisticsPageController implements Initializable {
         series.getData().add(new XYChart.Data<String, Integer>("Other",
                         StorageStatistics.getQuantityForType(storage, "Other")));
         quantityChart.getData().add(series);
+        quantityChart.layout();
     }
 
     /**
@@ -224,9 +225,7 @@ public class StatisticsPageController implements Initializable {
             setDiagramForAllClothes();
         } else {
             String typeChosenForDiagram = typeForDiagram.getValue();
-            if (StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                            typeChosenForDiagram,
-                                                            'S') == 0) {
+            if (StorageStatistics.getQuantityForType(storage, typeChosenForDiagram) == 0) {
                 showErrorMessage("Unable to display diagram because quantity"
                                 + " for this type of clothing is 0");
             } else {
@@ -248,6 +247,7 @@ public class StatisticsPageController implements Initializable {
                                                                             typeChosenForDiagram, 
                                                                             'L')));
                 quantityChart.getData().add(series);
+                quantityChart.layout();
             }
         }
     }
