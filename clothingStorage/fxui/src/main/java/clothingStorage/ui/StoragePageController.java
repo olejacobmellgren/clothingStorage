@@ -114,6 +114,10 @@ public class StoragePageController implements Initializable {
      * Button for price-page.
      */
     @FXML private Button pricePageButton;
+    /**
+     * Button for statistics-page.
+     */
+    @FXML private Button statisticsPageButton;
 
     /**
      * Changes ui-view to the price-page.
@@ -124,6 +128,18 @@ public class StoragePageController implements Initializable {
         Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Clothing Prices");
+        stage.show();
+    }
+
+    /**
+     * Changes ui-view to the statistics-page.
+     */
+    @FXML private void handleStatisticsPageButton() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Statistics");
         stage.show();
     }
 

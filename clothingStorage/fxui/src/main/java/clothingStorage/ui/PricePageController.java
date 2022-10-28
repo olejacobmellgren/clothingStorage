@@ -65,7 +65,7 @@ public class PricePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         filters.getItems().addAll("Lowest Price", "Highest Price", "Brand", 
             "Type", "On Sale");
-        typeOfClothingFilter.getItems().addAll("Jeans", "T-shirt",
+        typeOfClothingFilter.getItems().addAll("Jeans", "Shirt",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
             "Louis Vuitton", "Supreme", "Levi's");
@@ -147,6 +147,10 @@ public class PricePageController implements Initializable {
      */
     @FXML private Button storagePageButton;
     /**
+     * Button for statistics-page.
+     */
+    @FXML private Button statisticsPageButton;
+    /**
      * Listview with all clothing-items and their prices.
      */
     @FXML private ListView<String> priceList;
@@ -180,6 +184,18 @@ public class PricePageController implements Initializable {
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Clothing Storage");
+        stage.show();
+    }
+
+    /**
+     * Changes ui-view to the statistics-page.
+     */
+    @FXML private void handleStatisticsPageButton() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Statistics");
         stage.show();
     }
 
