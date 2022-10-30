@@ -78,29 +78,29 @@ public class ClothingTest{
     }
 
     @Test
-    public void testDiscount() {
+    public void testSetPriceAfterAddedDiscount() {
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setDiscount(1.5);
+            clothing.setPriceAfterAddedDiscount(1.5);
         }, "Threw IllegalArgumentException since discount can't be over 1");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setDiscount(100);
+            clothing.setPriceAfterAddedDiscount(100);
         }, "Threw IllegalArgumentException since discount can't be 1");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setDiscount(-1);
+            clothing.setPriceAfterAddedDiscount(-1);
         }, "Threw IllegalArgumentException since discount can't be below 0");
         assertThrows(IllegalStateException.class, () -> {
-            clothing.setDiscount(0.4);
-            clothing.setDiscount(0.3);
+            clothing.setPriceAfterAddedDiscount(0.4);
+            clothing.setPriceAfterAddedDiscount(0.3);
         }, "Threw IllegalStateException since clothing is already on discount");
 
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.50);
+        clothing.setPriceAfterAddedDiscount(0.50);
         assertEquals(75, clothing.getPrice());
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.90);
+        clothing.setPriceAfterAddedDiscount(0.90);
         assertEquals(15, clothing.getPrice());
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.375);
+        clothing.setPriceAfterAddedDiscount(0.375);
         assertEquals(93.75, clothing.getPrice());
     }
 
@@ -111,7 +111,7 @@ public class ClothingTest{
         }, "Threw IllegalStateException since clothing is not on discount");
 
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.5);
+        clothing.setPriceAfterAddedDiscount(0.5);
         assertEquals(75, clothing.getPrice());
         assertEquals(0.5, clothing.getDiscount());
         clothing.removeDiscount();
@@ -132,19 +132,19 @@ public class ClothingTest{
     }
 
     @Test
-    public void testOnSale() {
+    public void testOnDiscount() {
         assertEquals(0, clothing.getDiscount());
-        assertFalse(clothing.isOnSale());
+        assertFalse(clothing.isOnDiscount());
 
-        clothing.setDiscount(0.5);
+        clothing.setPriceAfterAddedDiscount(0.5);
         assertEquals(0.5, clothing.getDiscount());
-        assertTrue(clothing.isOnSale());
+        assertTrue(clothing.isOnDiscount());
 
-        clothing.setSale(0);
+        clothing.setDiscount(0);
         assertEquals(0, clothing.getDiscount());
         
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setSale(2);
+            clothing.setDiscount(2);
         }, "Threw IllegalArgumentException since input was not 0 or 1");
     }
 

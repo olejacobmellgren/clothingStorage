@@ -268,12 +268,12 @@ public class Storage {
     }
 
     /**
-     * Filters the storage-list based on sale.
+     * Filters the storage-list based on discount.
      */
-    public void filterOnSale() {
+    public void filterOnDiscount() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
-                                        .filter(c -> c.isOnSale() == true).toList();
+                                        .filter(c -> c.isOnDiscount() == true).toList();
         sortedClothes = new ArrayList<>(filteredList);
         this.setIsSortedPricePage(true);
     }

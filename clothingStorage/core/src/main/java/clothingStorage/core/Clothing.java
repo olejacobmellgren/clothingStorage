@@ -52,7 +52,7 @@ public class Clothing {
         setBrand(brand);
         setSize(size);
         setPrice(price, false);
-        setSale(0);
+        setDiscount(0);
     }
 
     /** 
@@ -132,27 +132,27 @@ public class Clothing {
      * Sets clothing price.
      *
      * @param price to be set
-     * @param isOnSale true if clothing is on sale, false if not on sale
+     * @param isOnDiscount true if clothing is on discount, false if not on discount
      * @throws IllegalArgumentException if given price is zero or below
      */
-    public void setPrice(double price, boolean isOnSale) {
+    public void setPrice(double price, boolean isOnDiscount) {
         if (price <= 0) {
             throw new IllegalArgumentException("Given price is negative or zero");
         }
-        if (isOnSale) {
-            this.setSale(0);
+        if (isOnDiscount) {
+            this.setDiscount(0);
         }
         this.price = price;
     }
 
     /** 
-     * Sets discount.
+     * Sets price after a discount is added.
      *
-     * @param discount you want to set
+     * @param discount you want to add
      * @throws IllegalStateException if clothing is already on discount
      * @throws IllegalArgumentException is discount is invalid
     */
-    public void setDiscount(double discount) {
+    public void setPriceAfterAddedDiscount(double discount) {
         if (!isValidDiscount(discount)) {
             if (this.getDiscount() != 0) {
                 throw new IllegalStateException("Clothing is already on discount");
@@ -160,7 +160,7 @@ public class Clothing {
                 throw new IllegalArgumentException("Given discount is not valid");
             }
         }
-        this.setSale(discount);
+        this.setDiscount(discount);
         this.setPrice(this.getPrice() * (1 - this.getDiscount()), false);
     }
 
@@ -173,7 +173,7 @@ public class Clothing {
     public void removeDiscount() {
         if (this.getDiscount() > 0) {
             this.setPrice(this.getPrice() / (1 - discount), true);
-            this.setSale(0);
+            this.setDiscount(0);
         } else {
             throw new IllegalStateException("Clothing is not on discount");
         }
@@ -195,12 +195,13 @@ public class Clothing {
     /**
      * Sets the discount of clothing item.
      *
-     * @param sale discount to be set
+     * @param discount discount to be set
      * @throws IllegalArgumentException if discount is not between 0 and 1
      */
-    public void setSale(double sale) {
-        if (sale >= 0 && sale < 1) {
-            this.discount = sale;
+    public void setDiscount(double discount) {
+        if (discount >= 0 && discount < 1) {
+            System.out.println("hei");
+            this.discount = discount;
         } else {
             throw new IllegalArgumentException("Input must be between 0 and 1");
         }
@@ -243,11 +244,11 @@ public class Clothing {
     }
 
     /** 
-     * Checks if clothing item is on sale.
+     * Checks if clothing item is on discount.
      *
-     * @return true if on sale, false if not on sale
+     * @return true if on discount, false if not on discount
     */
-    public boolean isOnSale() {
+    public boolean isOnDiscount() {
         if (this.discount == 0.0) {
             return false;
         }
@@ -292,3 +293,4 @@ public class Clothing {
         return true;
     }
 }
+

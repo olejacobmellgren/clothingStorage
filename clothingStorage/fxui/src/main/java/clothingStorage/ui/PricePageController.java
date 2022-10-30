@@ -236,7 +236,7 @@ public class PricePageController implements Initializable {
             String type = typeOfClothingFilter.getValue();
             storage.filterOnType(type);
         } else if (filters.getValue() == "On Sale") {
-            storage.filterOnSale();
+            storage.filterOnDiscount();
         }
         updatePriceList();
     }
@@ -270,12 +270,6 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleConfirmNewPrice() {
         try {
-            /*
-            if (filters.getValue() != null) {
-                showErrorMessage("Please reset filter first");
-                return;
-            }
-            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
             if (storage.getIsSortedClothes() == true) {
@@ -301,19 +295,13 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleConfirmDiscount() {
         try {
-            /*
-            if (priceList.getItems().size() < storage.getAllClothes().size()) {
-                showErrorMessage("Please reset filter first");
-                return;
-            }
-            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).setDiscount(discountToAdd / 100);
+                storage.getClothingFromSortedClothes(index).setPriceAfterAddedDiscount(discountToAdd / 100);
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).setDiscount(discountToAdd / 100);
+                storage.getClothing(index).setPriceAfterAddedDiscount(discountToAdd / 100);
             }
             updatePriceList();
         } catch (NumberFormatException e) {
@@ -336,12 +324,6 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleRemoveDiscount() {
         try {
-            /*
-            if (priceList.getItems().size() < storage.getAllClothes().size()) {
-                showErrorMessage("Please reset filter first");
-                return;
-            }
-            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             if (storage.getIsSortedClothes() == true) {
                 storage.getClothingFromSortedClothes(index).removeDiscount();
