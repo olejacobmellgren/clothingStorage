@@ -29,7 +29,7 @@ public class PricePageController implements Initializable {
      */
     private Storage storage;
     /**
-     * Storage containing Clothing and corresponding quantity.
+     * ClothingStoragePersistence handeling local persistence.
      */
     private ClothingStoragePersistence storagePersistence;
     /**
@@ -38,24 +38,67 @@ public class PricePageController implements Initializable {
     private String errorMessage;
 
     /**
+     * Choicebox for what to filter on.
+     */
+    @FXML
+    private ChoiceBox<String> filters;
+    /**
+     * Choicebox for what type of clothing to filter on.
+     */
+    @FXML
+    private ChoiceBox<String> typeOfClothingFilter;
+    /**
+     * Choicebox for what brand to filter on.
+     */
+    @FXML
+    private ChoiceBox<String> brands;
+    /**
+     * Button for storage-page.
+     */
+    @FXML
+    private Button storagePageButton;
+    /**
+     * Button for statistics-page.
+     */
+    @FXML
+    private Button statisticsPageButton;
+    /**
+     * Listview with all clothing-items and their prices.
+     */
+    @FXML
+    private ListView<String> priceList;
+    /**
+     * Button for confirming new price.
+     */
+    @FXML
+    private Button confirmNewPrice;
+    /**
+     * Button for confirming discount.
+     */
+    @FXML
+    private Button confirmDiscount;
+    /**
+     * Textfield for new price.
+     */
+    @FXML
+    private TextField newPrice;
+    /**
+     * Textfield for discount to add.
+     */
+    @FXML
+    private TextField discount;
+    /**
+     * Button to confirm filter.
+     */
+    @FXML
+    private Button confirmFilter;
+    
+    /**
      * Constructor for StorageController initializing it with empty storage.
      */
     public PricePageController() {
         this.storage = new Storage();
     }
-
-    /**
-     * Choicebox for what to filter on.
-     */
-    @FXML private ChoiceBox<String> filters;
-    /**
-     * Choicebox for what type of clothing to filter on.
-     */
-    @FXML private ChoiceBox<String> typeOfClothingFilter;
-    /**
-     * Choicebox for what brand to filter on.
-     */
-    @FXML private ChoiceBox<String> brands;
 
     /**
      * Initializes controller with the choiceboxes.
@@ -143,42 +186,10 @@ public class PricePageController implements Initializable {
     }
 
     /**
-     * Button for storage-page.
-     */
-    @FXML private Button storagePageButton;
-    /**
-     * Button for statistics-page.
-     */
-    @FXML private Button statisticsPageButton;
-    /**
-     * Listview with all clothing-items and their prices.
-     */
-    @FXML private ListView<String> priceList;
-    /**
-     * Button for confirming new price.
-     */
-    @FXML private Button confirmNewPrice;
-    /**
-     * Button for confirming discount.
-     */
-    @FXML private Button confirmDiscount;
-    /**
-     * Textfield for new price.
-     */
-    @FXML private TextField newPrice;
-    /**
-     * Textfield for discount to add.
-     */
-    @FXML private TextField discount;
-    /**
-     * Button to confirm filter.
-     */
-    @FXML private Button confirmFilter;
-
-    /**
      * Changes ui-view to the storage-page.
      */
-    @FXML private void handleStoragePageButton() throws IOException {
+    @FXML
+    private void handleStoragePageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
@@ -190,7 +201,8 @@ public class PricePageController implements Initializable {
     /**
      * Changes ui-view to the statistics-page.
      */
-    @FXML private void handleStatisticsPageButton() throws IOException {
+    @FXML
+    private void handleStatisticsPageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
@@ -202,7 +214,8 @@ public class PricePageController implements Initializable {
     /**
      * Detects if extra choice boxes needs to be shown or removed.
      */
-    @FXML private void handleFilterChoice() {
+    @FXML
+    private void handleFilterChoice() {
         if (filters.getValue() == "Brand") {
             brands.setVisible(true);
             typeOfClothingFilter.setVisible(false);
@@ -218,7 +231,8 @@ public class PricePageController implements Initializable {
     /**
      * Filters price-list with chosen filter.
      */
-    @FXML private void handleConfirmFilter() {
+    @FXML
+    private void handleConfirmFilter() {
         if (filters.getValue() == null) {
             showErrorMessage("You must choose a filter in the choice box first");
         } else if (filters.getValue() == "Type" && typeOfClothingFilter.getValue() == null) {
@@ -244,7 +258,8 @@ public class PricePageController implements Initializable {
     /**
      * Resets filter if there is any.
      */
-    @FXML private void handleResetFilter() {
+    @FXML
+    private void handleResetFilter() {
         try {
             if (storage.getIsSortedClothes() == true) {
                 filters.setValue(null);
@@ -268,7 +283,8 @@ public class PricePageController implements Initializable {
     /**
      * Updates price-list with new price for selected clothing-item.
      */
-    @FXML private void handleConfirmNewPrice() {
+    @FXML
+    private void handleConfirmNewPrice() {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
@@ -293,7 +309,8 @@ public class PricePageController implements Initializable {
     /**
      * Updates price-list with new price after adding discount.
      */
-    @FXML private void handleConfirmDiscount() {
+    @FXML
+    private void handleConfirmDiscount() {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
@@ -323,7 +340,8 @@ public class PricePageController implements Initializable {
     /**
      * Updates price-list with new price after removing discount.
      */
-    @FXML private void handleRemoveDiscount() {
+    @FXML
+    private void handleRemoveDiscount() {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
             if (storage.getIsSortedClothes() == true) {

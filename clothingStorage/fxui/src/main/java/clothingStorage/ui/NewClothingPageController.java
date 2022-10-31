@@ -28,7 +28,7 @@ public class NewClothingPageController implements Initializable {
      */
     private Storage storage;
     /**
-     * Storage containing Clothing and corresponding quantity.
+     * ClothingStoragePersistence handeling local persistence.
      */
     private ClothingStoragePersistence storagePersistence;
     /**
@@ -41,24 +41,47 @@ public class NewClothingPageController implements Initializable {
     private String confirmMessage;
 
     /**
+     * Choicebox of valid types.
+     */
+    @FXML 
+    private ChoiceBox<String> type;
+    /**
+     * Choicebox of valid brands.
+     */
+    @FXML
+    private ChoiceBox<String> brand;
+    /**
+     * Choicebox for valid sizes.
+     */
+    @FXML
+    private ChoiceBox<Character> size;
+    /**
+     * Textfield for price for clothing.
+     */
+    @FXML
+    private TextField price;
+    /**
+     * Textfield for quantity of clothing.
+     */
+    @FXML
+    private TextField quantity;
+    /**
+     * Textfield for quantity to be added.
+     */
+    @FXML
+    private TextField newQuantity;
+    /**
+     * Button for canceling.
+     */
+    @FXML
+    private Button cancel;
+
+    /**
      * Constructor for StorageController initializing it with empty storage.
      */
     public NewClothingPageController() {
         this.storage = new Storage();
     }
-
-    /**
-     * Choicebox of valid brands.
-     */
-    @FXML private ChoiceBox<String> type;
-    /**
-     * Choicebox of valid brands.
-     */
-    @FXML private ChoiceBox<String> brand;
-    /**
-     * Choicebox for valid sizes.
-     */
-    @FXML private ChoiceBox<Character> size;
 
     /**
      * Initializes controller with the choiceboxes.
@@ -126,23 +149,6 @@ public class NewClothingPageController implements Initializable {
     }
 
     /**
-     * Textfield for price for clothing.
-     */
-    @FXML private TextField price;
-    /**
-     * Textfield for quantity of clothing.
-     */
-    @FXML private TextField quantity;
-    /**
-     * Textfield for quantity to be added.
-     */
-    @FXML private TextField newQuantity;
-    /**
-     * Button for canceling.
-     */
-    @FXML private Button cancel;
-
-    /**
      * Shows alert with error-message.
      *
      * @param errorMessage to be shown in alert
@@ -173,7 +179,8 @@ public class NewClothingPageController implements Initializable {
     /**
      * Resets inputs for making a new clothing-item.
      */
-    @FXML private void handleReset() {
+    @FXML
+    private void handleReset() {
         type.getSelectionModel().clearSelection();
         brand.getSelectionModel().clearSelection();
         size.getSelectionModel().clearSelection();
@@ -184,7 +191,8 @@ public class NewClothingPageController implements Initializable {
     /**
      * Cancels the adding of clothing-item.
      */
-    @FXML private void handleCancel() throws IOException {
+    @FXML
+    private void handleCancel() throws IOException {
         handleReset();
         Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
         Scene scene = new Scene(root);
@@ -197,7 +205,8 @@ public class NewClothingPageController implements Initializable {
     /**
      * Confirms the adding of a new clothing-item and adds it to list if succesful.
      */
-    @FXML private void handleOk() throws IOException {
+    @FXML
+    private void handleOk() throws IOException {
         try {
             if (type.getValue() == null || brand.getValue() == null 
                 || size.getValue() == null || price.getText() == null) {

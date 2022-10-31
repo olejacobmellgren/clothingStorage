@@ -83,7 +83,7 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
-     * Initializes controller with the choiceboxes.
+     * Initializes controller with the choiceboxes and initial diagram.
      */
     @FXML
     @Override
@@ -167,7 +167,7 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
-     * Sets label for total quantity.
+     * Sets label for total value.
      */
     @FXML
     private void setTotalValueLabel() {
@@ -204,7 +204,7 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
-     * Changes ui-view to the storage-page.
+     * Changes ui-view to the price-page.
      */
     @FXML 
     private void handlePricePageButton() throws IOException {
@@ -250,10 +250,7 @@ public class StatisticsPageController implements Initializable {
                 quantityChart.layout();
             }
         }
-    }
-
-
-    
+    }  
 }
 
 
