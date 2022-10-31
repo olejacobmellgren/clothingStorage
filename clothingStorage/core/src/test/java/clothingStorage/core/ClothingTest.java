@@ -11,12 +11,12 @@ public class ClothingTest{
 
     @BeforeEach
     public void setUp() {
-        clothing = new Clothing("Jeans", "Nike", 'M', 150);
+        clothing = new Clothing("Pants", "Nike", 'M', 150);
     }
     
     @Test
     public void testConstructor() {
-        assertEquals("Jeans", clothing.getType());
+        assertEquals("Pants", clothing.getType());
         assertEquals("Nike", clothing.getBrand());
         assertEquals('M', clothing.getSize());
         assertEquals(150, clothing.getPrice());
@@ -25,15 +25,18 @@ public class ClothingTest{
     @Test
     public void testType() {
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setType("J3sper");
+            clothing.setType("P4nts");
         }, "Threw IllegalArgumentException due to number in type");
-        clothing.setType("Jesper");
+        clothing.setType("Pants");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setType("jesper");
+            clothing.setType("Jeans");
+        }, "Threw IllegalArgumentException since this is an invalid type");
+        assertThrows(IllegalArgumentException.class, () -> {
+            clothing.setType("pants");
         }, "Threw IllegalArgumentException since input doesn't start with uppercase letter");
 
-        clothing.setType("Jesper");
-        assertEquals("Jesper", clothing.getType());
+        clothing.setType("Pants");
+        assertEquals("Pants", clothing.getType());
     }
 
     @Test
@@ -121,7 +124,7 @@ public class ClothingTest{
 
     @Test
     public void testEqualsButDifferentPrice() {
-        Clothing clothing2 = new Clothing("Jeans", "Nike", 'M', 200);
+        Clothing clothing2 = new Clothing("Pants", "Nike", 'M', 200);
         assertTrue(clothing.equalsButDifferentPrice(clothing2));
         clothing2.setType("Jacket");
         assertFalse(clothing.equalsButDifferentPrice(clothing2));
@@ -150,10 +153,10 @@ public class ClothingTest{
 
     @Test
     public void testToString() {
-        String output = "Jeans" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0,-";
+        String output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0,-";
         assertEquals(output, clothing.toString());
         clothing.setSize('S');
-        output = "Jeans" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
+        output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
         assertEquals(output, clothing.toString());
     }
 }

@@ -88,7 +88,7 @@ public class StatisticsPageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        typeForDiagram.getItems().addAll("All Clothes", "Jeans", "Shirt",
+        typeForDiagram.getItems().addAll("All Clothes", "Pants", "Shirt", "Underwear",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         typeForDiagram.setValue("All Clothes");
         try {

@@ -39,6 +39,14 @@ public class Clothing {
     private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", 
                                           "Louis Vuitton", "Supreme", "Levi's"}; /*May be expanded*/
 
+    /** 
+     * Valid types for Clothing object.
+    */
+    private final String[] validTypes = {"Pants", "Shirt", "Underwear",
+                                         "Socks", "Sweater", "Jacket",
+                                         "Shorts", "Other"}; /*May be expanded*/
+                                         
+
     /**
      * Initializes Clothing object.
      *
@@ -83,6 +91,14 @@ public class Clothing {
         if (Character.isLowerCase(type.charAt(0))) {
             throw new IllegalArgumentException("Type of clothing must start with uppercase letter");
         }
+        for (String s : validTypes) {
+            if (type.equals(s)) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Type of Clothing: " + type + ", is not a valid type");
+
+
     }
 
     /** 
@@ -200,7 +216,6 @@ public class Clothing {
      */
     public void setDiscount(double discount) {
         if (discount >= 0 && discount < 1) {
-            System.out.println("hei");
             this.discount = discount;
         } else {
             throw new IllegalArgumentException("Input must be between 0 and 1");
