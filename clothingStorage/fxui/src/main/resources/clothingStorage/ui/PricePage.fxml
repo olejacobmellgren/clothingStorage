@@ -135,7 +135,7 @@
                <graphic>
                   <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@price.png" />
+                        <Image url="@icons/price.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -150,7 +150,7 @@
                <graphic>
                   <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@statistics.png" />
+                        <Image url="@icons/statistics.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -168,7 +168,7 @@
                <graphic>
                   <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@storage.png" />
+                        <Image url="@icons/storage.png" />
                      </image>
                   </ImageView>
                </graphic>
