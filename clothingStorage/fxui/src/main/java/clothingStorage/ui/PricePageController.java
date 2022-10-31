@@ -295,6 +295,7 @@ public class PricePageController implements Initializable {
                 storage.getClothing(index).setPrice(price, true);
             }
             updatePriceList();
+            newPrice.clear();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
                 showErrorMessage("Specify price first in textfield");
@@ -322,6 +323,7 @@ public class PricePageController implements Initializable {
                 storage.getClothing(index).setPriceAfterAddedDiscount(discountToAdd / 100);
             }
             updatePriceList();
+            discount.clear();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
                 showErrorMessage("Specify price first in textfield");
