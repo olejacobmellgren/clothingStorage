@@ -108,7 +108,7 @@ public class PricePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         filters.getItems().addAll("Lowest Price", "Highest Price", "Type", 
             "Brand", "On Sale");
-        typeOfClothingFilter.getItems().addAll("Pants", "Jeans", "Shirt", "Underwear",
+        typeOfClothingFilter.getItems().addAll("Pants", "Shirt", "Underwear",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
             "Louis Vuitton", "Supreme", "Levi's");
@@ -165,7 +165,7 @@ public class PricePageController implements Initializable {
     /**
      * Updates PriceList after change has been made.
      */
-    public void updatePriceList() {
+    private void updatePriceList() {
         List<String> priceDisplays = storage.priceDisplay();
         priceList.getItems().setAll(priceDisplays);
         fireAutoSaveStorage();
