@@ -107,13 +107,24 @@ public class Storage {
      */
     public List<String> priceDisplay() {
         List<String> list = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
         List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         if (this.isSortedPricePage == true) {
             keyList = sortedClothes;
         }
         for (Clothing clothing : keyList) {
-            list.add(clothing.getType() + "; " + clothing.getBrand()
-                + "; " + clothing.getPrice() + ",-");
+            if (list.isEmpty()) {
+                list.add(clothing.getType() + "; " + clothing.getBrand()
+                    + "; " + clothing.getPrice() + ",-");
+                list2.add(clothing.getType() + "; " + clothing.getBrand());
+                continue;
+            } else if (list2.contains(clothing.getType() + "; " + clothing.getBrand())) {
+                continue;
+            } else {
+                list.add(clothing.getType() + "; " + clothing.getBrand()
+                    + "; " + clothing.getPrice() + ",-");
+                list2.add(clothing.getType() + "; " + clothing.getBrand());
+            }
         }
         return list;
     }

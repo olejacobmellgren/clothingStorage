@@ -292,14 +292,28 @@ public class Clothing {
     }
 
     /**
-     * Check if two Clothing-objects have the same attributes.
+     * Check if two Clothing-objects have the same attributes except price.
      *
-     * @return true if same attributes, false if not same attributes
+     * @return true if same attributes but not price, false if not
      */
     public boolean equalsButDifferentPrice(Clothing clothing) {
         if (!(clothing.getBrand().equals(this.getBrand()))) {
             return false;
         } else if (!(clothing.getSize() == this.getSize())) {
+            return false;
+        } else if (!(clothing.getType().equals(this.getType()))) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if two Clothing-objects have the same attributes except size.
+     *
+     * @return true if same attributes but not size, false if not
+     */
+    public boolean equalsButDifferentSize(Clothing clothing) {
+        if (!(clothing.getBrand().equals(this.getBrand()))) {
             return false;
         } else if (!(clothing.getType().equals(this.getType()))) {
             return false;

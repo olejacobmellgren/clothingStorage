@@ -1,5 +1,6 @@
 package clothingStorage.ui;
 
+import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
@@ -289,10 +290,20 @@ public class PricePageController implements Initializable {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).setPrice(price, true);
+                Clothing clothing = storage.getClothingFromSortedClothes(index);
+                for (Clothing clothing2 : storage.getSortedClothings()) {
+                    if (clothing.equalsButDifferentSize(clothing2)) {
+                        clothing2.setPrice(price, true);
+                    }
+                }
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).setPrice(price, true);
+                Clothing clothing = storage.getClothing(index);
+                for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                    if (clothing.equalsButDifferentSize(clothing2)) {
+                        clothing2.setPrice(price, true);
+                    }
+                }
             }
             updatePriceList();
             newPrice.clear();
@@ -316,11 +327,23 @@ public class PricePageController implements Initializable {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index)
-                    .setPriceAfterAddedDiscount(discountToAdd / 100);
+                Clothing clothing = storage.getClothingFromSortedClothes(index);
+                for (Clothing clothing2 : storage.getSortedClothings()) {
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
+                    }
+                }
+                clothing.setPriceAfterAddedDiscount(discountToAdd / 100);
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).setPriceAfterAddedDiscount(discountToAdd / 100);
+                Clothing clothing = storage.getClothing(index);
+                for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                    
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
+                    }
+                }
+                clothing.setPriceAfterAddedDiscount(discountToAdd / 100);
             }
             updatePriceList();
             discount.clear();
@@ -347,10 +370,22 @@ public class PricePageController implements Initializable {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).removeDiscount();
+                Clothing clothing = storage.getClothingFromSortedClothes(index);
+                for (Clothing clothing2 : storage.getSortedClothings()) {
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.removeDiscount();
+                    }
+                }
+                clothing.removeDiscount();
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).removeDiscount();
+                Clothing clothing = storage.getClothing(index);
+                for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.removeDiscount();
+                    }
+                }
+                clothing.removeDiscount();
             }
             updatePriceList();
         } catch (IndexOutOfBoundsException e) {

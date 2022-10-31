@@ -222,6 +222,14 @@ public class NewClothingPageController implements Initializable {
                 selectedSize, selectedPrice);
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
+            for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                if (clothing2.equalsButDifferentSize(clothing) 
+                    && clothing2.getPrice() != clothing.getPrice()) {
+                    showErrorMessage("Clothing already exists in different size, " 
+                        + "but with different price. Price should be: " + clothing2.getPrice());
+                    return;
+                }
+            }
             storage.addNewClothing(clothing, selectedQuantity);
             fireAutoSaveStorage();
             handleReset();

@@ -64,14 +64,14 @@ public class NewClothingPageControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testErrorClothingItemAlreadyInStorage() {
+    public void testErrorClothingItemAlreadyInStorageWithDifferentPrice() {
         clickOn("#type").clickOn("Pants");
         clickOn("#brand").clickOn("Nike");
         clickOn("#size").clickOn("S");
         clickOn("#price").write("150");
         clickOn("#quantity").write("5");
         clickOn("#ok");
-        assertEquals("This item is already in storage" , controller.getErrorMessage());
+        assertEquals("Clothing already exists in different size, but with different price. Price should be: 10.0" , controller.getErrorMessage());
     }
 
     @Test
