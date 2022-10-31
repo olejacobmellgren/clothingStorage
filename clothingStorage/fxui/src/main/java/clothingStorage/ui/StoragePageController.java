@@ -217,7 +217,7 @@ public class StoragePageController implements Initializable {
     @FXML private void handleIncreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.increaseQuantityByOne(storage.getClothing(index));
+            storage.increaseQuantity(storage.getClothing(index), 1);
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             if (storage.getAllClothes().isEmpty()) {
@@ -234,7 +234,7 @@ public class StoragePageController implements Initializable {
     @FXML private void handleDecreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.decreaseQuantityByOne(storage.getClothing(index));
+            storage.decreaseQuantity(storage.getClothing(index), 1);
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             if (storage.getAllClothes().isEmpty()) {
@@ -242,6 +242,8 @@ public class StoragePageController implements Initializable {
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
             }
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
         }
     }
 

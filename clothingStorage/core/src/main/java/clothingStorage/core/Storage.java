@@ -50,28 +50,6 @@ public class Storage {
     }
 
     /**
-     * Increases number of clothing items by one.
-     *
-     * @param clothing to increase by one
-     */
-    public void increaseQuantityByOne(Clothing clothing) {
-        this.increaseQuantity(clothing, 1);
-    } 
-
-    /**
-     * Decreases number of clothing items by one.
-     *
-     * @param clothing to decrease by one
-     * @throws IllegalStateException if the quantity is less than 0
-     */
-    public void decreaseQuantityByOne(Clothing clothing) {
-        if (getQuantity(clothing) == 0) {
-            throw new IllegalStateException("You can not have negative quantity of item");
-        }
-        this.decreaseQuantity(clothing, 1);
-    }
-
-    /**
      * Increases number of clothing items.
      *
      * @param clothing item to be increased

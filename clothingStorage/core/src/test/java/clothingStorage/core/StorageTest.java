@@ -52,21 +52,6 @@ public class StorageTest {
     }
 
     @Test
-    public void testIncreaseQuantityByOne() {
-        storage.increaseQuantityByOne(lacosteShirt);
-        assertEquals(12, storage.getQuantity(lacosteShirt));
-    }
-
-    @Test
-    public void testDecreaseQuantityByOne() {
-        storage.decreaseQuantityByOne(lacosteShirt);
-        assertEquals(10, storage.getQuantity(lacosteShirt));
-        assertThrows(IllegalStateException.class, () -> {
-            storage.decreaseQuantityByOne(lacosteShorts);
-        }, "You can not have negative quantity of item");
-    }
-
-    @Test
     public void testIncreaseQuantity() {
         storage.increaseQuantity(lacosteShirt, 10);
         assertEquals(21, storage.getQuantity(lacosteShirt));
