@@ -66,7 +66,7 @@ public class NewClothingPageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        type.getItems().addAll("Pants", "Shirt", "Underwear",
+        type.getItems().addAll("Pants", "Jeans", "Shirt", "Underwear",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brand.getItems().addAll("Nike", "Adidas", "H&M", 
             "Lacoste", "Louis Vuitton", "Supreme", "Levi's");

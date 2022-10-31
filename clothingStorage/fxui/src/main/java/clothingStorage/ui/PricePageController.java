@@ -65,7 +65,7 @@ public class PricePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         filters.getItems().addAll("Lowest Price", "Highest Price", "Type", 
             "Brand", "On Sale");
-        typeOfClothingFilter.getItems().addAll("Pants", "Shirt", "Underwear",
+        typeOfClothingFilter.getItems().addAll("Pants", "Jeans", "Shirt", "Underwear",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
             "Louis Vuitton", "Supreme", "Levi's");

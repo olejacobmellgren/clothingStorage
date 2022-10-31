@@ -42,7 +42,7 @@ public class Clothing {
     /** 
      * Valid types for Clothing object.
     */
-    private final String[] validTypes = {"Pants", "Shirt", "Underwear",
+    private final String[] validTypes = {"Pants", "Jeans", "Shirt", "Underwear",
                                          "Socks", "Sweater", "Jacket",
                                          "Shorts", "Other"}; /*May be expanded*/
                                          

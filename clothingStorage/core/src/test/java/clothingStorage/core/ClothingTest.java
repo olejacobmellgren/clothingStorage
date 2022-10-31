@@ -29,7 +29,7 @@ public class ClothingTest{
         }, "Threw IllegalArgumentException due to number in type");
         clothing.setType("Pants");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setType("Jeans");
+            clothing.setType("Shoes");
         }, "Threw IllegalArgumentException since this is an invalid type");
         assertThrows(IllegalArgumentException.class, () -> {
             clothing.setType("pants");
