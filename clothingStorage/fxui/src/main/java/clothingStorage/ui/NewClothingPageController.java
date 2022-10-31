@@ -90,7 +90,7 @@ public class NewClothingPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         type.getItems().addAll("Pants", "Shirt", "Underwear",
-            "Socks", "Sweater", "Jacket", "Shorts", "Other");
+            "Socks", "Sweater", "Jacket", "Shorts");
         brand.getItems().addAll("Nike", "Adidas", "H&M", 
             "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');

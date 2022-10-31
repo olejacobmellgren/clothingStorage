@@ -44,7 +44,7 @@ public class Clothing {
     */
     private final String[] validTypes = {"Pants", "Shirt", "Underwear",
                                          "Socks", "Sweater", "Jacket",
-                                         "Shorts", "Other"}; /*May be expanded*/
+                                         "Shorts"}; /*May be expanded*/
                                          
 
     /**
