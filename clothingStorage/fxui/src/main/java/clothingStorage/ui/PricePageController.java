@@ -63,8 +63,8 @@ public class PricePageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        filters.getItems().addAll("Lowest Price", "Highest Price", "Brand", 
-            "Type", "On Sale");
+        filters.getItems().addAll("Lowest Price", "Highest Price", "Type", 
+            "Brand", "On Sale");
         typeOfClothingFilter.getItems().addAll("Jeans", "Shirt",
             "Socks", "Sweater", "Jacket", "Shorts", "Other");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
@@ -228,7 +228,7 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Lowest Price") {
             storage.sortOnLowestPrice();
         } else if (filters.getValue() == "Highest Price") {
-            storage.sortOnHighestPrice();;
+            storage.sortOnHighestPrice();
         } else if (filters.getValue() == "Brand") {
             String brand = brands.getValue();
             storage.filterOnBrand(brand);
@@ -246,12 +246,20 @@ public class PricePageController implements Initializable {
      */
     @FXML private void handleResetFilter() {
         try {
-            if (storage.getIsSortedClothes() == false) {
+            if (storage.getIsSortedClothes() == true) {
+                filters.setValue(null);
+                brands.setValue(null);
+                typeOfClothingFilter.setValue(null);
+                storage.setIsSortedPricePage(false);
+                updatePriceList();
+            } else if (storage.getIsSortedClothes() == false && filters.getValue() != null ) {
+                filters.setValue(null);
+                brands.setValue(null);
+                typeOfClothingFilter.setValue(null);
+                updatePriceList();
+            } else {
                 throw new IllegalStateException("Filter is not applied");
-            } 
-            filters.setValue(null);
-            storage.setIsSortedPricePage(false);
-            updatePriceList();
+            }
         } catch (IllegalStateException e) {
             showErrorMessage(e.getMessage());
         }
