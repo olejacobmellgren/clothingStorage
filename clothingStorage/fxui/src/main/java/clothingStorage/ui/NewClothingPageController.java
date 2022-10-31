@@ -209,7 +209,8 @@ public class NewClothingPageController implements Initializable {
             Character selectedSize = size.getValue();
             Double selectedPrice = Double.parseDouble(price.getText());
 
-            Clothing clothing = new Clothing(selectedType, selectedBrand, selectedSize, selectedPrice);
+            Clothing clothing = new Clothing(selectedType, selectedBrand,
+                selectedSize, selectedPrice);
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
             storage.addNewClothing(clothing, selectedQuantity);

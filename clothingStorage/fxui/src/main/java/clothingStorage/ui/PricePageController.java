@@ -252,7 +252,7 @@ public class PricePageController implements Initializable {
                 typeOfClothingFilter.setValue(null);
                 storage.setIsSortedPricePage(false);
                 updatePriceList();
-            } else if (storage.getIsSortedClothes() == false && filters.getValue() != null ) {
+            } else if (storage.getIsSortedClothes() == false && filters.getValue() != null) {
                 filters.setValue(null);
                 brands.setValue(null);
                 typeOfClothingFilter.setValue(null);
@@ -298,7 +298,8 @@ public class PricePageController implements Initializable {
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).setPriceAfterAddedDiscount(discountToAdd / 100);
+                storage.getClothingFromSortedClothes(index)
+                    .setPriceAfterAddedDiscount(discountToAdd / 100);
                 this.handleConfirmFilter();
             } else {
                 storage.getClothing(index).setPriceAfterAddedDiscount(discountToAdd / 100);
