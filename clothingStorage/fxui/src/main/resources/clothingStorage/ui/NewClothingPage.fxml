@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.NewClothingPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.NewClothingPageController">
    <children>
-        <Pane layoutX="44.0" layoutY="55.0" prefHeight="317.0" prefWidth="338.0">
+        <Pane layoutX="37.0" layoutY="152.0" prefHeight="317.0" prefWidth="338.0">
            <children>
               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="281.0" layoutY="38.0" stroke="#bfb8b8" strokeType="INSIDE" width="338.0" />
               <TextField fx:id="price" layoutX="165.0" layoutY="180.0" prefHeight="26.0" prefWidth="133.0" />
@@ -75,7 +75,7 @@
                     <Font size="14.0" />
                  </font>
               </Button>
-              <Button fx:id="cancel" layoutX="209.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="41.0" prefWidth="91.0" style="-fx-background-color: lightgreen;" text="Cancel">
+              <Button fx:id="cancel" layoutX="209.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="41.0" prefWidth="91.0" style="-fx-background-color: tomato;" text="Cancel">
                  <effect>
                     <DropShadow height="15.0" radius="8.5" />
                  </effect>
@@ -86,7 +86,14 @@
                     <Font size="14.0" />
                  </font>
               </Button>
-              <TextField fx:id="typeOfClothing" layoutX="165.0" layoutY="45.0" prefHeight="26.0" prefWidth="148.0" />
+            <ChoiceBox fx:id="type" layoutX="165.0" layoutY="45.0" prefWidth="150.0" style="-fx-background-color: lightgreen;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ChoiceBox>
            </children>
         </Pane>
    </children>

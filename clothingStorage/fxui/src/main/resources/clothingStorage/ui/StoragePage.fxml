@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StoragePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.StoragePageController">
    <children>
       <Pane layoutX="-2.0" layoutY="1.0" prefHeight="617.0" prefWidth="415.0">
          <children>
@@ -54,7 +54,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="removeQuantity" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleRemoveQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Quantity">
+            <Button fx:id="removeQuantity" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleRemoveQuantity" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: tomato;" text="Remove Quantity">
                <font>
                   <Font size="14.0" />
                </font>
@@ -85,7 +85,7 @@
                </font>
             </Label>
             <Label layoutX="45.0" layoutY="80.0" prefHeight="17.0" prefWidth="238.0" text="type;brand;size;quantity" />
-            <Button fx:id="removeClothingItem" layoutX="215.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: lightgreen;" text="Remove Clothing">
+            <Button fx:id="removeClothingItem" layoutX="215.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleRemoveClothingItem" prefHeight="46.0" prefWidth="165.0" style="-fx-background-color: tomato;" text="Remove Clothing">
                <font>
                   <Font size="14.0" />
                </font>
