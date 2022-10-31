@@ -163,7 +163,7 @@ public class StatisticsPageController implements Initializable {
     @FXML
     private void setTotalQuantityLabel() {
         int totalQuantity = StorageStatistics.getTotalQuantity(storage);
-        totalQuantityLabel.setText(String.valueOf("Totalt Quantity in Storage: " + totalQuantity));
+        totalQuantityLabel.setText(String.valueOf("Total Quantity in Storage: " + totalQuantity + ",-"));
     }
 
     /**
@@ -172,7 +172,7 @@ public class StatisticsPageController implements Initializable {
     @FXML
     private void setTotalValueLabel() {
         double totalValue = StorageStatistics.getTotalValue(storage);
-        totalValueLabel.setText("Totalt Value of Storage: " + totalValue);
+        totalValueLabel.setText("Total Value of Storage: " + totalValue);
     }
 
     /**
