@@ -1,5 +1,6 @@
 package clothingStorage.ui;
 
+import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.core.StorageStatistics;
 import clothingStorage.json.ClothingStoragePersistence;
@@ -101,23 +102,17 @@ public class StatisticsPageController implements Initializable {
                 != "clothingStorage.ui.PricePageControllerTest"
                 && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StoragePageControllerTest") {
+
+                System.out.println("hei1");
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());
-            }
+
+            } 
+            
         } catch (Exception e) {
             //ignore
         }
-        typeForDiagram.getItems().add("All Clothes");
-        typeForDiagram.setValue("All Clothes");
-        for (int i = 0; i < validTypes.length; i++) {
-            if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
-                typeForDiagram.getItems().add(validTypes[i]);
-            }
-        }
-        setDiagramForAllClothes();
-        setTotalQuantityLabel();
-        setTotalValueLabel();
     }
 
     /**
@@ -127,6 +122,17 @@ public class StatisticsPageController implements Initializable {
      */
     public void setStorage(Storage storage) {
         this.storage = storage;
+        typeForDiagram.getItems().add("All Clothes");
+        typeForDiagram.setValue("All Clothes");
+        for (int i = 0; i < validTypes.length; i++) {
+            if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
+                typeForDiagram.getItems().add(validTypes[i]);
+            }
+        }
+        System.out.println("hei2");
+        setDiagramForAllClothes();
+        setTotalQuantityLabel();
+        setTotalValueLabel();
     }
 
     /**
@@ -141,8 +147,7 @@ public class StatisticsPageController implements Initializable {
     /**
      * Sets bar-chart for all types of clothing.
      */
-    @FXML
-    private void setDiagramForAllClothes() {
+    public void setDiagramForAllClothes() {
         quantityChart.setTitle("Quantities for all types");
         categoryAxis.setLabel("Type");
         quantityChart.getData().clear();
@@ -169,7 +174,6 @@ public class StatisticsPageController implements Initializable {
     /**
      * Sets label for total quantity.
      */
-    @FXML
     private void setTotalQuantityLabel() {
         int totalQuantity = StorageStatistics.getTotalQuantity(storage);
         totalQuantityLabel.setText(String.valueOf("Total Quantity in Storage: " + totalQuantity));
@@ -178,7 +182,6 @@ public class StatisticsPageController implements Initializable {
     /**
      * Sets label for total value.
      */
-    @FXML
     private void setTotalValueLabel() {
         double totalValue = StorageStatistics.getTotalValue(storage);
         totalValueLabel.setText("Total Value of Storage: " + totalValue + ",-");
@@ -189,7 +192,6 @@ public class StatisticsPageController implements Initializable {
      *
      * @param errorMessage to be shown in alert
      */
-    @FXML
     private void showErrorMessage(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("ERROR OCCURRED");
