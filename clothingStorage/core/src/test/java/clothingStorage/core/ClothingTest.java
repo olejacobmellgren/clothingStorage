@@ -135,6 +135,17 @@ public class ClothingTest{
     }
 
     @Test
+    public void testEqualsButDifferentSize() {
+        Clothing clothing2 = new Clothing("Pants", "Nike", 'S', 150);
+        assertTrue(clothing.equalsButDifferentSize(clothing2));
+        clothing2.setType("Jacket");
+        assertFalse(clothing.equalsButDifferentSize(clothing2));
+        clothing2.setType("Pants");
+        clothing2.setBrand("Supreme");
+        assertFalse(clothing.equalsButDifferentSize(clothing2));
+    }
+
+    @Test
     public void testOnDiscount() {
         assertEquals(0, clothing.getDiscount());
         assertFalse(clothing.isOnDiscount());
