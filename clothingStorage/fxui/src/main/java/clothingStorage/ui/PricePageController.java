@@ -1,5 +1,6 @@
 package clothingStorage.ui;
 
+import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class PricePageController implements Initializable {
      */
     private Storage storage;
     /**
-     * Storage containing Clothing and corresponding quantity.
+     * ClothingStoragePersistence handeling local persistence.
      */
     private ClothingStoragePersistence storagePersistence;
     /**
@@ -38,24 +39,67 @@ public class PricePageController implements Initializable {
     private String errorMessage;
 
     /**
+     * Choicebox for what to filter on.
+     */
+    @FXML
+    private ChoiceBox<String> filters;
+    /**
+     * Choicebox for what type of clothing to filter on.
+     */
+    @FXML
+    private ChoiceBox<String> typeOfClothingFilter;
+    /**
+     * Choicebox for what brand to filter on.
+     */
+    @FXML
+    private ChoiceBox<String> brands;
+    /**
+     * Button for storage-page.
+     */
+    @FXML
+    private Button storagePageButton;
+    /**
+     * Button for statistics-page.
+     */
+    @FXML
+    private Button statisticsPageButton;
+    /**
+     * Listview with all clothing-items and their prices.
+     */
+    @FXML
+    private ListView<String> priceList;
+    /**
+     * Button for confirming new price.
+     */
+    @FXML
+    private Button confirmNewPrice;
+    /**
+     * Button for confirming discount.
+     */
+    @FXML
+    private Button confirmDiscount;
+    /**
+     * Textfield for new price.
+     */
+    @FXML
+    private TextField newPrice;
+    /**
+     * Textfield for discount to add.
+     */
+    @FXML
+    private TextField discount;
+    /**
+     * Button to confirm filter.
+     */
+    @FXML
+    private Button confirmFilter;
+    
+    /**
      * Constructor for StorageController initializing it with empty storage.
      */
     public PricePageController() {
         this.storage = new Storage();
     }
-
-    /**
-     * Choicebox for what to filter on.
-     */
-    @FXML private ChoiceBox<String> filters;
-    /**
-     * Choicebox for what type of clothing to filter on.
-     */
-    @FXML private ChoiceBox<String> typeOfClothingFilter;
-    /**
-     * Choicebox for what brand to filter on.
-     */
-    @FXML private ChoiceBox<String> brands;
 
     /**
      * Initializes controller with the choiceboxes.
@@ -65,8 +109,8 @@ public class PricePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         filters.getItems().addAll("Lowest Price", "Highest Price", "Type", 
             "Brand", "On Sale");
-        typeOfClothingFilter.getItems().addAll("Jeans", "Shirt",
-            "Socks", "Sweater", "Jacket", "Shorts", "Other");
+        typeOfClothingFilter.getItems().addAll("Pants", "Shirt", "Underwear",
+            "Socks", "Sweater", "Jacket", "Shorts");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
             "Louis Vuitton", "Supreme", "Levi's");
         try {
@@ -122,7 +166,7 @@ public class PricePageController implements Initializable {
     /**
      * Updates PriceList after change has been made.
      */
-    public void updatePriceList() {
+    private void updatePriceList() {
         List<String> priceDisplays = storage.priceDisplay();
         priceList.getItems().setAll(priceDisplays);
         fireAutoSaveStorage();
@@ -143,42 +187,10 @@ public class PricePageController implements Initializable {
     }
 
     /**
-     * Button for storage-page.
-     */
-    @FXML private Button storagePageButton;
-    /**
-     * Button for statistics-page.
-     */
-    @FXML private Button statisticsPageButton;
-    /**
-     * Listview with all clothing-items and their prices.
-     */
-    @FXML private ListView<String> priceList;
-    /**
-     * Button for confirming new price.
-     */
-    @FXML private Button confirmNewPrice;
-    /**
-     * Button for confirming discount.
-     */
-    @FXML private Button confirmDiscount;
-    /**
-     * Textfield for new price.
-     */
-    @FXML private TextField newPrice;
-    /**
-     * Textfield for discount to add.
-     */
-    @FXML private TextField discount;
-    /**
-     * Button to confirm filter.
-     */
-    @FXML private Button confirmFilter;
-
-    /**
      * Changes ui-view to the storage-page.
      */
-    @FXML private void handleStoragePageButton() throws IOException {
+    @FXML
+    private void handleStoragePageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
@@ -190,7 +202,8 @@ public class PricePageController implements Initializable {
     /**
      * Changes ui-view to the statistics-page.
      */
-    @FXML private void handleStatisticsPageButton() throws IOException {
+    @FXML
+    private void handleStatisticsPageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
@@ -202,7 +215,8 @@ public class PricePageController implements Initializable {
     /**
      * Detects if extra choice boxes needs to be shown or removed.
      */
-    @FXML private void handleFilterChoice() {
+    @FXML
+    private void handleFilterChoice() {
         if (filters.getValue() == "Brand") {
             brands.setVisible(true);
             typeOfClothingFilter.setVisible(false);
@@ -218,7 +232,8 @@ public class PricePageController implements Initializable {
     /**
      * Filters price-list with chosen filter.
      */
-    @FXML private void handleConfirmFilter() {
+    @FXML
+    private void handleConfirmFilter() {
         if (filters.getValue() == null) {
             showErrorMessage("You must choose a filter in the choice box first");
         } else if (filters.getValue() == "Type" && typeOfClothingFilter.getValue() == null) {
@@ -236,7 +251,7 @@ public class PricePageController implements Initializable {
             String type = typeOfClothingFilter.getValue();
             storage.filterOnType(type);
         } else if (filters.getValue() == "On Sale") {
-            storage.filterOnSale();
+            storage.filterOnDiscount();
         }
         updatePriceList();
     }
@@ -244,7 +259,8 @@ public class PricePageController implements Initializable {
     /**
      * Resets filter if there is any.
      */
-    @FXML private void handleResetFilter() {
+    @FXML
+    private void handleResetFilter() {
         try {
             if (storage.getIsSortedClothes() == true) {
                 filters.setValue(null);
@@ -252,7 +268,7 @@ public class PricePageController implements Initializable {
                 typeOfClothingFilter.setValue(null);
                 storage.setIsSortedPricePage(false);
                 updatePriceList();
-            } else if (storage.getIsSortedClothes() == false && filters.getValue() != null ) {
+            } else if (storage.getIsSortedClothes() == false && filters.getValue() != null) {
                 filters.setValue(null);
                 brands.setValue(null);
                 typeOfClothingFilter.setValue(null);
@@ -268,23 +284,29 @@ public class PricePageController implements Initializable {
     /**
      * Updates price-list with new price for selected clothing-item.
      */
-    @FXML private void handleConfirmNewPrice() {
+    @FXML
+    private void handleConfirmNewPrice() {
         try {
-            /*
-            if (filters.getValue() != null) {
-                showErrorMessage("Please reset filter first");
-                return;
-            }
-            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double price = Double.parseDouble(newPrice.getText());
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).setPrice(price, true);
+                Clothing clothing = storage.getClothingFromSortedClothes(index);
+                for (Clothing clothing2 : storage.getSortedClothings()) {
+                    if (clothing.equalsButDifferentSize(clothing2)) {
+                        clothing2.setPrice(price, true);
+                    }
+                }
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).setPrice(price, true);
+                Clothing clothing = storage.getClothing(index);
+                for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                    if (clothing.equalsButDifferentSize(clothing2)) {
+                        clothing2.setPrice(price, true);
+                    }
+                }
             }
             updatePriceList();
+            newPrice.clear();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
                 showErrorMessage("Specify price first in textfield");
@@ -299,23 +321,32 @@ public class PricePageController implements Initializable {
     /**
      * Updates price-list with new price after adding discount.
      */
-    @FXML private void handleConfirmDiscount() {
+    @FXML
+    private void handleConfirmDiscount() {
         try {
-            /*
-            if (priceList.getItems().size() < storage.getAllClothes().size()) {
-                showErrorMessage("Please reset filter first");
-                return;
-            }
-            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             double discountToAdd = Double.parseDouble(discount.getText());
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).setDiscount(discountToAdd / 100);
+                Clothing clothing = storage.getClothingFromSortedClothes(index);
+                for (Clothing clothing2 : storage.getSortedClothings()) {
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
+                    }
+                }
+                clothing.setPriceAfterAddedDiscount(discountToAdd / 100);
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).setDiscount(discountToAdd / 100);
+                Clothing clothing = storage.getClothing(index);
+                for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                    
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
+                    }
+                }
+                clothing.setPriceAfterAddedDiscount(discountToAdd / 100);
             }
             updatePriceList();
+            discount.clear();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
                 showErrorMessage("Specify price first in textfield");
@@ -334,20 +365,27 @@ public class PricePageController implements Initializable {
     /**
      * Updates price-list with new price after removing discount.
      */
-    @FXML private void handleRemoveDiscount() {
+    @FXML
+    private void handleRemoveDiscount() {
         try {
-            /*
-            if (priceList.getItems().size() < storage.getAllClothes().size()) {
-                showErrorMessage("Please reset filter first");
-                return;
-            }
-            */
             int index = priceList.getSelectionModel().getSelectedIndex();
             if (storage.getIsSortedClothes() == true) {
-                storage.getClothingFromSortedClothes(index).removeDiscount();
+                Clothing clothing = storage.getClothingFromSortedClothes(index);
+                for (Clothing clothing2 : storage.getSortedClothings()) {
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.removeDiscount();
+                    }
+                }
+                clothing.removeDiscount();
                 this.handleConfirmFilter();
             } else {
-                storage.getClothing(index).removeDiscount();
+                Clothing clothing = storage.getClothing(index);
+                for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+                    if (clothing.equalsButDifferentSize(clothing2) && !clothing.equals(clothing2)) {
+                        clothing2.removeDiscount();
+                    }
+                }
+                clothing.removeDiscount();
             }
             updatePriceList();
         } catch (IndexOutOfBoundsException e) {

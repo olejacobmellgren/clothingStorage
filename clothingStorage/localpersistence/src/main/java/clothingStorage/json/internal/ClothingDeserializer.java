@@ -49,7 +49,7 @@ class ClothingDeserializer extends JsonDeserializer<Clothing> {
             discount = discountNode.asDouble();
 
             Clothing clothing = new Clothing(type, brand, size, price);
-            clothing.setSale(discount);
+            clothing.setDiscount(discount);
             return clothing;
         }
         return null;

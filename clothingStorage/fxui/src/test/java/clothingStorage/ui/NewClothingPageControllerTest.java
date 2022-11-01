@@ -33,7 +33,7 @@ public class NewClothingPageControllerTest extends ApplicationTest {
     @BeforeEach
     public void setupClothingItems() {
         storage = new Storage();
-        Clothing clothing1 = new Clothing("Jeans", "Nike", 'S', 10);
+        Clothing clothing1 = new Clothing("Pants", "Nike", 'S', 10);
         Clothing clothing2 = new Clothing("Shorts", "Louis Vuitton", 'M', 20);
         Clothing clothing3 = new Clothing("Socks", "Adidas", 'L', 30);
         storage.addNewClothing(clothing1, 5);
@@ -52,26 +52,26 @@ public class NewClothingPageControllerTest extends ApplicationTest {
 
     @Test
     public void testNewClothingItem() {
-        clickOn("#typeOfClothing").write("Jeans");
+        clickOn("#type").clickOn("Pants");
         clickOn("#brand").clickOn("Adidas");
         clickOn("#size").clickOn("S");
         clickOn("#price").write("150");
         clickOn("#quantity").write("5");
         clickOn("#ok");
 
-        Clothing clothing = new Clothing("Jeans", "Adidas", 'S', 150);
+        Clothing clothing = new Clothing("Pants", "Adidas", 'S', 150);
         assertEquals("You successfully added the following: " + clothing.toString(), controller.getConfirmMessage());
     }
 
     @Test
-    public void testErrorClothingItemAlreadyInStorage() {
-        clickOn("#typeOfClothing").write("Jeans");
+    public void testErrorClothingItemAlreadyInStorageWithDifferentPrice() {
+        clickOn("#type").clickOn("Pants");
         clickOn("#brand").clickOn("Nike");
         clickOn("#size").clickOn("S");
         clickOn("#price").write("150");
         clickOn("#quantity").write("5");
         clickOn("#ok");
-        assertEquals("This item is already in storage" , controller.getErrorMessage());
+        assertEquals("Clothing already exists in different size, but with different price. Price should be: 10.0" , controller.getErrorMessage());
     }
 
     @Test
@@ -81,19 +81,8 @@ public class NewClothingPageControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testErrorNewClothingWrongType() {
-        clickOn("#typeOfClothing").write("jacket");
-        clickOn("#brand").clickOn("Adidas");
-        clickOn("#size").clickOn("L");
-        clickOn("#price").write("159");
-        clickOn("#quantity").write("8");
-        clickOn("#ok");
-        assertEquals("Type of clothing must start with uppercase letter", controller.getErrorMessage());
-    }
-
-    @Test
     public void testErrorNewClothingWrongNumber() {
-        clickOn("#typeOfClothing").write("Jacket");
+        clickOn("#type").clickOn("Jacket");
         clickOn("#brand").clickOn("Adidas");
         clickOn("#size").clickOn("L");
         clickOn("#price").write("hei");

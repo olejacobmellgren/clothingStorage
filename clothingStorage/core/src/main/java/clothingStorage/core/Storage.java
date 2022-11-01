@@ -50,28 +50,6 @@ public class Storage {
     }
 
     /**
-     * Increases number of clothing items by one.
-     *
-     * @param clothing to increase by one
-     */
-    public void increaseQuantityByOne(Clothing clothing) {
-        this.increaseQuantity(clothing, 1);
-    } 
-
-    /**
-     * Decreases number of clothing items by one.
-     *
-     * @param clothing to decrease by one
-     * @throws IllegalStateException if the quantity is less than 0
-     */
-    public void decreaseQuantityByOne(Clothing clothing) {
-        if (getQuantity(clothing) == 0) {
-            throw new IllegalStateException("You can not have negative quantity of item");
-        }
-        this.decreaseQuantity(clothing, 1);
-    }
-
-    /**
      * Increases number of clothing items.
      *
      * @param clothing item to be increased
@@ -129,13 +107,24 @@ public class Storage {
      */
     public List<String> priceDisplay() {
         List<String> list = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
         List<Clothing> keyList = new ArrayList<>(this.getAllClothes().keySet());
         if (this.isSortedPricePage == true) {
             keyList = sortedClothes;
         }
         for (Clothing clothing : keyList) {
-            list.add(clothing.getType() + "; " + clothing.getBrand()
-                + "; " + clothing.getPrice() + ",-");
+            if (list.isEmpty()) {
+                list.add(clothing.getType() + "; " + clothing.getBrand()
+                    + "; " + clothing.getPrice() + ",-");
+                list2.add(clothing.getType() + "; " + clothing.getBrand());
+                continue;
+            } else if (list2.contains(clothing.getType() + "; " + clothing.getBrand())) {
+                continue;
+            } else {
+                list.add(clothing.getType() + "; " + clothing.getBrand()
+                    + "; " + clothing.getPrice() + ",-");
+                list2.add(clothing.getType() + "; " + clothing.getBrand());
+            }
         }
         return list;
     }
@@ -268,12 +257,12 @@ public class Storage {
     }
 
     /**
-     * Filters the storage-list based on sale.
+     * Filters the storage-list based on discount.
      */
-    public void filterOnSale() {
+    public void filterOnDiscount() {
         List<Clothing> keyList = new ArrayList<Clothing>(this.getAllClothes().keySet());
         List<Clothing> filteredList = keyList.stream()
-                                        .filter(c -> c.isOnSale() == true).toList();
+                                        .filter(c -> c.isOnDiscount() == true).toList();
         sortedClothes = new ArrayList<>(filteredList);
         this.setIsSortedPricePage(true);
     }

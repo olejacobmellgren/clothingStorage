@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StorageTest {
     
     private Storage storage;
-    private Clothing leviJeans;
+    private Clothing leviPants;
     private Clothing supremeShorts;
     private Clothing louisVuittonJacket;
     private Clothing adidasSocks;
@@ -17,7 +17,7 @@ public class StorageTest {
     @BeforeEach
     public void setUp() {
         storage = new Storage();
-        leviJeans = new Clothing("Jeans", "Levi's", 'M', 199);
+        leviPants = new Clothing("Pants", "Levi's", 'M', 199);
         supremeShorts = new Clothing("Shorts", "Supreme", 'S', 159);
         louisVuittonJacket = new Clothing("Jacket", "Louis Vuitton", 'L', 1599);
         adidasSocks = new Clothing("Socks", "Adidas", 'M', 99);
@@ -34,8 +34,8 @@ public class StorageTest {
 
     @Test
     public void testAddNewClothing() {
-        storage.addNewClothing(leviJeans, 3);
-        assertEquals(3, storage.getQuantity(leviJeans));
+        storage.addNewClothing(leviPants, 3);
+        assertEquals(3, storage.getQuantity(leviPants));
         assertThrows(IllegalStateException.class, () -> {
             storage.addNewClothing(supremeShorts, 3);
         }, "This item is already in storage");
@@ -47,23 +47,8 @@ public class StorageTest {
         storage.removeClothing(adidasSocks);
         assertEquals(4, storage.getAllClothes().size());
         assertThrows(IllegalStateException.class, () -> {
-            storage.removeClothing(leviJeans);
+            storage.removeClothing(leviPants);
         }, "This item is not in storage");
-    }
-
-    @Test
-    public void testIncreaseQuantityByOne() {
-        storage.increaseQuantityByOne(lacosteShirt);
-        assertEquals(12, storage.getQuantity(lacosteShirt));
-    }
-
-    @Test
-    public void testDecreaseQuantityByOne() {
-        storage.decreaseQuantityByOne(lacosteShirt);
-        assertEquals(10, storage.getQuantity(lacosteShirt));
-        assertThrows(IllegalStateException.class, () -> {
-            storage.decreaseQuantityByOne(lacosteShorts);
-        }, "You can not have negative quantity of item");
     }
 
     @Test
@@ -90,24 +75,24 @@ public class StorageTest {
     @Test
     public void testStorageDisplay() {
         storage = new Storage();
-        storage.addNewClothing(leviJeans, 5);
-        assertEquals("Jeans; Levi's; M; 5", storage.storageDisplay().get(0));
+        storage.addNewClothing(leviPants, 5);
+        assertEquals("Pants; Levi's; M; 5", storage.storageDisplay().get(0));
     }
 
     
     @Test
     public void testPriceDisplay() {
         storage = new Storage();
-        storage.addNewClothing(leviJeans, 4);
-        assertEquals("Jeans; Levi's; 199.0,-", storage.priceDisplay().get(0));
+        storage.addNewClothing(leviPants, 4);
+        assertEquals("Pants; Levi's; 199.0,-", storage.priceDisplay().get(0));
     }
 
     @Test
     public void testToString() {
         storage = new Storage();
-        storage.addNewClothing(leviJeans, 5);
+        storage.addNewClothing(leviPants, 5);
         storage.addNewClothing(adidasSocks, 4);
-        assertEquals(leviJeans.toString() + "\n" + "   - Quantity: 5" + "\n" + adidasSocks.toString() + "\n" + "   - Quantity: 4", storage.toString());
+        assertEquals(leviPants.toString() + "\n" + "   - Quantity: 5" + "\n" + adidasSocks.toString() + "\n" + "   - Quantity: 4", storage.toString());
     }
 
     @Test

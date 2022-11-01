@@ -32,7 +32,7 @@ public class ClothingStorageModuleTest {
                 "quantity": 1
             },
             {
-                "type": "Top",
+                "type": "Shirt",
                 "brand": "Adidas",
                 "size": "S",
                 "price": 599.9,
@@ -70,7 +70,7 @@ public class ClothingStorageModuleTest {
             LinkedHashMap<Clothing, Integer> clothes = storage.getAllClothes();
             ArrayList<Clothing> keys = new ArrayList<>(clothes.keySet());
             checkClothing(keys.get(0), "Pants", "Nike", 'M', 199.0, 0.5);
-            checkClothing(keys.get(1), "Top", "Adidas", 'S', 599.9, 0.9);
+            checkClothing(keys.get(1), "Shirt", "Adidas", 'S', 599.9, 0.9);
             assertFalse(clothes.size() > 2);
         } catch (JsonProcessingException e) {
             fail(e.getMessage());
@@ -81,8 +81,8 @@ public class ClothingStorageModuleTest {
     public void testSerializersDeserializers() {
         Storage storage = new Storage();
         Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 199.0);
-        Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
-        Clothing clothing3 = new Clothing("Leggings", "Nike", 'L', 20.0);
+        Clothing clothing2 = new Clothing("Shirt", "Adidas", 'S', 599.9);
+        Clothing clothing3 = new Clothing("Shorts", "Nike", 'L', 20.0);
         storage.addNewClothing(clothing1, 1);
         storage.addNewClothing(clothing2, 1);
         storage.addNewClothing(clothing3, 2);
@@ -92,7 +92,7 @@ public class ClothingStorageModuleTest {
             Clothing c1 = storage2.getClothing(0);
             Clothing c2 = storage2.getClothing(1);
             assertEquals("Pants", c1.getType());
-            assertEquals("Top", c2.getType());
+            assertEquals("Shirt", c2.getType());
             checkClothing(clothing1, c1);
             checkClothing(clothing2, c2);
             assertFalse(clothing1.getType() == clothing3.getType());
@@ -106,9 +106,9 @@ public class ClothingStorageModuleTest {
     static Storage createStorageWithTwoClothes() {
         Storage storage = new Storage();
         Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 199.0);
-        Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
-        clothing1.setSale(0.5);
-        clothing2.setSale(0.9);
+        Clothing clothing2 = new Clothing("Shirt", "Adidas", 'S', 599.9);
+        clothing1.setDiscount(0.5);
+        clothing2.setDiscount(0.9);
         storage.addNewClothing(clothing1, 1);
         storage.addNewClothing(clothing2, 5);
         return storage;

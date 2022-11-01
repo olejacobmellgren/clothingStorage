@@ -38,6 +38,12 @@ public class StatisticsPageController implements Initializable {
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
+    /** 
+     * Valid types for Clothing object.
+    */
+    private final String[] validTypes = {"Pants", "Shirt", "Underwear",
+                                         "Socks", "Sweater", "Jacket",
+                                         "Shorts", "Other"}; /*May be expanded*/
 
     /**
      * Label for total quantity in storage.
@@ -83,14 +89,11 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
-     * Initializes controller with the choiceboxes.
+     * Initializes controller with the choiceboxes and initial diagram.
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        typeForDiagram.getItems().addAll("All Clothes", "Jeans", "Shirt",
-            "Socks", "Sweater", "Jacket", "Shorts", "Other");
-        typeForDiagram.setValue("All Clothes");
         try {
             if (Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StatisticsPageControllerTest"
@@ -105,8 +108,14 @@ public class StatisticsPageController implements Initializable {
         } catch (Exception e) {
             //ignore
         }
+        typeForDiagram.getItems().add("All Clothes");
+        typeForDiagram.setValue("All Clothes");
+        for (int i = 0; i < validTypes.length; i++) {
+            if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
+                typeForDiagram.getItems().add(validTypes[i]);
+            }
+        }
         setDiagramForAllClothes();
-
         setTotalQuantityLabel();
         setTotalValueLabel();
     }
@@ -139,10 +148,12 @@ public class StatisticsPageController implements Initializable {
         quantityChart.getData().clear();
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
         series.setName("Quantity");
-        series.getData().add(new XYChart.Data<String, Integer>("Jeans",
-                        StorageStatistics.getQuantityForType(storage, "Jeans")));
+        series.getData().add(new XYChart.Data<String, Integer>("Pants",
+                        StorageStatistics.getQuantityForType(storage, "Pants")));
         series.getData().add(new XYChart.Data<String, Integer>("Shirt",
-                        StorageStatistics.getQuantityForType(storage, "T-shirt")));
+                        StorageStatistics.getQuantityForType(storage, "Shirt")));
+        series.getData().add(new XYChart.Data<String, Integer>("Underwear",
+                        StorageStatistics.getQuantityForType(storage, "Underwear")));
         series.getData().add(new XYChart.Data<String, Integer>("Socks",
                         StorageStatistics.getQuantityForType(storage, "Socks")));
         series.getData().add(new XYChart.Data<String, Integer>("Sweater",
@@ -151,10 +162,8 @@ public class StatisticsPageController implements Initializable {
                         StorageStatistics.getQuantityForType(storage, "Jacket")));
         series.getData().add(new XYChart.Data<String, Integer>("Shorts",
                         StorageStatistics.getQuantityForType(storage, "Shorts")));          
-        series.getData().add(new XYChart.Data<String, Integer>("Other",
-                        StorageStatistics.getQuantityForType(storage, "Other")));
+        quantityChart.setAnimated(false);
         quantityChart.getData().add(series);
-        quantityChart.layout();
     }
 
     /**
@@ -163,16 +172,16 @@ public class StatisticsPageController implements Initializable {
     @FXML
     private void setTotalQuantityLabel() {
         int totalQuantity = StorageStatistics.getTotalQuantity(storage);
-        totalQuantityLabel.setText(String.valueOf("Totalt Quantity in Storage: " + totalQuantity));
+        totalQuantityLabel.setText(String.valueOf("Total Quantity in Storage: " + totalQuantity));
     }
 
     /**
-     * Sets label for total quantity.
+     * Sets label for total value.
      */
     @FXML
     private void setTotalValueLabel() {
         double totalValue = StorageStatistics.getTotalValue(storage);
-        totalValueLabel.setText("Totalt Value of Storage: " + totalValue);
+        totalValueLabel.setText("Total Value of Storage: " + totalValue + ",-");
     }
 
     /**
@@ -204,7 +213,7 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
-     * Changes ui-view to the storage-page.
+     * Changes ui-view to the price-page.
      */
     @FXML 
     private void handlePricePageButton() throws IOException {
@@ -246,14 +255,11 @@ public class StatisticsPageController implements Initializable {
                                 StorageStatistics.getQuantityForTypeAndSize(storage,
                                                                             typeChosenForDiagram, 
                                                                             'L')));
+                quantityChart.setAnimated(false);
                 quantityChart.getData().add(series);
-                quantityChart.layout();
             }
         }
-    }
-
-
-    
+    }  
 }
 
 
