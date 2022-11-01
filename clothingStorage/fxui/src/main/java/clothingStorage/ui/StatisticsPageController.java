@@ -1,12 +1,12 @@
 package clothingStorage.ui;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.core.StorageStatistics;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,8 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -35,16 +33,12 @@ public class StatisticsPageController implements Initializable {
      * ClothingStoragePersistence handeling local persistence.
      */
     private ClothingStoragePersistence storagePersistence;
-    /**
-     * Current errormessage as shown in ui.
-     */
-    private String errorMessage;
     /** 
      * Valid types for Clothing object.
     */
     private final String[] validTypes = {"Pants", "Shirt", "Underwear",
                                          "Socks", "Sweater", "Jacket",
-                                         "Shorts", "Other"}; /*May be expanded*/
+                                         "Shorts"}; /*May be expanded*/
 
     /**
      * Label for total quantity in storage.
@@ -103,7 +97,6 @@ public class StatisticsPageController implements Initializable {
                 && Thread.currentThread().getStackTrace()[5].getClassName()
                 != "clothingStorage.ui.StoragePageControllerTest") {
 
-                System.out.println("hei1");
                 this.storagePersistence = new ClothingStoragePersistence();
                 this.storagePersistence.setSaveFile("storage.json");
                 this.setStorage(storagePersistence.loadClothingStorage());
@@ -123,25 +116,21 @@ public class StatisticsPageController implements Initializable {
     public void setStorage(Storage storage) {
         this.storage = storage;
         typeForDiagram.getItems().add("All Clothes");
-        typeForDiagram.setValue("All Clothes");
-        for (int i = 0; i < validTypes.length; i++) {
-            if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
-                typeForDiagram.getItems().add(validTypes[i]);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                // Update UI here.
+                typeForDiagram.setValue("All Clothes");
+                for (int i = 0; i < validTypes.length; i++) {
+                    if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
+                        typeForDiagram.getItems().add(validTypes[i]);
+                    }
+                }
+                setDiagramForAllClothes();
+                setTotalQuantityLabel();
+                setTotalValueLabel();
             }
-        }
-        System.out.println("hei2");
-        setDiagramForAllClothes();
-        setTotalQuantityLabel();
-        setTotalValueLabel();
-    }
-
-    /**
-     * Gets error-message for controller as shown in ui, helps controller test-class.
-     *
-     * @return the error-message
-     */
-    public String getErrorMessage() {
-        return this.errorMessage;
+        });        
     }
 
     /**
@@ -188,20 +177,6 @@ public class StatisticsPageController implements Initializable {
     }
 
     /**
-     * Shows alert with error-message.
-     *
-     * @param errorMessage to be shown in alert
-     */
-    private void showErrorMessage(String errorMessage) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("ERROR OCCURRED");
-        alert.setHeaderText("Error!");
-        alert.setContentText(errorMessage);
-        this.errorMessage = errorMessage;
-        alert.showAndWait();
-    }
-
-    /**
      * Changes ui-view to the storage-page.
      */
     @FXML 
@@ -236,30 +211,25 @@ public class StatisticsPageController implements Initializable {
             setDiagramForAllClothes();
         } else {
             String typeChosenForDiagram = typeForDiagram.getValue();
-            if (StorageStatistics.getQuantityForType(storage, typeChosenForDiagram) == 0) {
-                showErrorMessage("Unable to display diagram because quantity"
-                                + " for this type of clothing is 0");
-            } else {
-                quantityChart.setTitle("Quantity of sizes for " + typeChosenForDiagram);
-                categoryAxis.setLabel("Sizes");
-                quantityChart.getData().clear();
-                XYChart.Series<String, Integer> series = new XYChart.Series<>();
-                series.setName("Quantity");
-                series.getData().add(new XYChart.Data<String, Integer>("S",
-                                StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                                            typeChosenForDiagram,
-                                                                            'S')));
-                series.getData().add(new XYChart.Data<String, Integer>("M",
-                                StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                                            typeChosenForDiagram,
-                                                                            'M')));
-                series.getData().add(new XYChart.Data<String, Integer>("L",
-                                StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                                            typeChosenForDiagram, 
-                                                                            'L')));
-                quantityChart.setAnimated(false);
-                quantityChart.getData().add(series);
-            }
+            quantityChart.setTitle("Quantity of sizes for " + typeChosenForDiagram);
+            categoryAxis.setLabel("Sizes");
+            quantityChart.getData().clear();
+            XYChart.Series<String, Integer> series = new XYChart.Series<>();
+            series.setName("Quantity");
+            series.getData().add(new XYChart.Data<String, Integer>("S",
+                            StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                                        typeChosenForDiagram,
+                                                                        'S')));
+            series.getData().add(new XYChart.Data<String, Integer>("M",
+                            StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                                        typeChosenForDiagram,
+                                                                        'M')));
+            series.getData().add(new XYChart.Data<String, Integer>("L",
+                            StorageStatistics.getQuantityForTypeAndSize(storage,
+                                                                        typeChosenForDiagram, 
+                                                                        'L')));
+            quantityChart.setAnimated(false);
+            quantityChart.getData().add(series);
         }
     }  
 }

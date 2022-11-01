@@ -2,8 +2,6 @@ package clothingStorage.ui;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -11,16 +9,10 @@ import org.testfx.matcher.control.LabeledMatchers;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-import clothingStorage.core.StorageStatistics;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 public class StatisticsPageControllerTest extends ApplicationTest {
@@ -60,15 +52,40 @@ public class StatisticsPageControllerTest extends ApplicationTest {
         clickOn("#typeForDiagram").clickOn("All Clothes");
 
         BarChart<String, Integer> actualBarchart = lookup("#quantityChart").query();
-        System.out.println(actualBarchart.getData().get(0).getData());
 
         assertEquals(7, actualBarchart.getData().get(0).getData().get(0).getYValue());
         assertEquals(2, actualBarchart.getData().get(0).getData().get(3).getYValue());
         assertEquals(5, actualBarchart.getData().get(0).getData().get(5).getYValue());
         assertEquals(9, actualBarchart.getData().get(0).getData().get(6).getYValue());
-        
     }
 
+    @Test
+    public void testTypeChart() {
+        Clothing clothing = new Clothing("Pants", "Adidas", 'S', 89);
+        storage.addNewClothing(clothing, 4);
+        controller.setStorage(storage);
+        clickOn("#typeForDiagram").clickOn(LabeledMatchers.hasText("Pants"));
 
-    
+        BarChart<String, Integer> actualBarchart = lookup("#quantityChart").query();
+        
+        assertEquals(4, actualBarchart.getData().get(0).getData().get(0).getYValue());
+        assertEquals(7, actualBarchart.getData().get(0).getData().get(1).getYValue());
+        assertEquals(0, actualBarchart.getData().get(0).getData().get(2).getYValue());
+    }
+
+    @Test
+    public void testPricePageButton() {
+        clickOn("#pricePageButton");
+        assertEquals("Clothing Prices", this.stage.getTitle());
+        clickOn("#statisticsPageButton");
+        assertEquals("Statistics", this.stage.getTitle());
+    }
+
+    @Test
+    public void testStoragePageButton() {
+        clickOn("#storagePageButton");
+        assertEquals("Clothing Storage", this.stage.getTitle());
+        clickOn("#statisticsPageButton");
+        assertEquals("Statistics", this.stage.getTitle());
+    } 
 }
