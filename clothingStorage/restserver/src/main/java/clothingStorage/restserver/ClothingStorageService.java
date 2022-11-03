@@ -11,7 +11,7 @@ import java.io.IOException;
  * to methods from core and local-persistence.
  */
 @Service //NOTE:Antar jeg trenger denne senere
-public class clothingStorageService {
+public class ClothingStorageService {
     /**
      * The storage.
      */
@@ -25,7 +25,7 @@ public class clothingStorageService {
      * Create a new Storage object on initialization
      * and loads data using localpercistence.
      */
-    public clothingStorageService() {
+    public ClothingStorageService() {
         this.storage = new Storage();
         this.storagePersistence = new ClothingStoragePersistence();
         this.storagePersistence.setSaveFile("storage.json");

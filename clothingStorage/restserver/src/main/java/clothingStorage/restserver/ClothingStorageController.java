@@ -32,6 +32,6 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/restapi")
-public class clothingStorageController {
+public class ClothingStorageController {
     
 }

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /*
  * The clothingStorageApplication.
  */
-public class clothingStorageApplication {
+public class ClothingStorageApplication {
     
 
     /**
@@ -17,7 +17,7 @@ public class clothingStorageApplication {
      * @param args launched by string
      */
     public static void main(String[] args){
-        SpringApplication.run(clothingStorageApplication, args);
+        SpringApplication.run(ClothingStorageApplication, args);
     }
 
     /**
