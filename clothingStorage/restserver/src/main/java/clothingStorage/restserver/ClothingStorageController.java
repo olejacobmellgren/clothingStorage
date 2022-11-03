@@ -1,12 +1,8 @@
 package clothingStorage.restserver;
 
-import core.CardioSubCategory;
-import core.EntryManager;
-import core.ExerciseCategory;
-import core.LogEntry;
-import core.SortConfiguration;
-import core.StrengthSubCategory;
-import core.Subcategory;
+import core.Clothing;
+import core.Storage;
+
 import math.Statistics;
 import org.json.JSONArray;
 import org.json.JSONObject;

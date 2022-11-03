@@ -51,6 +51,14 @@
 			<artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--Spring test-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+            <version> 2.5.6 </version>
+			<scope>test</scope>
+		</dependency>
+
         <!-- junit testing with jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -91,4 +99,3 @@
         </plugins>
     </build>
 </project>
-
