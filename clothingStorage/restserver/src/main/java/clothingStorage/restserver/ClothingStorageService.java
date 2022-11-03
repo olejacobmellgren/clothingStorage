@@ -71,4 +71,8 @@ public class ClothingStorageService {
         }
     }
 
+    public Storage getStorage() {
+        return this.storage;
+    }
+
 }
