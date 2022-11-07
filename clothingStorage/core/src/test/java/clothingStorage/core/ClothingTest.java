@@ -170,6 +170,13 @@ public class ClothingTest{
         output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
         assertEquals(output, clothing.toString());
     }
+
+    @Test
+    public void testGetName() {
+        assertEquals("PantsNikeM", clothing.getName());
+        Clothing clothing2 = new Clothing("Jacket", "Lacoste", 'L', 99);
+        assertEquals("JacketLacosteL", clothing2.getName());
+    }
 }
 
 
