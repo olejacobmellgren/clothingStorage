@@ -20,9 +20,7 @@ Application klasse for spring boot serveren. Den starter serveren.
 
 ## ClothingStorageController
 
-TODO
-
-Controller class for handling the get and post requests. It consists of a GetFitService.
+Kontroller (Controller) klassen for håndtering av get og post etterspørsler. Den tar i bruk ClothingStorageService. 
 
 ### Methods
 
