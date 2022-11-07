@@ -268,7 +268,7 @@ public class Storage {
     }
 
     /**
-     * Retrieves clothing item in hashmap.
+     * Retrieves clothing item in hashmap on index.
      *
      * @param index of the clothing item to retrieve
      * @return clothing item 
@@ -279,6 +279,22 @@ public class Storage {
             throw new IllegalStateException("Invalid index, not in storage");
         }
         return keyList.get(index);
+    }
+
+    /**
+     * Retrieves clothing item in hashmap on name.
+     *
+     * @param name of the clothing item to retrieve
+     * @return clothing item 
+     */
+    public Clothing getClothing(String name) {
+        ArrayList<Clothing> keyList = new ArrayList<Clothing>(storageList.keySet());
+        for (Clothing clothing : keyList) {
+            if (clothing.getName().equals(name)) {
+                return clothing;
+            }
+        }
+        throw new IllegalArgumentException("Clothing does not exist");
     }
 
     /**
