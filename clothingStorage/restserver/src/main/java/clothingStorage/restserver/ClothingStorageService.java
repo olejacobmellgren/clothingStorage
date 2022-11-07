@@ -2,9 +2,14 @@ package clothingStorage.restserver;
 
 import clothingStorage.json.ClothingStoragePersistence;
 import clothingStorage.core.Storage;
+import clothingStorage.core.Clothing;
 import org.springframework.stereotype.Service;  //NOTE: Får ikke til å importere den
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Gives the server access
@@ -25,12 +30,26 @@ public class ClothingStorageService {
      * Create a new Storage object on initialization
      * and loads data using localpercistence.
      */
-    public ClothingStorageService() {
-        this.storage = new Storage();
+    public ClothingStorageService(Storage storage) {
+        this.storage = storage;
         this.storagePersistence = new ClothingStoragePersistence();
-        this.storagePersistence.setSaveFile("storage.json");
-        // initializeStoragePersistence()
-        load();
+        this.storagePersistence.setSaveFile("server-storage.json");
+    }
+
+    public ClothingStorageService() {
+        this.storagePersistence = new ClothingStoragePersistence();
+        URL url = ClothingStorageService.class.getResource("default-storage.json");
+        if (url != null) {
+          try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
+            this.storage = storagePersistence.readClothingStorage(reader);
+          } catch (IOException e) {
+            System.out.println("Couldn't read default-storage.json, so rigging TodoModel manually ("
+                + e + ")");
+          }
+        } else {
+            this.storage = new Storage();
+        }
+        this.storagePersistence.setSaveFile("server-storage.json");
     }
 
 
@@ -71,8 +90,29 @@ public class ClothingStorageService {
         }
     }
 
+    /**
+     * Saves the Storage to memory/disk.
+     * Should be used after evry change in the storage.
+     */
+    public void autoSaveTodoModel() {
+        if (storagePersistence != null) {
+          try {
+            storagePersistence.saveClothingStorage(this.storage);
+          } catch (IllegalStateException | IOException e) {
+            System.err.println("Couldn't auto-save storage: " + e);
+          }
+        }
+      }
+    
+    
+    
+    //NOTE: Kan hende de to nederste funksjonene kan slettes...
     public Storage getStorage() {
         return this.storage;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
 
 }
