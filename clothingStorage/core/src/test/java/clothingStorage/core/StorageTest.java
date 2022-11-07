@@ -104,11 +104,19 @@ public class StorageTest {
     }
 
     @Test
-    public void testGetClothing() {
+    public void testGetClothingOnIndex() {
         assertEquals(supremeShorts, storage.getClothing(0));
         assertThrows(IllegalStateException.class, () -> {
             storage.getClothing(8);
         }, "Index is bigger than storage size");
+    }
+
+    @Test
+    public void testGetClothingOnName() {
+        assertEquals(supremeShorts, storage.getClothing("ShortsSupremeS"));
+        assertThrows(IllegalArgumentException.class, () -> {
+            storage.getClothing("PantsSupremeL");
+        }, "Clothing does not exist");
     }
 
     @Test
