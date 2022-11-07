@@ -2,8 +2,7 @@ package clothingStorage.restserver;
 
 import clothingStorage.json.ClothingStoragePersistence;
 import clothingStorage.core.Storage;
-import clothingStorage.core.Clothing;
-import org.springframework.stereotype.Service;  //NOTE: Får ikke til å importere den
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  * Gives the server access
  * to methods from core and local-persistence.
  */
-@Service //NOTE:Antar jeg trenger denne senere
+@Service 
 public class ClothingStorageService {
     /**
      * The storage.
@@ -50,44 +49,6 @@ public class ClothingStorageService {
             this.storage = new Storage();
         }
         this.storagePersistence.setSaveFile("server-storage.json");
-    }
-
-
-    /**
-     * Initializion function for the ClothingStoragePersistence.
-     * Makes a new ClothingStoragePersistion and sets the file to
-     * save and load from.
-     */
-/* 
-    private void initializeStoragePersistence() {
-        this.storagePersistence = new ClothingStoragePersistence();
-        this.storagePersistence.setSaveFile("storage.json");
-    }
-*/
-
-
-    /**
-     * Use ClothingStoragePersistence from localpersistence to load
-     * the content of the save file to the Storage.
-     */
-    public void load() {
-        try {
-            this.storage = storagePersistence.loadClothingStorage();
-        } catch (IllegalArgumentException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Use ClothingStoragePersistence from localpersistence to save
-     * the state of the Storage to file.
-     */
-    public void save() {
-        try {
-            storagePersistence.saveClothingStorage(storage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
