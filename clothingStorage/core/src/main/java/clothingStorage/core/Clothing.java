@@ -31,7 +31,11 @@ public class Clothing {
     /** 
      * Discount of Clothing object.
     */
-    private double discount;  
+    private double discount;
+    /** 
+     * Name of Clothing object.
+    */
+    private String name;
 
     /** 
      * Valid brands for Clothing object.
@@ -61,6 +65,7 @@ public class Clothing {
         setSize(size);
         setPrice(price, false);
         setDiscount(0);
+        setName();
     }
 
     /** 
@@ -221,6 +226,15 @@ public class Clothing {
         }
     }
 
+    /**
+     * Sets the Name of clothing item.
+     */
+    public void setName() {
+        String string = "";
+        string += this.type + this.brand + this.size;
+        this.name = string;
+    }
+
     /** 
      * Retrieves clothing type.
      *
@@ -276,6 +290,15 @@ public class Clothing {
      */
     public double getDiscount() {
         return this.discount;
+    }
+
+    /**
+     * Retrieves clothing name.
+     *
+     * @return name of clothing item
+     */
+    public String getName() {
+        return this.name;
     }
 
     /** 
