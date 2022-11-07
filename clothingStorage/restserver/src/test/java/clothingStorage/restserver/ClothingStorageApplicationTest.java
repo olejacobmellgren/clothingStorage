@@ -46,4 +46,20 @@ public class ClothingStorageApplicationTest {
     }
     return url;
     }
+
+    @Test
+    public void testGet_clothingStorage() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(todoUrl())
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn();
+        try {
+            /*Lage tomt hashmap her og legge til ting? */
+            Storage storage = objectMapper.readValue(result.getResponse().getContentAsString(), Storage.class);
+            
+        }  
+        catch (JsonProcessingException e){
+            fail(e.getMessage());
+        }
+    }
 }
