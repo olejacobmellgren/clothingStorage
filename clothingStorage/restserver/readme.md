@@ -11,12 +11,12 @@ Modulen inneholder de følgende klassene:
 
 Application klasse for spring boot serveren. Den starter serveren.
 
-### Methods
+### Metoder
 
-- main(String...): Main method for starting the application. It accesses the method run in SpringApplication with
-  GetFitApplication.class and the given strings as arguments.
+- main(String...): Main metode for å starte appen. Den gir tilgang til run metoden i SpringApplication med
+  ClothingStorageApplication.class og strengene gitt som argumenter.
 
-- dummy() -> void: Has no function other than to pass checkstyle. Alternative breaks springboot.
+- dummy() -> void: Kun for at checkstyle ikke skal passere. Uten denne kræsjer Springboot.
 
 ## ClothingStorageController
 
