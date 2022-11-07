@@ -2,7 +2,8 @@ package clothingStorage.restserver;
 
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+/*import org.springframework.boot.autoconfigure.SpringBootApplication; NOTE: trengs ikke?*/
+
 
 
 /*
@@ -17,7 +18,7 @@ public class ClothingStorageApplication {
      * @param args launched by string
      */
     public static void main(String[] args){
-        SpringApplication.run(ClothingStorageApplication, args);
+        SpringApplication.run(ClothingStorageApplication.class, args);
     }
 
     /**
