@@ -2,30 +2,24 @@ package clothingStorage.restserver;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.NoSuchElementException;
-
+/**
+ * The service implementation.
+ */
 @RestController
 @RequestMapping(ClothingStorageController.STORAGE_SERVICE_PATH)
 public class ClothingStorageController {
 
-    public static final String STORAGE_SERVICE_PATH = "storage";
+    public static final String STORAGE_SERVICE_PATH = "clothingStorage";
 
     @Autowired
     private ClothingStorageService clothingStorageService;
@@ -48,7 +42,7 @@ public class ClothingStorageController {
     /**
      * Gets the corresponding Clothing.
      *
-     * @param name the name of the Clothing
+     * @param name of the Clothing
      * @return the corresponding Clothing
      */
     @GetMapping(path = "/clothes/{name}")
@@ -61,38 +55,29 @@ public class ClothingStorageController {
     // NOTE: kan godt hende vi her målegge til en ekstra ettersom det er forskjell
     // på fjering og tillegg av klær
 
-
+    /**
+     * Replaces or adds a clothing.
+     *
+     * @param name of the clothing
+     * @param clothing corresponding clothing
+     * @return true if success, false if not
+     */
     @PutMapping(path = "/clothes/{name}")
-    public boolean addClothing(@PathVariable("name") String name, @RequestBody Clothing clothing,
-            @RequestBody int quantity) {
+    public boolean putClothing(@PathVariable("name") String name, @RequestBody Clothing clothing) {
+        boolean exists = false;
         boolean added = true;
-        try {
-            getStorage().addNewClothing(clothing, quantity);
-        } catch (Exception e) {
-            added = false;
+        for (Clothing clothing2 : getStorage().getAllClothes().keySet()) {
+            if (clothing.getName().equals(clothing2.getName())) {
+                exists = true;
+            }
         }
-        autoSaveStorage();
-        return added;
-    }
-
-    @PutMapping(path = "/clothes/{name}")
-    public boolean putClothing(@PathVariable("name") String name, @RequestBody Clothing clothing, @RequestBody int quantity) {
-        boolean added = true;
         try {
-            getStorage().putClothing(clothing, quantity);
-        } catch (Exception e) {
-            added = false;
-        }
-        autoSaveStorage();
-        return added;
-    }
-
-    @PutMapping(path = "/clothes/{name}")
-    public boolean updateClothingPrice(@PathVariable("name") String name, @RequestBody Clothing clothing) {
-        boolean added = true;
-        try {
-            getStorage().getClothing(name).setPrice(clothing.getPrice());
-            getStorage().getClothing(name).setDiscount(clothing.getDiscount());
+            if (exists) {
+                getStorage().getClothing(name).setPrice(clothing.getPrice(), true);
+                getStorage().getClothing(name).setPriceAfterAddedDiscount(clothing.getDiscount());
+            } else {
+                getStorage().addNewClothing(clothing, 0);
+            }
         } catch (Exception e) {
             added = false;
         }
@@ -104,6 +89,7 @@ public class ClothingStorageController {
      * Removes the clothing.
      *
      * @param name the name of the clothing
+     * @return true if success, false if not
      */
     @DeleteMapping(path = "/clothes/{name}")
     public boolean removeClothing(@PathVariable("name") String name) {
@@ -112,6 +98,55 @@ public class ClothingStorageController {
         getStorage().removeClothing(clothing);
         autoSaveStorage();
         return true;
+    }
+
+    /**
+     * Gets quantity of clothing.
+     *
+     * @param name of clothing
+     * @return quantity of clothing
+     */
+    @GetMapping(path = "/quantity/{name}")
+    public int getQuantity(@PathVariable("name") String name) {
+        int quantity = getStorage().getQuantity(getStorage().getClothing(name));
+        return quantity;
+    }
+
+    /**
+     * Replaces or adds quantity.
+     *
+     * @param name of clothing
+     * @param quantity to be replaced or added
+     * @return true if success, false if not
+     */
+    @PutMapping(path = "/quantity/{name}")
+    public boolean putQuantityOfClothing(@PathVariable("name") String name,
+        @RequestParam int quantity) {
+        boolean added = true;
+        try {
+            getStorage().updateQuantity(getStorage().getClothing(name), quantity);
+        } catch (Exception e) {
+            added = false;
+        }
+
+        return added;
+    }
+
+    /**
+     * Removes quantity.
+     *
+     * @param name of clothing
+     * @return true if success, false if not
+     */
+    @DeleteMapping(path = "/quantity/{name}")
+    public boolean removeQuantity(@PathVariable("name") String name) {
+        boolean deleted = true;
+        try {
+            getStorage().updateQuantity(getStorage().getClothing(name), 0);
+        } catch (Exception e) {
+            deleted = false;
+        }
+        return deleted;
     }
 
 }
