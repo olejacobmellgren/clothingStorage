@@ -15,9 +15,9 @@ import java.net.http.HttpResponse;
 
 
 /**
- * The LogClient.
+ * The StorageClient.
  */
-public class LogClient {
+public class StorageClient {
     /* Skriv metoder vi trenger
      * get
      * getAsync
@@ -61,8 +61,8 @@ public class LogClient {
      *
      * @throws URISyntaxException if string could not be parsed to URI
      */
-    public LogClient() throws URISyntaxException {
-        this.endpointBaseUri = new URI("http://localhost:8080/clothingStorage");
+    public StorageClient() throws URISyntaxException {
+        this.endpointBaseUri = new URI("http://localhost:8080/clothingStorage/");
         objectMapper = ClothingStoragePersistence.createObjectMapper();
     }
 
@@ -74,7 +74,7 @@ public class LogClient {
      */
     public Clothing getClothing(final String name) {
         Clothing clothing;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("/clothes/" + name))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("clothes/" + name))
             .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
@@ -89,29 +89,6 @@ public class LogClient {
     }
 
     /**
-     * Removes Clothing from restserver.
-     *
-     * @param clothing to be removed
-     * @return boolean true if success, false if not
-     */
-    public boolean removeClothing(Clothing clothing) {
-        Boolean removed;
-        try {
-            HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-                .resolve("/clothes/" + clothing.getName()))
-                .header(ACCEPT_HEADER, APPLICATION_JSON)
-                .DELETE()
-                .build();
-            final HttpResponse<String> response =
-                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            removed = objectMapper.readValue(response.body(), Boolean.class);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return removed;
-    }
-
-    /**
      * Puts Clothing to restserver.
      *
      * @param clothing to be put
@@ -120,17 +97,17 @@ public class LogClient {
     public boolean putClothing(Clothing clothing) throws JsonProcessingException {
         Boolean updated;
         String json = objectMapper.writeValueAsString(clothing);
-        
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-            .resolve("/clothes/" + clothing.getName()))
-            .header(ACCEPT_HEADER, APPLICATION_JSON)
-            .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
-            .PUT(BodyPublishers.ofString(json))
-            .build();
+        System.out.println(json);
+
         try {
+            HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
+                .resolve("clothes/" + clothing.getName()))
+                .header(ACCEPT_HEADER, APPLICATION_JSON)
+                .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+                .PUT(BodyPublishers.ofString(json))
+                .build();
             final HttpResponse<String> response =
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("hei2");
             System.out.println(response.body());
             updated = objectMapper.readValue(response.body(), Boolean.class);
 
@@ -138,6 +115,40 @@ public class LogClient {
             throw new RuntimeException(e);
         }
         return updated;
+    }
+
+    /**
+     * Removes Clothing from restserver.
+     *
+     * @param clothing to be removed
+     * @return boolean true if success, false if not
+     */
+    public boolean removeClothing(Clothing clothing) {
+        Boolean removed;
+        //Boolean removedName;
+        try {
+            HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
+                .resolve("clothes/" + clothing.getName()))
+                .header(ACCEPT_HEADER, APPLICATION_JSON)
+                .DELETE()
+                .build();
+            final HttpResponse<String> response =
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            removed = objectMapper.readValue(response.body(), Boolean.class);
+            /*
+            HttpRequest request2 = HttpRequest.newBuilder(endpointBaseUri
+                .resolve("names/" + clothing.getName()))
+                .header(ACCEPT_HEADER, APPLICATION_JSON)
+                .DELETE()
+                .build();
+            final HttpResponse<String> response2 =
+                HttpClient.newBuilder().build().send(request2, HttpResponse.BodyHandlers.ofString());
+            removedName = objectMapper.readValue(response2.body(), Boolean.class);
+            */
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return removed; //&& removedName;
     }
 
     /**
@@ -149,7 +160,7 @@ public class LogClient {
     public int getQuantity(final String name) {
         int quantity;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-            .resolve("/quantity/" + name))
+            .resolve("quantity/" + name))
             .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
@@ -170,19 +181,20 @@ public class LogClient {
      * @param quantity to be updated
      * @return boolean true if success, false if not
      */
-    public boolean putQuantityOfClothing(Clothing clothing, int quantity) {
+    public boolean putQuantity(Clothing clothing, int quantity) {
         Boolean updated;
-        String json = "{quantity:" + quantity + "}";
 
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-            .resolve("/quantity/" + clothing.getName()))
+            .resolve("quantity/" + clothing.getName()))
             .header(ACCEPT_HEADER, APPLICATION_JSON)
             .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
-            .PUT(BodyPublishers.ofString(json))
+            .PUT(BodyPublishers.ofString("quantity=" + quantity))
             .build();
         try {
             final HttpResponse<String> response =
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+            
             updated = objectMapper.readValue(response.body(), Boolean.class);
 
         } catch (IOException | InterruptedException e) {
@@ -201,7 +213,7 @@ public class LogClient {
         Boolean removed;
         try {
             HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-                .resolve("/quantity/" + clothing.getName()))
+                .resolve("quantity/" + clothing.getName()))
                 .header(ACCEPT_HEADER, APPLICATION_JSON)
                 .DELETE()
                 .build();
@@ -214,15 +226,17 @@ public class LogClient {
         return removed;
     }
 
+
+
     public static void main(String[] args) throws URISyntaxException, JsonProcessingException {
         Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
-        LogClient logClient = new LogClient();
-        logClient.putQuantityOfClothing(clothing, 5);
+        StorageClient logClient = new StorageClient();
+        logClient.putClothing(clothing);
     }
 
 }
 /*
-http:/localhost:8080/clothingStorage
+
 http:/localhost:8080/clothingStorage/clothes/name
 http:/localhost:8080/clothingStorage/quantities/name
 
@@ -230,3 +244,5 @@ Storage storage = client.getStorage();
 storage.increaseQuantity(Clothing clothing);
 client.putStorage();
 */
+
+//http:/localhost:8080/clothingStorage/names/{name}
