@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * The service implementation.
  */
 @RestController
-@RequestMapping(ClothingStorageController.STORAGE_SERVICE_PATH)
+@RequestMapping("/clothingStorage")
 public class ClothingStorageController {
 
     public static final String STORAGE_SERVICE_PATH = "clothingStorage";
@@ -76,7 +77,7 @@ public class ClothingStorageController {
                 getStorage().getClothing(name).setPrice(clothing.getPrice(), true);
                 getStorage().getClothing(name).setPriceAfterAddedDiscount(clothing.getDiscount());
             } else {
-                getStorage().addNewClothing(clothing, 0);
+                getStorage().addNewClothing(clothing, 4);
             }
         } catch (Exception e) {
             added = false;
@@ -120,11 +121,11 @@ public class ClothingStorageController {
      * @return true if success, false if not
      */
     @PutMapping(path = "/quantity/{name}")
-    public boolean putQuantityOfClothing(@PathVariable("name") String name,
-        @RequestParam int quantity) {
+    public boolean putQuantity(@PathVariable("name") String name,
+        @RequestParam String quantity) {
         boolean added = true;
         try {
-            getStorage().updateQuantity(getStorage().getClothing(name), quantity);
+            getStorage().updateQuantity(getStorage().getClothing(name), Integer.parseInt(quantity));
         } catch (Exception e) {
             added = false;
         }

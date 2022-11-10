@@ -1,16 +1,19 @@
 package clothingStorage.client;
 
 import clothingStorage.core.Clothing;
+import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 
 
@@ -101,7 +104,7 @@ public class StorageClient {
 
         try {
             HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-                .resolve("clothes/" + clothing.getName()))
+                .resolve("clothes/").resolve(uriParam(clothing.getName())))
                 .header(ACCEPT_HEADER, APPLICATION_JSON)
                 .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
                 .PUT(BodyPublishers.ofString(json))
@@ -142,7 +145,7 @@ public class StorageClient {
                 .DELETE()
                 .build();
             final HttpResponse<String> response2 =
-                HttpClient.newBuilder().build().send(request2, HttpResponse.BodyHandlers.ofString());
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             removedName = objectMapper.readValue(response2.body(), Boolean.class);
             */
         } catch (IOException | InterruptedException e) {
@@ -188,7 +191,7 @@ public class StorageClient {
             .resolve("quantity/" + clothing.getName()))
             .header(ACCEPT_HEADER, APPLICATION_JSON)
             .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
-            .PUT(BodyPublishers.ofString("quantity=" + quantity))
+            .PUT(BodyPublishers.ofString("quantity=" + uriParam(String.valueOf(quantity))))
             .build();
         try {
             final HttpResponse<String> response =
@@ -226,15 +229,28 @@ public class StorageClient {
         return removed;
     }
 
+    private String uriParam(String s) {
+        return URLEncoder.encode(s, StandardCharsets.UTF_8);
+    }
 
 
+    /**
+     * wtf.
+     *
+     * @param args fd
+     * @throws URISyntaxException fd 
+     * @throws JsonProcessingException fd
+     */
     public static void main(String[] args) throws URISyntaxException, JsonProcessingException {
         Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
         StorageClient logClient = new StorageClient();
         logClient.putClothing(clothing);
+        Clothing clothing2 = new Clothing("Pants", "Adidas", 'S', 43);
+        logClient.putClothing(clothing2);
+        logClient.putQuantity(clothing2, 9);
     }
-
 }
+
 /*
 
 http:/localhost:8080/clothingStorage/clothes/name

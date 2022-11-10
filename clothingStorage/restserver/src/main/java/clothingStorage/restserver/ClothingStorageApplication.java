@@ -3,6 +3,11 @@ package clothingStorage.restserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import clothingStorage.json.ClothingStoragePersistence;
 
 
 /**
@@ -11,6 +16,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ClothingStorageApplication {
     
+    @Bean
+    public ObjectMapper objectMapperModule() {
+        return ClothingStoragePersistence.createObjectMapper();
+    }
 
     /**
      * Starts spring server.

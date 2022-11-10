@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>restserver</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
