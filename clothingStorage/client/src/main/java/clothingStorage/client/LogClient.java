@@ -37,12 +37,12 @@ public class LogClient {
      */
 
     /**
-     * Port to the remote server.
+     * URI base path.
      */
     private final URI endpointBaseUri;
 
     /**
-     * Port to the remote server.
+     * Application json for requests.
      */
     private static final String APPLICATION_JSON = "application/json";
 
@@ -52,12 +52,12 @@ public class LogClient {
     private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
     /**
-     * Accept header.
+     * Accept header for requests.
      */
     private static final String ACCEPT_HEADER = "Accept";
 
     /**
-     * Content-type header.
+     * Content-type header for requests.
      */
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
 
@@ -65,11 +65,6 @@ public class LogClient {
      * Objectmapper.
      */
     private ObjectMapper objectMapper;
-
-    /**
-     * Storage.
-     */
-    private Storage storage;
 
 
     /**
@@ -83,6 +78,7 @@ public class LogClient {
     }
 
     public Storage getStorage() {
+        Storage storage;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri)
             .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
@@ -90,15 +86,12 @@ public class LogClient {
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            this.storage = objectMapper.readValue(response.body(), Storage.class);
+            storage = objectMapper.readValue(response.body(), Storage.class);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         return storage;
     }
-
-
-
 
     public Clothing getClothing(final String name) {
         Clothing clothing;
@@ -115,8 +108,8 @@ public class LogClient {
         }
         return clothing;
     }
-
-    public boolean addClothing(Clothing clothing, int quantity) throws JsonProcessingException {
+/* 
+    public boolean addClothing(Clothing clothing) throws JsonProcessingException {
         Boolean added;
         String json = objectMapper.writeValueAsString(clothing);
         System.out.println(json);
@@ -136,6 +129,7 @@ public class LogClient {
         }
         return added;
     }
+    */
 
     public boolean removeClothing(Clothing clothing) {
         Boolean removed;
@@ -153,7 +147,7 @@ public class LogClient {
         return removed;
     }
 
-    public boolean updateClothing(Clothing clothing) throws JsonProcessingException {
+    public boolean putClothing(Clothing clothing) throws JsonProcessingException {
         Boolean updated;
         String json = objectMapper.writeValueAsString(clothing);
         
@@ -173,6 +167,30 @@ public class LogClient {
         return updated;
     }
 
+    public boolean putStorage(Storage storage) throws JsonProcessingException {
+        Boolean updated;
+        String json = objectMapper.writeValueAsString(storage);
+        
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri)
+          .header(ACCEPT_HEADER, APPLICATION_JSON)
+          .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+          .PUT(BodyPublishers.ofString(json))
+          .build();
+        try {
+            final HttpResponse<String> response =
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            updated = objectMapper.readValue(response.body(), Boolean.class);
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return updated;
+    }
+
+    public void putQuantityOfClothing(Clothing clothing, int quantity) {
+        
+    }
+
     public static void main(String[] args) throws URISyntaxException, JsonProcessingException {
         Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
         LogClient logClient = new LogClient();
@@ -181,3 +199,11 @@ public class LogClient {
     }
 
 }
+
+http:/localhost:8080/clothingStorage
+http:/localhost:8080/clothingStorage/clothes/name
+http:/localhost:8080/clothingStorage/quantities/name
+
+Storage storage = client.getStorage();
+storage.increaseQuantity(Clothing clothing);
+client.putStorage();
