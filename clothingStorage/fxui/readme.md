@@ -1,6 +1,6 @@
 # FXUI
 
-Modul for å håndtere frontend. Denen modulen inneholder følgende klasser:
+Modul for å håndtere frontend av applikasjonen. Denne modulen inneholder følgende klasser:
 
 - NewClothingPageController
 - PricePageController
