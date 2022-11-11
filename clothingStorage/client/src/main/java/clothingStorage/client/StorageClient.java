@@ -389,13 +389,82 @@ public class StorageClient {
                 .replace("]", "")
                 .replace('"', '{')
                 .replace("{", "");
-            System.out.println(listString);
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
-            System.out.println(list.toString());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    /**
+     * Gets the quantity for a type of clothing.
+     *
+     * @param type the type of clothing to get quantity for
+     * @return amount of clothing for that type
+     */
+    public List<Integer> getQuantitiesForTypeAndSizes(String type) {
+        List<Integer> quantitys = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
+            .resolve("stats/chartData/" + type))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String quantitysString = response.body();
+            quantitysString = quantitysString.replace("[", "").replace("]", "");
+            String[] quantitiesList = quantitysString.split(",");
+            for (String string : quantitiesList) {
+                quantitys.add(Integer.parseInt(string));
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return quantitys;
+    }
+
+    /**
+     * Gets total value of storage.
+     *
+     * @return total quantity from restserver
+     */
+    public double getTotalValue() {
+        double value;
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
+            .resolve("stats/totalValue"))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String valueString = response.body();
+            value = Double.parseDouble(valueString);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return value;
+    }
+
+    /**
+     * Gets quantity from restserver.
+     *
+     * @return quantity from restserver
+     */
+    public int getTotalQuantity() {
+        int quantity;
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
+            .resolve("stats/totalQuantity"))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String quantityString = response.body();
+            quantity = Integer.parseInt(quantityString);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return quantity;
     }
 
     /**
@@ -426,10 +495,8 @@ public class StorageClient {
         clothing3.setDiscount(0.5);
         logClient.putClothing(clothing3);
         logClient.putQuantity(clothing2.getName(), 9);
-        Clothing clothing4 = logClient.getClothing("JacketLacosteL");
-        System.out.println(clothing4.toString());
-        Storage storage = logClient.getStorage();
-        System.out.println(storage.toString());
+        //Clothing clothing4 = logClient.getClothing("JacketLacosteL");
+        //Storage storage = logClient.getStorage();
         logClient.getNames();
         logClient.getPriceDisplay();
     }
