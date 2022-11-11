@@ -1,9 +1,11 @@
 package clothingStorage.ui;
 
+import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
 import clothingStorage.core.StorageStatistics;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -39,6 +41,10 @@ public class StatisticsPageController implements Initializable {
     private final String[] validTypes = {"Pants", "Shirt", "Underwear",
                                          "Socks", "Sweater", "Jacket",
                                          "Shorts"}; /*May be expanded*/
+    /**
+     * StorageClient for the session.
+     */
+    private StorageClient storageClient;
 
     /**
      * Label for total quantity in storage.
@@ -78,9 +84,11 @@ public class StatisticsPageController implements Initializable {
 
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
+     * @throws URISyntaxException
      */
-    public StatisticsPageController() {
+    public StatisticsPageController() throws URISyntaxException {
         this.storage = new Storage();
+        this.storageClient = new StorageClient();
     }
 
     /**

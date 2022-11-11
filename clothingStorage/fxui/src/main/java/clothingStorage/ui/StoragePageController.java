@@ -1,8 +1,10 @@
 package clothingStorage.ui;
 
+import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,6 +37,10 @@ public class StoragePageController implements Initializable {
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
+    /**
+     * StorageClient for the session.
+     */
+    private StorageClient storageClient;
 
     /**
      * Button for price-page.
@@ -85,9 +91,11 @@ public class StoragePageController implements Initializable {
 
     /**
      * Constructor for StorageController initializing it with empty storage.
+     * @throws URISyntaxException
      */
-    public StoragePageController() {
+    public StoragePageController() throws URISyntaxException {
         this.storage = new Storage();
+        this.storageClient = new StorageClient();
     }
 
     /**
@@ -96,21 +104,7 @@ public class StoragePageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StoragePageControllerTest"
-                && Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.PricePageControllerTest"
-                && Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.NewClothingPageControllerTest") {
-
-                this.storagePersistence = new ClothingStoragePersistence();
-                this.storagePersistence.setSaveFile("storage.json");
-                this.setStorage(storagePersistence.loadClothingStorage());
-            }
-        } catch (Exception e) {
-            //ignore
-        }   
+        updateStorageList(storageClient.getStorageDisplay());  
     }
 
     /**
@@ -123,7 +117,7 @@ public class StoragePageController implements Initializable {
             storageList.getItems().clear();
         }
         this.storage = storage;
-        updateStorageList();
+        updateStorageList(storageClient.getStorageDisplay());
     }
 
     /**
@@ -136,25 +130,10 @@ public class StoragePageController implements Initializable {
     }
 
     /**
-     * Autosaves storage to json-file.
-     */
-    private void fireAutoSaveStorage() {    
-        if (storagePersistence != null) {
-            try {
-                storagePersistence.saveClothingStorage(storage);
-            } catch (Exception e) {
-                System.err.println("Fikk ikke lagret storage: " + e.getMessage());
-            }
-        }
-    }
-
-    /**
      * Updates StorageList after change has been made.
      */
-    private void updateStorageList() {
-        List<String> clothingDisplays = storage.storageDisplay();
-        storageList.getItems().setAll(clothingDisplays);
-        fireAutoSaveStorage();   
+    private void updateStorageList(List<String> storageDisplay) {
+        storageList.getItems().setAll(storageDisplay);
     }
     
     /**
@@ -217,8 +196,14 @@ public class StoragePageController implements Initializable {
     private void handleRemoveClothingItem() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.removeClothing(storage.getClothing(index));
-            updateStorageList();
+            List<String> names = storageClient.getNames();
+            String name = names.get(index);
+            boolean removed = storageClient.removeClothing(name);
+            if (removed == true) {
+                updateStorageList(storageClient.getStorageDisplay());
+            } else {
+                // do nothing
+            }
         } catch (IndexOutOfBoundsException e) {
             showErrorMessage("You need to select an item from the list");
         }
@@ -231,10 +216,18 @@ public class StoragePageController implements Initializable {
     private void handleIncreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.increaseQuantity(storage.getClothing(index), 1);
-            updateStorageList();
-        } catch (IndexOutOfBoundsException e) {
-            if (storage.getAllClothes().isEmpty()) {
+            List<String> names = storageClient.getNames();
+            String name = names.get(index);
+            int previousQuantity = storageClient.getQuantity(name);
+            int newQuantity = previousQuantity + 1;
+            boolean updated = storageClient.putQuantity(name, newQuantity);
+            if (updated == true) {
+                updateStorageList(storageClient.getStorageDisplay());
+            } else {
+                // do nothing
+            }
+        } catch (IndexOutOfBoundsException e) { // vet ikke hvordan exception skal håndteres helt enda
+            if (storageClient.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
@@ -249,10 +242,21 @@ public class StoragePageController implements Initializable {
     private void handleDecreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.decreaseQuantity(storage.getClothing(index), 1);
-            updateStorageList();
+            List<String> names = storageClient.getNames();
+            String name = names.get(index);
+            int previousQuantity = storageClient.getQuantity(name);
+            int newQuantity = previousQuantity - 1;
+            if (newQuantity < 0) {
+                throw new IllegalStateException("Can not have negative quantity");
+            }
+            boolean updated = storageClient.putQuantity(name, newQuantity);
+            if (updated == true) {
+                updateStorageList(storageClient.getStorageDisplay());
+            } else {
+                // do nothing
+            }
         } catch (IndexOutOfBoundsException e) {
-            if (storage.getAllClothes().isEmpty()) {
+            if (storageClient.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
@@ -269,12 +273,20 @@ public class StoragePageController implements Initializable {
     private void handleAddQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            if (storage.getAllClothes().isEmpty() || index == -1) {
+            if (storageClient.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
+            List<String> names = storageClient.getNames();
+            String name = names.get(index);
+            int previousQuantity = storageClient.getQuantity(name);
             int addQuantity = Integer.parseInt(quantity.getText());
-            storage.increaseQuantity(storage.getClothing(index), addQuantity);
-            updateStorageList();
+            int newQuantity = previousQuantity + addQuantity;
+            boolean updated = storageClient.putQuantity(name, newQuantity);
+            if (updated == true) {
+                updateStorageList(storageClient.getStorageDisplay());
+            } else {
+                // do nothing
+            }
         } catch (NumberFormatException e) {
             if (quantity.getText().isEmpty()) {
                 showErrorMessage("Specify quantity first in textfield");
@@ -282,7 +294,7 @@ public class StoragePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storage.getAllClothes().isEmpty()) {
+            if (storageClient.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
@@ -297,12 +309,23 @@ public class StoragePageController implements Initializable {
     private void handleRemoveQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            if (storage.getAllClothes().isEmpty() || index == -1) {
+            if (storageClient.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
+            List<String> names = storageClient.getNames();
+            String name = names.get(index);
+            int previousQuantity = storageClient.getQuantity(name);
             int decQuantity = Integer.parseInt(quantity.getText());
-            storage.decreaseQuantity(storage.getClothing(index), decQuantity);
-            updateStorageList();
+            int newQuantity = previousQuantity - decQuantity;
+            if (newQuantity < 0) {
+                throw new IllegalStateException("Can not have negative quantity");
+            }
+            boolean updated = storageClient.putQuantity(name, newQuantity);
+            if (updated == true) {
+                updateStorageList(storageClient.getStorageDisplay());
+            } else {
+                // do nothing
+            }
         } catch (NumberFormatException e) {
             if (quantity.getText().isEmpty()) {
                 showErrorMessage("Specify quantity first in textfield");
@@ -310,11 +333,13 @@ public class StoragePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storage.getAllClothes().isEmpty()) {
+            if (storageClient.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
             }
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
         }
     }
 }

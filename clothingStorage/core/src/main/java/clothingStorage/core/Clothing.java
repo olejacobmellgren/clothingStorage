@@ -310,7 +310,7 @@ public class Clothing {
     public String toString() {
         String toString = this.getType() + "\n" + "   - Brand: " + this.getBrand() + "\n"
             + "   - Size: " + String.valueOf(this.getSize()) + "\n"
-            + "   - Price: " + String.valueOf(this.getPrice()) + ",-";
+            + "   - Price: " + String.valueOf(this.getPrice()) + "kr";
         return toString;
     }
 

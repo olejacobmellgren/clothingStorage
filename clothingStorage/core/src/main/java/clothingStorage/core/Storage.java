@@ -129,14 +129,14 @@ public class Storage {
         for (Clothing clothing : keyList) {
             if (list.isEmpty()) {
                 list.add(clothing.getType() + "; " + clothing.getBrand()
-                    + "; " + clothing.getPrice() + ",-");
+                    + "; " + clothing.getPrice() + "kr");
                 list2.add(clothing.getType() + "; " + clothing.getBrand());
                 continue;
             } else if (list2.contains(clothing.getType() + "; " + clothing.getBrand())) {
                 continue;
             } else {
                 list.add(clothing.getType() + "; " + clothing.getBrand()
-                    + "; " + clothing.getPrice() + ",-");
+                    + "; " + clothing.getPrice() + "kr");
                 list2.add(clothing.getType() + "; " + clothing.getBrand());
             }
         }

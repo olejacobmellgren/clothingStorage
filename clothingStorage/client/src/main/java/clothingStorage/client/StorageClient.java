@@ -388,7 +388,9 @@ public class StorageClient {
                 .replace("]", "")
                 .replace('"', '{')
                 .replace("{", "");
+            System.out.println(listString);
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+            System.out.println(list.toString());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -416,20 +418,21 @@ public class StorageClient {
     public static void main(String[] args) throws URISyntaxException, JsonProcessingException {
         Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
         StorageClient logClient = new StorageClient();
-        //logClient.putClothing(clothing);
+        logClient.putClothing(clothing);
         Clothing clothing2 = new Clothing("Pants", "Adidas", 'S', 99);
-        //logClient.putClothing(clothing2);
-        //Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 13);
-        //clothing3.setDiscount(0.5);
-        //logClient.putClothing(clothing3);
-        //logClient.putQuantity(clothing2.getName(), 9);
-        //Clothing clothing4 = logClient.getClothing("JacketLacosteL");
-        //System.out.println(clothing4.toString());
-        //Storage storage = logClient.getStorage();
-        //System.out.println(storage.toString());
-        //logClient.getNames();
+        logClient.putClothing(clothing2);
+        Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 13);
+        clothing3.setDiscount(0.5);
+        logClient.putClothing(clothing3);
+        logClient.putQuantity(clothing2.getName(), 9);
+        Clothing clothing4 = logClient.getClothing("JacketLacosteL");
+        System.out.println(clothing4.toString());
+        Storage storage = logClient.getStorage();
+        System.out.println(storage.toString());
+        logClient.getNames();
         logClient.getSorted(0);
         logClient.getSortedType("Pants");
+        logClient.getPriceDisplay();
     }
 }
 

@@ -1,9 +1,11 @@
 package clothingStorage.ui;
 
+import clothingStorage.client.StorageClient;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -39,6 +41,10 @@ public class NewClothingPageController implements Initializable {
      * Currernt confirm message as shown in ui.
      */
     private String confirmMessage;
+    /**
+     * StorageClient for the session.
+     */
+    private StorageClient storageClient;
 
     /**
      * Choicebox of valid types.
@@ -78,9 +84,11 @@ public class NewClothingPageController implements Initializable {
 
     /**
      * Constructor for StorageController initializing it with empty storage.
+     * @throws URISyntaxException
      */
-    public NewClothingPageController() {
+    public NewClothingPageController() throws URISyntaxException {
         this.storage = new Storage();
+        this.storageClient = new StorageClient();
     }
 
     /**
