@@ -42,8 +42,17 @@ public class ClothingStorageController {
         return names;
     }
 
+    @GetMapping(path="/sortedNames")
+    public List<String> getSortedNames() {
+        List<String> names = new ArrayList<>();
+        for (Clothing clothing : getStorage().getSortedClothings()) {
+            names.add(clothing.getName());
+        }
+        return names;
+    }
+
     @GetMapping(path="/sorted/{id}")
-    public List<String> getSortedClothesNames(@PathVariable("id") String id) {
+    public List<String> getSortedClothes(@PathVariable("id") String id) {
         List<String> sortedClothes = new ArrayList<>();
         switch (id) {
             case "0":

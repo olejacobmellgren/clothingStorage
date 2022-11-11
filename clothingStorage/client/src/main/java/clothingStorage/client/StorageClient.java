@@ -65,7 +65,7 @@ public class StorageClient {
 
 
     /**
-     * Constructs a LogClient from a builder.
+     * Constructs a StorageClient from a builder.
      *
      * @throws URISyntaxException if string could not be parsed to URI
      */
@@ -74,6 +74,11 @@ public class StorageClient {
         objectMapper = ClothingStoragePersistence.createObjectMapper();
     }
 
+    /**
+     * Gets the storage with clothings.
+     *
+     * @return the storage
+     */
     public Storage getStorage() {
         Storage storage;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri)
@@ -91,7 +96,7 @@ public class StorageClient {
     }
 
     /**
-     * gets Clothing from restserver.
+     * Gets Clothing from restserver.
      *
      * @param name of clothing to be retrieved
      * @return Clothing item
@@ -121,7 +126,6 @@ public class StorageClient {
     public boolean putClothing(Clothing clothing) throws JsonProcessingException {
         Boolean updated;
         String json = objectMapper.writeValueAsString(clothing);
-        System.out.println(json);
 
         try {
             HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
@@ -132,7 +136,6 @@ public class StorageClient {
                 .build();
             final HttpResponse<String> response =
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
             updated = objectMapper.readValue(response.body(), Boolean.class);
 
         } catch (IOException | InterruptedException e) {
@@ -147,17 +150,16 @@ public class StorageClient {
      * @param clothing to be removed
      * @return boolean true if success, false if not
      */
-    public boolean removeClothing(Clothing clothing) {
+    public boolean removeClothing(String name) {
         Boolean removed;
         try {
             HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-                .resolve("clothes/" + clothing.getName()))
+                .resolve("clothes/" + name))
                 .header(ACCEPT_HEADER, APPLICATION_JSON)
                 .DELETE()
                 .build();
             final HttpResponse<String> response =
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
             removed = objectMapper.readValue(response.body(), Boolean.class);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -168,7 +170,7 @@ public class StorageClient {
     /**
      * Gets quantity from restserver.
      *
-     * @param name to be retrieved
+     * @param name to be retrieve quantity for
      * @return quantity from restserver
      */
     public int getQuantity(final String name) {
@@ -191,15 +193,15 @@ public class StorageClient {
     /**
      * Puts quantity to restserver.
      *
-     * @param clothing corresponding to quantity
+     * @param name for clothing corresponding to quantity
      * @param quantity to be updated
      * @return boolean true if success, false if not
      */
-    public boolean putQuantity(Clothing clothing, int quantity) {
+    public boolean putQuantity(String name, int quantity) {
         Boolean updated;
 
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-            .resolve("quantity/" + clothing.getName()))
+            .resolve("quantity/" + name))
             .header(ACCEPT_HEADER, APPLICATION_JSON)
             .header(CONTENT_TYPE_HEADER, APPLICATION_FORM_URLENCODED)
             .PUT(BodyPublishers.ofString("quantity=" + uriParam(String.valueOf(quantity))))
@@ -207,8 +209,6 @@ public class StorageClient {
         try {
             final HttpResponse<String> response =
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-            
             updated = objectMapper.readValue(response.body(), Boolean.class);
 
         } catch (IOException | InterruptedException e) {
@@ -218,28 +218,10 @@ public class StorageClient {
     }
 
     /**
-     * Removes quantity from restserver.
+     * Gets the names for clothings in the storage.
      *
-     * @param clothing corresponding to quantity
-     * @return boolean true if success, false if not
+     * @return the names for clothings in storage
      */
-    public boolean removeQuantity(Clothing clothing) {
-        Boolean removed;
-        try {
-            HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
-                .resolve("quantity/" + clothing.getName()))
-                .header(ACCEPT_HEADER, APPLICATION_JSON)
-                .DELETE()
-                .build();
-            final HttpResponse<String> response =
-                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            removed = objectMapper.readValue(response.body(), Boolean.class);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return removed;
-    }
-
     public List<String> getNames() {
         List<String> names;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names/"))
@@ -249,16 +231,48 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String namesString = response.body();
-            namesString = namesString.replace("[", "");
-            namesString = namesString.replace("]", "");
+            namesString = namesString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
             names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
-            System.out.println(names);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         return names;
     }
 
+    /**
+     * Gets the names for clothings in the storage when sorted.
+     *
+     * @return the names for clothings in storage when sorted
+     */
+    public List<String> getSortedNames() {
+        List<String> names;
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedNames/"))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String namesString = response.body();
+            namesString = namesString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
+            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
+
+    /**
+     * Gets the clothings in the storage when sorted in a specific way.
+     *
+     * @param id the id for type of sorting
+     * @return the clothings in storage when sorted
+     */
     public List<String> getSorted(int id) {
         List<String> list;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sorted/" + id))
@@ -268,8 +282,10 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String listString = response.body();
-            listString = listString.replace("[", "");
-            listString = listString.replace("]", "");
+            listString = listString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -277,6 +293,12 @@ public class StorageClient {
         return list;
     }
 
+    /**
+     * Gets the clothings in the storage when sorted by a type.
+     *
+     * @param type the type of clothing for sorting
+     * @return the clothings in storage when sorted on a type
+     */
     public List<String> getSortedType(String type) {
         List<String> list = new ArrayList<>();
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedType/" + type))
@@ -286,8 +308,10 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String listString= response.body();
-            listString = listString.replace("[", "");
-            listString = listString.replace("]", "");
+            listString = listString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -295,6 +319,12 @@ public class StorageClient {
         return list;
     }
 
+    /**
+     * Gets the clothings in the storage when sorted by a brand.
+     *
+     * @param brand the brand for sorting
+     * @return the clothings in storage when sorted on a brand
+     */
     public List<String> getSortedBrand(String brand) {
         List<String> list = new ArrayList<>();
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedBrand/" + brand))
@@ -304,8 +334,10 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String listString= response.body();
-            listString = listString.replace("[", "");
-            listString = listString.replace("]", "");
+            listString = listString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -313,6 +345,11 @@ public class StorageClient {
         return list;
     }
 
+    /**
+     * Gets the display for the storage on storage-page.
+     *
+     * @return the clothings to be displayed on storage-page
+     */
     public List<String> getStorageDisplay() {
         List<String> list = new ArrayList<>();
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("storageDisplay/"))
@@ -322,8 +359,10 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String listString= response.body();
-            listString = listString.replace("[", "");
-            listString = listString.replace("]", "");
+            listString = listString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -331,6 +370,11 @@ public class StorageClient {
         return list;
     }
 
+    /**
+     * Gets the display for the storage on storage-page.
+     *
+     * @return the clothings to be displayed on price-page
+     */
     public List<String> getPriceDisplay() {
         List<String> list = new ArrayList<>();
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("priceDisplay/"))
@@ -340,8 +384,10 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String listString= response.body();
-            listString = listString.replace("[", "");
-            listString = listString.replace("]", "");
+            listString = listString.replace("[", "")
+                .replace("]", "")
+                .replace('"', '{')
+                .replace("{", "");
             list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -349,6 +395,12 @@ public class StorageClient {
         return list;
     }
 
+    /**
+     * Converts string to UTF_8 format.
+     *
+     * @param string 
+     * @return string in UTF_8 format
+     */
     private String uriParam(String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
@@ -364,18 +416,20 @@ public class StorageClient {
     public static void main(String[] args) throws URISyntaxException, JsonProcessingException {
         Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
         StorageClient logClient = new StorageClient();
-        logClient.putClothing(clothing);
+        //logClient.putClothing(clothing);
         Clothing clothing2 = new Clothing("Pants", "Adidas", 'S', 99);
-        logClient.putClothing(clothing2);
-        Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 13);
-        clothing3.setDiscount(0.5);
-        logClient.putClothing(clothing3);
-        logClient.putQuantity(clothing2, 9);
-        Clothing clothing4 = logClient.getClothing("JacketLacosteL");
-        System.out.println(clothing4.toString());
-        Storage storage = logClient.getStorage();
-        System.out.println(storage.toString());
-        logClient.getNames();
+        //logClient.putClothing(clothing2);
+        //Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 13);
+        //clothing3.setDiscount(0.5);
+        //logClient.putClothing(clothing3);
+        //logClient.putQuantity(clothing2.getName(), 9);
+        //Clothing clothing4 = logClient.getClothing("JacketLacosteL");
+        //System.out.println(clothing4.toString());
+        //Storage storage = logClient.getStorage();
+        //System.out.println(storage.toString());
+        //logClient.getNames();
+        logClient.getSorted(0);
+        logClient.getSortedType("Pants");
     }
 }
 
