@@ -25,10 +25,6 @@ import javafx.stage.Stage;
 public class NewClothingPageController implements Initializable {
 
     /**
-     * Storage containing Clothing and corresponding quantity.
-     */
-    private Storage storage;
-    /**
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
@@ -79,10 +75,11 @@ public class NewClothingPageController implements Initializable {
 
     /**
      * Constructor for StorageController initializing it with empty storage.
-     * @throws URISyntaxException
+     *
+     * @throws URISyntaxException if string could not be parsed as URI reference
+     * 
      */
     public NewClothingPageController() throws URISyntaxException {
-        this.storage = new Storage();
         this.storageClient = new StorageClient();
     }
 
@@ -105,7 +102,6 @@ public class NewClothingPageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
-        this.storage = storage;
     }
 
     /**

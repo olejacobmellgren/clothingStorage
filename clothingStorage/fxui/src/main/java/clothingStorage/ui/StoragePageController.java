@@ -86,7 +86,8 @@ public class StoragePageController implements Initializable {
 
     /**
      * Constructor for StorageController initializing it with empty storage.
-     * @throws URISyntaxException
+     *
+     * @throws URISyntaxException if string coult not be parsed to URI
      */
     public StoragePageController() throws URISyntaxException {
         this.storage = new Storage();
@@ -219,14 +220,16 @@ public class StoragePageController implements Initializable {
             if (updated == true) {
                 updateStorageList(storageClient.getStorageDisplay());
             } else {
-                // do nothing
+                throw new IllegalArgumentException("Something went wrong");
             }
-        } catch (IndexOutOfBoundsException e) { // vet ikke hvordan exception skal håndteres helt enda
+        } catch (IndexOutOfBoundsException e) {
             if (storageClient.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
             }
+        } catch (IllegalArgumentException e) {
+            showErrorMessage(e.getMessage());
         }
     }
 
