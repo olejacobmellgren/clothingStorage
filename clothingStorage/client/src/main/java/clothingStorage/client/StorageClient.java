@@ -14,6 +14,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -43,6 +45,8 @@ public class StorageClient {
      */
     private static final String APPLICATION_JSON = "application/json";
 
+    private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+
     /**
      * Accept header for requests.
      */
@@ -67,6 +71,22 @@ public class StorageClient {
     public StorageClient() throws URISyntaxException {
         this.endpointBaseUri = new URI("http://localhost:8080/clothingStorage/");
         objectMapper = ClothingStoragePersistence.createObjectMapper();
+    }
+
+    public Storage getStorage() {
+        Storage storage;
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri)
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            storage = objectMapper.readValue(response.body(), Storage.class);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return storage;
     }
 
     /**
@@ -190,7 +210,7 @@ public class StorageClient {
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
             .resolve("quantity/" + clothing.getName()))
             .header(ACCEPT_HEADER, APPLICATION_JSON)
-            .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+            .header(CONTENT_TYPE_HEADER, APPLICATION_FORM_URLENCODED)
             .PUT(BodyPublishers.ofString("quantity=" + uriParam(String.valueOf(quantity))))
             .build();
         try {
@@ -229,6 +249,70 @@ public class StorageClient {
         return removed;
     }
 
+    public List<String> getNames() {
+        List<String> names = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names/"))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String namesString= response.body();
+            // TODO - convert to List<String>
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
+
+    public List<String> getSorted(int id) {
+        List<String> names = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sorted/" + id))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String namesString= response.body();
+            // TODO - convert to List<String>
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
+
+    public List<String> getSortedType(String type) {
+        List<String> names = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedType/" + type))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String namesString= response.body();
+            // TODO - convert to List<String>
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
+
+    public List<String> getSortedBrand(String brand) {
+        List<String> names = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedBrand/" + brand))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String namesString= response.body();
+            // TODO - convert to List<String>
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return names;
+    }
+
     private String uriParam(String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
@@ -245,9 +329,17 @@ public class StorageClient {
         Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
         StorageClient logClient = new StorageClient();
         logClient.putClothing(clothing);
-        Clothing clothing2 = new Clothing("Pants", "Adidas", 'S', 43);
+        Clothing clothing2 = new Clothing("Pants", "Adidas", 'S', 99);
         logClient.putClothing(clothing2);
+        Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 13);
+        clothing3.setDiscount(0.5);
+        logClient.putClothing(clothing3);
         logClient.putQuantity(clothing2, 9);
+        Clothing clothing4 = logClient.getClothing("JacketLacosteL");
+        System.out.println(clothing4.toString());
+        Storage storage = logClient.getStorage();
+        System.out.println(storage.toString());
+        logClient.getNames();
     }
 }
 

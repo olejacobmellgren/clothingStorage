@@ -2,6 +2,10 @@ package clothingStorage.restserver;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +34,77 @@ public class ClothingStorageController {
         return clothingStorageService.getStorage();
     }
 
+    @GetMapping(path="/names")
+    public List<String> getNames() {
+        List<String> names = new ArrayList<>();
+        for (Clothing clothing : getStorage().getAllClothes().keySet()) {
+            names.add(clothing.getName());
+        }
+        return names;
+    }
+
+    @GetMapping(path="/sorted/{id}")
+    public List<String> getSortedClothesNames(@PathVariable("id") String id) {
+        List<String> sortedClothes = new ArrayList<>();
+        switch (id) {
+            case "0":
+                getStorage().sortOnLowestPrice();
+                for (Clothing clothing : getStorage().getSortedClothings()) {
+                    sortedClothes.add(clothing.getName());
+                }
+                break;
+            case "1":
+                getStorage().sortOnHighestPrice();
+                for (Clothing clothing : getStorage().getSortedClothings()) {
+                    sortedClothes.add(clothing.getName());
+                }
+                break;
+            case "2":
+                getStorage().filterOnDiscount();
+                for (Clothing clothing : getStorage().getSortedClothings()) {
+                    sortedClothes.add(clothing.getName());
+                }
+                break;
+        }
+        return sortedClothes;
+    }
+
+    @GetMapping(path="/sortedType/{type}")
+    public List<String> getSortedClothesType(@PathVariable("type") String type) {
+        List<String> sortedClothes = new ArrayList<>();
+        getStorage().filterOnType(type);
+        for (Clothing clothing : getStorage().getSortedClothings()) {
+            sortedClothes.add(clothing.getName());
+        }
+        return sortedClothes;
+    }
+
+    @GetMapping(path="/sortedBrand/{brand}")
+    public List<String> getSortedClothesBrand(@PathVariable("brand") String brand) {
+        List<String> sortedClothes = new ArrayList<>();
+        getStorage().filterOnBrand(brand);
+        for (Clothing clothing : getStorage().getSortedClothings()) {
+            sortedClothes.add(clothing.getName());
+        }
+        return sortedClothes;
+    }
+
     private void autoSaveStorage() {
         clothingStorageService.autoSaveTodoModel();
     }
 
-    private void checkClothing(Clothing clothing, String name) {
-        if (clothing == null) {
+    private void checkClothing(String name) {
+        boolean exists = false;
+        for (Clothing clothing : getStorage().getAllClothes().keySet()) {
+            if (clothing.getName() == name) {
+                exists = true;
+            }
+        }
+        if (exists) {
+            // do nothing
+        } else if (getStorage().getAllClothes().size() == 0) {
+            // do nothing
+        } else {
             throw new IllegalArgumentException("No Clothing named \"" + name + "\"");
         }
     }
@@ -49,7 +118,6 @@ public class ClothingStorageController {
     @GetMapping(path = "/clothes/{name}")
     public Clothing getClothing(@PathVariable("name") String name) {
         Clothing clothing = getStorage().getClothing(name);
-        checkClothing(clothing, name);
         return clothing;
     }
 
@@ -95,7 +163,7 @@ public class ClothingStorageController {
     @DeleteMapping(path = "/clothes/{name}")
     public boolean removeClothing(@PathVariable("name") String name) {
         Clothing clothing = getStorage().getClothing(name);
-        checkClothing(clothing, name);
+        checkClothing(name);
         getStorage().removeClothing(clothing);
         autoSaveStorage();
         return true;
@@ -122,14 +190,14 @@ public class ClothingStorageController {
      */
     @PutMapping(path = "/quantity/{name}")
     public boolean putQuantity(@PathVariable("name") String name,
-        @RequestParam String quantity) {
+        @RequestParam(value="quantity", required = false) String quantity) {
         boolean added = true;
         try {
             getStorage().updateQuantity(getStorage().getClothing(name), Integer.parseInt(quantity));
         } catch (Exception e) {
             added = false;
         }
-
+        autoSaveStorage();
         return added;
     }
 
@@ -142,12 +210,13 @@ public class ClothingStorageController {
     @DeleteMapping(path = "/quantity/{name}")
     public boolean removeQuantity(@PathVariable("name") String name) {
         boolean deleted = true;
+        checkClothing(name);
         try {
             getStorage().updateQuantity(getStorage().getClothing(name), 0);
         } catch (Exception e) {
             deleted = false;
         }
+        autoSaveStorage();
         return deleted;
     }
-
 }
