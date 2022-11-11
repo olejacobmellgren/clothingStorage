@@ -2,7 +2,6 @@ package clothingStorage.ui;
 
 import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
-import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -29,10 +28,6 @@ public class StoragePageController implements Initializable {
      * Storage containing Clothing and corresponding quantity.
      */
     private Storage storage;
-    /**
-     * ClothingStoragePersistence handeling local persistence.
-     */
-    private ClothingStoragePersistence storagePersistence;
     /**
      * Current errormessage as shown in ui.
      */

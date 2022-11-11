@@ -3,7 +3,6 @@ package clothingStorage.ui;
 import clothingStorage.client.StorageClient;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -35,10 +34,6 @@ public class PricePageController implements Initializable {
      */
     private Storage storage;
     /**
-     * ClothingStoragePersistence handeling local persistence.
-     */
-    private ClothingStoragePersistence storagePersistence;
-    /**
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
@@ -46,7 +41,6 @@ public class PricePageController implements Initializable {
      * StorageClient for the session.
      */
     private StorageClient storageClient;
-
     /**
      * Choicebox for what to filter on.
      */
@@ -124,7 +118,7 @@ public class PricePageController implements Initializable {
             "Socks", "Sweater", "Jacket", "Shorts");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
             "Louis Vuitton", "Supreme", "Levi's");
-            updatePriceList(storageClient.getPriceDisplay());  
+        updatePriceList(storageClient.getPriceDisplay());  
     }
 
     /**
@@ -245,12 +239,7 @@ public class PricePageController implements Initializable {
     @FXML
     private void handleResetFilter() {
         try {
-            if (storageClient.getSortedNames().size() != 0) {
-                filters.setValue(null);
-                brands.setValue(null);
-                typeOfClothingFilter.setValue(null);
-                updatePriceList(storageClient.getPriceDisplay());
-            } else if (storageClient.getSortedNames().size() == 0 && filters.getValue() != null) {
+            if (storageClient.getSortedNames().size() != 0 || (storageClient.getSortedNames().size() == 0 && filters.getValue() != null)) {
                 filters.setValue(null);
                 brands.setValue(null);
                 typeOfClothingFilter.setValue(null);
@@ -269,10 +258,13 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private void handleConfirmNewPrice() throws JsonProcessingException {
-        Clothing clothing;
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
+            if (storageClient.getNames().isEmpty() || index == -1) {
+                throw new IndexOutOfBoundsException();
+            }
             double price = Double.parseDouble(newPrice.getText());
+            Clothing clothing;
             if (storageClient.getSortedNames().size() != 0) {
                 List<String> names = storageClient.getSortedNames();
                 String name = names.get(index);
@@ -284,12 +276,16 @@ public class PricePageController implements Initializable {
                 clothing = storageClient.getClothing(name);
             }
             for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
-                    if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.setPrice(price, true);
-                        storageClient.putClothing(clothing2);
-                    }
+                if (clothing.equalsButDifferentSize(clothing2)) {
+                    clothing2.setPrice(price, true);
+                    storageClient.putClothing(clothing2);
                 }
-            updatePriceList(storageClient.getPriceDisplay());
+            }
+            if (storageClient.getSortedNames().size() != 0) {
+                this.handleConfirmFilter();
+            } else {
+                updatePriceList(storageClient.getPriceDisplay());
+            }
             newPrice.clear();
         } catch (NumberFormatException e) {
             if (newPrice.getText().isEmpty()) {
@@ -298,7 +294,11 @@ public class PricePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storageClient.getNames().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         }
     }
 
@@ -308,27 +308,33 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private void handleConfirmDiscount() throws JsonProcessingException {
-        Clothing clothing;
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
+            if (storageClient.getNames().isEmpty() || index == -1) {
+                throw new IndexOutOfBoundsException();
+            }
             double discountToAdd = Double.parseDouble(discount.getText());
+            Clothing clothing;
             if (storageClient.getSortedNames().size() != 0) {
                 List<String> names = storageClient.getSortedNames();
                 String name = names.get(index);
                 clothing = storageClient.getClothing(name);
-                this.handleConfirmFilter();
             } else {
                 List<String> names = storageClient.getNames();
                 String name = names.get(index);
                 clothing = storageClient.getClothing(name);
             }
             for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
-                    if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
-                        storageClient.putClothing(clothing2);
-                    }
+                if (clothing.equalsButDifferentSize(clothing2)) {
+                    clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
+                    storageClient.putClothing(clothing2);
                 }
-            updatePriceList(storageClient.getPriceDisplay());
+            }
+            if (storageClient.getSortedNames().size() != 0) {
+                this.handleConfirmFilter();
+            } else {
+                updatePriceList(storageClient.getPriceDisplay());
+            }
             discount.clear();
         } catch (NumberFormatException e) {
             if (discount.getText().isEmpty()) {
@@ -337,7 +343,11 @@ public class PricePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storageClient.getNames().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         } catch (IllegalArgumentException e) {
             showErrorMessage(e.getMessage());
         } catch (IllegalStateException e) {
@@ -351,31 +361,40 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private void handleRemoveDiscount() throws JsonProcessingException {
-        Clothing clothing;
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
+            if (storageClient.getNames().isEmpty() || index == -1) {
+                throw new IndexOutOfBoundsException();
+            }
+            Clothing clothing;
             if (storageClient.getSortedNames().size() != 0) {
                 List<String> names = storageClient.getSortedNames();
                 String name = names.get(index);
                 clothing = storageClient.getClothing(name);
-                this.handleConfirmFilter();
             } else {
                 List<String> names = storageClient.getNames();
                 String name = names.get(index);
                 clothing = storageClient.getClothing(name);
             }
             for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
-                    if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.removeDiscount();
-                        storageClient.putClothing(clothing2);
-                    }
+                if (clothing.equalsButDifferentSize(clothing2)) {
+                    clothing2.removeDiscount();
+                    storageClient.putClothing(clothing2);
                 }
-            updatePriceList(storageClient.getPriceDisplay());
+            }
+            if (storageClient.getSortedNames().size() != 0) {
+                this.handleConfirmFilter();
+            } else {
+                updatePriceList(storageClient.getPriceDisplay());
+            }
         } catch (IndexOutOfBoundsException e) {
-            showErrorMessage("You need to select an item from the list");
+            if (storageClient.getNames().isEmpty()) {
+                showErrorMessage("Add a new clothing to storage first");
+            } else {
+                showErrorMessage("Select a clothing before increasing quantity");
+            }
         } catch (IllegalStateException e) {
             showErrorMessage(e.getMessage());
         }
     }
 }
-

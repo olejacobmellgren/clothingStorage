@@ -19,15 +19,10 @@
         </dependency>
         <dependency>
             <groupId>gr2251.clothingStorage</groupId>
-            <artifactId>fxui</artifactId>
+            <artifactId>localpersistence</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.guicedee.services</groupId>
-            <artifactId>json</artifactId>
-            <version>1.2.0.2-jre16</version>
-        </dependency>
+        
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>

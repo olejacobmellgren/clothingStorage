@@ -2,10 +2,8 @@ package clothingStorage.restserver;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,6 +92,7 @@ public class ClothingStorageController {
 
     @GetMapping(path="/priceDisplay")
     public List<String> getPriceDisplay() {
+        getStorage().setIsSortedPricePage(false);
         return getStorage().priceDisplay();
     }
 
