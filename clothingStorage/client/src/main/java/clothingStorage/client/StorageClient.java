@@ -248,7 +248,7 @@ public class StorageClient {
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String namesString= response.body();
+            String namesString = response.body();
             namesString = namesString.replace("[", "");
             namesString = namesString.replace("]", "");
             names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
@@ -260,57 +260,93 @@ public class StorageClient {
     }
 
     public List<String> getSorted(int id) {
-        List<String> names;
+        List<String> list;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sorted/" + id))
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String namesString= response.body();
-            namesString = namesString.replace("[", "");
-            namesString = namesString.replace("]", "");
-            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+            String listString = response.body();
+            listString = listString.replace("[", "");
+            listString = listString.replace("]", "");
+            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return names;
+        return list;
     }
 
     public List<String> getSortedType(String type) {
-        List<String> names = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedType/" + type))
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String namesString= response.body();
-            namesString = namesString.replace("[", "");
-            namesString = namesString.replace("]", "");
-            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+            String listString= response.body();
+            listString = listString.replace("[", "");
+            listString = listString.replace("]", "");
+            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return names;
+        return list;
     }
 
     public List<String> getSortedBrand(String brand) {
-        List<String> names = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedBrand/" + brand))
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String namesString= response.body();
-            namesString = namesString.replace("[", "");
-            namesString = namesString.replace("]", "");
-            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+            String listString= response.body();
+            listString = listString.replace("[", "");
+            listString = listString.replace("]", "");
+            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return names;
+        return list;
+    }
+
+    public List<String> getStorageDisplay() {
+        List<String> list = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("storageDisplay/"))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String listString= response.body();
+            listString = listString.replace("[", "");
+            listString = listString.replace("]", "");
+            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public List<String> getPriceDisplay() {
+        List<String> list = new ArrayList<>();
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("priceDisplay/"))
+            .GET()
+            .build();
+        try {
+            final HttpResponse<String> response = 
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String listString= response.body();
+            listString = listString.replace("[", "");
+            listString = listString.replace("]", "");
+            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 
     private String uriParam(String s) {

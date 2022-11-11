@@ -78,6 +78,16 @@ public class ClothingStorageController {
         return sortedClothes;
     }
 
+    @GetMapping(path="/storageDisplay")
+    public List<String> getStorageDisplay() {
+        return getStorage().storageDisplay();
+    }
+
+    @GetMapping(path="/priceDisplay")
+    public List<String> getPriceDisplay() {
+        return getStorage().priceDisplay();
+    }
+
     private void autoSaveStorage() {
         clothingStorageService.autoSaveTodoModel();
     }
