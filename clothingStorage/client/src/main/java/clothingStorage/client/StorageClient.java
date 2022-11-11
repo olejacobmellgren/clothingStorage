@@ -15,6 +15,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -148,7 +149,6 @@ public class StorageClient {
      */
     public boolean removeClothing(Clothing clothing) {
         Boolean removed;
-        //Boolean removedName;
         try {
             HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
                 .resolve("clothes/" + clothing.getName()))
@@ -157,21 +157,12 @@ public class StorageClient {
                 .build();
             final HttpResponse<String> response =
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
             removed = objectMapper.readValue(response.body(), Boolean.class);
-            /*
-            HttpRequest request2 = HttpRequest.newBuilder(endpointBaseUri
-                .resolve("names/" + clothing.getName()))
-                .header(ACCEPT_HEADER, APPLICATION_JSON)
-                .DELETE()
-                .build();
-            final HttpResponse<String> response2 =
-                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            removedName = objectMapper.readValue(response2.body(), Boolean.class);
-            */
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return removed; //&& removedName;
+        return removed;
     }
 
     /**
@@ -250,7 +241,7 @@ public class StorageClient {
     }
 
     public List<String> getNames() {
-        List<String> names = new ArrayList<>();
+        List<String> names;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names/"))
             .GET()
             .build();
@@ -258,7 +249,10 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String namesString= response.body();
-            // TODO - convert to List<String>
+            namesString = namesString.replace("[", "");
+            namesString = namesString.replace("]", "");
+            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+            System.out.println(names);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -266,7 +260,7 @@ public class StorageClient {
     }
 
     public List<String> getSorted(int id) {
-        List<String> names = new ArrayList<>();
+        List<String> names;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sorted/" + id))
             .GET()
             .build();
@@ -274,7 +268,9 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String namesString= response.body();
-            // TODO - convert to List<String>
+            namesString = namesString.replace("[", "");
+            namesString = namesString.replace("]", "");
+            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -290,7 +286,9 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String namesString= response.body();
-            // TODO - convert to List<String>
+            namesString = namesString.replace("[", "");
+            namesString = namesString.replace("]", "");
+            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -306,7 +304,9 @@ public class StorageClient {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
             String namesString= response.body();
-            // TODO - convert to List<String>
+            namesString = namesString.replace("[", "");
+            namesString = namesString.replace("]", "");
+            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
