@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +24,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClientTest {
@@ -50,8 +52,8 @@ public class ClientTest {
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody("{\"clothes\":[{\"type\":\"Pants\",\"brand\":\"Nike\",\"size\":\"M\",\"price\":30.0,\"discount\":0.0},{\"quantity\":4}," +
-                                        "{\"type\":\"Pants\",\"brand\":\"Adidas\",\"size\":\"S\",\"price\":99.0,\"discount\":0.0},{\"quantity\":9}," +
-                                        "{\"type\":\"Jacket\",\"brand\":\"Lacoste\",\"size\":\"L\",\"price\":13.0,\"discount\":0.5},{\"quantity\":6}]}")));
+                                                "{\"type\":\"Pants\",\"brand\":\"Adidas\",\"size\":\"S\",\"price\":99.0,\"discount\":0.0},{\"quantity\":9}," +
+                                                "{\"type\":\"Jacket\",\"brand\":\"Lacoste\",\"size\":\"L\",\"price\":13.0,\"discount\":0.5},{\"quantity\":6},{\"isSorted\":\"false\"}]}")));
 
         Storage storage = storageClient.getStorage();
         Clothing nikePants = storage.getClothing("PantsNikeM");
@@ -75,7 +77,7 @@ public class ClientTest {
         Clothing nikePants = storageClient.getClothing("PantsNikeM");
         assertEquals("Pants", nikePants.getType());
         assertEquals("Nike", nikePants.getBrand());
-        assertEquals('S', nikePants.getSize());
+        assertEquals('M', nikePants.getSize());
         assertEquals(43, nikePants.getPrice());
         assertEquals(0.0, nikePants.getDiscount());
     }
@@ -87,12 +89,12 @@ public class ClientTest {
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
-                .withBody("{\"type\":\"Pants\",\"brand\":\"Nike\",\"size\":\"M\",\"price\":43.0,\"discount\":0.0}")));
+                .withBody("true")));
 
         try {
             Clothing nikePants = new Clothing("Pants", "Nike", 'M', 43);
             boolean bool = storageClient.putClothing(nikePants);
-            assertEquals(true, bool);
+            assertTrue(bool);
         } catch (JsonProcessingException e) {
             fail();
         }
@@ -109,7 +111,7 @@ public class ClientTest {
 
         Clothing nikePants = new Clothing("Pants", "Nike", 'M', 43);
         boolean bool = storageClient.removeClothing(nikePants.getName());
-        assertEquals(true, bool);
+        assertTrue(bool);
     }
 
     @Test
@@ -119,7 +121,7 @@ public class ClientTest {
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
-                .withBody("{\"quantity\":10}")));
+                .withBody("10")));
 
         int amount = storageClient.getQuantity("PantsNikeM");
         assertEquals(10, amount);
@@ -132,11 +134,11 @@ public class ClientTest {
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
-                .withBody("{\"quantity\":20}")));
+                .withBody("true")));
 
         Clothing nikePants = new Clothing("Pants", "Nike", 'M', 43);
         boolean bool = storageClient.putQuantity(nikePants.getName(), 20);
-        assertEquals(true, bool);
+        assertTrue(bool);
     }
 
     @Test
@@ -144,7 +146,6 @@ public class ClientTest {
         stubFor(get(urlEqualTo("/clothingStorage/names"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
                 .withBody("[\"PantsNikeM\",\"PantsAdidasS\",\"JacketLacosteL\"]")));
 
         List<String> names = new ArrayList<>(storageClient.getNames());
@@ -157,7 +158,6 @@ public class ClientTest {
         stubFor(get(urlEqualTo("/clothingStorage/sortedNames"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
                 .withBody("[\"JacketLacosteL\",\"JacketNikeM\"]")));
 
         List<String> sortedNames = new ArrayList<>(storageClient.getSortedNames());
@@ -170,7 +170,6 @@ public class ClientTest {
         stubFor(get(urlEqualTo("/clothingStorage/sorted/0"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
                 .withBody("[\"Jacket; Lacoste; 13.0kr\",\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
 
         List<String> sortedClothes = new ArrayList<>(storageClient.getSorted(0));
@@ -181,13 +180,11 @@ public class ClientTest {
     @Test
     public void testGetSortedType() {
         stubFor(get(urlEqualTo("/clothingStorage/sortedType/Pants"))
-            .withHeader("Accept", equalTo("application/json"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
                 .withBody("[\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
 
-        List<String> sortedPants = new ArrayList<>(storageClient.getSorted(0));
+        List<String> sortedPants = new ArrayList<>(storageClient.getSortedType("Pants"));
         assertEquals("Pants; Nike; 30.0kr", sortedPants.get(0));
         assertEquals("Pants; Adidas; 99.0kr", sortedPants.get(1));
     }
@@ -195,42 +192,79 @@ public class ClientTest {
     @Test
     public void testGetSortedBrand() {
         stubFor(get(urlEqualTo("/clothingStorage/sortedBrand/Nike"))
-            .withHeader("Accept", equalTo("application/json"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
-                .withBody("[\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
+                .withBody("[\"Pants; Nike; 30.0kr\"]")));
 
-        List<String> sortedPants = new ArrayList<>(storageClient.getSorted(0));
-        assertEquals("Pants; Nike; 30.0kr", sortedPants.get(0));
-        assertEquals("Pants; Adidas; 99.0kr", sortedPants.get(1));
+        List<String> sortedNike = new ArrayList<>(storageClient.getSortedBrand("Nike"));
+        assertEquals("Pants; Nike; 30.0kr", sortedNike.get(0));
     }
 
     @Test
     public void testGetStorageDisplay() {
-        stubFor(get(urlEqualTo("/clothingStorage/quantity/PantsNikeM"))
-            .withHeader("Accept", equalTo("application/json"))
+        stubFor(get(urlEqualTo("/clothingStorage/storageDisplay"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
-                .withBody("{\"quantity\":10}")));
+                .withBody("[\"Pants;Nike;S;5\",\"Jacket;Adidas;L;8\"]")));
 
-        int amount = storageClient.getQuantity("PantsNikeM");
-        assertEquals(10, amount);
+        List<String> storageDisplay = new ArrayList<>(storageClient.getStorageDisplay());
+        assertEquals("Pants;Nike;S;5", storageDisplay.get(0));
+        assertEquals("Jacket;Adidas;L;8", storageDisplay.get(1));
     }
 
     @Test
     public void testGetPriceDisplay() {
-        stubFor(get(urlEqualTo("/clothingStorage/quantity/PantsNikeM"))
-            .withHeader("Accept", equalTo("application/json"))
+        stubFor(get(urlEqualTo("/clothingStorage/priceDisplay"))
             .willReturn(aResponse()
                 .withStatus(200)
-                .withHeader("Content-Type", "application/json")
-                .withBody("{\"quantity\":10}")));
+                .withBody("[\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
 
-        int amount = storageClient.getQuantity("PantsNikeM");
-        assertEquals(10, amount);
+        List<String> priceDisplay = new ArrayList<>(storageClient.getPriceDisplay());
+        assertEquals("Pants; Nike; 30.0kr", priceDisplay.get(0));
+        assertEquals("Pants; Adidas; 99.0kr", priceDisplay.get(1));
     }
+
+    @Test
+    public void testGetQuantitiesForTypeAndSizes() {
+        stubFor(get(urlEqualTo("/clothingStorage/stats/chartData/Pants"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody("[0,10,4]")));
+
+        List<Integer> sizes = new ArrayList<>(storageClient.getQuantitiesForTypeAndSizes("Pants"));
+        assertEquals(0, sizes.get(0));
+        assertEquals(10, sizes.get(1));
+        assertEquals(4, sizes.get(2));
+    }
+
+    @Test
+    public void testGetTotalValue() {
+        stubFor(get(urlEqualTo("/clothingStorage/stats/totalValue"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody("329.9")));
+
+        double totalValue = storageClient.getTotalValue();
+        assertEquals(329.9, totalValue);
+    }
+
+    @Test
+    public void testGetTotalQuantity() {
+        stubFor(get(urlEqualTo("/clothingStorage/stats/totalQuantity"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody("36")));
+
+        int totalQuantity = storageClient.getTotalQuantity();
+        assertEquals(36, totalQuantity);
+    }
+    
+    
+    @AfterEach
+    public void stopWireMockServer() {
+        wireMockServer.stop();
+    }
+
 
 
 }
