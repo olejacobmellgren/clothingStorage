@@ -237,7 +237,7 @@ public class ClothingStorageController {
             added = false;
         }
         autoSaveStorage();
-        return true;
+        return added;
     }
 
     /**

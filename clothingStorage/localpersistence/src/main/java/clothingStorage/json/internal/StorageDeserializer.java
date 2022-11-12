@@ -32,30 +32,45 @@ class StorageDeserializer extends JsonDeserializer<Storage> {
      */
     Storage deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode objectNode) {
-            JsonNode itemsNode = objectNode.get("clothes");
-            boolean hasItems = itemsNode instanceof ArrayNode;
+            ArrayNode itemsNode = (ArrayNode) objectNode.get("clothes");
+            boolean hasItems = itemsNode.size() > 1;
             Storage storage = new Storage();
 
             Clothing clothing = new Clothing("Pants", "Nike", 'M', 199); 
             boolean isClothing = true;
+            boolean isSortedClothing = false;
 
             if (hasItems) {
-                for (JsonNode elementNode : ((ArrayNode) itemsNode)) {
-                    if (isClothing) {
-                        clothing = clothingDeserializer.deserialize(elementNode);
+                for (int i = 0; i < itemsNode.size(); i++) {
+                    if (i == itemsNode.size() - 1) {
+                        JsonNode isClothing2 = itemsNode.get(i).get("isSorted");
+                        boolean isClothingBool = isClothing2.asBoolean();
+                        storage.setIsSortedPricePage(isClothingBool);
+                        if (isClothingBool == true) {
+                            isSortedClothing = true;
+                        }
+                    } else if (isClothing) {
+                        clothing = clothingDeserializer.deserialize(itemsNode.get(i));
                         isClothing = false;
                     } else {
-                        JsonNode quantityNode = elementNode.get("quantity");
+                        JsonNode quantityNode = itemsNode.get(i).get("quantity");
                         int quantity = quantityNode.asInt();
                         storage.addNewClothing(clothing, quantity);
                         isClothing = true;
+                    }
+                }
+                if (isSortedClothing == true) {
+                    ArrayNode itemsNode2 = (ArrayNode) objectNode.get("sortedClothes");
+                    for (int i = 0; i < itemsNode2.size(); i++) {
+                        Clothing clothing2 = clothingDeserializer.deserialize(itemsNode2.get(i));
+                        storage.addSortedClothing(clothing2);
                     }
                 }
             }
             return storage;
         }
         return null;
-    }   
+    }  
 }
 
 

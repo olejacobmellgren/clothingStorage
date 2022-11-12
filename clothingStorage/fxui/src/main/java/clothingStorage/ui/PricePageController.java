@@ -263,15 +263,12 @@ public class PricePageController implements Initializable {
     private void handleConfirmNewPrice() throws JsonProcessingException {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
-            System.out.println("hei");
             if (storageClient.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
             double price = Double.parseDouble(newPrice.getText());
-            System.out.println(storageClient.getStorage().getIsSortedClothes());
             if (storageClient.getStorage().getIsSortedClothes() == true) {
                 List<String> names = storageClient.getSortedNames();
-                System.out.println("names:" + names);
                 String name = names.get(index);
                 Clothing clothing = storageClient.getClothing(name);
                 for (Clothing clothing2 : storageClient.getStorage().getSortedClothings()) {
