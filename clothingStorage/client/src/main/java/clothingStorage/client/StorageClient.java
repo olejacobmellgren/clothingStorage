@@ -224,7 +224,7 @@ public class StorageClient {
      */
     public List<String> getNames() {
         List<String> names;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names"))
             .GET()
             .build();
         try {
@@ -249,7 +249,7 @@ public class StorageClient {
      */
     public List<String> getSortedNames() {
         List<String> names;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedNames/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedNames"))
             .GET()
             .build();
         try {
@@ -353,7 +353,7 @@ public class StorageClient {
      */
     public List<String> getStorageDisplay() {
         List<String> list;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("storageDisplay/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("storageDisplay"))
             .GET()
             .build();
         try {
@@ -378,7 +378,7 @@ public class StorageClient {
      */
     public List<String> getPriceDisplay() {
         List<String> list;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("priceDisplay/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("priceDisplay"))
             .GET()
             .build();
         try {
