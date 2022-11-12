@@ -55,8 +55,8 @@ public class ClothingStorageController {
      * @return the list of clothing-names
      */
     @GetMapping(path = "/sortedNames")
-    public List<String> getSortedNames() {
-        List<String> names = new ArrayList<>();
+    public ArrayList<String> getSortedNames() {
+        ArrayList<String> names = new ArrayList<>();
         for (Clothing clothing : getStorage().getSortedClothings()) {
             names.add(clothing.getName());
         }
@@ -75,14 +75,17 @@ public class ClothingStorageController {
         switch (id) {
             case "0":
                 getStorage().sortOnLowestPrice();
+                autoSaveStorage();
                 sortedClothes = getStorage().priceDisplay();
                 break;
             case "1":
                 getStorage().sortOnHighestPrice();
+                autoSaveStorage();
                 sortedClothes = getStorage().priceDisplay();
                 break;
             case "2":
                 getStorage().filterOnDiscount();
+                autoSaveStorage();
                 sortedClothes = getStorage().priceDisplay();
                 break;
             default:
@@ -100,6 +103,7 @@ public class ClothingStorageController {
     public List<String> getSortedClothesType(@PathVariable("type") String type) {
         List<String> sortedClothes;
         getStorage().filterOnType(type);
+        autoSaveStorage();
         sortedClothes = getStorage().priceDisplay();
         return sortedClothes;
     }
@@ -114,8 +118,8 @@ public class ClothingStorageController {
     public List<String> getSortedClothesBrand(@PathVariable("brand") String brand) {
         List<String> sortedClothes;
         getStorage().filterOnBrand(brand);
-        sortedClothes = getStorage().priceDisplay();
         autoSaveStorage();
+        sortedClothes = getStorage().priceDisplay();
         return sortedClothes;
     }
 
@@ -176,9 +180,12 @@ public class ClothingStorageController {
         try {
             if (exists) {
                 getStorage().getClothing(name).setPrice(clothing.getPrice(), false);
+                autoSaveStorage();
                 getStorage().getClothing(name).setDiscount(clothing.getDiscount());
+                autoSaveStorage();
             } else {
                 getStorage().addNewClothing(clothing, 4);
+                autoSaveStorage();
             }
         } catch (Exception e) {
             added = false;
