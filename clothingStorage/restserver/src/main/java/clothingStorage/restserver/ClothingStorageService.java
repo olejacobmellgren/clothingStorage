@@ -59,7 +59,7 @@ public class ClothingStorageService {
      * Saves the Storage to memory/disk.
      * Should be used after evry change in the storage.
      */
-    public void autoSaveTodoModel() {
+    public void autoSaveStorage() {
         if (storagePersistence != null) {
             try {
                 storagePersistence.saveClothingStorage(this.storage);
