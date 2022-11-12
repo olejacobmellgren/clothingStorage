@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.PricePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothingStorage.ui.PricePageController">
    <children>
       <Pane prefHeight="615.0" prefWidth="410.0">
          <children>
@@ -62,7 +62,7 @@
                </font>
             </Label>
             <Label layoutX="205.0" layoutY="535.0" text="\%" />
-            <Button fx:id="removeDiscount" layoutX="114.0" layoutY="571.0" mnemonicParsing="false" onAction="#handleRemoveDiscount" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: lightgreen;" text="Remove Discount">
+            <Button fx:id="removeDiscount" layoutX="114.0" layoutY="571.0" mnemonicParsing="false" onAction="#handleRemoveDiscount" prefHeight="29.0" prefWidth="159.0" style="-fx-background-color: tomato;" text="Remove Discount">
                <font>
                   <Font size="14.0" />
                </font>
@@ -73,7 +73,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ChoiceBox fx:id="filters" layoutX="55.0" layoutY="21.0" onAction="#handleFilterChoice" onDragEntered="#handleFilterChoice" prefHeight="26.0" prefWidth="159.0" style="-fx-background-color: lightgreen;">
+            <ChoiceBox fx:id="filters" layoutX="55.0" layoutY="21.0" onAction="#handleFilterChoice" prefHeight="26.0" prefWidth="159.0" style="-fx-background-color: lightgreen;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -128,7 +128,37 @@
       </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">
          <children>
-            <Button fx:id="storagePageButton" disable="false" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="211.0" style="-fx-background-color: lightgreen;">
+            <Button disable="true" layoutX="140.0" layoutY="12.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
+               <effect>
+                  <DropShadow height="30.0" radius="12.25" />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/price.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="statisticsPageButton" layoutX="280.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleStatisticsPageButton" prefHeight="114.0" prefWidth="138.0" style="-fx-background-color: lightgreen;">
+               <effect>
+                  <DropShadow height="30.0" radius="12.25" />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/statistics.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="storagePageButton" disable="false" layoutY="12.0" mnemonicParsing="false" onAction="#handleStoragePageButton" prefHeight="114.0" prefWidth="140.0" style="-fx-background-color: lightgreen;">
                <effect>
                   <DropShadow height="40.0" radius="14.75" />
                </effect>
@@ -138,25 +168,10 @@
                <graphic>
                   <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@storage.png" />
+                        <Image url="@icons/storage.png" />
                      </image>
                   </ImageView>
                </graphic>
-            </Button>
-            <Button fx:id="pricePageButton" disable="true" layoutX="210.0" layoutY="12.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="205.0" style="-fx-background-color: lightgreen;">
-               <effect>
-                  <DropShadow height="30.0" radius="12.25" />
-               </effect>
-               <graphic>
-                  <ImageView fitHeight="71.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@price.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
             </Button>
          </children>
       </Pane>

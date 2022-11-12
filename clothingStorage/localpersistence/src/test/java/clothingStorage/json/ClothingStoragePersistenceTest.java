@@ -16,9 +16,9 @@ public class ClothingStoragePersistenceTest {
   private ClothingStoragePersistence clothingStoragePersistence = new ClothingStoragePersistence();
 
   private Storage createSampleStorage() {
-    Clothing clothing1 = new Clothing("Pans", "Nike", 'M', 199.0);
-    Clothing clothing2 = new Clothing("Top", "Adidas", 'S', 599.9);
-    Clothing clothing3 = new Clothing("Leggings", "Nike", 'L', 20.0);
+    Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 199.0);
+    Clothing clothing2 = new Clothing("Jacket", "Adidas", 'S', 599.9);
+    Clothing clothing3 = new Clothing("Shorts", "Nike", 'L', 20.0);
     clothing3.setDiscount(0.8);
     Storage storage = new Storage();
     storage.addNewClothing(clothing1, 4);

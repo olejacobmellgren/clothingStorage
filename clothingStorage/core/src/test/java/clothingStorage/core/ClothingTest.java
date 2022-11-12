@@ -11,12 +11,12 @@ public class ClothingTest{
 
     @BeforeEach
     public void setUp() {
-        clothing = new Clothing("Jeans", "Nike", 'M', 150);
+        clothing = new Clothing("Pants", "Nike", 'M', 150);
     }
     
     @Test
     public void testConstructor() {
-        assertEquals("Jeans", clothing.getType());
+        assertEquals("Pants", clothing.getType());
         assertEquals("Nike", clothing.getBrand());
         assertEquals('M', clothing.getSize());
         assertEquals(150, clothing.getPrice());
@@ -25,15 +25,18 @@ public class ClothingTest{
     @Test
     public void testType() {
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setType("J3sper");
+            clothing.setType("P4nts");
         }, "Threw IllegalArgumentException due to number in type");
-        clothing.setType("Jesper");
+        clothing.setType("Pants");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setType("jesper");
+            clothing.setType("Shoes");
+        }, "Threw IllegalArgumentException since this is an invalid type");
+        assertThrows(IllegalArgumentException.class, () -> {
+            clothing.setType("pants");
         }, "Threw IllegalArgumentException since input doesn't start with uppercase letter");
 
-        clothing.setType("Jesper");
-        assertEquals("Jesper", clothing.getType());
+        clothing.setType("Pants");
+        assertEquals("Pants", clothing.getType());
     }
 
     @Test
@@ -78,29 +81,29 @@ public class ClothingTest{
     }
 
     @Test
-    public void testDiscount() {
+    public void testSetPriceAfterAddedDiscount() {
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setDiscount(1.5);
+            clothing.setPriceAfterAddedDiscount(1.5);
         }, "Threw IllegalArgumentException since discount can't be over 1");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setDiscount(100);
+            clothing.setPriceAfterAddedDiscount(100);
         }, "Threw IllegalArgumentException since discount can't be 1");
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setDiscount(-1);
+            clothing.setPriceAfterAddedDiscount(-1);
         }, "Threw IllegalArgumentException since discount can't be below 0");
         assertThrows(IllegalStateException.class, () -> {
-            clothing.setDiscount(0.4);
-            clothing.setDiscount(0.3);
+            clothing.setPriceAfterAddedDiscount(0.4);
+            clothing.setPriceAfterAddedDiscount(0.3);
         }, "Threw IllegalStateException since clothing is already on discount");
 
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.50);
+        clothing.setPriceAfterAddedDiscount(0.50);
         assertEquals(75, clothing.getPrice());
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.90);
+        clothing.setPriceAfterAddedDiscount(0.90);
         assertEquals(15, clothing.getPrice());
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.375);
+        clothing.setPriceAfterAddedDiscount(0.375);
         assertEquals(93.75, clothing.getPrice());
     }
 
@@ -111,7 +114,7 @@ public class ClothingTest{
         }, "Threw IllegalStateException since clothing is not on discount");
 
         clothing.setPrice(150, true);
-        clothing.setDiscount(0.5);
+        clothing.setPriceAfterAddedDiscount(0.5);
         assertEquals(75, clothing.getPrice());
         assertEquals(0.5, clothing.getDiscount());
         clothing.removeDiscount();
@@ -121,7 +124,7 @@ public class ClothingTest{
 
     @Test
     public void testEqualsButDifferentPrice() {
-        Clothing clothing2 = new Clothing("Jeans", "Nike", 'M', 200);
+        Clothing clothing2 = new Clothing("Pants", "Nike", 'M', 200);
         assertTrue(clothing.equalsButDifferentPrice(clothing2));
         clothing2.setType("Jacket");
         assertFalse(clothing.equalsButDifferentPrice(clothing2));
@@ -132,29 +135,47 @@ public class ClothingTest{
     }
 
     @Test
-    public void testOnSale() {
+    public void testEqualsButDifferentSize() {
+        Clothing clothing2 = new Clothing("Pants", "Nike", 'S', 150);
+        assertTrue(clothing.equalsButDifferentSize(clothing2));
+        clothing2.setType("Jacket");
+        assertFalse(clothing.equalsButDifferentSize(clothing2));
+        clothing2.setType("Pants");
+        clothing2.setBrand("Supreme");
+        assertFalse(clothing.equalsButDifferentSize(clothing2));
+    }
+
+    @Test
+    public void testOnDiscount() {
         assertEquals(0, clothing.getDiscount());
-        assertFalse(clothing.isOnSale());
+        assertFalse(clothing.isOnDiscount());
 
-        clothing.setDiscount(0.5);
+        clothing.setPriceAfterAddedDiscount(0.5);
         assertEquals(0.5, clothing.getDiscount());
-        assertTrue(clothing.isOnSale());
+        assertTrue(clothing.isOnDiscount());
 
-        clothing.setSale(0);
+        clothing.setDiscount(0);
         assertEquals(0, clothing.getDiscount());
         
         assertThrows(IllegalArgumentException.class, () -> {
-            clothing.setSale(2);
+            clothing.setDiscount(2);
         }, "Threw IllegalArgumentException since input was not 0 or 1");
     }
 
     @Test
     public void testToString() {
-        String output = "Jeans" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0,-";
+        String output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0,-";
         assertEquals(output, clothing.toString());
         clothing.setSize('S');
-        output = "Jeans" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
+        output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
         assertEquals(output, clothing.toString());
+    }
+
+    @Test
+    public void testGetName() {
+        assertEquals("PantsNikeM", clothing.getName());
+        Clothing clothing2 = new Clothing("Jacket", "Lacoste", 'L', 99);
+        assertEquals("JacketLacosteL", clothing2.getName());
     }
 }
 

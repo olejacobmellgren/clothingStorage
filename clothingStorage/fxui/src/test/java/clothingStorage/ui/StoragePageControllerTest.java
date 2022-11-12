@@ -38,7 +38,7 @@ public class StoragePageControllerTest extends ApplicationTest {
     @BeforeEach
     public void setupClothingItems() {
         storage = new Storage();
-        Clothing clothing1 = new Clothing("Jeans", "Nike", 'S', 10);
+        Clothing clothing1 = new Clothing("Pants", "Nike", 'S', 10);
         Clothing clothing2 = new Clothing("Shorts", "Louis Vuitton", 'M', 20);
         Clothing clothing3 = new Clothing("Socks", "Adidas", 'L', 30);
         storage.addNewClothing(clothing1, 5);
@@ -66,7 +66,7 @@ public class StoragePageControllerTest extends ApplicationTest {
     @Test
     public void testRemoveClothing() {
         clickOn("#storageList");
-        clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; S; 5"));
         clickOn("#removeClothingItem");
         ListView<String> storageView = lookup("#storageList").query();
         int storageListSize = storageView.getItems().size();
@@ -82,49 +82,49 @@ public class StoragePageControllerTest extends ApplicationTest {
     @Test
     public void testIncreaseClothingItemByOne() {
         clickOn("#storageList");
-        clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; S; 5"));
         clickOn("#increaseByOne");
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
-        String[] nikeJeans = storageList.get(0).split(";");
-        int quantity = Integer.parseInt(nikeJeans[3].strip());
+        String[] nikePants = storageList.get(0).split(";");
+        int quantity = Integer.parseInt(nikePants[3].strip());
         assertEquals(6, quantity);
     }
 
     @Test
     public void testDecreaseClothingItemByOne() {
         clickOn("#storageList");
-        clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; S; 5"));
         clickOn("#decreaseByOne");
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
-        String[] nikeJeans = storageList.get(0).split(";");
-        int quantity = Integer.parseInt(nikeJeans[3].strip());
+        String[] nikePants = storageList.get(0).split(";");
+        int quantity = Integer.parseInt(nikePants[3].strip());
         assertEquals(4, quantity);
     }
 
     @Test
     public void testAddQuantity() {
         clickOn("#storageList");
-        clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; S; 5"));
         clickOn("#quantity").write("3");
         clickOn("#addQuantity");
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
-        String[] nikeJeans = storageList.get(0).split(";");
-        int quantity = Integer.parseInt(nikeJeans[3].strip());
+        String[] nikePants = storageList.get(0).split(";");
+        int quantity = Integer.parseInt(nikePants[3].strip());
         assertEquals(8, quantity);
     }
     
     @Test
     public void testRemoveQuantity() {
-        clickOn("#storageList").clickOn(LabeledMatchers.hasText("Jeans; Nike; S; 5"));
+        clickOn("#storageList").clickOn(LabeledMatchers.hasText("Pants; Nike; S; 5"));
         clickOn("#quantity").write("4");
         clickOn("#removeQuantity");
         ListView<String> storageView = lookup("#storageList").query();
         List<String> storageList = storageView.getItems();
-        String[] nikeJeans = storageList.get(0).split(";");
-        int quantity = Integer.parseInt(nikeJeans[3].strip());
+        String[] nikePants = storageList.get(0).split(";");
+        int quantity = Integer.parseInt(nikePants[3].strip());
         assertEquals(1, quantity);
     }
     

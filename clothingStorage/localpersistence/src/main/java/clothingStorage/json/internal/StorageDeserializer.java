@@ -36,7 +36,7 @@ class StorageDeserializer extends JsonDeserializer<Storage> {
             boolean hasItems = itemsNode instanceof ArrayNode;
             Storage storage = new Storage();
 
-            Clothing clothing = new Clothing("Jeans", "Nike", 'M', 199); 
+            Clothing clothing = new Clothing("Pants", "Nike", 'M', 199); 
             boolean isClothing = true;
 
             if (hasItems) {

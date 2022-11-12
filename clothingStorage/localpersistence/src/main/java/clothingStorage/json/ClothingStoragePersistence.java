@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 public class ClothingStoragePersistence {
 
     private ObjectMapper mapper;
+    private Path saveFilePath = null;
 
     public ClothingStoragePersistence() {
         mapper = createObjectMapper();
@@ -41,8 +42,6 @@ public class ClothingStoragePersistence {
     public void writeClothingStorage(Storage storage, Writer writer) throws IOException {
         mapper.writerWithDefaultPrettyPrinter().writeValue(writer, storage);
     }
-
-    private Path saveFilePath = null;
 
     public void setSaveFile(String filename) {
         this.saveFilePath = Paths.get(System.getProperty("user.home"), filename);

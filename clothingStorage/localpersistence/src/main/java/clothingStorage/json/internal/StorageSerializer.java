@@ -25,7 +25,7 @@ class StorageSerializer extends JsonSerializer<Storage> {
     *             "quantity": 1
     *         },
     *         {
-    *             "type": "Top",
+    *             "type": "Shirt",
     *             "brand": "Adidas",
     *             "size": "S",
     *             "price": 599.9,

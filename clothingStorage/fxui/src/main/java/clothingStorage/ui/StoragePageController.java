@@ -28,13 +28,60 @@ public class StoragePageController implements Initializable {
      */
     private Storage storage;
     /**
-     * Storage containing Clothing and corresponding quantity.
+     * ClothingStoragePersistence handeling local persistence.
      */
     private ClothingStoragePersistence storagePersistence;
     /**
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
+
+    /**
+     * Button for price-page.
+     */
+    @FXML
+    private Button pricePageButton;
+    /**
+     * Button for statistics-page.
+     */
+    @FXML
+    private Button statisticsPageButton;
+    /**
+     * Button for adding quantity.
+     */
+    @FXML
+    private Button addQuantity;
+    /**
+     * Button for removing quantity.
+     */
+    @FXML
+    private Button removeQuantity;
+    /**
+     * Button for adding new clothing-item.
+     */
+    @FXML
+    private Button newClothingItem;
+    /**
+     * Button for increasing quantity by one.
+     */
+    @FXML
+    private Button increaseByOne;
+    /**
+     * Button for decreasing quantity by one.
+     */
+    @FXML
+    private Button decreaseByOne;
+    /**
+     * Listview with all clothing-items and their quantities.
+     */
+    @FXML
+    private ListView<String> storageList;
+    /**
+     * Textfield for quantity to be added.
+     */
+    @FXML
+    private TextField quantity;
+
 
     /**
      * Constructor for StorageController initializing it with empty storage.
@@ -44,7 +91,7 @@ public class StoragePageController implements Initializable {
     }
 
     /**
-     * Initializes controller with the choiceboxes.
+     * Initializes with storage from file.
      */
     @FXML
     @Override
@@ -104,21 +151,17 @@ public class StoragePageController implements Initializable {
     /**
      * Updates StorageList after change has been made.
      */
-    public void updateStorageList() {
+    private void updateStorageList() {
         List<String> clothingDisplays = storage.storageDisplay();
         storageList.getItems().setAll(clothingDisplays);
         fireAutoSaveStorage();   
     }
     
     /**
-     * Button for price-page.
-     */
-    @FXML private Button pricePageButton;
-
-    /**
      * Changes ui-view to the price-page.
      */
-    @FXML private void handlePricePageButton() throws IOException {
+    @FXML
+    private void handlePricePageButton() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("PricePage.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) pricePageButton.getScene().getWindow();
@@ -128,9 +171,23 @@ public class StoragePageController implements Initializable {
     }
 
     /**
+     * Changes ui-view to the statistics-page.
+     */
+    @FXML
+    private void handleStatisticsPageButton() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Statistics");
+        stage.show();
+    }
+
+    /**
      * Resets inputs and shows pane for adding a new clothing-item.
      */
-    @FXML private void handleNewClothingItem() throws IOException {
+    @FXML
+    private void handleNewClothingItem() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("NewClothingPage.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) pricePageButton.getScene().getWindow();
@@ -138,35 +195,6 @@ public class StoragePageController implements Initializable {
         stage.setTitle("New Clothing");
         stage.show();
     }
-
-    /**
-     * Button for adding quantity.
-     */
-    @FXML private Button addQuantity;
-    /**
-     * Button for removing quantity.
-     */
-    @FXML private Button removeQuantity;
-    /**
-     * Button for adding new clothing-item.
-     */
-    @FXML private Button newClothingItem;
-    /**
-     * Button for increasing quantity by one.
-     */
-    @FXML private Button increaseByOne;
-    /**
-     * Button for decreasing quantity by one.
-     */
-    @FXML private Button decreaseByOne;
-    /**
-     * Listview with all clothing-items and their quantities.
-     */
-    @FXML private ListView<String> storageList;
-    /**
-     * Textfield for quantity to be added.
-     */
-    @FXML private TextField quantity;
 
     /**
      * Shows alert with error-message.
@@ -185,7 +213,8 @@ public class StoragePageController implements Initializable {
     /**
      * Removes clothing-item for the list.
      */
-    @FXML private void handleRemoveClothingItem() {
+    @FXML
+    private void handleRemoveClothingItem() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
             storage.removeClothing(storage.getClothing(index));
@@ -198,10 +227,11 @@ public class StoragePageController implements Initializable {
     /**
      * Increases quantity for a selected clothing-item by one.
      */
-    @FXML private void handleIncreaseByOne() {
+    @FXML
+    private void handleIncreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.increaseQuantityByOne(storage.getClothing(index));
+            storage.increaseQuantity(storage.getClothing(index), 1);
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             if (storage.getAllClothes().isEmpty()) {
@@ -215,10 +245,11 @@ public class StoragePageController implements Initializable {
     /**
      * Decreases quantity for a selected clothing-item by one.
      */
-    @FXML private void handleDecreaseByOne() {
+    @FXML
+    private void handleDecreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            storage.decreaseQuantityByOne(storage.getClothing(index));
+            storage.decreaseQuantity(storage.getClothing(index), 1);
             updateStorageList();
         } catch (IndexOutOfBoundsException e) {
             if (storage.getAllClothes().isEmpty()) {
@@ -226,13 +257,16 @@ public class StoragePageController implements Initializable {
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
             }
+        } catch (IllegalStateException e) {
+            showErrorMessage(e.getMessage());
         }
     }
 
     /**
      * Increases quantity for a selected clothing-item by amount specified in textfield.
      */
-    @FXML private void handleAddQuantity() {
+    @FXML
+    private void handleAddQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
             if (storage.getAllClothes().isEmpty() || index == -1) {
@@ -259,7 +293,8 @@ public class StoragePageController implements Initializable {
     /**
      * Decreases quantity for a selected clothing-item by amount specified in textfield.
      */
-    @FXML private void handleRemoveQuantity() {
+    @FXML
+    private void handleRemoveQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
             if (storage.getAllClothes().isEmpty() || index == -1) {
