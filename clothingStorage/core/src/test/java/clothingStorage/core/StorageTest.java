@@ -91,8 +91,8 @@ public class StorageTest {
         storage.addNewClothing(leviPantsL, 6);
         storage.addNewClothing(supremeShorts, 10);
         assertEquals(2, storage.priceDisplay().size());
-        assertEquals("Pants; Levi's; 199.0,-", storage.priceDisplay().get(0));
-        assertEquals("Shorts; Supreme; 159.0,-", storage.priceDisplay().get(1));
+        assertEquals("Pants; Levi's; 199.0kr", storage.priceDisplay().get(0));
+        assertEquals("Shorts; Supreme; 159.0kr", storage.priceDisplay().get(1));
     }
 
     @Test
