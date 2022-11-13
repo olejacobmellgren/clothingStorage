@@ -14,7 +14,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -224,18 +223,14 @@ public class StorageClient {
      */
     public List<String> getNames() {
         List<String> names;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("names"))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String namesString = response.body();
-            namesString = namesString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+            names = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -249,18 +244,14 @@ public class StorageClient {
      */
     public List<String> getSortedNames() {
         List<String> names;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedNames/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedNames"))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String namesString = response.body();
-            namesString = namesString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            names = new ArrayList<String>(Arrays.asList(namesString.split(",")));
+            names = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -276,17 +267,13 @@ public class StorageClient {
     public List<String> getSorted(int id) {
         List<String> list;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sorted/" + id))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String listString = response.body();
-            listString = listString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+            list = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -302,17 +289,13 @@ public class StorageClient {
     public List<String> getSortedType(String type) {
         List<String> list;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("sortedType/" + type))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String listString = response.body();
-            listString = listString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+            list = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -329,17 +312,13 @@ public class StorageClient {
         List<String> list;
         HttpRequest request = HttpRequest
             .newBuilder(endpointBaseUri.resolve("sortedBrand/" + brand))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String listString = response.body();
-            listString = listString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+            list = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -353,18 +332,14 @@ public class StorageClient {
      */
     public List<String> getStorageDisplay() {
         List<String> list;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("storageDisplay/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("storageDisplay"))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String listString = response.body();
-            listString = listString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+            list = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -378,18 +353,14 @@ public class StorageClient {
      */
     public List<String> getPriceDisplay() {
         List<String> list;
-        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("priceDisplay/"))
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri.resolve("priceDisplay"))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String listString = response.body();
-            listString = listString.replace("[", "")
-                .replace("]", "")
-                .replace('"', '{')
-                .replace("{", "");
-            list = new ArrayList<String>(Arrays.asList(listString.split(",")));
+            list = Arrays.asList(objectMapper.readValue(response.body(), String[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -403,24 +374,20 @@ public class StorageClient {
      * @return amount of clothing for that type
      */
     public List<Integer> getQuantitiesForTypeAndSizes(String type) {
-        List<Integer> quantitys = new ArrayList<>();
+        List<Integer> quantities;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
             .resolve("stats/chartData/" + type))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String quantitysString = response.body();
-            quantitysString = quantitysString.replace("[", "").replace("]", "");
-            String[] quantitiesList = quantitysString.split(",");
-            for (String string : quantitiesList) {
-                quantitys.add(Integer.parseInt(string));
-            }
+            quantities = Arrays.asList(objectMapper.readValue(response.body(), Integer[].class));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return quantitys;
+        return quantities;
     }
 
     /**
@@ -432,13 +399,13 @@ public class StorageClient {
         double value;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
             .resolve("stats/totalValue"))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String valueString = response.body();
-            value = Double.parseDouble(valueString);
+            value = objectMapper.readValue(response.body(), Double.class);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -454,13 +421,13 @@ public class StorageClient {
         int quantity;
         HttpRequest request = HttpRequest.newBuilder(endpointBaseUri
             .resolve("stats/totalQuantity"))
+            .header(ACCEPT_HEADER, APPLICATION_JSON)
             .GET()
             .build();
         try {
             final HttpResponse<String> response = 
                 HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-            String quantityString = response.body();
-            quantity = Integer.parseInt(quantityString);
+            quantity = objectMapper.readValue(response.body(), Integer.class);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
