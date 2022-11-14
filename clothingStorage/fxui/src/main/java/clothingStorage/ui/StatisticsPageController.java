@@ -98,7 +98,7 @@ public class StatisticsPageController implements Initializable {
     public void setAccess(Access access) {
         this.access = access;
         for (int i = 0; i < validTypes.length; i++) {
-            if ((access.getQuantityForType(validTypes[i]).stream()
+            if ((access.getQuantitiesForTypeAndSizes(validTypes[i]).stream()
                 .reduce(0, Integer::sum) > 0)) {
                 typeForDiagram.getItems().add(validTypes[i]);
             }

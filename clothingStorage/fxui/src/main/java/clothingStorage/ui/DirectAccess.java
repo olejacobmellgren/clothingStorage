@@ -20,8 +20,10 @@ public class DirectAccess implements Access {
         
         this.storagePersistence = new ClothingStoragePersistence();
         this.storagePersistence.setSaveFile("storageDirect.json");
+        System.out.println("jeg kommer hit");
+        System.out.println(storagePersistence.getSaveFilePath());
         try {
-            storagePersistence.loadClothingStorage();
+            this.storage = storagePersistence.loadClothingStorage();
         } catch (IOException e) {
             System.err.println(e);
         }
