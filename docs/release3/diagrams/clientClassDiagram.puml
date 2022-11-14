@@ -1,0 +1,32 @@
+@startuml client
+
+class StorageClient
+{
+    -URI endpointBaseUri
+    -String APPLICATION_JSON
+    -String APPLICATION_FORM_URLENCODED
+    -String ACCEPT_HEADER
+    -String CONTENT_TYPE_HEADER
+    -ObjectMapper objectMapper
+    --
+    +Storage getStorage()
+    +Clothing getClothing(String)
+    +boolean putClothing(Clothing)
+    +boolean removeClothing(String)
+    +int getQuantity(String)
+    +boolean putQuantity(String, int)
+    +List<String> getNames()
+    +List<String> getSortedNames()
+    +List<String> getSorted(int id)
+    +List<String> getSortedType(String)
+    +List<String> getSortedBrand(String)
+    +List<String> getStorageDisplay()
+    +List<String> getPriceDisplay()
+    +List<Integer> getQuantitiesForTypeAndSizes(String)
+    +double getTotalValue()
+    +int getTotalQuantity()
+    +void main(String[])
+    -String uriParam(String)
+}
+
+@enduml
