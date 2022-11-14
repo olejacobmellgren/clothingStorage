@@ -6,6 +6,7 @@ import java.util.List;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+import clothingStorage.core.StorageStatistics;
 import clothingStorage.json.ClothingStoragePersistence;
 
 public class DirectAccess implements Access {
@@ -18,7 +19,7 @@ public class DirectAccess implements Access {
         System.out.println("wtfff");
         
         this.storagePersistence = new ClothingStoragePersistence();
-        this.storagePersistence.setSaveFile("storagedirect.json");
+        this.storagePersistence.setSaveFile("storageDirect.json");
         try {
             storagePersistence.loadClothingStorage();
         } catch (IOException e) {
@@ -142,27 +143,33 @@ public class DirectAccess implements Access {
     }
 
     @Override
-    public void updatePrice(Clothing clothing, int price) {
-        // TODO Auto-generated method stub
-        
+    public boolean updatePrice(Clothing clothing, double price) {
+        this.storage.getClothing(clothing.getName()).setPrice(price, true);
+        fireAutoSaveStorage();
+        return true;
     }
 
     @Override
-    public void updateDiscount(Clothing clothing, double discount) {
-        // TODO Auto-generated method stub
-        
+    public boolean updateDiscount(Clothing clothing, double discount) {
+        this.storage.getClothing(clothing.getName()).setPriceAfterAddedDiscount(discount);
+        fireAutoSaveStorage();
+        return true;
     }
 
     @Override
-    public void removeDiscount(Clothing clothing) {
-        // TODO Auto-generated method stub
-        
+    public boolean removeDiscount(Clothing clothing) {
+        this.storage.getClothing(clothing.getName()).removeDiscount();
+        fireAutoSaveStorage();
+        return true;
     }
 
     @Override
-    public List<Integer> getQuantityForType(String type) {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+    public List<Integer> getQuantitiesForTypeAndSizes(String type) {
+        ArrayList<Integer> quantities = new ArrayList<>();
+        quantities.add(StorageStatistics.getQuantityForTypeAndSize(this.storage, type, 'S'));
+        quantities.add(StorageStatistics.getQuantityForTypeAndSize(this.storage, type, 'M'));
+        quantities.add(StorageStatistics.getQuantityForTypeAndSize(this.storage, type, 'L'));
+        return quantities;
     }
     
     /**
@@ -194,15 +201,11 @@ public class DirectAccess implements Access {
 
     @Override
     public double getTotalValue() {
-        // TODO Auto-generated method stub
-        return 0;
+        return StorageStatistics.getTotalValue(this.storage);
     }
 
     @Override
     public int getTotalQuantity() {
-        // TODO Auto-generated method stub
-        return 0;
+        return StorageStatistics.getTotalQuantity(this.storage);
     }
-
-    
 }

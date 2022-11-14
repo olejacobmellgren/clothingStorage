@@ -121,27 +121,44 @@ public class RemoteAccess implements Access {
     }
 
     @Override
-    public void updatePrice(Clothing clothing, int price) {
-        // TODO Auto-generated method stub
-        
+    public boolean updatePrice(Clothing clothing, double price) {
+        boolean updated = false;
+        try {
+            clothing.setPrice(price, true);
+            updated = storageClient.putClothing(clothing);
+        } catch (JsonProcessingException e) {
+            System.err.println(e);
+        }
+        return updated;
     }
 
     @Override
-    public void updateDiscount(Clothing clothing, double discount) {
-        // TODO Auto-generated method stub
-        
+    public boolean updateDiscount(Clothing clothing, double discount) {
+        boolean updated = false;
+        try {
+            clothing.setPriceAfterAddedDiscount(discount);
+            updated = storageClient.putClothing(clothing);
+        } catch (JsonProcessingException e) {
+            System.err.println(e);
+        }
+        return updated;
     }
 
     @Override
-    public void removeDiscount(Clothing clothing) {
-        // TODO Auto-generated method stub
-        
+    public boolean removeDiscount(Clothing clothing) {
+        boolean updated = false;
+        try {
+            clothing.removeDiscount();
+            updated = storageClient.putClothing(clothing);
+        } catch (JsonProcessingException e) {
+            System.err.println(e);
+        }
+        return updated;
     }
 
     @Override
-    public List<Integer> getQuantityForType(String type) {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+    public List<Integer> getQuantitiesForTypeAndSizes(String type) {
+        return storageClient.getQuantitiesForTypeAndSizes(type);
     }
 
     @Override
@@ -156,18 +173,11 @@ public class RemoteAccess implements Access {
 
     @Override
     public double getTotalValue() {
-        // TODO Auto-generated method stub
-        return 0;
+        return storageClient.getTotalValue();
     }
 
     @Override
     public int getTotalQuantity() {
-        // TODO Auto-generated method stub
-        return 0;
+        return storageClient.getTotalQuantity();
     }
-
-    
-
-    
-    
 }

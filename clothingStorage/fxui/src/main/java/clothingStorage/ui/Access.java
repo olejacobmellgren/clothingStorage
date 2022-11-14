@@ -37,13 +37,13 @@ public interface Access {
 
     public List<String> getNames();
 
-    public void updatePrice(Clothing clothing, int price);
+    public boolean updatePrice(Clothing clothing, double price);
 
-    public void updateDiscount(Clothing clothing, double discount);
+    public boolean updateDiscount(Clothing clothing, double discount);
 
-    public void removeDiscount(Clothing clothing);
+    public boolean removeDiscount(Clothing clothing);
 
-    public List<Integer> getQuantityForType(String type);
+    public List<Integer> getQuantitiesForTypeAndSizes(String type);
 
     public int getQuantity(String name);
 
