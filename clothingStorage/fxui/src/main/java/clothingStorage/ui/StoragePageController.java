@@ -82,7 +82,7 @@ public class StoragePageController implements Initializable {
     @FXML
     String isRemote;
 
-    private Access access = new DirectAccess();
+    private Access access;
 
     /**
      * Constructor for StorageController initializing it with empty storage.

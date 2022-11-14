@@ -74,7 +74,7 @@ public class StatisticsPageController implements Initializable {
     @FXML 
     private CategoryAxis categoryAxis;
 
-    private Access access;
+    private Access access = new DirectAccess();
 
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
