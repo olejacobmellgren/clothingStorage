@@ -2,12 +2,16 @@ package clothingStorage.ui;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+import clothingStorage.json.ClothingStoragePersistence;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,13 +36,12 @@ public class NewClothingPageControllerTest extends ApplicationTest {
 
     @BeforeEach
     public void setupClothingItems() {
-        storage = new Storage();
-        Clothing clothing1 = new Clothing("Pants", "Nike", 'S', 10);
-        Clothing clothing2 = new Clothing("Shorts", "Louis Vuitton", 'M', 20);
-        Clothing clothing3 = new Clothing("Socks", "Adidas", 'L', 30);
-        storage.addNewClothing(clothing1, 5);
-        storage.addNewClothing(clothing2, 8);
-        storage.addNewClothing(clothing3, 4);
+        try {
+            ClothingStoragePersistence storagePersistence = new ClothingStoragePersistence();
+            storage = storagePersistence.readClothingStorage(new InputStreamReader(getClass().getResourceAsStream("storage-test.json")));
+        } catch (IOException e) {
+            fail("Couldn't load storage-test.json");
+        }
         controller.setStorage(storage);
     }
 

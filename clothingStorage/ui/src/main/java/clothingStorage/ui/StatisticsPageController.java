@@ -37,6 +37,10 @@ public class StatisticsPageController implements Initializable {
      * StorageClient for the session.
      */
     private StorageClient storageClient;
+    /**
+     * Access, either direct or remote, by default DirectAccess
+     */
+    private Access access = new DirectAccess();
 
     /**
      * Label for total quantity in storage.
@@ -73,8 +77,6 @@ public class StatisticsPageController implements Initializable {
      */
     @FXML 
     private CategoryAxis categoryAxis;
-
-    private Access access = new DirectAccess();
 
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
@@ -114,6 +116,7 @@ public class StatisticsPageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
+        this.access = new DirectAccess(storage);
         typeForDiagram.getItems().add("All Clothes");
         Platform.runLater(new Runnable() {
             @Override
@@ -121,7 +124,7 @@ public class StatisticsPageController implements Initializable {
                 // Update UI here.
                 typeForDiagram.setValue("All Clothes");
                 for (int i = 0; i < validTypes.length; i++) {
-                    if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
+                    if ((access.getQuantitiesForTypeAndSizes(validTypes[i]).stream().reduce(0, Integer::sum) > 0)) {
                         typeForDiagram.getItems().add(validTypes[i]);
                     }
                 }
@@ -203,7 +206,7 @@ public class StatisticsPageController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("New Clothing");
+        stage.setTitle("Clothing Storage");
         stage.show();
     }
 

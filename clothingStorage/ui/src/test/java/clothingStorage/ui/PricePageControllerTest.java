@@ -1,7 +1,10 @@
 package clothingStorage.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+import clothingStorage.json.ClothingStoragePersistence;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,16 +41,15 @@ public class PricePageControllerTest extends ApplicationTest {
     
     @BeforeEach
     public void setupClothingItems() {
-        storage = new Storage();
-        Clothing clothing1 = new Clothing("Pants", "Nike", 'S', 10);
-        Clothing clothing2 = new Clothing("Shorts", "Louis Vuitton", 'M', 20);
-        Clothing clothing3 = new Clothing("Socks", "Adidas", 'L', 30);
-        storage.addNewClothing(clothing1, 5);
-        storage.addNewClothing(clothing2, 8);
-        storage.addNewClothing(clothing3, 4);
+        try {
+            ClothingStoragePersistence storagePersistence = new ClothingStoragePersistence();
+            storage = storagePersistence.readClothingStorage(new InputStreamReader(getClass().getResourceAsStream("storage-test.json")));
+        } catch (IOException e) {
+            fail("Couldn't load storage-test.json");
+        }
         controller.setStorage(storage);
     }
-
+    
     @Test
     public void testStoragePageButton() {
         clickOn("#storagePageButton");
@@ -59,49 +61,49 @@ public class PricePageControllerTest extends ApplicationTest {
     @Test
     public void testNewPrice() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Shorts; Louis Vuitton; 20.0,-"));
+        clickOn(LabeledMatchers.hasText("Shorts; Louis Vuitton; 20.0kr"));
         clickOn("#newPrice").write("30");
         clickOn("#confirmNewPrice");
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikePants = priceList.get(1).split(";");
-        double price = Double.parseDouble(nikePants[2].split(",")[0].strip());
+        double price = Double.parseDouble(nikePants[2].split("k")[0].strip());
         assertEquals(30, price);
     }
 
     @Test
     public void testDiscount() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikePants = priceList.get(0).split(";");
-        double price = Double.parseDouble(nikePants[2].split(",")[0].strip());
+        double price = Double.parseDouble(nikePants[2].split("k")[0].strip());
         assertEquals(5, price);
     }
 
     @Test
     public void testRemoveDiscount() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 5.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 5.0kr"));
         clickOn("#removeDiscount");
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikePants = priceList.get(0).split(";");
-        double price = Double.parseDouble(nikePants[2].split(",")[0].strip());
+        double price = Double.parseDouble(nikePants[2].split("k")[0].strip());
         assertEquals(10, price);
     }
 
     @Test
     public void testErrorClothingNotOnDiscount() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#removeDiscount");
         assertEquals("Clothing is not on discount", controller.getErrorMessage());
     }
@@ -109,7 +111,7 @@ public class PricePageControllerTest extends ApplicationTest {
     @Test
     public void testErrorDiscountNotValid() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#discount").write("120");
         clickOn("#confirmDiscount");
         assertEquals("Given discount is not valid", controller.getErrorMessage());
@@ -119,18 +121,18 @@ public class PricePageControllerTest extends ApplicationTest {
     @Test
     public void testErrorClothingAlreadyOnDiscount() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 5.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 5.0kr"));
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
         assertEquals("Clothing is already on discount", controller.getErrorMessage());
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String[] nikePants = priceList.get(0).split(";");
-        double price = Double.parseDouble(nikePants[2].split(",")[0].strip());
+        double price = Double.parseDouble(nikePants[2].split("k")[0].strip());
         assertEquals(5, price);
     }
 
@@ -138,39 +140,39 @@ public class PricePageControllerTest extends ApplicationTest {
     public void testErrorNoItemSelectedForDiscount() {
         clickOn("#discount").write("50");
         clickOn("#confirmDiscount");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());
+        assertEquals("Select a clothing before adding discount", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
         clickOn("#removeDiscount");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());
+        assertEquals("Select a clothing before removing discount", controller.getErrorMessage());
     }
 
     @Test
     public void testErrorNoItemSelectedForPriceChange() {
         clickOn("#newPrice").write("30");
         clickOn("#confirmNewPrice");
-        assertEquals("You need to select an item from the list", controller.getErrorMessage());        
+        assertEquals("Select a clothing before changing price", controller.getErrorMessage());        
     }
 
     @Test
-    public void testErrorNotSpecifyPrice() {
-        clickOn("#priceList").clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+    public void testErrorNotSpecifyPriceAndDiscount() {
+        clickOn("#priceList").clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#confirmNewPrice");
         assertEquals("Specify price first in textfield", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
         clickOn("#confirmDiscount");
-        assertEquals("Specify price first in textfield", controller.getErrorMessage());
+        assertEquals("Specify discount first in textfield", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
     }
 
     @Test
     public void testErrorInputNotNumberForPrice() {
         clickOn("#newPrice").write("hei");
-        clickOn("#priceList").clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn("#priceList").clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#confirmNewPrice");
         assertEquals("Input must be a number", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
         clickOn("#confirmDiscount");
-        assertEquals("Input must be a number", controller.getErrorMessage());
+        assertEquals("Specify discount first in textfield", controller.getErrorMessage());
         clickOn(LabeledMatchers.hasText("OK"));
     }
     
@@ -182,7 +184,7 @@ public class PricePageControllerTest extends ApplicationTest {
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String adidasSocks = priceList.get(0);
-        String expected = "Socks; Adidas; 30.0,-";
+        String expected = "Socks; Adidas; 30.0kr";
         assertEquals(expected, adidasSocks);
     }
     
@@ -194,7 +196,7 @@ public class PricePageControllerTest extends ApplicationTest {
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         String nikePants = priceList.get(0);
-        String expected = "Pants; Nike; 10.0,-";
+        String expected = "Pants; Nike; 10.0kr";
         assertEquals(expected, nikePants);
     }
 
@@ -205,9 +207,9 @@ public class PricePageControllerTest extends ApplicationTest {
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
-            "Pants; Nike; 10.0,-",
-            "Shorts; Louis Vuitton; 20.0,-",
-            "Socks; Adidas; 30.0,-"
+            "Pants; Nike; 10.0kr",
+            "Shorts; Louis Vuitton; 20.0kr",
+            "Socks; Adidas; 30.0kr"
         ));
         assertEquals(expectedList, priceList);
     }
@@ -219,9 +221,9 @@ public class PricePageControllerTest extends ApplicationTest {
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
-            "Socks; Adidas; 30.0,-",
-            "Shorts; Louis Vuitton; 20.0,-",
-            "Pants; Nike; 10.0,-"
+            "Socks; Adidas; 30.0kr",
+            "Shorts; Louis Vuitton; 20.0kr",
+            "Pants; Nike; 10.0kr"
         ));
         assertEquals(expectedList, priceList);
     }
@@ -229,7 +231,7 @@ public class PricePageControllerTest extends ApplicationTest {
     @Test
     public void testFilterOnSale() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0,-"));
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
         clickOn("#discount").write("40");
         clickOn("#confirmDiscount");
 
@@ -238,7 +240,7 @@ public class PricePageControllerTest extends ApplicationTest {
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
-            "Pants; Nike; 6.0,-"
+            "Pants; Nike; 6.0kr"
         ));
         assertEquals(expectedList, priceList);
     }
@@ -258,9 +260,9 @@ public class PricePageControllerTest extends ApplicationTest {
         ListView<String> priceView = lookup("#priceList").query();
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
-            "Pants; Nike; 10.0,-",
-            "Shorts; Louis Vuitton; 20.0,-",
-            "Socks; Adidas; 30.0,-"
+            "Pants; Nike; 10.0kr",
+            "Shorts; Louis Vuitton; 20.0kr",
+            "Socks; Adidas; 30.0kr"
         ));
         assertEquals(expectedList, priceList);
     }

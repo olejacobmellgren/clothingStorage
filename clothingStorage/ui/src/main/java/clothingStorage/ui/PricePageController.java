@@ -35,6 +35,11 @@ public class PricePageController implements Initializable {
      */
     private String errorMessage;
     /**
+     * Access, either direct or remote
+     */
+    private Access access;
+    
+    /**
      * Choicebox for what to filter on.
      */
     @FXML
@@ -89,8 +94,6 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private Button confirmFilter;
-
-    private Access access;
     
     /**
      * Constructor for StorageController initializing it with empty storage.
@@ -125,10 +128,7 @@ public class PricePageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
-        if (this.storage != null) {
-            priceList.getItems().clear();
-        }
-        this.storage = storage;
+        this.access = new DirectAccess(storage);
         updatePriceList(access.getPriceDisplay());
     }
 
@@ -181,7 +181,7 @@ public class PricePageController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("New Clothing");
+        stage.setTitle("Clothing Storage");
         stage.show();
     }
 
@@ -372,7 +372,7 @@ public class PricePageController implements Initializable {
             if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
-                showErrorMessage("Select a clothing before increasing quantity");
+                showErrorMessage("Select a clothing before adding discount");
             }
         } catch (IllegalArgumentException e) {
             showErrorMessage(e.getMessage());
@@ -422,7 +422,7 @@ public class PricePageController implements Initializable {
             if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
-                showErrorMessage("Select a clothing before increasing quantity");
+                showErrorMessage("Select a clothing before removing discount");
             }
         } catch (IllegalStateException e) {
             showErrorMessage(e.getMessage());
