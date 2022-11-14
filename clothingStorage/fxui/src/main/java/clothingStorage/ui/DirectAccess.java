@@ -16,18 +16,14 @@ public class DirectAccess implements Access {
 
     
     public DirectAccess() {
-        System.out.println("wtfff");
-        
+        this.storage = new Storage();
         this.storagePersistence = new ClothingStoragePersistence();
         this.storagePersistence.setSaveFile("storageDirect.json");
-        System.out.println("jeg kommer hit");
-        System.out.println(storagePersistence.getSaveFilePath());
         try {
             this.storage = storagePersistence.loadClothingStorage();
         } catch (IOException e) {
             System.err.println(e);
         }
-        System.out.println(storage);
     }
 
     public DirectAccess(Storage storage) {
@@ -167,7 +163,7 @@ public class DirectAccess implements Access {
 
     @Override
     public List<Integer> getQuantitiesForTypeAndSizes(String type) {
-        ArrayList<Integer> quantities = new ArrayList<>();
+        List<Integer> quantities = new ArrayList<>();
         quantities.add(StorageStatistics.getQuantityForTypeAndSize(this.storage, type, 'S'));
         quantities.add(StorageStatistics.getQuantityForTypeAndSize(this.storage, type, 'M'));
         quantities.add(StorageStatistics.getQuantityForTypeAndSize(this.storage, type, 'L'));
