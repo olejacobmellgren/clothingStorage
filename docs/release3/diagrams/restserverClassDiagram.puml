@@ -1,0 +1,48 @@
+@startuml restserver  
+
+class ClothingStorageApplication
+{
+    --
+    +ObjectMapper objectMapperModule()
+    +void main(String[])
+}
+
+class ClothingStorageController
+{
+    -ClothingStorageService clothingStorageService
+    --
+    +Storage getStorage()
+    +List<String> getNames()
+    +ArrayList<String> getSortedNames()
+    +List<String> getSortedClothes(String)
+    +List<String> getSortedClothesType(String)
+    +List<String> getSortedClothesBrand(String)
+    +List<String> getStorageDisplay()
+    +List<String> getPriceDisplay()
+    +Clothing getClothing(String)
+    +boolean putClothing(String, Clothing)
+    +boolean removeClothing(String)
+    +int getQuantity(String)
+    +boolean putQuantity(String, String)
+    +boolean removeQuantity(String)
+    +List<Integer> getQuantitiesForTypeAndSizes(String)
+    +int getTotalQuantity()
+    +double getTotalValue()
+    -void autoSaveStorage()
+}
+
+class ClothingStorageService
+{
+    -Storage storage
+    -final ClothingStoragePersistence storagePersistence
+    --
+    +ClothingStorageService(Storage)
+    +ClothingStorageService()
+    +void autoSaveStorage()
+    +Storage getStorage()
+    +void setStorage(Storage)
+}
+
+ClothingStorageController --> clothingStorageService
+
+@enduml
