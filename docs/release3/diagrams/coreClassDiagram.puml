@@ -1,0 +1,78 @@
+@startuml core
+
+class Storage
+{
+    -LinkedHashMap<Clothing, Integer> storageList
+    -ArrayList<Clothing> sortedClothes
+    -boolean isSortedPricePage
+    --
+    +void addNewClothing(Clothing, int)
+    +void removeClothing()
+    +void increaseQuantity(Clothing, int)
+    +void decreaseQuantity(Clothing, int)
+    +void updateQuantity(Clothing, int)
+    +List<String> storageDisplay()
+    +List<String> priceDisplay()
+    +boolean isClothingInStorage(Clothing)
+    +void setIsSortedPricePage(boolean)
+    +boolean getIsSortedClothes()
+    +int getQuantity(Clothing)
+    +LinkedHashMap<Clothing, Integer> gettAllClothes()
+    +ArrayList<Clothing> getSortedClothings()
+    +void addSortedClothing(Clothing clothing)
+    +List<Clothing> sortOnLowestPrice()
+    +List<Clothing> sortOnHighestPrice()
+    +List<Clothing> filterOnBrand(String)
+    +List<Clothing> filterOnType(String)
+    +List<Clothing> filterOnDiscount()
+    +Clothing getClothing(int)
+    +Clothing getClothing(String)
+    +Clothing getClothingFromSortedClothes(int)
+    +String toString()
+    -boolean isValidQuantity(int)
+}
+
+class Clothing
+{
+    -String type
+    -String brand
+    -Char size
+    -Double price
+    -Double discount
+    -String[] validBrands
+    --
+    +void setType(String)
+    +void setBrand(String)
+    +void setSize(char)
+    +void setPrice(double, boolean)
+    +void setDiscount(double)
+    +void removeDiscount()
+    +void setDiscount(double)
+    +void setName()
+    +String getType()
+    +String getBrand()
+    +char getSize()
+    +double getPrice()
+    +boolean isOnDiscount()
+    +double getDiscount()
+    +String getName()
+    +String toString()
+    +boolean equalsButDifferentPrice(Clothing)
+    +boolean equalsButDifferentSize(Clothing)
+    -void isValidType(String)
+    -boolean isValidType(String)
+    -boolean isValidDiscount(double)
+
+}
+
+class StorageStatistics 
+{
+    --
+    +int getTotalQuantity(Storage)
+    +double getTotalValue(Storage)
+    +int getQuantityForType(Storage, String)
+    +int getQuantityForTypeAndSize(Storage, String, char)
+}
+
+
+@enduml
