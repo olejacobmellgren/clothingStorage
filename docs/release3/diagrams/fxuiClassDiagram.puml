@@ -1,0 +1,126 @@
+@startuml fxui
+
+
+class NewClothingPageController
+{
+    -String errorMessage
+    -String confirmMessage
+    -StorageClient storageClient
+    -ChoiceBox<String> type
+    -ChoiceBox<String> brand
+    -ChoiceBox<Character> size
+    -TextField price
+    -TextField quantity
+    -TextField newQuantity
+    -Button cancel
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +String getErrorMessage()
+    +String getConfirmMessage()
+    -void showErrorMessage(String)
+    -void showConfirmedMessage(String)
+    -void handleReset()
+    -void handleCancel()
+    -void handleOk()
+}
+
+class PricePageController
+{
+    -Storage storage
+    -String errorMessage
+    -StorageClient storageClient
+    -ChoiceBox<String> filters
+    -ChoiceBox<String> typeOfClothingFilter
+    -ChoiceBox<String> brands
+    -Button storagePageButton
+    -Button statisticsPageButton
+    -ListView<String> priceList
+    -Button confirmNewPrice
+    -Button confirmDiscount
+    -TextField newPrice
+    -TextField discount
+    -Button confirmFilter
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +String getErrorMessage()
+    -void updatePriceList(List<String>)
+    -void showErrorMessage(String)
+    -void handleStoragePageButton()
+    -void handleStatisticsPageButton()
+    -void handleFilterChoice()
+    -void handleConfirmFilter()
+    -void handleResetFilter()
+    -void handleConfirmNewPrice()
+    -void handleConfirmDiscount()
+    -void handleRemoveDiscount()
+}
+
+class StatisticsPageController
+{
+    -ClothingStoragePersistence storagePersistence
+    -String[] validTypes
+    -StorageClient storageClient
+    -Label totalQuantityLabel;
+    -Label totalValueLabel;
+    -Button storagePageButton;
+    -Button pricePageButton;
+    -ChoiceBox<String> typeForDiagram;
+    -BarChart<String, Integer> quantityChart;
+    -CategoryAxis categoryAxis;
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +void setDiagramForAllClothes()
+    -void setTotalQuantityLabel()
+    -void setTotalValueLabel()
+    -void handleStoragePageButton()
+    -void handlePricePageButton()
+    -void handleTypeForDiagram()
+}
+
+class StoragePageController
+{
+    -Storage storage
+    -String errorMessage
+    -StorageClient storageClient
+    -Button pricePageButton
+    -Button statisticsPageButton
+    -Button addQuantity
+    -Button removeQuantity
+    -Button newClothingItem
+    -Button increaseByOne
+    -Button decreaseByOne
+    -ListView<String> storageList
+    -TextField quantity
+    --
+    +void initialize(URL location, ResourceBundle resources)
+    +void setStorage(Storage storage)
+    +String getErrorMessage()
+    -void updateStorageList(List<String> storageDisplay)
+    -void handlePricePageButton()
+    -void handleStatisticsPageButton()
+    -void handleNewClothingItem()
+    -void showErrorMessage(String errorMessage)
+    -void handleRemoveClothingItem()
+    -void handleIncreaseByOne()
+    -void handleDecreaseByOne()
+    -void handleAddQuantity()
+    -void handleRemoveQuantity()
+}
+
+class StorageApp
+{
+    --
+    +void start(Stage)
+    +void main(String[])
+}
+
+StorageApp .. NewClothingPageController
+StorageApp .. PricePageController
+StorageApp .. StatisticsPageController
+StorageApp .. StoragePageController
+
+
+@enduml
