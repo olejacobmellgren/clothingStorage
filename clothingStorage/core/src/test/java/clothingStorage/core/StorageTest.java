@@ -100,7 +100,7 @@ public class StorageTest {
         storage = new Storage();
         storage.addNewClothing(leviPantsM, 5);
         storage.addNewClothing(adidasSocks, 4);
-        assertEquals(leviPantsM.toString() + "\n" + "   - Quantity: 5" + "\n" + adidasSocks.toString() + "\n" + "   - Quantity: 4", storage.toString());
+        assertEquals(leviPantsM.toString() + "\n" + "   - Quantity: 5" + "\n" + adidasSocks.toString() + "\n" + "   - Quantity: 4false", storage.toString());
     }
 
     @Test
