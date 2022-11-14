@@ -95,14 +95,14 @@ class StoragePageController
     -ListView<String> storageList
     -TextField quantity
     --
-    +void initialize(URL location, ResourceBundle resources)
-    +void setStorage(Storage storage)
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
     +String getErrorMessage()
-    -void updateStorageList(List<String> storageDisplay)
+    -void updateStorageList(List<String>)
     -void handlePricePageButton()
     -void handleStatisticsPageButton()
     -void handleNewClothingItem()
-    -void showErrorMessage(String errorMessage)
+    -void showErrorMessage(String)
     -void handleRemoveClothingItem()
     -void handleIncreaseByOne()
     -void handleDecreaseByOne()
@@ -110,17 +110,112 @@ class StoragePageController
     -void handleRemoveQuantity()
 }
 
-class StorageApp
+
+class StorageAppDirect 
 {
     --
     +void start(Stage)
     +void main(String[])
 }
 
+class StorageAppRemote
+{
+    --
+    +void start(Stage)
+    +void main(String[])
+}
+
+interface Access
+{
+    --
+    +Storage getStorage();
+    +Clothing getClothing(String);
+    +boolean addClothing(Clothing, int);
+    +boolean removeClothing(String);
+    +boolean increaseQuantityByOne(String);
+    +boolean decreaseQuantityByOne(String);
+    +boolean increaseQuantity(String, int);
+    +boolean decreaseQuantity(String, int);
+    +List<String> getStorageDisplay();
+    +List<String> getPriceDisplay();
+    +List<String> getSortedPriceDisplay(int);
+    +List<String> getSortedTypePriceDisplay(String);
+    +List<String> getSortedBrandPriceDisplay(String);
+    +List<String> getSortedNames();
+    +List<String> getNames();
+    +boolean updatePrice(Clothing, double);
+    +boolean updateDiscount(Clothing, double);
+    +boolean removeDiscount(Clothing);
+    +List<Integer> getQuantitiesForTypeAndSizes(String);
+    +int getQuantity(String);
+    +double getTotalValue();
+    +int getTotalQuantity();
+}
+
+class DirectAccess
+{
+    -ClothingStoragePersistence storagePersistence;
+    -Storage storage;
+    --
+    +void setStorage(Storage)
+    +Storage getStorage()
+    +Clothing getClothing(String)
+    +boolean addClothing(Clothing, int)
+    +boolean removeClothing(String)
+    +boolean increaseQuantityByOne(String)
+    +boolean decreaseQuantityByOne(String)
+    +boolean increaseQuantity(String, int)
+    +boolean decreaseQuantity(String, int)
+    +List<String> getStorageDisplay()
+    +List<String> getPriceDisplay()
+    +List<String> getSortedPriceDisplay(int)
+    +List<String> getSortedTypePriceDisplay(String)
+    +List<String> getSortedBrandPriceDisplay(String)
+    +List<String> getSortedNames()
+    +boolean updatePrice(Clothing, double)
+    +boolean updateDiscount(Clothing, double)
+    +boolean removeDiscount(Clothing)
+    +List<Integer> getQuantitiesForTypeAndSizes(String)
+    +List<String> getNames()
+    +int getQuantity(String)
+    +double getTotalValue()
+    +int getTotalQuantity()
+    -void fireAutoSaveStorage()
+}
+
+class RemoteAccess 
+{
+    StorageClient storageClient;
+    --
+    +Storage getStorage()
+    +Clothing getClothing(String)
+    +boolean addClothing(Clothing, int)
+    +boolean removeClothing(String)
+    +boolean increaseQuantityByOne(String)
+    +boolean decreaseQuantityByOne(String)
+    +boolean increaseQuantity(String, int)
+    +boolean decreaseQuantity(String, int)
+    +List<String> getStorageDisplay()
+    +List<String> getPriceDisplay()
+    +List<String> getSortedPriceDisplay(int)
+    +List<String> getSortedTypePriceDisplay(String)
+    +List<String> getSortedBrandPriceDisplay(String)
+    +List<String> getSortedNames()
+    +boolean updatePrice(Clothing, double)
+    +boolean updateDiscount(Clothing, double)
+    +boolean removeDiscount(Clothing)
+    +List<Integer> getQuantitiesForTypeAndSizes(String)
+    +List<String> getNames()
+    +int getQuantity(String)
+    +double getTotalValue()
+    +int getTotalQuantity()
+}
+
 StorageApp .. NewClothingPageController
 StorageApp .. PricePageController
 StorageApp .. StatisticsPageController
 StorageApp .. StoragePageController
-
+Access <|.. DirectAccess
+Access <|.. RemoteAccess
 
 @enduml
