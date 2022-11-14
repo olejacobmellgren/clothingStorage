@@ -2,10 +2,9 @@ package clothingStorage.restserver;
 
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-
+import clothingStorage.core.StorageStatistics;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +22,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/clothingStorage")
 public class ClothingStorageController {
 
-    public static final String STORAGE_SERVICE_PATH = "clothingStorage";
-
     @Autowired
     private ClothingStorageService clothingStorageService;
 
+    /**
+     * Gets the Storage.
+     *
+     * @return the storage in restserver
+     */
     @GetMapping
     public Storage getStorage() {
         return clothingStorageService.getStorage();
     }
 
-    @GetMapping(path="/names")
+    /**
+     * Gets list of clothings-names in storage.
+     *
+     * @return list of clothing-names
+     */
+    @GetMapping(path = "/names")
     public List<String> getNames() {
         List<String> names = new ArrayList<>();
         for (Clothing clothing : getStorage().getAllClothes().keySet()) {
@@ -42,63 +49,104 @@ public class ClothingStorageController {
         return names;
     }
 
-    @GetMapping(path="/sortedNames")
-    public List<String> getSortedNames() {
-        List<String> names = new ArrayList<>();
+    /**
+     * Gets the sorted clothing-names in storage.
+     *
+     * @return the list of clothing-names
+     */
+    @GetMapping(path = "/sortedNames")
+    public ArrayList<String> getSortedNames() {
+        ArrayList<String> names = new ArrayList<>();
         for (Clothing clothing : getStorage().getSortedClothings()) {
             names.add(clothing.getName());
         }
         return names;
     }
 
-    @GetMapping(path="/sorted/{id}")
+    /**
+     * Gets pricedisplay of sorted clothes.
+     *
+     * @param id which sorting-method to use. Either 0, 1 or 2
+     * @return pricedisplay of sorted clothes
+     */
+    @GetMapping(path = "/sorted/{id}")
     public List<String> getSortedClothes(@PathVariable("id") String id) {
         List<String> sortedClothes = new ArrayList<>();
         switch (id) {
             case "0":
                 getStorage().sortOnLowestPrice();
+                autoSaveStorage();
                 sortedClothes = getStorage().priceDisplay();
                 break;
             case "1":
                 getStorage().sortOnHighestPrice();
+                autoSaveStorage();
                 sortedClothes = getStorage().priceDisplay();
                 break;
             case "2":
                 getStorage().filterOnDiscount();
+                autoSaveStorage();
                 sortedClothes = getStorage().priceDisplay();
                 break;
+            default:
         }
         return sortedClothes;
     }
 
-    @GetMapping(path="/sortedType/{type}")
+    /**
+     * Gets the storage when filtered on a type.
+     *
+     * @param type for the storage to be filtered on
+     * @return the filtered list based on type
+     */
+    @GetMapping(path = "/sortedType/{type}")
     public List<String> getSortedClothesType(@PathVariable("type") String type) {
         List<String> sortedClothes;
         getStorage().filterOnType(type);
+        autoSaveStorage();
         sortedClothes = getStorage().priceDisplay();
         return sortedClothes;
     }
 
-    @GetMapping(path="/sortedBrand/{brand}")
+    /**
+     * Gets the storage when filtered on a brand.
+     *
+     * @param brand for the storage to be filtered on
+     * @return the filtered list based on brand
+     */
+    @GetMapping(path = "/sortedBrand/{brand}")
     public List<String> getSortedClothesBrand(@PathVariable("brand") String brand) {
         List<String> sortedClothes;
         getStorage().filterOnBrand(brand);
+        autoSaveStorage();
         sortedClothes = getStorage().priceDisplay();
         return sortedClothes;
     }
 
-    @GetMapping(path="/storageDisplay")
+    /**
+     * Gets the storage-display for the storage.
+     *
+     * @return the storage-display
+     */
+    @GetMapping(path = "/storageDisplay")
     public List<String> getStorageDisplay() {
         return getStorage().storageDisplay();
     }
 
-    @GetMapping(path="/priceDisplay")
+    /**
+     * Gets the price-display for the storage.
+     *
+     * @return the price-display
+     */
+    @GetMapping(path = "/priceDisplay")
     public List<String> getPriceDisplay() {
+        getStorage().setIsSortedPricePage(false);
+        autoSaveStorage();
         return getStorage().priceDisplay();
     }
 
     private void autoSaveStorage() {
-        clothingStorageService.autoSaveTodoModel();
+        clothingStorageService.autoSaveStorage();
     }
 
     /**
@@ -112,9 +160,6 @@ public class ClothingStorageController {
         Clothing clothing = getStorage().getClothing(name);
         return clothing;
     }
-
-    // NOTE: kan godt hende vi her målegge til en ekstra ettersom det er forskjell
-    // på fjering og tillegg av klær
 
     /**
      * Replaces or adds a clothing.
@@ -135,9 +180,12 @@ public class ClothingStorageController {
         try {
             if (exists) {
                 getStorage().getClothing(name).setPrice(clothing.getPrice(), false);
+                autoSaveStorage();
                 getStorage().getClothing(name).setDiscount(clothing.getDiscount());
+                autoSaveStorage();
             } else {
                 getStorage().addNewClothing(clothing, 4);
+                autoSaveStorage();
             }
         } catch (Exception e) {
             added = false;
@@ -181,7 +229,7 @@ public class ClothingStorageController {
      */
     @PutMapping(path = "/quantity/{name}")
     public boolean putQuantity(@PathVariable("name") String name,
-        @RequestParam(value="quantity", required = false) String quantity) {
+        @RequestParam(value = "quantity", required = false) String quantity) {
         boolean added = true;
         try {
             getStorage().updateQuantity(getStorage().getClothing(name), Integer.parseInt(quantity));
@@ -208,5 +256,41 @@ public class ClothingStorageController {
         }
         autoSaveStorage();
         return deleted;
+    }
+
+    /**
+     * Gets quantities for each size for a type of clothing.
+     *
+     * @return quantities for sizes for a type of clothing
+     */
+    @GetMapping(path = "stats/chartData/{type}")
+    public List<Integer> getQuantitiesForTypeAndSizes(@PathVariable("type") String type) {
+        List<Integer> quantities = new ArrayList<>();
+        quantities.add(StorageStatistics.getQuantityForTypeAndSize(getStorage(), type, 'S'));
+        quantities.add(StorageStatistics.getQuantityForTypeAndSize(getStorage(), type, 'M'));
+        quantities.add(StorageStatistics.getQuantityForTypeAndSize(getStorage(), type, 'L'));
+        return quantities;
+    }
+
+    /**
+     * Gets total quantity in storage.
+     *
+     * @return total quantity of storage
+     */
+    @GetMapping(path = "/stats/totalQuantity")
+    public int getTotalQuantity() {
+        int totalQuantity = StorageStatistics.getTotalQuantity(getStorage());
+        return totalQuantity;
+    }
+
+    /**
+     * Gets total value of storage.
+     *
+     * @return total value of clothing
+     */
+    @GetMapping(path = "/stats/totalValue")
+    public double getTotalValue() {
+        double totalQuantity = StorageStatistics.getTotalValue(getStorage());
+        return totalQuantity;
     }
 }
