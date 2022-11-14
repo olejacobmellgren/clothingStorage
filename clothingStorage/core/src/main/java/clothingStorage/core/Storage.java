@@ -84,6 +84,20 @@ public class Storage {
     }
 
     /**
+     * Updates quantity of Clothing directly.
+     *
+     * @param clothing item to be updated
+     * @param quantity to be set
+     */
+    public void updateQuantity(Clothing clothing, int quantity) {
+        if (isClothingInStorage(clothing) && isValidQuantity(quantity)) {
+            this.storageList.put(clothing, quantity);
+        } else if (!isValidQuantity(quantity)) {
+            throw new IllegalArgumentException("Quantity must be greater or equal to 1");
+        }
+    }
+
+    /**
      * Iterates through all clothing items in storage and formats them to a string.
      * Used to display clothes in storage-page.
      *
