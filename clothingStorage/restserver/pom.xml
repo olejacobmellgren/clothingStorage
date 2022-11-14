@@ -9,22 +9,9 @@
     </parent>
 
     <artifactId>restserver</artifactId>
-
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.5.6</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <packaging>jar</packaging>
 
     <dependencies>
-
         <dependency>
             <groupId>gr2251.clothingStorage</groupId>
             <artifactId>core</artifactId>
@@ -57,15 +44,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
-            <version>2.4.4</version>
-        </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -82,15 +60,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
-        <!--Spring test-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-            <version> 2.5.6 </version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+            <version>2.4.4</version>
+        </dependency>
 
         <!-- junit testing with jupiter -->
         <dependency>

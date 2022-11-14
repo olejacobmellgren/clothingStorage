@@ -1,14 +1,14 @@
 package clothingStorage.restserver;
 
-import clothingStorage.json.ClothingStoragePersistence;
 import clothingStorage.core.Storage;
-import org.springframework.stereotype.Service;
-
+import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import org.springframework.stereotype.Service;
+
 
 /**
  * Gives the server access
@@ -34,17 +34,21 @@ public class ClothingStorageService {
         this.storagePersistence = new ClothingStoragePersistence();
         this.storagePersistence.setSaveFile("server-storage.json");
     }
-
+    
+    /**
+     * dunno.
+     */
     public ClothingStorageService() {
         this.storagePersistence = new ClothingStoragePersistence();
         URL url = ClothingStorageService.class.getResource("default-storage.json");
         if (url != null) {
-          try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
-            this.storage = storagePersistence.readClothingStorage(reader);
-          } catch (IOException e) {
-            System.out.println("Couldn't read default-storage.json, so rigging TodoModel manually ("
-                + e + ")");
-          }
+            try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
+                this.storage = storagePersistence.readClothingStorage(reader);
+            } catch (IOException e) {
+                System.out.println("Couldn't read default-storage.json, "
+                    + "so rigging TodoModel manually ("
+                    + e + ")");
+            }
         } else {
             this.storage = new Storage();
         }
@@ -55,15 +59,15 @@ public class ClothingStorageService {
      * Saves the Storage to memory/disk.
      * Should be used after evry change in the storage.
      */
-    public void autoSaveTodoModel() {
+    public void autoSaveStorage() {
         if (storagePersistence != null) {
-          try {
-            storagePersistence.saveClothingStorage(this.storage);
-          } catch (IllegalStateException | IOException e) {
-            System.err.println("Couldn't auto-save storage: " + e);
-          }
+            try {
+                storagePersistence.saveClothingStorage(this.storage);
+            } catch (IllegalStateException | IOException e) {
+                System.err.println("Couldn't auto-save storage: " + e);
+            }
         }
-      }
+    }
     
     
     

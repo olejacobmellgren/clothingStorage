@@ -1,4 +1,4 @@
-open module clothingStorage.restserver {
+module clothingStorage.restserver {
 
     requires transitive clothingStorage.json;
 
