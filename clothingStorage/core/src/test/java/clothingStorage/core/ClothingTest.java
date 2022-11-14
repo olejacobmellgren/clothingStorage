@@ -164,10 +164,10 @@ public class ClothingTest{
 
     @Test
     public void testToString() {
-        String output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0,-";
+        String output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: M" + "\n" + "   - Price: 150.0kr";
         assertEquals(output, clothing.toString());
         clothing.setSize('S');
-        output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0,-";
+        output = "Pants" + "\n" + "   - Brand: Nike" + "\n" + "   - Size: S" + "\n" + "   - Price: 150.0kr";
         assertEquals(output, clothing.toString());
     }
 

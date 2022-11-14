@@ -19,6 +19,7 @@ public class Storage {
      */
     public Storage() {
         this.storageList = new LinkedHashMap<>();
+        this.sortedClothes = new ArrayList<>();
     }
 
     /**
@@ -129,14 +130,14 @@ public class Storage {
         for (Clothing clothing : keyList) {
             if (list.isEmpty()) {
                 list.add(clothing.getType() + "; " + clothing.getBrand()
-                    + "; " + clothing.getPrice() + ",-");
+                    + "; " + clothing.getPrice() + "kr");
                 list2.add(clothing.getType() + "; " + clothing.getBrand());
                 continue;
             } else if (list2.contains(clothing.getType() + "; " + clothing.getBrand())) {
                 continue;
             } else {
                 list.add(clothing.getType() + "; " + clothing.getBrand()
-                    + "; " + clothing.getPrice() + ",-");
+                    + "; " + clothing.getPrice() + "kr");
                 list2.add(clothing.getType() + "; " + clothing.getBrand());
             }
         }
@@ -179,6 +180,9 @@ public class Storage {
      */
     public void setIsSortedPricePage(boolean bool) {
         this.isSortedPricePage = bool;
+        if (this.isSortedPricePage == false) {
+            this.sortedClothes = new ArrayList<>();
+        }
     }
 
     /**
@@ -216,6 +220,20 @@ public class Storage {
      */
     public ArrayList<Clothing> getSortedClothings() {
         return new ArrayList<Clothing>(this.sortedClothes);
+    }
+
+    /**
+     * Adds a clothing to the sorted Clothing-list.
+     *
+     * @param clothing to be added
+     */
+    public void addSortedClothing(Clothing clothing) {
+        if (this.getSortedClothings() == null || this.getSortedClothings().size() == 0) {
+            sortedClothes = new ArrayList<>();
+            sortedClothes.add(clothing);
+        } else {
+            sortedClothes.add(clothing);
+        }
     }
 
     /**
@@ -341,6 +359,7 @@ public class Storage {
                     + String.valueOf(this.getQuantity(clothing)) + "\n");
             }
         }
+        output.append(this.getIsSortedClothes());
         return output.toString();
     }
 }

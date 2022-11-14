@@ -1,9 +1,10 @@
 package clothingStorage.ui;
 
+import clothingStorage.client.StorageClient;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
-import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -24,14 +25,6 @@ import javafx.stage.Stage;
 public class NewClothingPageController implements Initializable {
 
     /**
-     * Storage containing Clothing and corresponding quantity.
-     */
-    private Storage storage;
-    /**
-     * ClothingStoragePersistence handeling local persistence.
-     */
-    private ClothingStoragePersistence storagePersistence;
-    /**
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
@@ -39,6 +32,10 @@ public class NewClothingPageController implements Initializable {
      * Currernt confirm message as shown in ui.
      */
     private String confirmMessage;
+    /**
+     * StorageClient for the session.
+     */
+    private StorageClient storageClient;
 
     /**
      * Choicebox of valid types.
@@ -78,9 +75,12 @@ public class NewClothingPageController implements Initializable {
 
     /**
      * Constructor for StorageController initializing it with empty storage.
+     *
+     * @throws URISyntaxException if string could not be parsed as URI reference
+     * 
      */
-    public NewClothingPageController() {
-        this.storage = new Storage();
+    public NewClothingPageController() throws URISyntaxException {
+        this.storageClient = new StorageClient();
     }
 
     /**
@@ -94,18 +94,6 @@ public class NewClothingPageController implements Initializable {
         brand.getItems().addAll("Nike", "Adidas", "H&M", 
             "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
-        try {
-            if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.NewClothingPageControllerTest"
-                && Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StoragePageControllerTest") {
-                this.storagePersistence = new ClothingStoragePersistence();
-                this.storagePersistence.setSaveFile("storage.json");
-                this.setStorage(storagePersistence.loadClothingStorage());
-            }
-        } catch (Exception e) {
-            //ignore
-        }   
     }
 
     /**
@@ -114,7 +102,6 @@ public class NewClothingPageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
-        this.storage = storage;
     }
 
     /**
@@ -133,19 +120,6 @@ public class NewClothingPageController implements Initializable {
      */
     public String getConfirmMessage() {
         return this.confirmMessage;
-    }
-
-    /**
-     * Autosaves storage to json-file.
-     */
-    private void fireAutoSaveStorage() {    
-        if (storagePersistence != null) {
-            try {
-                storagePersistence.saveClothingStorage(storage);
-            } catch (Exception e) {
-                System.err.println("Fikk ikke lagret storage: " + e.getMessage());
-            }
-        }
     }
 
     /**
@@ -222,7 +196,7 @@ public class NewClothingPageController implements Initializable {
                 selectedSize, selectedPrice);
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
-            for (Clothing clothing2 : storage.getAllClothes().keySet()) {
+            for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
                 if (clothing2.equalsButDifferentSize(clothing) 
                     && clothing2.getPrice() != clothing.getPrice()) {
                     showErrorMessage("Clothing already exists in different size, " 
@@ -230,8 +204,8 @@ public class NewClothingPageController implements Initializable {
                     return;
                 }
             }
-            storage.addNewClothing(clothing, selectedQuantity);
-            fireAutoSaveStorage();
+            storageClient.putClothing(clothing);
+            storageClient.putQuantity(clothing.getName(), selectedQuantity);
             handleReset();
             showConfirmedMessage("You successfully added the following: " + clothing.toString());
             handleCancel();
