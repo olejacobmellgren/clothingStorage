@@ -1,0 +1,29 @@
+{
+    "clothes" : [ {
+        "type" : "Pants",
+        "brand" : "Nike",
+        "size" : "S",
+        "price" : 10.0,
+        "discount" : 0.0
+    }, {
+        "quantity" : 5
+    }, {
+        "type" : "Shorts",
+        "brand" : "Louis Vuitton",
+        "size" : "M",
+        "price" : 20.0,
+        "discount" : 0.0
+    }, {
+        "quantity" : 8
+    }, {
+        "type" : "Socks",
+        "brand" : "Adidas",
+        "size" : "L",
+        "price" : 30.0,
+        "discount" : 0.0
+    }, {
+        "quantity" : 4
+    }, {
+        "isSorted" : false
+    } ]
+}

@@ -1,4 +1,4 @@
-# FXUI
+# UI
 
 Modul for å håndtere frontend av applikasjonen. Denne modulen inneholder følgende klasser:
 

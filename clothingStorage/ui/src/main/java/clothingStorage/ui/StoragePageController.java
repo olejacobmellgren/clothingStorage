@@ -1,6 +1,5 @@
 package clothingStorage.ui;
 
-import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -29,9 +28,9 @@ public class StoragePageController implements Initializable {
      */
     private String errorMessage;
     /**
-     * StorageClient for the session.
+     * Access, either direct or remote
      */
-    private StorageClient storageClient;
+    private Access access;
 
     /**
      * Button for price-page.
@@ -82,14 +81,13 @@ public class StoragePageController implements Initializable {
     @FXML
     String isRemote;
 
-    private Access access;
+    
 
     /**
      * Constructor for StorageController initializing it with empty storage.
      *
-     * @throws URISyntaxException if string coult not be parsed to URI
      */
-    public StoragePageController() throws URISyntaxException {
+    public StoragePageController() {
     }
 
     /**
@@ -98,21 +96,37 @@ public class StoragePageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        boolean isTest = true;
         if (isRemote != null) {
             RemoteAccess remoteAccess;
             try {
                 remoteAccess = new RemoteAccess();
                 System.out.println("Using remote access");
                 access = remoteAccess;
+                isTest = false;
             } catch (URISyntaxException e) {
                 System.err.println(e);
             }
         }
         if (access == null) {
-            access = new DirectAccess();
-            System.out.println("Using direct access");
+            if (Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.StoragePageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.PricePageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.NewClothingPageControllerTest"
+                && Thread.currentThread().getStackTrace()[5].getClassName()
+                != "clothingStorage.ui.StatisticsPageControllerTest") {
+                access = new DirectAccess();
+                System.out.println("Using direct access");
+                isTest = false;
+            } else {
+                // do nothing
+            }
         }
-        updateStorageList(access.getStorageDisplay());
+        if (isTest == false) {
+            updateStorageList(access.getStorageDisplay());
+        }
     }
 
     /**

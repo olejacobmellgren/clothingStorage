@@ -1,4 +1,4 @@
-open module clothingStorage.restserver {
+open module clothingStorage.integrationtests {
 
     requires clothingStorage.client;
     requires transitive clothingStorage.json;
