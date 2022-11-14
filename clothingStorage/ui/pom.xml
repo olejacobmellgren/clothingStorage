@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>fxui</artifactId>
+    <artifactId>ui</artifactId>
 
     <dependencies>
 
@@ -84,7 +84,7 @@
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>0.0.6</version>
                         <configuration>                    
-                            <mainClass>clothingStorage.fxui/clothingStorage.ui.StorageAppRemote</mainClass>
+                            <mainClass>clothingStorage.ui/clothingStorage.ui.StorageAppRemote</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -137,7 +137,7 @@
                 <!-- Default configuration for running -->
                 <!-- Usage: mvn javafx:run -->
                 <configuration>
-                    <mainClass>clothingStorage.ui.StorageApp</mainClass>
+                    <mainClass>clothingStorage.ui.StorageAppDirect</mainClass>
 
                      <!-- rest is for jlink -->
                     <compress>2</compress>
@@ -162,7 +162,7 @@
                     <appVersion>1.0.0</appVersion>
                     <vendor>it1901</vendor>
                     <destination>target/dist</destination>
-                    <module>clothingStorage.ui/clothingStorage.ui.StorageApp</module>
+                    <module>clothingStorage.ui/clothingStorage.ui.StorageAppDirect</module>
                     <runtimeImage>target/clothingStorage</runtimeImage>
                     <javaOptions>
                         <option>-Dfile.encoding=UTF-8</option>
