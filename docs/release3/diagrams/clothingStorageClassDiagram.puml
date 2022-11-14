@@ -1,0 +1,41 @@
+@startuml
+
+package "core"
+{
+    class Storage
+    class Clothing
+    Class StorageStatistics
+}
+
+package "client"
+{
+    class StorageClient
+}
+
+package "localpersistence"
+{
+    class ClothingStoragePersistence
+    class ClothingStorageModule
+    class ClothingDeserializer
+    class ClothingSerializer
+    class StorageDeserializer
+    class StorageSerializer
+}
+
+package "restserver"
+{
+    class ClothingStorageApplication
+    class ClothingStorageController
+    class ClothingStorageService
+}
+
+package "fxui"
+{
+    class NewClothingPageController
+    class PricePageController
+    class StatisticsPageController
+    class StoragePageController
+    class StorageApp
+}
+
+@enduml
