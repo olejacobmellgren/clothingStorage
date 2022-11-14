@@ -40,6 +40,9 @@ public class ClothingStorageModuleTest {
             },
             {
                 "quantity": 5
+            },
+            {
+                "isSorted":false
             }
         ]
     }

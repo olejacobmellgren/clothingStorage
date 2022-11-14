@@ -1,10 +1,13 @@
 package clothingStorage.ui;
 
+import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
 import clothingStorage.core.StorageStatistics;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -26,10 +29,6 @@ import javafx.stage.Stage;
 public class StatisticsPageController implements Initializable {
 
     /**
-     * Storage containing Clothing and corresponding quantity.
-     */
-    private Storage storage;
-    /**
      * ClothingStoragePersistence handeling local persistence.
      */
     private ClothingStoragePersistence storagePersistence;
@@ -39,6 +38,10 @@ public class StatisticsPageController implements Initializable {
     private final String[] validTypes = {"Pants", "Shirt", "Underwear",
                                          "Socks", "Sweater", "Jacket",
                                          "Shorts"}; /*May be expanded*/
+    /**
+     * StorageClient for the session.
+     */
+    private StorageClient storageClient;
 
     /**
      * Label for total quantity in storage.
@@ -78,9 +81,12 @@ public class StatisticsPageController implements Initializable {
 
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
+     *
+     * @throws URISyntaxException if string could not be parsed as URI reference
+     * 
      */
-    public StatisticsPageController() {
-        this.storage = new Storage();
+    public StatisticsPageController() throws URISyntaxException {
+        this.storageClient = new StorageClient();
     }
 
     /**
@@ -89,23 +95,17 @@ public class StatisticsPageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            if (Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StatisticsPageControllerTest"
-                && Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.PricePageControllerTest"
-                && Thread.currentThread().getStackTrace()[5].getClassName()
-                != "clothingStorage.ui.StoragePageControllerTest") {
-
-                this.storagePersistence = new ClothingStoragePersistence();
-                this.storagePersistence.setSaveFile("storage.json");
-                this.setStorage(storagePersistence.loadClothingStorage());
-
-            } 
-            
-        } catch (Exception e) {
-            //ignore
+        typeForDiagram.getItems().add("All Clothes");
+        typeForDiagram.setValue("All Clothes");
+        for (int i = 0; i < validTypes.length; i++) {
+            if ((storageClient.getQuantitiesForTypeAndSizes(validTypes[i]).stream()
+                .reduce(0, Integer::sum) > 0)) {
+                typeForDiagram.getItems().add(validTypes[i]);
+            }
         }
+        setDiagramForAllClothes();
+        setTotalQuantityLabel();
+        setTotalValueLabel();
     }
 
     /**
@@ -114,7 +114,6 @@ public class StatisticsPageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
-        this.storage = storage;
         typeForDiagram.getItems().add("All Clothes");
         Platform.runLater(new Runnable() {
             @Override
@@ -142,20 +141,29 @@ public class StatisticsPageController implements Initializable {
         quantityChart.getData().clear();
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
         series.setName("Quantity");
+
         series.getData().add(new XYChart.Data<String, Integer>("Pants",
-                        StorageStatistics.getQuantityForType(storage, "Pants")));
+            storageClient.getQuantitiesForTypeAndSizes("Pants").stream()
+                                                                    .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Shirt",
-                        StorageStatistics.getQuantityForType(storage, "Shirt")));
+            storageClient.getQuantitiesForTypeAndSizes("Shirt").stream()
+                                                                    .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Underwear",
-                        StorageStatistics.getQuantityForType(storage, "Underwear")));
+            storageClient.getQuantitiesForTypeAndSizes("Underwear").stream()
+                                                                        .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Socks",
-                        StorageStatistics.getQuantityForType(storage, "Socks")));
+            storageClient.getQuantitiesForTypeAndSizes("Socks").stream()
+                                                                   .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Sweater",
-                        StorageStatistics.getQuantityForType(storage, "Sweater")));
+            storageClient.getQuantitiesForTypeAndSizes("Sweater").stream()
+                                                                    .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Jacket",
-                        StorageStatistics.getQuantityForType(storage, "Jacket")));
+            storageClient.getQuantitiesForTypeAndSizes("Jacket").stream()
+                                                                    .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Shorts",
-                        StorageStatistics.getQuantityForType(storage, "Shorts")));          
+            storageClient.getQuantitiesForTypeAndSizes("Shorts").stream()
+                                                                    .reduce(0, Integer::sum)));   
+              
         quantityChart.setAnimated(false);
         quantityChart.getData().add(series);
     }
@@ -164,7 +172,7 @@ public class StatisticsPageController implements Initializable {
      * Sets label for total quantity.
      */
     private void setTotalQuantityLabel() {
-        int totalQuantity = StorageStatistics.getTotalQuantity(storage);
+        int totalQuantity = storageClient.getTotalQuantity();
         totalQuantityLabel.setText(String.valueOf("Total Quantity in Storage: " + totalQuantity));
     }
 
@@ -172,7 +180,7 @@ public class StatisticsPageController implements Initializable {
      * Sets label for total value.
      */
     private void setTotalValueLabel() {
-        double totalValue = StorageStatistics.getTotalValue(storage);
+        double totalValue = storageClient.getTotalValue();
         totalValueLabel.setText("Total Value of Storage: " + totalValue + ",-");
     }
 
@@ -210,28 +218,21 @@ public class StatisticsPageController implements Initializable {
         if (typeForDiagram.getValue() == "All Clothes") {
             setDiagramForAllClothes();
         } else {
-            String typeChosenForDiagram = typeForDiagram.getValue();
-            quantityChart.setTitle("Quantity of sizes for " + typeChosenForDiagram);
+            String type = typeForDiagram.getValue();
+            quantityChart.setTitle("Quantity of sizes for " + type);
             categoryAxis.setLabel("Sizes");
             quantityChart.getData().clear();
             XYChart.Series<String, Integer> series = new XYChart.Series<>();
             series.setName("Quantity");
-            series.getData().add(new XYChart.Data<String, Integer>("S",
-                            StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                                        typeChosenForDiagram,
-                                                                        'S')));
-            series.getData().add(new XYChart.Data<String, Integer>("M",
-                            StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                                        typeChosenForDiagram,
-                                                                        'M')));
-            series.getData().add(new XYChart.Data<String, Integer>("L",
-                            StorageStatistics.getQuantityForTypeAndSize(storage,
-                                                                        typeChosenForDiagram, 
-                                                                        'L')));
+            List<Integer> quantities = storageClient.getQuantitiesForTypeAndSizes(type);
+            series.getData()
+                  .add(new XYChart.Data<String, Integer>("S", quantities.get(0)));
+            series.getData()
+                  .add(new XYChart.Data<String, Integer>("M", quantities.get(1)));
+            series.getData()
+                  .add(new XYChart.Data<String, Integer>("L", quantities.get(2)));
             quantityChart.setAnimated(false);
             quantityChart.getData().add(series);
         }
     }  
 }
-
-
