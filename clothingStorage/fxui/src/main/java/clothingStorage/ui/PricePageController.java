@@ -94,6 +94,8 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private Button confirmFilter;
+
+    private Access access;
     
     /**
      * Constructor for StorageController initializing it with empty storage.
@@ -116,8 +118,12 @@ public class PricePageController implements Initializable {
         typeOfClothingFilter.getItems().addAll("Pants", "Shirt", "Underwear",
             "Socks", "Sweater", "Jacket", "Shorts");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
-            "Louis Vuitton", "Supreme", "Levi's");
-        updatePriceList(storageClient.getPriceDisplay());  
+            "Louis Vuitton", "Supreme", "Levi's"); 
+    }
+
+    public void setAccess(Access access) {
+        this.access = access;
+        updatePriceList(access.getPriceDisplay());
     }
 
     /**
@@ -130,7 +136,7 @@ public class PricePageController implements Initializable {
             priceList.getItems().clear();
         }
         this.storage = storage;
-        updatePriceList(storageClient.getPriceDisplay());
+        updatePriceList(access.getPriceDisplay());
     }
 
     /**

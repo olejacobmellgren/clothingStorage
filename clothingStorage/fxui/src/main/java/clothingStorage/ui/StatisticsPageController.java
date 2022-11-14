@@ -79,6 +79,8 @@ public class StatisticsPageController implements Initializable {
     @FXML 
     private CategoryAxis categoryAxis;
 
+    private Access access;
+
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
      *
@@ -98,11 +100,15 @@ public class StatisticsPageController implements Initializable {
         typeForDiagram.getItems().add("All Clothes");
         typeForDiagram.setValue("All Clothes");
         for (int i = 0; i < validTypes.length; i++) {
-            if ((storageClient.getQuantitiesForTypeAndSizes(validTypes[i]).stream()
+            if ((access.getQuantityForType(validTypes[i]).stream()
                 .reduce(0, Integer::sum) > 0)) {
                 typeForDiagram.getItems().add(validTypes[i]);
             }
         }
+    }
+
+    public void setAccess(Access access) {
+        this.access = access;
         setDiagramForAllClothes();
         setTotalQuantityLabel();
         setTotalValueLabel();
