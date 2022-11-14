@@ -13,6 +13,8 @@ Application klasse for spring boot serveren. Den starter serveren.
 
 ### Metoder
 
+- objectMapperModule() -> ObjectMapper: Lager objecktmapper fra ClothingStoragePersistence.
+
 - main(String...): Main metode for å starte appen. Den gir tilgang til run metoden i SpringApplication med
   ClothingStorageApplication.class og strengene gitt som argumenter.
 
@@ -24,43 +26,41 @@ Kontroller (Controller) klassen for håndtering av get og post etterspørsler. D
 
 ### Methods
 
-TODO
+- getStorage() -> Storage: Henter Storage. 
 
-The payload, response and endpoints shown in **[Schema](/get-fit/schema.md/)**. The methods are divided into post, get
-and exception. The tags for the categories are simplified, and they are not equal to the tags in the code.
+- getNames() -> List<String>: Henter navnene på alle Clothing objektene i Storage.
 
-@Get
+- getSortedNames() -> ArrayList<String>: Henter ut alle navnene på Clothing objektene i Storage i sortert rekkefølge.
 
-- getLogEntry(String) -> String: Gets the entry given by the function argument (id). It is returned as a string
-  according to Schema.md.
+- getSortedClothes(String) -> List<String>: Henter ut pricedisplay av Clothing objektene i Storage sortert.
 
-- getFilters() -> String: Gets the possible ways to filter logEntry as a string according to Schema.md.
+- getSortedClothesType(String) -> List<String>: Henter ut Clothing objektene i Storage sortert etter type.
 
-- getListOfLogEntries(String, String, String, String, String) -> String: It gets the entries which fit into the function
-  arguments (filters and sorting criteria). The parameters are sorting type (default date), reverse (default false),
-  category (not required), subcategory (not required) and date (for filtering, not required). It returns a string with
-  the different entries according to Schema.md.
+- getSortedClothesBrand(String) -> List<String>: Henter ut Clothing objektene i Storage sortert etter merke (brand).
 
-- getStatisticsData(String, String) -> String: Get statistics based on the date and the category. The parameters are the
-  date to filter by and the category to filter by. The category is not required.
+- getStorageDisplay() -> List<String>: Henter ut liste til storage displayet.
 
-- getChartData(String) -> String: Get the entry count for the statistics chart. The parameter is date, and it returns the
-  count for each category filtered by the given date.
+- getPriceDisplay() -> List<String>: Henter ut Storage til pris displayet. 
 
-@Post
+- autoSaveStorage(): automatisk lagring av Storage. 
 
-- addLogEntry(String) -> String: It adds the entry to the entry manager in GetFitService.
+- getClothing(String) -> Clothing: Henter ut Clothing objektet som matcher med navnet som er gitt inn som string.
 
-- editLogEntry(String, String): The method gets an entry id and a logEntry as a String (according to Schema.md payload)
-  and replaces the already existing entry with this entry, but keeps the same id.
+- putClothing(String) -> boolean: Erstatter eller legger til et Clothing. 
 
-- removeLogEntry(String): The logEntry with the same id as the input, is removed from the entryManager in GetFitService.
+- removeClothing(String) -> boolean: Fjerner Clothing objektet med matchende navn. 
 
-@ExceptionHandler
+- getQuantity(String) -> int: Henter antallet av et Colothig objekt.
 
-- handleIllegalArgumentException(IllegalAccessException) -> String: Returns the exception message as a String.
-- handleIOException(IOException) -> String: Returns the exception message as a String.
-- handleIllegalArgumentException(NoSuchElementException) -> String: Returns the exception message as a String.
+- putQuantity(String) -> boolean: Erstatter eller legger til mengde(quantity). 
+
+- removeQuantity(String) -> boolean: Fjerner mengde(quantity).
+
+- getQuantitieForTypeAndSize(String) -> List<Integer>: Henter mengde for hver størrelse for en type Clothing. 
+
+- getTotalQuantity() -> int: Henter total mengde av Clothing i Storage.
+
+- getTotalValue() -> double: Henter total verdi av Storage.
 
 ## ClothingStorageService
 
