@@ -49,7 +49,19 @@ class StorageSerializer extends JsonSerializer<Storage> {
             jsonGen.writeNumberField("quantity", set.getValue());
             jsonGen.writeEndObject();
         }
-        jsonGen.writeEndArray();
+        jsonGen.writeStartObject();
+        jsonGen.writeBooleanField("isSorted", storage.getIsSortedClothes());
+        jsonGen.writeEndObject();
+        if (storage.getIsSortedClothes() == true) {
+            jsonGen.writeEndArray();
+            jsonGen.writeArrayFieldStart("sortedClothes");
+            for (Clothing clothing : storage.getSortedClothings()) {
+                jsonGen.writeObject(clothing);
+            }
+            jsonGen.writeEndArray();
+        } else {
+            jsonGen.writeEndArray();
+        }
         jsonGen.writeEndObject();
     }
 }

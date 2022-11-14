@@ -11,4 +11,10 @@
     <Match>
         <Bug pattern="REC_CATCH_EXCEPTION" />
     </Match>
+    <Match>
+        <Bug pattern="UUF_UNUSED_FIELD" />
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
 </FindBugsFilter>
