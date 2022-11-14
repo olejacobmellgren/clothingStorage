@@ -172,7 +172,7 @@ public class StoragePageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticsPage.fxml"));
         Parent root = loader.load();
 
-        PricePageController controller = loader.getController();
+        StatisticsPageController controller = loader.getController();
         controller.setAccess(access);
 
         Scene scene = new Scene(root);
@@ -190,7 +190,7 @@ public class StoragePageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("NewClothingPage.fxml"));
         Parent root = loader.load();
 
-        PricePageController controller = loader.getController();
+        NewClothingPageController controller = loader.getController();
         controller.setAccess(access);
 
         Scene scene = new Scene(root);
@@ -267,7 +267,7 @@ public class StoragePageController implements Initializable {
     private void handleDecreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            List<String> names = storageClient.getNames();
+            List<String> names = access.getNames();
             String name = names.get(index);
             boolean updated = access.decreaseQuantityByOne(name);
             if (updated == true) {

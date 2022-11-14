@@ -3,7 +3,6 @@ package clothingStorage.ui;
 import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
 import clothingStorage.core.StorageStatistics;
-import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -28,10 +27,6 @@ import javafx.stage.Stage;
  */
 public class StatisticsPageController implements Initializable {
 
-    /**
-     * ClothingStoragePersistence handeling local persistence.
-     */
-    private ClothingStoragePersistence storagePersistence;
     /** 
      * Valid types for Clothing object.
     */
@@ -88,7 +83,6 @@ public class StatisticsPageController implements Initializable {
      * 
      */
     public StatisticsPageController() throws URISyntaxException {
-        this.storageClient = new StorageClient();
     }
 
     /**
@@ -99,16 +93,16 @@ public class StatisticsPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         typeForDiagram.getItems().add("All Clothes");
         typeForDiagram.setValue("All Clothes");
+    }
+
+    public void setAccess(Access access) {
+        this.access = access;
         for (int i = 0; i < validTypes.length; i++) {
             if ((access.getQuantityForType(validTypes[i]).stream()
                 .reduce(0, Integer::sum) > 0)) {
                 typeForDiagram.getItems().add(validTypes[i]);
             }
         }
-    }
-
-    public void setAccess(Access access) {
-        this.access = access;
         setDiagramForAllClothes();
         setTotalQuantityLabel();
         setTotalValueLabel();
@@ -149,25 +143,25 @@ public class StatisticsPageController implements Initializable {
         series.setName("Quantity");
 
         series.getData().add(new XYChart.Data<String, Integer>("Pants",
-            storageClient.getQuantitiesForTypeAndSizes("Pants").stream()
+            access.getQuantitiesForTypeAndSizes("Pants").stream()
                                                                     .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Shirt",
-            storageClient.getQuantitiesForTypeAndSizes("Shirt").stream()
+            access.getQuantitiesForTypeAndSizes("Shirt").stream()
                                                                     .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Underwear",
-            storageClient.getQuantitiesForTypeAndSizes("Underwear").stream()
+            access.getQuantitiesForTypeAndSizes("Underwear").stream()
                                                                         .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Socks",
-            storageClient.getQuantitiesForTypeAndSizes("Socks").stream()
+            access.getQuantitiesForTypeAndSizes("Socks").stream()
                                                                    .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Sweater",
-            storageClient.getQuantitiesForTypeAndSizes("Sweater").stream()
+            access.getQuantitiesForTypeAndSizes("Sweater").stream()
                                                                     .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Jacket",
-            storageClient.getQuantitiesForTypeAndSizes("Jacket").stream()
+            access.getQuantitiesForTypeAndSizes("Jacket").stream()
                                                                     .reduce(0, Integer::sum)));
         series.getData().add(new XYChart.Data<String, Integer>("Shorts",
-            storageClient.getQuantitiesForTypeAndSizes("Shorts").stream()
+            access.getQuantitiesForTypeAndSizes("Shorts").stream()
                                                                     .reduce(0, Integer::sum)));   
               
         quantityChart.setAnimated(false);
@@ -178,7 +172,7 @@ public class StatisticsPageController implements Initializable {
      * Sets label for total quantity.
      */
     private void setTotalQuantityLabel() {
-        int totalQuantity = storageClient.getTotalQuantity();
+        int totalQuantity = access.getTotalQuantity();
         totalQuantityLabel.setText(String.valueOf("Total Quantity in Storage: " + totalQuantity));
     }
 
@@ -186,7 +180,7 @@ public class StatisticsPageController implements Initializable {
      * Sets label for total value.
      */
     private void setTotalValueLabel() {
-        double totalValue = storageClient.getTotalValue();
+        double totalValue = access.getTotalValue();
         totalValueLabel.setText("Total Value of Storage: " + totalValue + ",-");
     }
 
@@ -195,11 +189,21 @@ public class StatisticsPageController implements Initializable {
      */
     @FXML 
     private void handleStoragePageButton() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
+        FXMLLoader loader;
+        if (access instanceof RemoteAccess) {
+            loader = new FXMLLoader(getClass().getResource("StoragePageRemote.fxml"));
+        } else {
+            loader = new FXMLLoader(getClass().getResource("StoragePageDirect.fxml"));
+        }
+        Parent root = loader.load();
+
+        StoragePageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Clothing Storage");
+        stage.setTitle("New Clothing");
         stage.show();
     }
 
@@ -208,7 +212,12 @@ public class StatisticsPageController implements Initializable {
      */
     @FXML 
     private void handlePricePageButton() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("PricePage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PricePage.fxml"));
+        Parent root = loader.load();
+
+        PricePageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
@@ -230,7 +239,7 @@ public class StatisticsPageController implements Initializable {
             quantityChart.getData().clear();
             XYChart.Series<String, Integer> series = new XYChart.Series<>();
             series.setName("Quantity");
-            List<Integer> quantities = storageClient.getQuantitiesForTypeAndSizes(type);
+            List<Integer> quantities = access.getQuantitiesForTypeAndSizes(type);
             series.getData()
                   .add(new XYChart.Data<String, Integer>("S", quantities.get(0)));
             series.getData()

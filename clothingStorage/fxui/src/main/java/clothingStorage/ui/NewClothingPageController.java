@@ -1,6 +1,5 @@
 package clothingStorage.ui;
 
-import clothingStorage.client.StorageClient;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import java.io.IOException;
@@ -169,11 +168,21 @@ public class NewClothingPageController implements Initializable {
     @FXML
     private void handleCancel() throws IOException {
         handleReset();
-        Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
+        FXMLLoader loader;
+        if (access instanceof RemoteAccess) {
+            loader = new FXMLLoader(getClass().getResource("StoragePageRemote.fxml"));
+        } else {
+            loader = new FXMLLoader(getClass().getResource("StoragePageDirect.fxml"));
+        }
+        Parent root = loader.load();
+
+        StoragePageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Clothing Storage");
+        stage.setTitle("New Clothing");
         stage.show();
     }
 

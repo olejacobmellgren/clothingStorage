@@ -1,6 +1,5 @@
 package clothingStorage.ui;
 
-import clothingStorage.client.StorageClient;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,10 +34,6 @@ public class PricePageController implements Initializable {
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
-    /**
-     * StorageClient for the session.
-     */
-    private StorageClient storageClient;
     /**
      * Choicebox for what to filter on.
      */
@@ -103,8 +98,6 @@ public class PricePageController implements Initializable {
      * @throws URISyntaxException if string could not be parsed as URI reference
      */
     public PricePageController() throws URISyntaxException {
-        this.storage = new Storage();
-        this.storageClient = new StorageClient();
     }
 
     /**
@@ -174,11 +167,21 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private void handleStoragePageButton() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
+        FXMLLoader loader;
+        if (access instanceof RemoteAccess) {
+            loader = new FXMLLoader(getClass().getResource("StoragePageRemote.fxml"));
+        } else {
+            loader = new FXMLLoader(getClass().getResource("StoragePageDirect.fxml"));
+        }
+        Parent root = loader.load();
+
+        StoragePageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Clothing Storage");
+        stage.setTitle("New Clothing");
         stage.show();
     }
 
@@ -187,7 +190,12 @@ public class PricePageController implements Initializable {
      */
     @FXML
     private void handleStatisticsPageButton() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticsPage.fxml"));
+        Parent root = loader.load();
+
+        StatisticsPageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
         stage.setScene(scene);
@@ -224,17 +232,17 @@ public class PricePageController implements Initializable {
         } else if (filters.getValue() == "Brand" && brands.getValue() == null) {
             showErrorMessage("You must choose a brand in the choice box first");
         } else if (filters.getValue() == "Lowest Price") {
-            updatePriceList(storageClient.getSorted(0));
+            updatePriceList(access.getSortedPriceDisplay(0));
         } else if (filters.getValue() == "Highest Price") {
-            updatePriceList(storageClient.getSorted(1));
+            updatePriceList(access.getSortedPriceDisplay(1));
         } else if (filters.getValue() == "Brand") {
             String brand = brands.getValue();
-            updatePriceList(storageClient.getSortedBrand(brand));
+            updatePriceList(access.getSortedBrandPriceDisplay(brand));
         } else if (filters.getValue() == "Type") {
             String type = typeOfClothingFilter.getValue();
-            updatePriceList(storageClient.getSortedType(type));
+            updatePriceList(access.getSortedTypePriceDisplay(type));
         } else if (filters.getValue() == "On Sale") {
-            updatePriceList(storageClient.getSorted(2));
+            updatePriceList(access.getSortedPriceDisplay(2));
         }
     }
 
@@ -244,14 +252,14 @@ public class PricePageController implements Initializable {
     @FXML
     private void handleResetFilter() {
         try {
-            if (storageClient.getSortedNames().size() != 0
-                || (storageClient.getSortedNames().size() == 0
+            if (access.getSortedNames().size() != 0
+                || (access.getSortedNames().size() == 0
                 && filters.getValue() != null)) {
                 
                 filters.setValue(null);
                 brands.setValue(null);
                 typeOfClothingFilter.setValue(null);
-                updatePriceList(storageClient.getPriceDisplay());
+                updatePriceList(access.getPriceDisplay());
             } else {
                 throw new IllegalStateException("Filter is not applied");
             }
@@ -269,36 +277,35 @@ public class PricePageController implements Initializable {
     private void handleConfirmNewPrice() throws JsonProcessingException {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
-            if (storageClient.getNames().isEmpty() || index == -1) {
+            if (access.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
             double price = Double.parseDouble(newPrice.getText());
-            if (storageClient.getStorage().getIsSortedClothes() == true) {
-                List<String> names = storageClient.getSortedNames();
+            boolean updated = false;
+            if (access.getStorage().getIsSortedClothes() == true) {
+                List<String> names = access.getSortedNames();
                 String name = names.get(index);
-                Clothing clothing = storageClient.getClothing(name);
-                for (Clothing clothing2 : storageClient.getStorage().getSortedClothings()) {
+                Clothing clothing = access.getClothing(name);
+                for (Clothing clothing2 : access.getStorage().getSortedClothings()) {
                     if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.setPrice(price, true);
-                        storageClient.putClothing(clothing2);
+                        updated = access.updatePrice(clothing2, price);
                     }
                 }
             } else {
-                List<String> names = storageClient.getNames();
+                List<String> names = access.getNames();
                 String name = names.get(index);
-                Clothing clothing = storageClient.getClothing(name);
-                for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
+                Clothing clothing = access.getClothing(name);
+                for (Clothing clothing2 : access.getStorage().getAllClothes().keySet()) {
                     if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.setPrice(price, true);
-                        storageClient.putClothing(clothing2);
+                        updated = access.updatePrice(clothing2, price);
                     }
                 }
             }
             
-            if (storageClient.getStorage().getIsSortedClothes() == true) {
+            if (access.getStorage().getIsSortedClothes() == true && updated == true) {
                 this.handleConfirmFilter();
-            } else {
-                updatePriceList(storageClient.getPriceDisplay());
+            } else if (updated == true) {
+                updatePriceList(access.getPriceDisplay());
             }
             newPrice.clear();
         } catch (NumberFormatException e) {
@@ -308,7 +315,7 @@ public class PricePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before changing price");
@@ -325,35 +332,34 @@ public class PricePageController implements Initializable {
     private void handleConfirmDiscount() throws JsonProcessingException {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
-            if (storageClient.getNames().isEmpty() || index == -1) {
+            if (access.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
             double discountToAdd = Double.parseDouble(discount.getText());
-            if (storageClient.getStorage().getIsSortedClothes() == true) {
-                List<String> names = storageClient.getSortedNames();
+            boolean updated = false;
+            if (access.getStorage().getIsSortedClothes() == true) {
+                List<String> names = access.getSortedNames();
                 String name = names.get(index);
-                Clothing clothing = storageClient.getClothing(name);
-                for (Clothing clothing2 : storageClient.getStorage().getSortedClothings()) {
+                Clothing clothing = access.getClothing(name);
+                for (Clothing clothing2 : access.getStorage().getSortedClothings()) {
                     if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
-                        storageClient.putClothing(clothing2);
+                        updated = access.updateDiscount(clothing2, discountToAdd / 100);
                     }
                 }
             } else {
-                List<String> names = storageClient.getNames();
+                List<String> names = access.getNames();
                 String name = names.get(index);
-                Clothing clothing = storageClient.getClothing(name);
-                for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
+                Clothing clothing = access.getClothing(name);
+                for (Clothing clothing2 : access.getStorage().getAllClothes().keySet()) {
                     if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.setPriceAfterAddedDiscount(discountToAdd / 100);
-                        storageClient.putClothing(clothing2);
+                        updated = access.updateDiscount(clothing2, discountToAdd / 100);
                     }
                 }
             }
-            if (storageClient.getStorage().getIsSortedClothes() == true) {
+            if (access.getStorage().getIsSortedClothes() == true && updated == true) {
                 this.handleConfirmFilter();
-            } else {
-                updatePriceList(storageClient.getPriceDisplay());
+            } else if (updated == true) {
+                updatePriceList(access.getPriceDisplay());
             }
             discount.clear();
         } catch (NumberFormatException e) {
@@ -363,7 +369,7 @@ public class PricePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
@@ -384,37 +390,36 @@ public class PricePageController implements Initializable {
     private void handleRemoveDiscount() throws JsonProcessingException {
         try {
             int index = priceList.getSelectionModel().getSelectedIndex();
-            if (storageClient.getNames().isEmpty() || index == -1) {
+            if (access.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
-            if (storageClient.getStorage().getIsSortedClothes() == true) {
-                List<String> names = storageClient.getSortedNames();
+            boolean removed = false;
+            if (access.getStorage().getIsSortedClothes() == true) {
+                List<String> names = access.getSortedNames();
                 String name = names.get(index);
-                Clothing clothing = storageClient.getClothing(name);
-                for (Clothing clothing2 : storageClient.getStorage().getSortedClothings()) {
+                Clothing clothing = access.getClothing(name);
+                for (Clothing clothing2 : access.getStorage().getSortedClothings()) {
                     if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.removeDiscount();
-                        storageClient.putClothing(clothing2);
+                        removed = access.removeDiscount(clothing2);
                     }
                 }
             } else {
-                List<String> names = storageClient.getNames();
+                List<String> names = access.getNames();
                 String name = names.get(index);
-                Clothing clothing = storageClient.getClothing(name);
-                for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
+                Clothing clothing = access.getClothing(name);
+                for (Clothing clothing2 : access.getStorage().getAllClothes().keySet()) {
                     if (clothing.equalsButDifferentSize(clothing2)) {
-                        clothing2.removeDiscount();
-                        storageClient.putClothing(clothing2);
+                        removed = access.removeDiscount(clothing2);
                     }
                 }
             }
-            if (storageClient.getStorage().getIsSortedClothes() == true) {
+            if (access.getStorage().getIsSortedClothes() == true && removed == true) {
                 this.handleConfirmFilter();
-            } else {
-                updatePriceList(storageClient.getPriceDisplay());
+            } else if (removed == true) {
+                updatePriceList(access.getPriceDisplay());
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
