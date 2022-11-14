@@ -25,10 +25,6 @@ import javafx.stage.Stage;
 public class StoragePageController implements Initializable {
 
     /**
-     * Storage containing Clothing and corresponding quantity.
-     */
-    private Storage storage;
-    /**
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
@@ -83,6 +79,10 @@ public class StoragePageController implements Initializable {
     @FXML
     private TextField quantity;
 
+    @FXML
+    String isRemote;
+
+    private Access access;
 
     /**
      * Constructor for StorageController initializing it with empty storage.
@@ -90,8 +90,6 @@ public class StoragePageController implements Initializable {
      * @throws URISyntaxException if string coult not be parsed to URI
      */
     public StoragePageController() throws URISyntaxException {
-        this.storage = new Storage();
-        this.storageClient = new StorageClient();
     }
 
     /**
@@ -100,7 +98,21 @@ public class StoragePageController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        updateStorageList(storageClient.getStorageDisplay());  
+        if (isRemote != null) {
+            RemoteAccess remoteAccess;
+            try {
+                remoteAccess = new RemoteAccess();
+                System.out.println("Using remote access");
+                access = remoteAccess;
+            } catch (URISyntaxException e) {
+                System.err.println(e);
+            }
+        }
+        if (access == null) {
+            access = new DirectAccess();
+            System.out.println("Using direct access");
+        }
+        updateStorageList(access.getStorageDisplay());
     }
 
     /**
@@ -109,11 +121,13 @@ public class StoragePageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
-        if (this.storage != null) {
-            storageList.getItems().clear();
-        }
-        this.storage = storage;
-        updateStorageList(storageClient.getStorageDisplay());
+        access = new DirectAccess(storage);
+        updateStorageList(access.getStorageDisplay());
+    }
+
+    public void setAccess(Access access) {
+        this.access = access;
+        updateStorageList(access.getStorageDisplay());;
     }
 
     /**
@@ -137,7 +151,12 @@ public class StoragePageController implements Initializable {
      */
     @FXML
     private void handlePricePageButton() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("PricePage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PricePage.fxml"));
+        Parent root = loader.load();
+
+        PricePageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
@@ -150,7 +169,12 @@ public class StoragePageController implements Initializable {
      */
     @FXML
     private void handleStatisticsPageButton() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("StatisticsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticsPage.fxml"));
+        Parent root = loader.load();
+
+        StatisticsPageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) statisticsPageButton.getScene().getWindow();
         stage.setScene(scene);
@@ -163,7 +187,12 @@ public class StoragePageController implements Initializable {
      */
     @FXML
     private void handleNewClothingItem() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("NewClothingPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewClothingPage.fxml"));
+        Parent root = loader.load();
+
+        NewClothingPageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) pricePageButton.getScene().getWindow();
         stage.setScene(scene);
@@ -192,11 +221,11 @@ public class StoragePageController implements Initializable {
     private void handleRemoveClothingItem() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            List<String> names = storageClient.getNames();
+            List<String> names = access.getNames();
             String name = names.get(index);
-            boolean removed = storageClient.removeClothing(name);
+            boolean removed = access.removeClothing(name);
             if (removed == true) {
-                updateStorageList(storageClient.getStorageDisplay());
+                updateStorageList(access.getStorageDisplay());
             } else {
                 // do nothing
             }
@@ -212,18 +241,16 @@ public class StoragePageController implements Initializable {
     private void handleIncreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            List<String> names = storageClient.getNames();
+            List<String> names = access.getNames();
             String name = names.get(index);
-            int previousQuantity = storageClient.getQuantity(name);
-            int newQuantity = previousQuantity + 1;
-            boolean updated = storageClient.putQuantity(name, newQuantity);
+            boolean updated = access.increaseQuantityByOne(name);
             if (updated == true) {
-                updateStorageList(storageClient.getStorageDisplay());
+                updateStorageList(access.getStorageDisplay());
             } else {
                 throw new IllegalArgumentException("Something went wrong");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
@@ -240,21 +267,16 @@ public class StoragePageController implements Initializable {
     private void handleDecreaseByOne() {
         try {
             int index = storageList.getSelectionModel().getSelectedIndex();
-            List<String> names = storageClient.getNames();
+            List<String> names = access.getNames();
             String name = names.get(index);
-            int previousQuantity = storageClient.getQuantity(name);
-            int newQuantity = previousQuantity - 1;
-            if (newQuantity < 0) {
-                throw new IllegalStateException("Can not have negative quantity");
-            }
-            boolean updated = storageClient.putQuantity(name, newQuantity);
+            boolean updated = access.decreaseQuantityByOne(name);
             if (updated == true) {
-                updateStorageList(storageClient.getStorageDisplay());
+                updateStorageList(access.getStorageDisplay());
             } else {
                 // do nothing
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");
@@ -271,17 +293,15 @@ public class StoragePageController implements Initializable {
     private void handleAddQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            if (storageClient.getNames().isEmpty() || index == -1) {
+            if (access.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
-            List<String> names = storageClient.getNames();
+            List<String> names = access.getNames();
             String name = names.get(index);
-            int previousQuantity = storageClient.getQuantity(name);
             int addQuantity = Integer.parseInt(quantity.getText());
-            int newQuantity = previousQuantity + addQuantity;
-            boolean updated = storageClient.putQuantity(name, newQuantity);
+            boolean updated = access.increaseQuantity(name, addQuantity);
             if (updated == true) {
-                updateStorageList(storageClient.getStorageDisplay());
+                updateStorageList(access.getStorageDisplay());
             } else {
                 // do nothing
             }
@@ -292,7 +312,7 @@ public class StoragePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before increasing quantity");
@@ -307,20 +327,15 @@ public class StoragePageController implements Initializable {
     private void handleRemoveQuantity() {
         int index = storageList.getSelectionModel().getSelectedIndex();
         try {
-            if (storageClient.getNames().isEmpty() || index == -1) {
+            if (access.getNames().isEmpty() || index == -1) {
                 throw new IndexOutOfBoundsException();
             }
-            List<String> names = storageClient.getNames();
+            List<String> names = access.getNames();
             String name = names.get(index);
-            int previousQuantity = storageClient.getQuantity(name);
             int decQuantity = Integer.parseInt(quantity.getText());
-            int newQuantity = previousQuantity - decQuantity;
-            if (newQuantity < 0) {
-                throw new IllegalStateException("Can not have negative quantity");
-            }
-            boolean updated = storageClient.putQuantity(name, newQuantity);
+            boolean updated = access.decreaseQuantity(name, decQuantity);
             if (updated == true) {
-                updateStorageList(storageClient.getStorageDisplay());
+                updateStorageList(access.getStorageDisplay());
             } else {
                 // do nothing
             }
@@ -331,7 +346,7 @@ public class StoragePageController implements Initializable {
                 showErrorMessage("Input must be a number");
             }
         } catch (IndexOutOfBoundsException e) {
-            if (storageClient.getNames().isEmpty()) {
+            if (access.getNames().isEmpty()) {
                 showErrorMessage("Add a new clothing to storage first");
             } else {
                 showErrorMessage("Select a clothing before decreasing quantity");

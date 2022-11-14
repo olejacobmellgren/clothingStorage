@@ -1,6 +1,5 @@
 package clothingStorage.ui;
 
-import clothingStorage.client.StorageClient;
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
 import java.io.IOException;
@@ -32,10 +31,6 @@ public class NewClothingPageController implements Initializable {
      * Currernt confirm message as shown in ui.
      */
     private String confirmMessage;
-    /**
-     * StorageClient for the session.
-     */
-    private StorageClient storageClient;
 
     /**
      * Choicebox of valid types.
@@ -73,6 +68,8 @@ public class NewClothingPageController implements Initializable {
     @FXML
     private Button cancel;
 
+    private Access access;
+
     /**
      * Constructor for StorageController initializing it with empty storage.
      *
@@ -80,7 +77,6 @@ public class NewClothingPageController implements Initializable {
      * 
      */
     public NewClothingPageController() throws URISyntaxException {
-        this.storageClient = new StorageClient();
     }
 
     /**
@@ -94,6 +90,10 @@ public class NewClothingPageController implements Initializable {
         brand.getItems().addAll("Nike", "Adidas", "H&M", 
             "Lacoste", "Louis Vuitton", "Supreme", "Levi's");
         size.getItems().addAll('S', 'M', 'L');
+    }
+
+    public void setAccess(Access access) {
+        this.access = access;
     }
 
     /**
@@ -168,11 +168,21 @@ public class NewClothingPageController implements Initializable {
     @FXML
     private void handleCancel() throws IOException {
         handleReset();
-        Parent root = FXMLLoader.load(getClass().getResource("StoragePage.fxml"));
+        FXMLLoader loader;
+        if (access instanceof RemoteAccess) {
+            loader = new FXMLLoader(getClass().getResource("StoragePageRemote.fxml"));
+        } else {
+            loader = new FXMLLoader(getClass().getResource("StoragePageDirect.fxml"));
+        }
+        Parent root = loader.load();
+
+        StoragePageController controller = loader.getController();
+        controller.setAccess(access);
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Clothing Storage");
+        stage.setTitle("New Clothing");
         stage.show();
     }
 
@@ -196,7 +206,7 @@ public class NewClothingPageController implements Initializable {
                 selectedSize, selectedPrice);
 
             int selectedQuantity = Integer.parseInt(quantity.getText());
-            for (Clothing clothing2 : storageClient.getStorage().getAllClothes().keySet()) {
+            for (Clothing clothing2 : access.getStorage().getAllClothes().keySet()) {
                 if (clothing2.equalsButDifferentSize(clothing) 
                     && clothing2.getPrice() != clothing.getPrice()) {
                     showErrorMessage("Clothing already exists in different size, " 
@@ -204,11 +214,14 @@ public class NewClothingPageController implements Initializable {
                     return;
                 }
             }
-            storageClient.putClothing(clothing);
-            storageClient.putQuantity(clothing.getName(), selectedQuantity);
-            handleReset();
-            showConfirmedMessage("You successfully added the following: " + clothing.toString());
-            handleCancel();
+            boolean added = access.addClothing(clothing, selectedQuantity);
+            if (added == true) {
+                handleReset();
+                showConfirmedMessage("You successfully added the following: " + clothing.toString());
+                handleCancel();
+            } else {
+                showErrorMessage("Something went wrong");
+            }
         } catch (NumberFormatException e) {
             showErrorMessage("Price must be a positive decimal number" +  "\n" 
                 + "Quantity must a positive integer");
@@ -219,4 +232,3 @@ public class NewClothingPageController implements Initializable {
         }
     }
 }
-
