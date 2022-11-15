@@ -1,10 +1,12 @@
 package clothingStorage.ui;
 
-import java.util.List;
-
 import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+import java.util.List;
 
+/**
+ * Interface used by RemoteAccess and DirectAccess.
+ */
 public interface Access {
 
     public Storage getStorage();

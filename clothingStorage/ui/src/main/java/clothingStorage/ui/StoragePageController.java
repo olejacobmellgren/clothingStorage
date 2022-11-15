@@ -28,7 +28,7 @@ public class StoragePageController implements Initializable {
      */
     private String errorMessage;
     /**
-     * Access, either direct or remote
+     * Access, either direct or remote.
      */
     private Access access;
 
@@ -139,6 +139,11 @@ public class StoragePageController implements Initializable {
         updateStorageList(access.getStorageDisplay());
     }
 
+    /**
+     * Sets access to the given access.
+     *
+     * @param access to be set as acces for the controller, either direct or remote
+     */
     public void setAccess(Access access) {
         this.access = access;
         updateStorageList(access.getStorageDisplay());;
