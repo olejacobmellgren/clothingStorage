@@ -50,7 +50,7 @@ public class StorageStatistics {
                         .mapToInt(e -> e.getValue())
                         .sum();
     }
-
+    
     /**
      * Returns the quantity for a type of clohting with certain size.
      *

@@ -31,6 +31,10 @@ public class NewClothingPageController implements Initializable {
      * Currernt confirm message as shown in ui.
      */
     private String confirmMessage;
+    /**
+     * Access, either direct or remote.
+     */
+    private Access access;
 
     /**
      * Choicebox of valid types.
@@ -68,8 +72,6 @@ public class NewClothingPageController implements Initializable {
     @FXML
     private Button cancel;
 
-    private Access access;
-
     /**
      * Constructor for StorageController initializing it with empty storage.
      *
@@ -102,6 +104,7 @@ public class NewClothingPageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
+        access = new DirectAccess(storage);
     }
 
     /**
@@ -182,7 +185,7 @@ public class NewClothingPageController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("New Clothing");
+        stage.setTitle("Clothing Storage");
         stage.show();
     }
 
@@ -217,7 +220,8 @@ public class NewClothingPageController implements Initializable {
             boolean added = access.addClothing(clothing, selectedQuantity);
             if (added == true) {
                 handleReset();
-                showConfirmedMessage("You successfully added the following: " + clothing.toString());
+                showConfirmedMessage("You successfully added the following: "
+                                    + clothing.toString());
                 handleCancel();
             } else {
                 showErrorMessage("Something went wrong");

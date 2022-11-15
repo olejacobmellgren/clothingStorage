@@ -1,8 +1,6 @@
 package clothingStorage.ui;
 
-import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
-import clothingStorage.core.StorageStatistics;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -34,9 +32,9 @@ public class StatisticsPageController implements Initializable {
                                          "Socks", "Sweater", "Jacket",
                                          "Shorts"}; /*May be expanded*/
     /**
-     * StorageClient for the session.
+     * Access, either direct or remote, by default DirectAccess.
      */
-    private StorageClient storageClient;
+    private Access access = new DirectAccess();
 
     /**
      * Label for total quantity in storage.
@@ -74,8 +72,6 @@ public class StatisticsPageController implements Initializable {
     @FXML 
     private CategoryAxis categoryAxis;
 
-    private Access access = new DirectAccess();
-
     /**
      * Constructor for StatisticsPageController initializing it with empty storage.
      *
@@ -95,6 +91,11 @@ public class StatisticsPageController implements Initializable {
         typeForDiagram.setValue("All Clothes");
     }
 
+    /**
+     * Sets access to the given access.
+     *
+     * @param access to be set as acces for the controller, either direct or remote
+     */
     public void setAccess(Access access) {
         this.access = access;
         for (int i = 0; i < validTypes.length; i++) {
@@ -114,6 +115,7 @@ public class StatisticsPageController implements Initializable {
      * @param storage to be set as storage for the controller
      */
     public void setStorage(Storage storage) {
+        this.access = new DirectAccess(storage);
         typeForDiagram.getItems().add("All Clothes");
         Platform.runLater(new Runnable() {
             @Override
@@ -121,7 +123,9 @@ public class StatisticsPageController implements Initializable {
                 // Update UI here.
                 typeForDiagram.setValue("All Clothes");
                 for (int i = 0; i < validTypes.length; i++) {
-                    if ((StorageStatistics.getQuantityForType(storage, validTypes[i]) > 0)) {
+                    if ((access.getQuantitiesForTypeAndSizes(validTypes[i])
+                               .stream()
+                               .reduce(0, Integer::sum) > 0)) {
                         typeForDiagram.getItems().add(validTypes[i]);
                     }
                 }
@@ -203,7 +207,7 @@ public class StatisticsPageController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage) storagePageButton.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("New Clothing");
+        stage.setTitle("Clothing Storage");
         stage.show();
     }
 

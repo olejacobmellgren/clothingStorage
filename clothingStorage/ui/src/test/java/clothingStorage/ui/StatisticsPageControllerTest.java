@@ -2,13 +2,16 @@ package clothingStorage.ui;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import clothingStorage.core.Clothing;
 import clothingStorage.core.Storage;
+import clothingStorage.json.ClothingStoragePersistence;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,16 +36,13 @@ public class StatisticsPageControllerTest extends ApplicationTest {
     }
 
     @BeforeEach
-    public void setUpStorage() {
-        storage = new Storage();
-        Clothing clothing1 = new Clothing("Pants", "Nike", 'M', 88);
-        Clothing clothing2 = new Clothing("Socks", "H&M", 'S', 75);
-        Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 150);
-        Clothing clothing4 = new Clothing("Shorts", "Nike", 'M', 35);
-        storage.addNewClothing(clothing1, 7);
-        storage.addNewClothing(clothing2, 2);
-        storage.addNewClothing(clothing3, 5);
-        storage.addNewClothing(clothing4, 9);
+    public void setupClothingItems() {
+        try {
+            ClothingStoragePersistence storagePersistence = new ClothingStoragePersistence();
+            storage = storagePersistence.readClothingStorage(new InputStreamReader(getClass().getResourceAsStream("storage-test.json")));
+        } catch (IOException e) {
+            fail("Couldn't load storage-test.json");
+        }
         controller.setStorage(storage);
     }
 
@@ -53,24 +53,18 @@ public class StatisticsPageControllerTest extends ApplicationTest {
 
         BarChart<String, Integer> actualBarchart = lookup("#quantityChart").query();
 
-        assertEquals(7, actualBarchart.getData().get(0).getData().get(0).getYValue());
-        assertEquals(2, actualBarchart.getData().get(0).getData().get(3).getYValue());
-        assertEquals(5, actualBarchart.getData().get(0).getData().get(5).getYValue());
-        assertEquals(9, actualBarchart.getData().get(0).getData().get(6).getYValue());
+        assertEquals(5, actualBarchart.getData().get(0).getData().get(0).getYValue());
+        assertEquals(8, actualBarchart.getData().get(0).getData().get(6).getYValue());
+        assertEquals(4, actualBarchart.getData().get(0).getData().get(3).getYValue());
     }
 
     @Test
     public void testTypeChart() {
-        Clothing clothing = new Clothing("Pants", "Adidas", 'S', 89);
-        storage.addNewClothing(clothing, 4);
-        controller.setStorage(storage);
         clickOn("#typeForDiagram").clickOn(LabeledMatchers.hasText("Pants"));
 
         BarChart<String, Integer> actualBarchart = lookup("#quantityChart").query();
         
-        assertEquals(4, actualBarchart.getData().get(0).getData().get(0).getYValue());
-        assertEquals(7, actualBarchart.getData().get(0).getData().get(1).getYValue());
-        assertEquals(0, actualBarchart.getData().get(0).getData().get(2).getYValue());
+        assertEquals(5, actualBarchart.getData().get(0).getData().get(0).getYValue());
     }
 
     @Test
@@ -87,5 +81,5 @@ public class StatisticsPageControllerTest extends ApplicationTest {
         assertEquals("Clothing Storage", this.stage.getTitle());
         clickOn("#statisticsPageButton");
         assertEquals("Statistics", this.stage.getTitle());
-    } 
+    }
 }
