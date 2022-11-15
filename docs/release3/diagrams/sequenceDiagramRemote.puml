@@ -1,0 +1,10 @@
+actor User
+User -> "~#addQuantity: Button" as addQuantity: click
+addQuantity -> StoragePageController: handleAddQuantity
+StoragePageController -> "~quantity: TextField" as quantity: getText
+StoragePageController -> RemoteAccess: increaseQuantity
+RemoteAccess -> StorageClient: putQuantity
+StorageClient -> ClothingStorageController: putQuantity
+ClothingStorageController -> ClothingStorageController: autoSaveStorage
+ClothingStorageController -> ClothingStorageService: autoSaveStorage
+StoragePageController -> StoragePageController: updateStorageList
