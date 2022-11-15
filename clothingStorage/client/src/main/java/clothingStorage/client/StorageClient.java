@@ -146,7 +146,7 @@ public class StorageClient {
     /**
      * Removes Clothing from restserver.
      *
-     * @param name to be put
+     * @param name of clothing to remove
      * @return boolean true if success, false if not
      */
     public boolean removeClothing(String name) {
@@ -169,7 +169,7 @@ public class StorageClient {
     /**
      * Gets quantity from restserver.
      *
-     * @param name to be retrieve quantity for
+     * @param name of clothing to retrieve quantity for
      * @return quantity from restserver
      */
     public int getQuantity(final String name) {
@@ -368,10 +368,10 @@ public class StorageClient {
     }
 
     /**
-     * Gets the quantity for a type of clothing.
+     * Gets the quantities of sizes for a type of clothing.
      *
-     * @param type the type of clothing to get quantity for
-     * @return amount of clothing for that type
+     * @param type the type of clothing to get quantities sizes for
+     * @return amount of clothing for each size of that type
      */
     public List<Integer> getQuantitiesForTypeAndSizes(String type) {
         List<Integer> quantities;
@@ -391,9 +391,9 @@ public class StorageClient {
     }
 
     /**
-     * Gets total value of storage.
+     * Gets total value from restserver.
      *
-     * @return total quantity from restserver
+     * @return total value from restserver
      */
     public double getTotalValue() {
         double value;
@@ -413,9 +413,9 @@ public class StorageClient {
     }
 
     /**
-     * Gets quantity from restserver.
+     * Gets total quantity from restserver.
      *
-     * @return quantity from restserver
+     * @return total quantity from restserver
      */
     public int getTotalQuantity() {
         int quantity;

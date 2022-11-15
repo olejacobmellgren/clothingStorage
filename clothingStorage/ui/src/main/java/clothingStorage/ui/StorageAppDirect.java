@@ -18,7 +18,8 @@ public class StorageAppDirect extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("StoragePageDirect.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass()
+                                                   .getResource("StoragePageDirect.fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
         stage.setTitle("Clothing Storage");

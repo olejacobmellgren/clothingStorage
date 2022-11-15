@@ -27,15 +27,11 @@ import javafx.stage.Stage;
 public class PricePageController implements Initializable {
 
     /**
-     * Storage containing Clothing and corresponding quantity.
-     */
-    private Storage storage;
-    /**
      * Current errormessage as shown in ui.
      */
     private String errorMessage;
     /**
-     * Access, either direct or remote
+     * Access, either direct or remote.
      */
     private Access access;
     
@@ -117,6 +113,11 @@ public class PricePageController implements Initializable {
             "Louis Vuitton", "Supreme", "Levi's"); 
     }
 
+    /**
+     * Sets access to the given access.
+     *
+     * @param access to be set as acces for the controller, either direct or remote
+     */
     public void setAccess(Access access) {
         this.access = access;
         updatePriceList(access.getPriceDisplay());
