@@ -2,7 +2,7 @@
 
 Denne mappen inneholder definert format for checkstyles og en liste med spotbugs som skal ignoreres. Det er skrevet mer detaljerte beskrivelser av verktøyene under.
 
-### Checkstyle
+## Checkstyle
 
 Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet skal sjekke at Java-koden som har blitt skrevet følger vanlig kodestandard. Checkstyle er lagt inn som "plugin" for maven i pom.xml, der checkstyle bruker versjon 9.0. Både Checkstyle og Spotbugs sier ifra om feil når man kjører `mvn install` eller `mvn verify`. Vi valgte å bruke google_checks.xml som mal for vår egen checkstyle og ga denne noen hensiktsmessige modifikasjoner. Checkstylen som brukes i vårt prosjekt er altså **[checks.xml](/clothingStorage/config/checkstyle/checks.xml)**. Endringene som ble gjort er:
 
@@ -14,7 +14,7 @@ Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet
 - Pakkenavn følger et annet mønster
   - Forklaring på valg: Pakkenavnene våre slik de er nå fører til checkstyle violations. Det er ikke tillat med stor bokstav i et pakkenavn med google_checks.xml. I steden for å endre på pakkenavnene våre endret vi på mønsteret som er tillat slik at checkstyle violations ikke dukker opp for dette.
 
-### Spotbugs
+## Spotbugs
 
 Slik som checkstyle er også Spotbugs implementert for å sjekke kodekvaliteten. Spotbugs ser etter feil(bugs) i koden og er også lagt inn som "plugin" for maven i ytterste pom-fil. Spotbugs bruker versjon 4.7.2. I filen **[exclude.xml](/clothingStorage/config/spotbugs/exclude.xml)** ligger Spotbugs som har blitt valgt å bli ignorert. Disse har blitt ignorert av ulike årsaker:
 
