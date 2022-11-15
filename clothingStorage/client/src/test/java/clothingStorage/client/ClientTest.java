@@ -1,7 +1,6 @@
 package clothingStorage.client;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -148,7 +147,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"PantsNikeM\",\"PantsAdidasS\",\"JacketLacosteL\"]")));
 
-        List<String> names = new ArrayList<>(storageClient.getNames());
+        List<String> names = storageClient.getNames();
         assertEquals("PantsNikeM", names.get(0));
         assertEquals("JacketLacosteL", names.get(2));
     }
@@ -160,7 +159,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"JacketLacosteL\",\"JacketNikeM\"]")));
 
-        List<String> sortedNames = new ArrayList<>(storageClient.getSortedNames());
+        List<String> sortedNames = storageClient.getSortedNames();
         assertEquals("JacketLacosteL", sortedNames.get(0));
         assertEquals("JacketNikeM", sortedNames.get(1));
     }
@@ -172,7 +171,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"Jacket; Lacoste; 13.0kr\",\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
 
-        List<String> sortedClothes = new ArrayList<>(storageClient.getSorted(0));
+        List<String> sortedClothes = storageClient.getSorted(0);
         assertEquals("Jacket; Lacoste; 13.0kr", sortedClothes.get(0));
         assertEquals("Pants; Nike; 30.0kr", sortedClothes.get(1));
     }
@@ -184,7 +183,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
 
-        List<String> sortedPants = new ArrayList<>(storageClient.getSortedType("Pants"));
+        List<String> sortedPants = storageClient.getSortedType("Pants");
         assertEquals("Pants; Nike; 30.0kr", sortedPants.get(0));
         assertEquals("Pants; Adidas; 99.0kr", sortedPants.get(1));
     }
@@ -196,7 +195,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"Pants; Nike; 30.0kr\"]")));
 
-        List<String> sortedNike = new ArrayList<>(storageClient.getSortedBrand("Nike"));
+        List<String> sortedNike = storageClient.getSortedBrand("Nike");
         assertEquals("Pants; Nike; 30.0kr", sortedNike.get(0));
     }
 
@@ -207,7 +206,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"Pants;Nike;S;5\",\"Jacket;Adidas;L;8\"]")));
 
-        List<String> storageDisplay = new ArrayList<>(storageClient.getStorageDisplay());
+        List<String> storageDisplay = storageClient.getStorageDisplay();
         assertEquals("Pants;Nike;S;5", storageDisplay.get(0));
         assertEquals("Jacket;Adidas;L;8", storageDisplay.get(1));
     }
@@ -219,7 +218,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[\"Pants; Nike; 30.0kr\",\"Pants; Adidas; 99.0kr\"]")));
 
-        List<String> priceDisplay = new ArrayList<>(storageClient.getPriceDisplay());
+        List<String> priceDisplay = storageClient.getPriceDisplay();
         assertEquals("Pants; Nike; 30.0kr", priceDisplay.get(0));
         assertEquals("Pants; Adidas; 99.0kr", priceDisplay.get(1));
     }
@@ -231,7 +230,7 @@ public class ClientTest {
                 .withStatus(200)
                 .withBody("[0,10,4]")));
 
-        List<Integer> sizes = new ArrayList<>(storageClient.getQuantitiesForTypeAndSizes("Pants"));
+        List<Integer> sizes = storageClient.getQuantitiesForTypeAndSizes("Pants");
         assertEquals(0, sizes.get(0));
         assertEquals(10, sizes.get(1));
         assertEquals(4, sizes.get(2));
