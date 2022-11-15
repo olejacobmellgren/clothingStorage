@@ -1,8 +1,6 @@
 package clothingStorage.ui;
 
-import clothingStorage.client.StorageClient;
 import clothingStorage.core.Storage;
-import clothingStorage.core.StorageStatistics;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -34,11 +32,7 @@ public class StatisticsPageController implements Initializable {
                                          "Socks", "Sweater", "Jacket",
                                          "Shorts"}; /*May be expanded*/
     /**
-     * StorageClient for the session.
-     */
-    private StorageClient storageClient;
-    /**
-     * Access, either direct or remote, by default DirectAccess
+     * Access, either direct or remote, by default DirectAccess.
      */
     private Access access = new DirectAccess();
 
@@ -97,6 +91,11 @@ public class StatisticsPageController implements Initializable {
         typeForDiagram.setValue("All Clothes");
     }
 
+    /**
+     * Sets access to the given access.
+     *
+     * @param access to be set as acces for the controller, either direct or remote
+     */
     public void setAccess(Access access) {
         this.access = access;
         for (int i = 0; i < validTypes.length; i++) {
@@ -124,7 +123,9 @@ public class StatisticsPageController implements Initializable {
                 // Update UI here.
                 typeForDiagram.setValue("All Clothes");
                 for (int i = 0; i < validTypes.length; i++) {
-                    if ((access.getQuantitiesForTypeAndSizes(validTypes[i]).stream().reduce(0, Integer::sum) > 0)) {
+                    if ((access.getQuantitiesForTypeAndSizes(validTypes[i])
+                               .stream()
+                               .reduce(0, Integer::sum) > 0)) {
                         typeForDiagram.getItems().add(validTypes[i]);
                     }
                 }

@@ -32,7 +32,7 @@ public class NewClothingPageController implements Initializable {
      */
     private String confirmMessage;
     /**
-     * Access, either direct or remote
+     * Access, either direct or remote.
      */
     private Access access;
 
@@ -220,7 +220,8 @@ public class NewClothingPageController implements Initializable {
             boolean added = access.addClothing(clothing, selectedQuantity);
             if (added == true) {
                 handleReset();
-                showConfirmedMessage("You successfully added the following: " + clothing.toString());
+                showConfirmedMessage("You successfully added the following: "
+                                    + clothing.toString());
                 handleCancel();
             } else {
                 showErrorMessage("Something went wrong");
