@@ -1,4 +1,4 @@
-module clothingStorage.restserver {
+open module clothingStorage.restserver {
 
     requires transitive clothingStorage.json;
 
@@ -10,6 +10,6 @@ module clothingStorage.restserver {
 
     requires clothingStorage.core;
 
-    opens clothingStorage.restserver to spring.beans, spring.context, spring.web;
+    exports clothingStorage.restserver;
 }
 
