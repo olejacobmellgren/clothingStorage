@@ -1,4 +1,4 @@
-@startuml
+@startuml clothingstorage
 
 package "core"
 {
@@ -29,13 +29,33 @@ package "restserver"
     class ClothingStorageService
 }
 
-package "fxui"
+package "ui"
 {
     class NewClothingPageController
     class PricePageController
     class StatisticsPageController
     class StoragePageController
-    class StorageApp
+    class StorageAppDirect
+    class StorageAppRemote
+    interface Access
+    class DirectAccess
+    class RemoteAccess
 }
+
+ClothingStorageService .. ClothingStoragePersistence
+ClothingStorageApplication .. ClothingStoragePersistence
+
+client -- localpersistence
+client -- core 
+
+localpersistence -- core
+
+restserver -- core
+restserver -- localpersistence
+
+ui -- core
+ui -- client
+ui -- localpersistence
+
 
 @enduml

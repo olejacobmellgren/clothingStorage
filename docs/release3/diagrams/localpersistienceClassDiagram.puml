@@ -46,10 +46,10 @@ class StorageSerializer
     +void serialize(Storage, JsonGenerator, SerializerProvider)
 }
 
-ClothingStoragePersistence .. ClothingStorageModule
-ClothingStorageModule .. ClothingDeserializer
-ClothingStorageModule .. ClothingSerializer
-ClothingStorageModule .. StorageDeserializer
-ClothingStorageModule .. StorageDeserializer
+ClothingStoragePersistence ..> ClothingStorageModule
+ClothingStorageModule ..> ClothingDeserializer
+ClothingStorageModule ..> ClothingSerializer
+ClothingStorageModule ..> StorageDeserializer
+ClothingStorageModule ..> StorageDeserializer
 
 @enduml

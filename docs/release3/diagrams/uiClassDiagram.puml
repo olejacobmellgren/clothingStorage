@@ -211,11 +211,22 @@ class RemoteAccess
     +int getTotalQuantity()
 }
 
-StorageApp .. NewClothingPageController
-StorageApp .. PricePageController
-StorageApp .. StatisticsPageController
-StorageApp .. StoragePageController
+StorageAppDirect ..> NewClothingPageController
+StorageAppDirect ..> PricePageController
+StorageAppDirect ..> StatisticsPageController
+StorageAppDirect ..> StoragePageController
+
+StorageAppRemote ..> NewClothingPageController
+StorageAppRemote ..> PricePageController
+StorageAppRemote ..> StatisticsPageController
+StorageAppRemote ..> StoragePageController
+
 Access <|.. DirectAccess
 Access <|.. RemoteAccess
+
+NewClothingPageController ..> Access
+PricePageController ..> Access
+StatisticsPageController ..> Access
+StoragePageController ..> Access
 
 @enduml
