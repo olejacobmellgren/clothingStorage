@@ -1,17 +1,17 @@
 # Client
 
-Modul som håndterer klinet siden av APIet. Formålet med modulen er ...
-Modulen inneholder de følgende klasse:
+Modul som håndterer klient-siden av APIet.
+Modulen inneholder kun én klasse:
 
 - StorageClient
 
 ## StorageClient
 
-....
+StorageClient kommuniserer med server-siden av APIet ved hjelp av å opprette forskjellige HTTP-Requests avhengig av om man vil hente eller publisere noe. Den håndterer også responsen som serveren sender, og gjør om dataen til noe som kan brukes av RemoteAccess i ui-modulen.
 
 ### Metoder
 
-- StorageClient(): Lager en StorageClient fra en builder.
+- StorageClient(): Lager en StorageClient som initialiserer endepunktet og ObjectMapperen som brukes for å deserialisere data.
 
 - getStorage() -> Storage: Henter Storage med Clothing objekter i.
 
@@ -25,24 +25,24 @@ Modulen inneholder de følgende klasse:
 
 - putQuantity(String, int) -> boolean: Putter mengde (quantity) av Clothing objektet på restserveren.  
 
-- getNames() -> List<String>: Henter navnene på alle Clothing objektene i Storage.
+- getNames() -> List<'String'>: Henter navnene på alle Clothing objektene i Storage.
 
-- getSortedNames() -> List<String>: Henter navnene på alle Clothing objektene i Storage i sortert rekkefølge.
+- getSortedNames() -> List<'String'>: Henter navnene på alle Clothing objektene i Storage i sortert rekkefølge.
 
-- getSorted(int) -> List<String>: Henter Clothing objektene i Storage når det er sortert på en spesifik måte.
+- getSorted(int) -> List<'String'>: Henter Clothing objektene i Storage når det er sortert på en spesifik måte.
 
-- getSortedType(String) -> List<String>: Henter Clothing objektene i Storage sortert etter type.
+- getSortedType(String) -> List<'String'>: Henter Clothing objektene i Storage sortert etter type.
 
-- getSortedBrand(String) -> List<String>: Henter Clothing objektene i Storage sortert etter brand.
+- getSortedBrand(String) -> List<'String'>: Henter Clothing objektene i Storage sortert etter brand.
 
-- getStorageDisplay() -> List<String>: Henter dispalyet for Storage på storage-page.
+- getStorageDisplay() -> List<'String'>: Henter displayet for Storage på storage-page.
 
-- getPriceDisplay() -> List<String>: Henter dispalyet for Storage på price-page.
+- getPriceDisplay() -> List<'String'>: Henter displayet for Storage på price-page.
 
-- getQuantitiesForTypeAndSizes(String) -> List<Integer>: Henter mengden (quantity) for en type Clothing.
+- getQuantitiesForTypeAndSizes(String) -> List<'Integer'>: Henter mengden (quantity) til hver størrelse for en type   Clothing .
 
 - getTotalValue() -> double: Henter total verdien av Storage.
 
-- getTotalQuantity() -> int: Henter mengde (quantity) fra restserver.
+- getTotalQuantity() -> int: Henter total mengde (quantity) fra restserver.
 
 - uriParam(String) -> String: Konverterer string til UTF_8 format.
