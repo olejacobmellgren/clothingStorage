@@ -43,6 +43,6 @@ class ClothingStorageService
     +void setStorage(Storage)
 }
 
-ClothingStorageController ..> clothingStorageService
+ClothingStorageController ..> ClothingStorageService
 
 @enduml

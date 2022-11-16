@@ -221,8 +221,8 @@ StorageAppRemote ..> PricePageController
 StorageAppRemote ..> StatisticsPageController
 StorageAppRemote ..> StoragePageController
 
-Access <|.. DirectAccess
-Access <|.. RemoteAccess
+Access <.. DirectAccess
+Access <.. RemoteAccess
 
 NewClothingPageController ..> Access
 PricePageController ..> Access

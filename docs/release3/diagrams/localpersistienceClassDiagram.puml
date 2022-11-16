@@ -50,6 +50,6 @@ ClothingStoragePersistence ..> ClothingStorageModule
 ClothingStorageModule ..> ClothingDeserializer
 ClothingStorageModule ..> ClothingSerializer
 ClothingStorageModule ..> StorageDeserializer
-ClothingStorageModule ..> StorageDeserializer
+ClothingStorageModule ..> StorageSerializer
 
 @enduml
