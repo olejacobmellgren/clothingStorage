@@ -23,18 +23,8 @@ Brukerhistoriene som ble lagt til i release 3 finnes i **[user-stories](/docs/re
 
 ## Filtrering
 
-For å løse brukerhistorie 6 er det lagt til filtrering på merke, pris, type klær og om varen er på salg i Storage-klassen til **core** modulen. 
+For å løse brukerhistorie 6 er det lagt til filtrering på merke, pris, type klær og om varen er på salg i Storage-klassen til **core** modulen. Det er lagt til en nedtrekksmeny for filter der man kan velge mellom å sortere på laveste pris, høyeste pris, klestype, merke og salg. Dersom man velger type eller merke vil man få en ekstra nedtrekksmeny der man kan velge spesifikt hvilket type/merke man vil filtrere på.
 
+## Statistikk
 
-
-## Statistikk-side
-
-Sammen med denne releasen ble det implementert en egen side for statistikk, der brukeren kan få oversikt over for eksempel total antall klær eller fordelingen av hver type klesplagg. Logikken for dette ligger i **core** modulen. 
-
-### StorageController-klassen og Storage.fxml
-
-For å løse brukerhistorie 3, 4 og 5 måtte flere knapper legges til i ui-et. For brukerhistorie 3 var det behov for knapper for å øke og minke beholdning av vare, både med 1 og med spesifisert antall. For å øke og eller minke med spesifisert antall var det også behov for et tekstfelt. Brukerhistorie 4 krevde at vi la til knapp og tekstfelt, både for ny pris og for å legge til rabatt. Brukerhistorie 5 ble løst ved å legge til en knapp for å fjerne en vare. Deretter måtte disse knappene kobles opp mot grunnklassene gjennom StorageController.
-
-### Clothing-klassen
-
-For å løse brukerhistorie 4 måtte vi endre og legge til en del metoder i Clothing-klassen. Metodene gjorde det mulig å endre pris, legge til rabatt, og i tillegg fjerne rabatt og få tilbake originalpris.
+Sammen med denne releasen ble det implementert en egen side for statistikk for å løse brukerhistorie 7, der brukeren kan få oversikt over total antall klær og total verdi. I tillegg er det et søylediagram som viser antall av ulike typer klær hvis man har valgt all Clothes, og antall av hver størrelse dersom man har valgt en spesiell type klær. Logikken for dette ligger i **core** modulen mens knappene er implementert i **ui** modulen. 
