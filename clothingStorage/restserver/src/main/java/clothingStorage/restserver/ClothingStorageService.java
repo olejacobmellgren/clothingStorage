@@ -3,10 +3,6 @@ package clothingStorage.restserver;
 import clothingStorage.core.Storage;
 import clothingStorage.json.ClothingStoragePersistence;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import org.springframework.stereotype.Service;
 
 
@@ -19,7 +15,7 @@ public class ClothingStorageService {
     /**
      * The storage.
      */
-    private Storage storage; //NOTE: Kan hende den bør være final med idk hvordan
+    private Storage storage;
     /**
      * Persistens for json.
      */
@@ -29,29 +25,9 @@ public class ClothingStorageService {
      * Create a new Storage object on initialization
      * and loads data using localpercistence.
      */
-    public ClothingStorageService(Storage storage) {
-        this.storage = storage;
-        this.storagePersistence = new ClothingStoragePersistence();
-        this.storagePersistence.setSaveFile("server-storage.json");
-    }
-    
-    /**
-     * dunno.
-     */
     public ClothingStorageService() {
+        this.storage = new Storage();
         this.storagePersistence = new ClothingStoragePersistence();
-        URL url = ClothingStorageService.class.getResource("default-storage.json");
-        if (url != null) {
-            try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
-                this.storage = storagePersistence.readClothingStorage(reader);
-            } catch (IOException e) {
-                System.out.println("Couldn't read default-storage.json, "
-                    + "so rigging TodoModel manually ("
-                    + e + ")");
-            }
-        } else {
-            this.storage = new Storage();
-        }
         this.storagePersistence.setSaveFile("server-storage.json");
     }
 
@@ -69,13 +45,20 @@ public class ClothingStorageService {
         }
     }
     
-    
-    
-    //NOTE: Kan hende de to nederste funksjonene kan slettes...
+    /**
+     * Gets the storage from restserver.
+     *
+     * @return storage used in restserver
+     */
     public Storage getStorage() {
         return this.storage;
     }
 
+    /**
+     * Sets the storage to the given storage.
+     *
+     * @param storage to be set
+     */
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
