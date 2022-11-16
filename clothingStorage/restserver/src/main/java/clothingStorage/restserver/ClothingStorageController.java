@@ -57,8 +57,19 @@ public class ClothingStorageController {
     @GetMapping(path = "/sortedNames")
     public ArrayList<String> getSortedNames() {
         ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> names2 = new ArrayList<>();
+
         for (Clothing clothing : getStorage().getSortedClothings()) {
-            names.add(clothing.getName());
+            if (names.isEmpty()) {
+                names.add(clothing.getName());
+                names2.add(clothing.getType() + "; " + clothing.getBrand());
+                continue;
+            } else if (names2.contains(clothing.getType() + "; " + clothing.getBrand())) {
+                continue;
+            } else {
+                names.add(clothing.getName());
+                names2.add(clothing.getType() + "; " + clothing.getBrand());
+            }
         }
         return names;
     }
