@@ -45,17 +45,17 @@ package "ui"
 ClothingStorageService ..> ClothingStoragePersistence
 ClothingStorageApplication ..> ClothingStoragePersistence
 
-client .. localpersistence
-client .. core 
+client ..> localpersistence
+client ..> core 
 
-localpersistence .. core
+localpersistence ..> core
 
-restserver .. core
-restserver .. localpersistence
+restserver ..> core
+restserver ..> localpersistence
 
-ui .. core
-ui .. client
-ui .. localpersistence
+ui ..> core
+ui ..> client
+ui ..> localpersistence
 
 
 @enduml
