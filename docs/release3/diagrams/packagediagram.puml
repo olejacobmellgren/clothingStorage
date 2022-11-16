@@ -12,7 +12,7 @@ component client {
     package clothingStorage.client
 }
 
-component fxui {
+component ui {
 	package clothingStorage.ui
 }
 
@@ -30,8 +30,8 @@ component javafx {
 	}
 }
 
-fxui ..> javafx
-fxui ..> fxml
+ui ..> javafx
+ui ..> fxml
 
 client ..> localpersistence
 
@@ -44,7 +44,6 @@ clothingStorage.restserver ..> clothingStorage.core
 restserver ..> spring
 
 component spring {
-
 }
 
 @enduml
