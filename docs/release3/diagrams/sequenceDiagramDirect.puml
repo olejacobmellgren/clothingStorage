@@ -1,0 +1,8 @@
+actor User
+User -> "~#addQuantity: Button" as addQuantity: click
+addQuantity -> StoragePageController: handleAddQuantity
+StoragePageController -> "~quantity: TextField" as quantity: getText
+StoragePageController -> DirectAccess: increaseQuantity
+DirectAccess -> Storage: increaseQuantity
+DirectAccess -> DirectAccess: fireAutoSaveStorage
+StoragePageController -> StoragePageController: updateStorageList

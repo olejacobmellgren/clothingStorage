@@ -146,7 +146,7 @@ public class StorageClient {
     /**
      * Removes Clothing from restserver.
      *
-     * @param name to be put
+     * @param name of clothing to remove
      * @return boolean true if success, false if not
      */
     public boolean removeClothing(String name) {
@@ -169,7 +169,7 @@ public class StorageClient {
     /**
      * Gets quantity from restserver.
      *
-     * @param name to be retrieve quantity for
+     * @param name of clothing to retrieve quantity for
      * @return quantity from restserver
      */
     public int getQuantity(final String name) {
@@ -347,7 +347,7 @@ public class StorageClient {
     }
 
     /**
-     * Gets the display for the storage on storage-page.
+     * Gets the display for the storage on price-page.
      *
      * @return the clothings to be displayed on price-page
      */
@@ -368,10 +368,10 @@ public class StorageClient {
     }
 
     /**
-     * Gets the quantity for a type of clothing.
+     * Gets the quantities of sizes for a type of clothing.
      *
-     * @param type the type of clothing to get quantity for
-     * @return amount of clothing for that type
+     * @param type the type of clothing to get quantities sizes for
+     * @return amount of clothing for each size of that type
      */
     public List<Integer> getQuantitiesForTypeAndSizes(String type) {
         List<Integer> quantities;
@@ -391,9 +391,9 @@ public class StorageClient {
     }
 
     /**
-     * Gets total value of storage.
+     * Gets total value from restserver.
      *
-     * @return total quantity from restserver
+     * @return total value from restserver
      */
     public double getTotalValue() {
         double value;
@@ -413,9 +413,9 @@ public class StorageClient {
     }
 
     /**
-     * Gets quantity from restserver.
+     * Gets total quantity from restserver.
      *
-     * @return quantity from restserver
+     * @return total quantity from restserver
      */
     public int getTotalQuantity() {
         int quantity;
@@ -443,40 +443,4 @@ public class StorageClient {
     private String uriParam(String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
-
-
-    /**
-     * wtf.
-     *
-     * @param args fd
-     * @throws URISyntaxException fd 
-     * @throws JsonProcessingException fd
-     */
-    public static void main(String[] args) throws URISyntaxException, JsonProcessingException {
-        Clothing clothing = new Clothing("Pants", "Nike", 'M', 43);
-        StorageClient logClient = new StorageClient();
-        logClient.putClothing(clothing);
-        Clothing clothing2 = new Clothing("Pants", "Adidas", 'S', 99);
-        logClient.putClothing(clothing2);
-        Clothing clothing3 = new Clothing("Jacket", "Lacoste", 'L', 13);
-        clothing3.setDiscount(0.5);
-        logClient.putClothing(clothing3);
-        logClient.putQuantity(clothing2.getName(), 9);
-        //Clothing clothing4 = logClient.getClothing("JacketLacosteL");
-        //Storage storage = logClient.getStorage();
-        logClient.getNames();
-        logClient.getPriceDisplay();
-    }
 }
-
-/*
-
-http:/localhost:8080/clothingStorage/clothes/name
-http:/localhost:8080/clothingStorage/quantities/name
-
-Storage storage = client.getStorage();
-storage.increaseQuantity(Clothing clothing);
-client.putStorage();
-*/
-
-//http:/localhost:8080/clothingStorage/names/{name}

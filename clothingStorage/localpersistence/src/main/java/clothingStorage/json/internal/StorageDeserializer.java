@@ -32,8 +32,8 @@ class StorageDeserializer extends JsonDeserializer<Storage> {
      */
     Storage deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode objectNode) {
-            ArrayNode itemsNode = (ArrayNode) objectNode.get("clothes");
-            boolean hasItems = itemsNode.size() > 1;
+            JsonNode itemsNode = objectNode.get("clothes");
+            boolean hasItems = itemsNode instanceof ArrayNode;
             Storage storage = new Storage();
 
             Clothing clothing = new Clothing("Pants", "Nike", 'M', 199); 
@@ -41,6 +41,7 @@ class StorageDeserializer extends JsonDeserializer<Storage> {
             boolean isSortedClothing = false;
 
             if (hasItems) {
+                itemsNode = (ArrayNode) itemsNode;
                 for (int i = 0; i < itemsNode.size(); i++) {
                     if (i == itemsNode.size() - 1) {
                         JsonNode isClothing2 = itemsNode.get(i).get("isSorted");

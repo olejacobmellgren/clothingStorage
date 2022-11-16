@@ -91,10 +91,10 @@ public class Storage {
      * @param quantity to be set
      */
     public void updateQuantity(Clothing clothing, int quantity) {
-        if (isClothingInStorage(clothing) && isValidQuantity(quantity)) {
+        if (isClothingInStorage(clothing) && quantity >= 0) {
             this.storageList.put(clothing, quantity);
-        } else if (!isValidQuantity(quantity)) {
-            throw new IllegalArgumentException("Quantity must be greater or equal to 1");
+        } else {
+            throw new IllegalArgumentException("Quantity must be greater or equal to 0");
         }
     }
 

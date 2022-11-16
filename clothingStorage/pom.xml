@@ -138,7 +138,7 @@
 
     <modules>
         <module>core</module>
-        <module>fxui</module>
+        <module>ui</module>
         <module>localpersistence</module>
         <module>client</module>
         <module>restserver</module>
