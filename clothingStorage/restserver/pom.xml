@@ -90,6 +90,9 @@
                     <argLine>
                     @{jaCoCoArgLine} --add-opens clothingStorage.restserver/clothingStorage.restserver=ALL-UNNAMED
                     </argLine>
+                    <argLine>
+                        --add-opens clothingStorage.restserver/clothingStorage.restserver=ALL-UNNAMED
+                    </argLine>
                 </configuration>
             </plugin>
 
