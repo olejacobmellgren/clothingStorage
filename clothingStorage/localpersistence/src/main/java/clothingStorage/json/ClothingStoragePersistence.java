@@ -22,27 +22,58 @@ public class ClothingStoragePersistence {
 
     private ObjectMapper mapper;
     private Path saveFilePath = null;
-
+    
+    /**
+     * Initializes ClothingSoragePersistense
+     */
     public ClothingStoragePersistence() {
         mapper = createObjectMapper();
     }
 
+    /**
+     * Creates jackson module using ClothingStorageModule
+     * 
+     * @return Jackson SimpleModule
+     */
     public static SimpleModule createJacksonModule() {
         return new ClothingStorageModule();
     }
 
+    /**
+     * Creates objektmapper  
+     * 
+     * @return Objektmapper 
+     */
     public static ObjectMapper createObjectMapper() {
         return new ObjectMapper().registerModule(createJacksonModule());
     }
 
+    /**
+     * Reads the clothing storage using a reader.
+     * 
+     * @param reader
+     * @return Storage
+     * @throws IOException
+     */
     public Storage readClothingStorage(Reader reader) throws IOException {
         return mapper.readValue(reader, Storage.class);
     }
 
+    /**
+     * Writes to the storage using a writer.
+     * 
+     * @param torage
+     * @param writer
+     * @throws IOException
+     */
     public void writeClothingStorage(Storage storage, Writer writer) throws IOException {
         mapper.writerWithDefaultPrettyPrinter().writeValue(writer, storage);
     }
 
+    /**
+     * Sets filename on saveFilePath
+     * @param filename, path to save and read file
+     */
     public void setSaveFile(String filename) {
         this.saveFilePath = Paths.get(System.getProperty("user.home"), filename);
     }
