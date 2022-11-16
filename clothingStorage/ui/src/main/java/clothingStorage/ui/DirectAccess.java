@@ -56,7 +56,7 @@ public class DirectAccess implements Access {
      */
     @Override
     public Storage getStorage() {
-        return this.storage;
+        return new Storage(this.storage);
     }
 
     /**
