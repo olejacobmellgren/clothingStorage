@@ -125,33 +125,6 @@ class StorageAppRemote
     +void main(String[])
 }
 
-interface Access
-{
-    --
-    +Storage getStorage();
-    +Clothing getClothing(String);
-    +boolean addClothing(Clothing, int);
-    +boolean removeClothing(String);
-    +boolean increaseQuantityByOne(String);
-    +boolean decreaseQuantityByOne(String);
-    +boolean increaseQuantity(String, int);
-    +boolean decreaseQuantity(String, int);
-    +List<String> getStorageDisplay();
-    +List<String> getPriceDisplay();
-    +List<String> getSortedPriceDisplay(int);
-    +List<String> getSortedTypePriceDisplay(String);
-    +List<String> getSortedBrandPriceDisplay(String);
-    +List<String> getSortedNames();
-    +List<String> getNames();
-    +boolean updatePrice(Clothing, double);
-    +boolean updateDiscount(Clothing, double);
-    +boolean removeDiscount(Clothing);
-    +List<Integer> getQuantitiesForTypeAndSizes(String);
-    +int getQuantity(String);
-    +double getTotalValue();
-    +int getTotalQuantity();
-}
-
 class DirectAccess
 {
     -ClothingStoragePersistence storagePersistence;
@@ -211,22 +184,48 @@ class RemoteAccess
     +int getTotalQuantity()
 }
 
-StorageAppDirect ..> NewClothingPageController
-StorageAppDirect ..> PricePageController
-StorageAppDirect ..> StatisticsPageController
-StorageAppDirect ..> StoragePageController
+interface Access
+{
+    --
+    +Storage getStorage();
+    +Clothing getClothing(String);
+    +boolean addClothing(Clothing, int);
+    +boolean removeClothing(String);
+    +boolean increaseQuantityByOne(String);
+    +boolean decreaseQuantityByOne(String);
+    +boolean increaseQuantity(String, int);
+    +boolean decreaseQuantity(String, int);
+    +List<String> getStorageDisplay();
+    +List<String> getPriceDisplay();
+    +List<String> getSortedPriceDisplay(int);
+    +List<String> getSortedTypePriceDisplay(String);
+    +List<String> getSortedBrandPriceDisplay(String);
+    +List<String> getSortedNames();
+    +List<String> getNames();
+    +boolean updatePrice(Clothing, double);
+    +boolean updateDiscount(Clothing, double);
+    +boolean removeDiscount(Clothing);
+    +List<Integer> getQuantitiesForTypeAndSizes(String);
+    +int getQuantity(String);
+    +double getTotalValue();
+    +int getTotalQuantity();
+}
 
-StorageAppRemote ..> NewClothingPageController
-StorageAppRemote ..> PricePageController
-StorageAppRemote ..> StatisticsPageController
-StorageAppRemote ..> StoragePageController
+StorageAppDirect --> StoragePageController
+
+StorageAppRemote --> StoragePageController
+
+NewClothingPageController "1" --> "1" DirectAccess
+PricePageController "1" --> "1" DirectAccess
+StatisticsPageController "1" --> "1" DirectAccess
+StoragePageController "1" --> "1" DirectAccess
+
+NewClothingPageController "1" --> "1" RemoteAccess
+PricePageController "1" --> "1" RemoteAccess
+StatisticsPageController "1" --> "1" RemoteAccess
+StoragePageController "1" --> "1" RemoteAccess
 
 Access <.. DirectAccess
 Access <.. RemoteAccess
-
-NewClothingPageController ..> Access
-PricePageController ..> Access
-StatisticsPageController ..> Access
-StoragePageController ..> Access
 
 @enduml

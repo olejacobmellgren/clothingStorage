@@ -74,8 +74,8 @@ class StorageStatistics
     +int getQuantityForTypeAndSize(Storage, String, char)
 }
 
-Storage ..> Clothing
-StorageStatistics ..> Storage
+Storage "1" *--> "*" Clothing
+StorageStatistics "1" --> "1" Storage
 
 
 @enduml
