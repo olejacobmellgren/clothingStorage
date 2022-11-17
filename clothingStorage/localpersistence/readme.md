@@ -2,7 +2,7 @@
 
 Modul som håndterer lagring av storage-objekter til og fra JSON formaterte filer.
 
-Modulen inneholder de følgende klassene:
+Modulen inneholder følgende klasser:
 
 - ClothingDeserializer
 - ClothingSerializer
@@ -13,43 +13,43 @@ Modulen inneholder de følgende klassene:
 
 ## ClothingDeserializer
 
-Spesifiserer hvordan clothing-objektet skal leses fra JSON format.
+Spesifiserer hvordan Clothing-objektet skal leses fra JSON-format.
 
 ### Metoder
 
-- deserialize(JsonParser, DeserializationContext) -> Clothing: deserialiserer et clothing-objekt fra json format.
+- deserialize(JsonParser, DeserializationContext) -> Clothing: deserialiserer et Clothing-objekt fra JSON- format
 
-- deserialize(JsonNode) -> Clothing: deserialiserer en JsonNode til et clothing-objekt.
+- deserialize(JsonNode) -> Clothing: deserialiserer en JsonNode til et Clothing-objekt
 
 ## ClothingSerializer
 
-Spesifiserer hvordan clothing-objektet skal skrives til JSON format.
+Spesifiserer hvordan Clothing-objektet skal skrives til JSON format.
 
 ### Metoder
 
-- serialize(Clothing, JsonGenerator): serialiserer et clothing-objekt til JSON format.
+- serialize(Clothing, JsonGenerator): Serialiserer et Clothing-objekt til JSON format
 
 ## StorageDeserializer
 
-Spesifiserer hvordan storage-objektet skal leses fra JSON format.
+Spesifiserer hvordan Storage-objektet skal leses fra JSON-format.
 
 ### Metoder
 
-- deserialize(JsonParser, DeserializationContext) -> Storage: deserialiserer et storage-objekt fra JSON format.
+- deserialize(JsonParser, DeserializationContext) -> Storage: deserialiserer et Storage-objekt fra JSON-format
 
-- deserialize(JsonNode) -> Storage: deserialiserer en JsonNode til et storage-objekt.
+- deserialize(JsonNode) -> Storage: deserialiserer en JsonNode til et Storage-objekt
 
 ## StorageSerializer
 
-Spesifiserer hvordan storage-objektet skal skrives til JSON format.
+Spesifiserer hvordan Storage-objektet skal skrives til JSON-format.
 
 ### Metoder
 
-- serialize(Storage, JsonGenerator): serialiserer et storage-objekt til JSON format.
+- serialize(Storage, JsonGenerator): serialiserer et Storage-objekt til JSON-format.
 
 ## ClothingStorageModule
 
-Lager en Jakson module som konfigurerer JSON serialisering og deserialisering av storage forekomster.
+Lager en Jackson module som konfigurerer JSON serialisering og deserialisering av storage forekomster.
 
 ### Metoder
 
@@ -61,20 +61,20 @@ Wrapper-klasse for JSON-serialisering, for å unngå direkte kompilerings proble
 
 ### Metoder
 
-- ClothingStoragePersistence(): Initialiserer ClothingStoragePersistence. 
+- ClothingStoragePersistence(): Initialiserer ClothingStoragePersistence 
 
-- createJacksonModule() -> SimpleModule: Lager ClothingStorage sin Jackson module.
+- createJacksonModule() -> SimpleModule: lager ClothingStorage sin Jackson module
 
-- createObjektMapper() -> ObjektMapper: Lager en objekt maper fra ClothingStorageModule.
+- createObjectMapper() -> ObjectMapper: lager en objekt mapper fra ClothingStorageModule
 
-- readClothingStorage(Reader) -> Storage: Leser storage-objektet fra fil.
+- readClothingStorage(Reader) -> Storage: leser Storage-objektet fra fil
 
-- writeClothingStorage(Storage, Writer): Skriver storage-objektet til fil. 
+- writeClothingStorage(Storage, Writer): Skriver Storage-objektet til fil 
 
-- setSaveFile(String): Setter saveFilePath-variabelen til gitt path. 
+- setSaveFile(String): Setter saveFilePath-variabelen til gitt path
 
-- getSaveFilePath() -> Path: Henter saveFilePath-variabelen. Aka henter pathen som er satt som lagringsplass
+- getSaveFilePath() -> Path: henter saveFilePath-variabelen, altså pathen som er satt som lagringsplass
 
-- loadClothingStorage() -> Storage: Henter storage-objektet fra fil. 
+- loadClothingStorage() -> Storage: henter Storage-objektet fra fil 
 
-- saveClothingStorage(): Lagrer storage-objektet til fil.
+- saveClothingStorage(): Lagrer Storage-objektet til fil
