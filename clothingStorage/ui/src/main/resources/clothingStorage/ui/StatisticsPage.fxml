@@ -34,7 +34,7 @@
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <ChoiceBox fx:id="typeForDiagram" layoutX="151.0" layoutY="180.0" onAction="#handleTypeForDiagram" prefWidth="150.0" style="-fx-background-color: lightgreen;">
+            <ChoiceBox fx:id="typeForDiagram" layoutX="196.0" layoutY="168.0" onAction="#handleTypeForDiagram" prefWidth="150.0" style="-fx-background-color: lightgreen;">
                <effect>
                   <DropShadow />
                </effect>
@@ -42,7 +42,10 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ChoiceBox>
-            <Label layoutX="40.0" layoutY="184.0" text="Type for Diagram:" />
+            <Label layoutX="40.0" layoutY="171.0" text="Type for Diagram:">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
          </children>
       </Pane>
       <Pane layoutX="-4.0" layoutY="605.0" prefHeight="135.0" prefWidth="413.0">

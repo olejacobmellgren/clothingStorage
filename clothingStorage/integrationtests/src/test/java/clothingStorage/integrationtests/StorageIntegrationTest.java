@@ -2,11 +2,9 @@ package clothingStorage.integrationtests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,11 +201,5 @@ public class StorageIntegrationTest {
     public void testGetTotalQuantity() {
         int totalQuantity = storageClient.getTotalQuantity();
         assertEquals(19, totalQuantity);
-    }
-
-    @AfterEach
-    public void deleteFile() {
-        File file = new File(System.getProperty("user.home") + "\server-storage.json");
-        file.delete();
     }
 }

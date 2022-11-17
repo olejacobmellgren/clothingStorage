@@ -37,6 +37,12 @@ public class StorageTest {
     }
 
     @Test
+    public void testConstructor() {
+        Storage storage2 = new Storage(storage);
+        assertEquals(5, storage2.getAllClothes().size());
+    }
+
+    @Test
     public void testAddNewClothing() {
         storage.addNewClothing(leviPantsM, 3);
         assertEquals(3, storage.getQuantity(leviPantsM));
@@ -172,5 +178,23 @@ public class StorageTest {
         assertThrows(IllegalStateException.class, () -> {
             storage.getClothingFromSortedClothes(8);
         }, "Index is bigger than storage size");
+    }
+
+    @Test
+    public void testUpdateQuantity() {
+        assertEquals(11, storage.getQuantity(lacosteShirt));
+        storage.updateQuantity(lacosteShirt, 4);
+        assertEquals(4, storage.getQuantity(lacosteShirt));
+        assertThrows(IllegalArgumentException.class, () -> {
+            storage.updateQuantity(lacosteShirt, -5);;
+        }, "Quantity must be greater or equal to 0");
+    }
+
+    @Test
+    public void testAddSortedClothing() {
+        storage.addSortedClothing(lacosteShirt);
+        assertEquals(1, storage.getSortedClothings().size());
+        storage.addSortedClothing(supremeShorts);
+        assertEquals(2, storage.getSortedClothings().size());
     }
 } 

@@ -6,4 +6,3 @@ module clothingStorage.client {
 
     exports clothingStorage.client;
 }
-

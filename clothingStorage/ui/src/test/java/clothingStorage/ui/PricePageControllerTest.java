@@ -29,6 +29,7 @@ public class PricePageControllerTest extends ApplicationTest {
     private Stage stage;
     private Storage storage;
 
+
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -281,18 +282,61 @@ public class PricePageControllerTest extends ApplicationTest {
         assertEquals("You must choose a brand in the choice box first",
             controller.getErrorMessage());
     }
-
-    @Test
-    public void testErrorNoSecondFilterType() {
-        clickOn("#filters").clickOn("Type");
-        clickOn("#confirmFilter");
-        assertEquals("You must choose a type of Clothing in the choice box first",
-            controller.getErrorMessage());
-    }
     
     @Test
     public void testErrorResetFilter() {
         clickOn("#resetFilter");
         assertEquals("Filter is not applied", controller.getErrorMessage());
     }
+
+    @Test
+    public void testNewPriceWhenSorted() throws InterruptedException {
+        clickOn("#filters");
+        clickOn("Lowest Price");
+        clickOn("#confirmFilter");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Shorts; Louis Vuitton; 20.0kr"));
+        clickOn("#newPrice").write("30");
+        clickOn("#confirmNewPrice");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String[] shorts = priceList.get(1).split(";");
+        double price = Double.parseDouble(shorts[2].split("k")[0].strip());
+        assertEquals(30, price);
+    }
+
+    @Test
+    public void testDiscountWhenSorted() {
+        clickOn("#filters").clickOn("Brand");
+        clickOn("#brands").clickOn("Nike");
+        clickOn("#confirmFilter");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
+        clickOn("#discount").write("50");
+        clickOn("#confirmDiscount");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String[] nikePants = priceList.get(0).split(";");
+        double price = Double.parseDouble(nikePants[2].split("k")[0].strip());
+        assertEquals(5, price);
+    }
+
+    @Test
+    public void testRemoveDiscountWhenSorted() {
+        clickOn("#filters").clickOn("Brand");
+        clickOn("#brands").clickOn("Nike");
+        clickOn("#confirmFilter");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 10.0kr"));
+        clickOn("#discount").write("50");
+        clickOn("#confirmDiscount");
+        clickOn("#priceList");
+        clickOn(LabeledMatchers.hasText("Pants; Nike; 5.0kr"));
+        clickOn("#removeDiscount");
+        ListView<String> priceView = lookup("#priceList").query();
+        List<String> priceList = priceView.getItems();
+        String[] nikePants = priceList.get(0).split(";");
+        double price = Double.parseDouble(nikePants[2].split("k")[0].strip());
+        assertEquals(10, price);
+    } 
 }

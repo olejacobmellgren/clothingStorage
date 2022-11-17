@@ -11,6 +11,22 @@ Modulen inneholder følgende klasser:
 - ClothingStorageModule
 - ClothingStoragePersistence
 
+## Avhengigheter
+
+- **core** - Kjernelogikk
+- **jackson-core** - Implementasjon for JSON
+- **jackson-databind** - Konverterer objekter til JSON, og motsatt
+- **junit-jupiter-api** - JUnit API
+- **junit-jupiter-engine** - Brukes for å kjøre Junit-tester
+
+## Plugins
+
+- **maven-compiler-plugin** - For å kompilere kildekoden
+- **maven-surefire-plugin** - For kjøring av Junit-tester
+- **jacoco-maven-plugin** - For å sjekke testdekningsgrad med **Jacoco**
+- **spotbugs-maven-plugin** - For å sjekke etter bugs i koden med **SpotBugs**
+- **maven-checkstyle-plugin** - For å sjekke kodekvalitet med **Checkstyle**
+
 ## ClothingDeserializer
 
 Spesifiserer hvordan Clothing-objektet skal leses fra JSON-format.

@@ -1,56 +1,46 @@
 # ClothingStorage
 
-Appen ClothingStorage har som hensikt å hjelpe klesbutikkeiere/-ansatte å holde kontroll på lagrene sine. Brukeren kan få en oversikt over klærne på lageret, legge til eller fjerne klær, endre priser, legge inn rabatter på klær og merker, samt mulighet for filtrering basert på klestype, merke, pris og rabatter.
+Appen ClothingStorage har som hensikt å hjelpe klesbutikkeiere/-ansatte å holde kontroll på lagrene sine. Brukeren kan få en oversikt over klærne på lageret, legge til eller fjerne klær, endre priser, legge inn rabatter på klær og merker, samt mulighet for filtrering basert på klestype, merke, pris og rabatter. Appen har også en egen statistikk-side som viser statistikk over lageret.
 
-## Illustrerende skjermbilder
-Disse bildene viser hvordan vi tenker appen skal se ut når den er mer eller mindre ferdig.
+## Endelig brukergrenssnitt
 
-<img src="other-documentation/../../other-documentation/design-concept/storagePage.png" width="200"> <img src="other-documentation/../../other-documentation/design-concept/pricePage.png" width="200">
+Disse bildene viser hvordan de ulike sidene av appen ser ut:
 
-### Lager-side vs Pris-side
+<img src="../docs/release3/final-ui-images/newClothing.png" width="200"> 
+<img src="../docs/release3/final-ui-images/storagePage.png" width="200">
+<img src="../docs/release3/final-ui-images/pricePage.png" width="200"> 
+<img src="../docs/release3/final-ui-images/statisticsPage.png" width="200">
 
-Lager-siden har oversikt over klær med type, merke, størrelse og antall av dette klesplagget på lager. Her får man ingen informasjon om pris, men kan øke og minke beholdningen av et klesplagg og legge til nye klesplagg
+## Lager-side vs Pris-side
 
-Pris-siden har også en slags oversikt over klærne, men uten størrelser. Her kan man oppdatere pris og legge til rabatt.Det er en kjent konvensjon at et klesplagg kan ha flere størrelser, men fortsatt samme pris. Dette brukes pris-siden til å vise. For eksempel dersom lager har 20 par Nike sokker i størrelse "S", og 10 par Nike sokker i størrelse "M", skal disse fortsatt vises med samme pris, altså kr 229,- på pris-siden. Nettopp dette er grunnen til at vi skiller mellom de to sidene og ikke har alt på én side.
+Lager-siden har oversikt over klær med type, merke, størrelse og antall av dette klesplagget på lager. Her får man ingen informasjon om pris, men kan øke og minke beholdningen av et klesplagg og legge til nye klesplagg.
+
+Pris-siden har også en slags oversikt over klærne, men uten størrelser. Her kan man oppdatere pris og legge til rabatt, samt fjerne rabatten. Det er en kjent konvensjon at et klesplagg kan ha flere størrelser, men fortsatt samme pris. Dette brukes pris-siden til å vise. For eksempel dersom lager har 20 par Nike sokker i størrelse "S", og 10 par Nike sokker i størrelse "M", skal disse fortsatt vises med samme pris, altså kr 229,- på pris-siden. Nettopp dette er grunnen til at vi skiller mellom de to sidene og ikke har alt på én side.
+På Pris-siden kan man også filtrere på flere ulike ting, blant annet klesmerke og pris. Oversikten blir dermed sortert, og man har fremdeles mulighet til å endre pris og rabatt mens den er det.
+ 
+## Statistikk-siden
+
+På statistikk-siden vises statistikken over lageret. På denne siden kan man se totalt antall klær og total verdi av alle klærne. I tillegg kan man se et søylediagram med oversikt over antall av av ulike typer klær, eller oversikt over antall av ulike størrelser for en spesiell type klær, avhengig av hva man har valgt i nedtrekksmenyen.
+
+# Arkitektur
+
+Appen baserer seg på en full 3-lags arkitektur bestående av domenelaget, brukergrensesnittlaget og persistenslaget. I domenelaget er kjernelogikken der man håndterer data og spesifiserer hva som kan gjøres med den. I brukergrensesnittlaget er ui-et som brukeren interagerer med. Persistenslaget håndterer persistens til fil der man definerer et filformat.
+
+Et diagram for denne arkitekturen og avhengigheten mellom de ulike modulene er vist i et diagram under.
+
+<img src="../docs/release3/diagrams/package-diagram/packageDiagram.png" width="600">
+
+
 
 # Brukerhistorier
 
-Under beskrives en rekke brukerhistorier som skal dekke funksjonalitet og krav til appen som ble beskrevet og vist over.
+Under lenkes det til en rekke brukerhistorier som skal dekke funksjonalitet og krav til appen som ble beskrevet og vist over.
 
-## Brukerhistorie 1: Oversikt over klær
-Som ansatt i klesbutikk ønsker jeg å ha oversikt over klærne butikken har på lager, så jeg vet når jeg må bestille nye klær.
+- ### Brukerhistorier fra release 1 er i **[release1/user-stories](/docs/release1/user-stories.md)**
 
-Bruker har behov for en oversikt over klærne som er på lager med mulighet for å legge til flere klær når det kommer nye leveranser. I tillegg må bruker ha oversikt over antall av hver klestype for å vite når hun må bestille mer.
+- ### Brukerhistorier fra release 2 er i **[release2/user-stories](/docs/release2/user-stories.md)**
 
-Det er også ønskelig for ansatte å ha en separat liste med oversikt over prisene til ulike klesplagg. Disse vil variere avhengig av klesmerke.
-
-### Viktig å se
-- Oversikt(liste) over klærne på lager
-- Oversikt(liste) over priser på klær avhengig av merker
-
-### Viktig å kunne gjøre
-- Legge til nye klær
-
-## Brukerhistorie 2: Lese og skrive til filer
-Som eier av klesbutikk ønsker jeg å kunne få filer med informasjon om klærne på lageret slik at jeg kan bruke filene når jeg må bestille flere klær eller til økonomiske rapporter.
-
-Bruker har behov for å skrive til og lese fra filer for å kunne bruke disse videre til bestilling og rapporter.
-
-### Viktig å se
-- Knapp for å lese fra fil
-- Knapp for å kunne skrive til fil
-
-### Viktig å gjøre
-- Lese fra fil
-- Skrive til fil
-
-## Brukerhistorier release2 (3, 4 og 5)
-
-Brukerhistorier som ble lagt til i release 2 er i **[user-stories release2](/docs/release2/user-stories.md)**.
-
-## Brukerhistorier release3
-
-Brukerhistorier som ble lagt til i release 3 er i **[user-stories release3](/docs/release3/user-stories.md)**.
+- ### Brukerhistorier fra release 3 er i **[release3/user-stories](/docs/release3/user-stories.md)**
 
 
 

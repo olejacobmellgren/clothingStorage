@@ -8,12 +8,24 @@ Clothing Storage er en applikasjon for lagring av klær som er skrevet i Java. P
 
 Prosjektet er konfigurert til å bygge med maven. Ved å kjøre `mvn install` i **clothingStorage** vil man forberede prosjektet for å kunne kjøre. Vær oppmerksom på at dette vil kompilere prosjektet og kjøre testene. Ui-testene kan ta litt tid, og kommer til å ta kontroll over musen. Ved å kjøre `mvn install -DskipTests` kan man forberede prosjektet uten å kjøre testene.
 
-## Kjøring og testing
+## Kjøring av applikasjonen
 
-Etter man har utført en av kommandoene under **[Bygging](readme.md#bygging)** kan man kjøre applikasjonen ved å navigere til **clothingStorage/fxui** og kjøre `mvn javafx:run`, eller kjøre `mvn javafx:run -f fxui/pom.xml` direkte i **clothingStorage**.
+Etter man har utført en av kommandoene under **[Bygging](readme.md#bygging)** kan man kjøre applikasjonen enten lokalt eller med REST-api. 
 
-Testene for prosjektet kjøres ved `mvn test` i **clothingStorage**. Da vil først testene for modulene **core** og **localpersistence** kjøre, og deretter testene for **fxui**. Testene for **fxui** vil åpne appen, ta kontroll over musen din, og deretter utføre en rekke tester som tester alle funksjonene i appen.
+- ### Kjøring med lokal lagring
+
+Man kan kjøre applikasjonen med lokal lagring ved å navigere til **clothingStorage/ui** og kjøre `mvn javafx:run`, eller kjøre `mvn javafx:run -f ui/pom.xml` direkte i **clothingStorage**.
+
+- ### Kjøring med REST-api
+
+Man kan kjøre applikasjonen med REST-api ved å navigere til **clothingStorage/restserver** og kjøre `mvn spring-boot:run`eller kjøre `mvn spring-boot:run -f restserver/pom.xml`direkte i **clothingStorage**. Deretter må man åpne en ny terminal og kjøre `mvn javafx:run -Premoteapp -f ui/pom.xml` i **clothingStorage**.
+
+## Testing
+
+Testene for prosjektet kjøres ved `mvn test` i **clothingStorage**. Da vil først testene for alle modulene kjøres etter hverandre. Testene for **ui** vil åpne appen, ta kontroll over musen din, og deretter utføre en rekke tester som tester alle funksjonene i appen.
 
 ## Dokumentasjon 
 
-I mappen **[docs](docs)** ligger de ulike release-dokumentasjonene for hver innlevering (**[release1](docs/release1.md)**, **[release2](docs/release2.md)**, ...). I mappen **[other-documentation](./other-documentation/)** ligger annen dokumentasjon som et diagram for arkitektur(**[architecture](other-documentation/architecture/architecture.png)**), illustrasjoner av design konseptet (**[storage-page](other-documentation/design-concept/storagePage.png)**, **[price-page](other-documentation/design-concept/pricePage.png)**) og beskrivelse av arbeidsvaner (**[workflow](other-documentation/workflow.md)**).
+I mappen **[docs](docs)** ligger de ulike release-dokumentasjonene for hver innlevering (**[release1](docs/release1/readme.md)**, **[release2](docs/release2/readme.md)** og **[release3](docs/release3/readme.md)**). I hver av releasene finnes **user-stories.md** som inneholder brukerhistoriene som kom i denne releasen. I **release2** finnes en beskrivelse av arbeidsvaner (**[workflow](docs/release2/workflow.md)**). I mappen **[release3](docs/release3/diagrams/)** ligger alle diagrammer for prosjektet i **[diagrams](docs/release3/diagrams)** og forespørslene som støttes av REST-tjenesten (**[restapi.md]**(docs/release3/restapi.md)).
+
+Inne i hver modul finnes en readme-fil med en mer detaljert beskrivelse av avhengigheter, plugins og klasser med tilhørende metoder.

@@ -252,24 +252,6 @@ public class ClothingStorageController {
     }
 
     /**
-     * Removes quantity.
-     *
-     * @param name of clothing
-     * @return true if success, false if not
-     */
-    @DeleteMapping(path = "/quantity/{name}")
-    public boolean removeQuantity(@PathVariable("name") String name) {
-        boolean deleted = true;
-        try {
-            getStorage().updateQuantity(getStorage().getClothing(name), 0);
-        } catch (Exception e) {
-            deleted = false;
-        }
-        autoSaveStorage();
-        return deleted;
-    }
-
-    /**
      * Gets quantities for each size for a type of clothing.
      *
      * @return quantities for sizes for a type of clothing

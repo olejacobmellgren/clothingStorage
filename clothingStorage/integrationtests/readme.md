@@ -10,6 +10,27 @@ Vi velger å nevne testklassene også fordi **StorageIntegrationTest** er poenge
 
 Modulen har også en tom klasse som kreves av Springboot for å kompilere klassen. Med denne følger også en test-klasse for å ha god testdekningsgrad for modulen.
 
+## Avhengigheter
+
+- **core** - Kjernelogikk
+- **localpersistence** - Fillagring
+- **client** - Klient-siden
+- **restserver** - Server-siden
+- **spring-boot-starter-web** - Trengs for å kjøre springboot-applikasjonen
+- **spring-boot-starter-test** - Trengs i integrasjonstestene
+- **spring-boot-starter-jetty** - Trengs for å kjøre springboot-applikasjonen
+- **junit-jupiter-api** - JUnit API
+- **junit-jupiter-engine** - Brukes for å kjøre Junit-tester
+
+## Plugins
+
+- **maven-compiler-plugin** - For å kompilere kildekoden
+- **maven-surefire-plugin** - For kjøring av Junit-tester
+- **jacoco-maven-plugin** - For å sjekke testdekningsgrad med **Jacoco**
+- **spotbugs-maven-plugin** - For å sjekke etter bugs i koden med **SpotBugs**
+- **maven-checkstyle-plugin** - For å sjekke kodekvalitet med **Checkstyle**
+- **spring-boot-maven-plugin** - For å kjøre Springboot
+
 ## StorageIntegrationTest
 
 Integrasjonstester for klient og server.

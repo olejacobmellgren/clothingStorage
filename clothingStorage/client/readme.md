@@ -5,6 +5,23 @@ Modulen inneholder kun én klasse:
 
 - StorageClient
 
+## Avhengigheter
+
+- **core** - kjernelogikk
+- **localpersistence** - fillagring
+- **mockito-core** - Mockito
+- **wiremock-jre8** - Wiremock til testing
+- **junit-jupiter-api** - JUnit API
+- **junit-jupiter-engine** - Brukes for å kjøre lage Junit-testene
+
+## Plugins
+
+- **maven-compiler-plugin** - For å kompilere kildekoden
+- **maven-surefire-plugin** - For kjøring av Junit-tester
+- **jacoco-maven-plugin** - For å sjekke testdekningsgrad med **Jacoco**
+- **spotbugs-maven-plugin** - For å sjekke etter bugs i koden med **SpotBugs**
+- **maven-checkstyle-plugin** - For å sjekke kodekvalitet med **Checkstyle**
+
 ## StorageClient
 
 StorageClient kommuniserer med server-siden av APIet ved hjelp av å opprette forskjellige HTTP-Requests avhengig av om man vil hente eller publisere noe. Den håndterer også responsen som serveren sender, og gjør om dataen til noe som kan brukes av RemoteAccess i ui-modulen.

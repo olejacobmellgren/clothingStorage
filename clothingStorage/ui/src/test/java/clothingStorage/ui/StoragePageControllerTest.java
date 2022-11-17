@@ -26,7 +26,7 @@ public class StoragePageControllerTest extends ApplicationTest {
     private Parent root;
     private Stage stage;
     private Storage storage;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;

@@ -7,6 +7,25 @@ Modulen inneholder følgende klasser:
 - ClothingStorageController
 - ClothingStorageService
 
+## Avhengigheter
+
+- **core** - Kjernelogikk
+- **localpersistence** - Fillagring
+- **spring-boot-starter-web** - Trengs for å kjøre springboot-applikasjonen
+- **spring-boot-starter-test** - Trengs i integrationtestene
+- **spring-boot-starter-jetty** - Trengs for å kjøre springboot-applikasjonen
+- **junit-jupiter-api** - JUnit API
+- **junit-jupiter-engine** - Brukes for å kjøre Junit-tester
+
+## Plugins
+
+- **maven-compiler-plugin** - For å kompilere kildekoden
+- **maven-surefire-plugin** - For kjøring av Junit-tester
+- **jacoco-maven-plugin** - For å sjekke testdekningsgrad med **Jacoco**
+- **spotbugs-maven-plugin** - For å sjekke etter bugs i koden med **SpotBugs**
+- **maven-checkstyle-plugin** - For å sjekke kodekvalitet med **Checkstyle**
+- **spring-boot-maven-plugin** - For å kjøre Springboot
+
 ## ClothingStorageApplication
 
 Application-klasse for Springboot serveren. Den starter serveren.
@@ -24,7 +43,7 @@ Application-klasse for Springboot serveren. Den starter serveren.
 
 Kontroller (Controller) klassen for håndtering av get og post etterspørsler. Den tar i bruk ClothingStorageService. 
 
-### Methods
+### Metoder
 
 - getStorage() -> Storage: henter Storage
 
@@ -66,7 +85,7 @@ Kontroller (Controller) klassen for håndtering av get og post etterspørsler. D
 
 Gir serveren tilgang til modulene og funksjonene fra core og localpersistence.
 
-### Methods
+### Metoder
 
 - ClothingStorageService(): Lager et nytt Storage-objekt enten med et gitt Storage eller et tomt et hvis ingen Storage er gitt
 

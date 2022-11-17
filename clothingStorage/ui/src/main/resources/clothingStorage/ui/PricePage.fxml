@@ -73,7 +73,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ChoiceBox fx:id="filters" layoutX="55.0" layoutY="21.0" onAction="#handleFilterChoice" prefHeight="26.0" prefWidth="159.0" style="-fx-background-color: lightgreen;">
+            <ChoiceBox fx:id="filters" layoutX="141.0" layoutY="22.0" onAction="#handleFilterChoice" prefHeight="26.0" prefWidth="159.0" style="-fx-background-color: lightgreen;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -81,7 +81,7 @@
                   <DropShadow />
                </effect>
             </ChoiceBox>
-            <ChoiceBox fx:id="typeOfClothingFilter" layoutX="55.0" layoutY="55.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: lightgreen;" visible="false">
+            <ChoiceBox fx:id="typeOfClothingFilter" layoutX="141.0" layoutY="55.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: lightgreen;" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -100,7 +100,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ChoiceBox fx:id="brands" layoutX="55.0" layoutY="55.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: lightgreen;" visible="false">
+            <ChoiceBox fx:id="brands" layoutX="141.0" layoutY="55.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: lightgreen;" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -108,7 +108,7 @@
                   <DropShadow />
                </effect>
             </ChoiceBox>
-            <Label layoutX="20.0" layoutY="26.0" text="Filter:">
+            <Label layoutX="91.0" layoutY="26.0" text="Filter:">
                <font>
                   <Font size="14.0" />
                </font>
