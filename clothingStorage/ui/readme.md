@@ -6,7 +6,12 @@ Modul for å håndtere frontend av applikasjonen. Denne modulen inneholder følg
 - PricePageController
 - StatisticsPageController
 - StoragPageController
-- StorageApp
+- DirectAccess
+- RemoteAccess
+- StorageAppDirect
+- StorageAppRemote
+
+Modulen har også et interface **Access** som implementeres av **DirectAccess** og **RemoteAccess**. Disse implementerer metoder ulikt avhengig av om appen kjøres med lokal lagring eller lagring over REST-api.
 
 ## Avhengigheter
 
@@ -134,13 +139,71 @@ Håndterer siden der man kan øke og minke antall av ulike Clothing-objekter, el
 
 - handleRemoveQuantity() -> void: minker et valgt Clothing-objekt i ui-et med et antall som er spesifisert i et tesktfelt
 
+## Access
 
-## StorageApp
-
-Klasse som starter appen. "Extends Application".
+Interface som implementeres av DirectAccess og RemoteAccess.
 
 ### Metoder
 
-- start(Stage stage) -> void: Starter applikasjonen. Parameteret er "main-stage"
+- getStorage() -> Storage: henter Storage-objekt
+
+- getClothing(String name) -> Clothing: henter Clothing-objekt på navn
+
+- addClothing(Clothing clothing, int quantity) -> boolean: legger til Clothing-objekt med tilhørende quantity
+
+- removeClothing(String name) -> boolean; fjerner Clothing-objekt på navn
+
+- increaseQuantityByOne(String name) -> boolean; øker quantity av Clothing-objekt med én på navn
+  
+- decreaseQuantityByOne(String name) -> boolean; minker quantity av Clothing-objekt på navn
+  
+- increaseQuantity(String name, int quantity) -> boolean; øker quantity av Clothing-objekt på navn
+  
+- decreaseQuantity(String name, int quantity) -> boolean; minker quantity av Clothing-objekt på navn
+
+- getStorageDisplay() -> List<String>; henter en liste som brukes til display for storage-siden
+
+- getPriceDisplay() -> List<String>; henter en liste som brukes til display for pris-siden
+
+- getSortedPriceDisplay(int id) -> List<String>; henter en sortert liste som brukes til display for pris-siden
+
+- getSortedTypePriceDisplay(String type) -> List<String>; henter en sortert liste basert på type som brukes til display for pris-siden
+
+- getSortedBrandPriceDisplay(String brand) -> List<String>; henter en sortert liste basert på merke som brukes til display for pris-siden
+
+- getSortedNames() -> List<String>: henter navnene til de sorterte Clothing-objektene på pris-siden
+ 
+- getNames() -> List<String>: henter en liste med navnene på klærne i storage
+
+- updatePrice(Clothing clothing, double price) -> boolean: oppdaterer prisen til clothing til gitt pris
+
+- updateDiscount(Clothing clothing, double discount) -> boolean: oppdaterer discount til clothing til gitt discount
+
+- removeDiscount(Clothing clothing) -> boolean: fjerner discount for clothing
+
+- getQuantitiesForTypeAndSizes(String type) -> List<Integer>: henter liste med antall av ulike størrelser for type
+
+- getTotalValue() -> double: henter totalverdien til alle Clothing-objektene i storage
+
+- int getTotalQuantity() -> int: henter total mengde av clothing i storage
+  
+
+## StorageAppDirect
+
+Klasse som starter appen med lokal lagring. "Extends Application".
+
+### Metoder
+
+- start(Stage stage) -> void: starter applikasjonen. Parameteret er "main-stage"
+
+- main(String[] args) -> void: kjører applikasjonen
+
+## StorageAppRemote
+
+Klasse som starter appen med bruk av REST-api. "Extends Application".
+
+### Metoder
+
+- start(Stage stage) -> void: starter applikasjonen. Parameteret er "main-stage"
 
 - main(String[] args) -> void: kjører applikasjonen
