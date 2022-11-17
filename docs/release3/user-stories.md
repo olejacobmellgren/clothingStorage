@@ -11,10 +11,10 @@ Bruker har behov for å filtrere klær.
 - Filtrere klær i liste
 
 ## Brukerhistorie 7: Statistikk over storage
-Som ansatt/eier av klesbutikk ønsker jeg å ha en oversikt over klærne over viktige statistikker for lageret. Viktige statistikker kan være slikt som totalt antall varer på lager, total verdi av lager, og et diagram med oversikt over antall varer av hver type klessplagg.
+Som ansatt/eier av klesbutikk ønsker jeg å ha en oversikt over klærne over viktige statistikker for lageret. Viktige statistikker kan være slikt som totalt antall varer på lager, total verdi av lager, og et diagram med oversikt over antall varer av hver type klesplagg.
 
 Bruker har behov for å se statistikk over lager.
 
 ### Viktig å se
 - Tekst med informasjon om viktige tall for lageret
-- Et søylediagram med oversikt over antall varer av hver type klessplagg
+- Et søylediagram med oversikt over antall varer av hver type klesplagg
