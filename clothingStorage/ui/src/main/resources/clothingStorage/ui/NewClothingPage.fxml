@@ -17,7 +17,7 @@
            <children>
               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="281.0" layoutY="38.0" stroke="#bfb8b8" strokeType="INSIDE" width="338.0" />
               <TextField fx:id="price" layoutX="165.0" layoutY="180.0" prefHeight="26.0" prefWidth="133.0" />
-              <Label layoutX="24.0" layoutY="48.0" text="Type of Clothing:">
+              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="24.0" layoutY="48.0" prefHeight="20.0" prefWidth="114.0" text="Type:">
                  <font>
                     <Font size="16.0" />
                  </font>

@@ -8,6 +8,19 @@ Modulen inneholder de følgende klassene:
 - Storage
 - StorageStatistics
 
+## Avhengigheter
+
+- **junit-jupiter-api** - JUnit API
+- **junit-jupiter-engine** - Brukes for å kjøre lage Junit-testene
+
+## Plugins
+
+- **maven-compiler-plugin** - For å kompilere kildekoden
+- **maven-surefire-plugin** - For kjøring av Junit-tester
+- **jacoco-maven-plugin** - For å sjekke testdekningsgrad med **Jacoco**
+- **spotbugs-maven-plugin** - For å sjekke etter bugs i koden med **SpotBugs**
+- **maven-checkstyle-plugin** - For å sjekke kodekvalitet med **Checkstyle**
+
 ## Clothing
 
 Objekt-klassen for appen. Dette er appens mest grunnleggende objekt.
@@ -62,7 +75,7 @@ Objekt-klassen for appen. Dette er appens mest grunnleggende objekt.
 
 Klassen for oppbevaring av Clothing-objekt. Dette er også en av appens mest grunnleggende klasser.
 
-### Methods
+### Metoder
 
 - Storage(): Initialiserer et storage-objekt
 
@@ -119,7 +132,7 @@ Klassen for oppbevaring av Clothing-objekt. Dette er også en av appens mest gru
 
 Klassen for funksjonaliteten bak statistikk siden til appen.
 
-### Methods
+### Metoder
 
 - getTotalQuantity(Storage) -> int: Henter total mengde av clothing i storage 
 

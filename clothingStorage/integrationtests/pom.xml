@@ -14,12 +14,7 @@
 
         <dependency>
             <groupId>gr2251.clothingStorage</groupId>
-            <artifactId>client</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>gr2251.clothingStorage</groupId>
-            <artifactId>restserver</artifactId>
+            <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -29,9 +24,16 @@
         </dependency>
         <dependency>
             <groupId>gr2251.clothingStorage</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>gr2251.clothingStorage</groupId>
+            <artifactId>restserver</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        
+        
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,14 +66,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
             <version>2.4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <!-- junit testing with jupiter -->

@@ -8,6 +8,28 @@ Modul for å håndtere frontend av applikasjonen. Denne modulen inneholder følg
 - StoragPageController
 - StorageApp
 
+## Avhengigheter
+
+- **core** - Kjernelogikk
+- **localpersistence** - Fillagring
+- **client** - Klient-siden
+- **javafx-controls** - JavaFX-bibliotek
+- **javafx-fxml** - Brukes i fxml-filer
+- **testfx-core** - Trengs for å teste applikasjonen vha. TestFX
+- **testfx-junit5** - Trengs for å teste applikasjonen vha. TestFX
+- **junit-jupiter-api** - JUnit API
+- **junit-jupiter-engine** - Brukes for å kjøre Junit-testene
+
+## Plugins
+
+- **maven-compiler-plugin** - For å kompilere kildekoden
+- **maven-surefire-plugin** - For kjøring av Junit-tester
+- **jacoco-maven-plugin** - For å sjekke testdekningsgrad med **Jacoco**
+- **spotbugs-maven-plugin** - For å sjekke etter bugs i koden med **SpotBugs**
+- **maven-checkstyle-plugin** - For å sjekke kodekvalitet med **Checkstyle**
+- **javafx-maven-plugin** - For å kunne kjøre JavaFx-applikasjonen
+- **jpackage-maven-plugin** - For å lage en executable fil utifra target/clothingStorage mappen
+
 
 ## NewClothingPageController
 

@@ -42,7 +42,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ChoiceBox>
-            <Label layoutX="50.0" layoutY="171.0" text="Type for Diagram:">
+            <Label layoutX="40.0" layoutY="171.0" text="Type for Diagram:">
                <font>
                   <Font size="16.0" />
                </font></Label>
