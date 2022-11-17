@@ -16,34 +16,35 @@ component ui {
 	package clothingStorage.ui
 }
 
-clothingStorage.ui ..> clothingStorage.json
-clothingStorage.ui ..> clothingStorage.client
+component spring {
+}
+
+component restserver {
+    package clothingStorage.restserver
+}
 
 component jackson {
 }
-
-clothingStorage.json ..> jackson
-clothingStorage.json ..> clothingStorage.core
 
 component javafx {
 	component fxml {
 	}
 }
 
+clothingStorage.ui ..> clothingStorage.json
+clothingStorage.ui ..> clothingStorage.client
 ui ..> javafx
 ui ..> fxml
+clothingStorage.ui ..> clothingStorage.core
 
-client ..> localpersistence
+localpersistence ..> jackson
+clothingStorage.json ..> clothingStorage.core
 
-component restserver {
-    package clothingStorage.restserver
-}
+clothingStorage.client ..> clothingStorage.json
+clothingStorage.client ..> clothingStorage.core
 
-clothingStorage.restserver ..> localpersistence
+clothingStorage.restserver ..> clothingStorage.json
 clothingStorage.restserver ..> clothingStorage.core
 restserver ..> spring
-
-component spring {
-}
 
 @enduml
