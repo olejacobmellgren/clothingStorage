@@ -1,6 +1,6 @@
 # Restserver
 
-Dette er en modul som håndterer Service laget, altså REST-API, med formål å sende data til og fra service laget.
+Dette er en modul som håndterer server-siden av REST-api'et, med formål å sende data til og fra server-siden. Et liste med forespørsler som er støttet finnes i **[restapi.md](../../docs/release3/restapi.md)**
 Modulen inneholder følgende klasser:
 
 - ClothingStorageApplication
@@ -72,8 +72,6 @@ Kontroller (Controller) klassen for håndtering av get og post etterspørsler. D
 - getQuantity(String) -> int: henter antallet av et Clothig-objekt
 
 - putQuantity(String) -> boolean: erstatter eller legger til mengde (quantity)
-
-- removeQuantity(String) -> boolean: fjerner mengde (quantity)
 
 - getQuantitieForTypeAndSize(String) -> List<Integer>: henter mengde for hver størrelse for en type Clothing
 

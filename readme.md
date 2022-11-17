@@ -26,6 +26,6 @@ Testene for prosjektet kjøres ved `mvn test` i **clothingStorage**. Da vil før
 
 ## Dokumentasjon 
 
-I mappen **[docs](docs)** ligger de ulike release-dokumentasjonene for hver innlevering (**[release1](docs/release1/readme.md)**, **[release2](docs/release2/readme.md)** og **[release3](docs/release3/readme.md)**). I hver av releasene finnes **user-stories.md** som inneholder brukerhistoriene som kom i denne releasen. I **release2** finnes en beskrivelse av arbeidsvaner (**[workflow](docs/release2/workflow.md)**). I mappen **[release3](docs/release3/diagrams/)** ligger alle diagrammer for prosjektet i **[diagrams](docs/release3/diagrams)** og forespørslene som støttes av REST-tjenesten (**[restapi.md]**(docs/release3/restapi.md)).
+I mappen **[docs](docs)** ligger de ulike release-dokumentasjonene for hver innlevering (**[release1](docs/release1/readme.md)**, **[release2](docs/release2/readme.md)** og **[release3](docs/release3/readme.md)**). I hver av releasene finnes **user-stories.md** som inneholder brukerhistoriene som kom i denne releasen. I **release2** finnes en beskrivelse av arbeidsvaner (**[workflow](docs/release2/workflow.md)**). I mappen **[release3](docs/release3/diagrams/)** ligger alle diagrammer for prosjektet i **[diagrams](docs/release3/diagrams)** og forespørslene som støttes av REST-tjenesten (**[restapi.md](docs/release3/restapi.md)**).
 
 Inne i hver modul finnes en readme-fil med en mer detaljert beskrivelse av avhengigheter, plugins og klasser med tilhørende metoder.
