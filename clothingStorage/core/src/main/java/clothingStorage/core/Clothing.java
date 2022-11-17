@@ -41,7 +41,7 @@ public class Clothing {
      * Valid brands for Clothing object.
     */
     private final String[] validBrands = {"Nike", "Adidas", "H&M", "Lacoste", 
-                                          "Louis Vuitton", "Supreme", "Levi's"}; /*May be expanded*/
+                                          "LouisVuitton", "Supreme", "Levi's"}; /*May be expanded*/
 
     /** 
      * Valid types for Clothing object.

@@ -110,7 +110,7 @@ public class PricePageController implements Initializable {
         typeOfClothingFilter.getItems().addAll("Pants", "Shirt", "Underwear",
             "Socks", "Sweater", "Jacket", "Shorts");
         brands.getItems().addAll("Nike", "Adidas", "H&M", "Lacoste", 
-            "Louis Vuitton", "Supreme", "Levi's"); 
+            "LouisVuitton", "Supreme", "Levi's"); 
     }
 
     /**

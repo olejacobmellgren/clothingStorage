@@ -62,7 +62,7 @@ public class PricePageControllerTest extends ApplicationTest {
     @Test
     public void testNewPrice() {
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Shorts; Louis Vuitton; 20.0kr"));
+        clickOn(LabeledMatchers.hasText("Shorts; LouisVuitton; 20.0kr"));
         clickOn("#newPrice").write("30");
         clickOn("#confirmNewPrice");
         ListView<String> priceView = lookup("#priceList").query();
@@ -209,7 +209,7 @@ public class PricePageControllerTest extends ApplicationTest {
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
             "Pants; Nike; 10.0kr",
-            "Shorts; Louis Vuitton; 20.0kr",
+            "Shorts; LouisVuitton; 20.0kr",
             "Socks; Adidas; 30.0kr"
         ));
         assertEquals(expectedList, priceList);
@@ -223,7 +223,7 @@ public class PricePageControllerTest extends ApplicationTest {
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
             "Socks; Adidas; 30.0kr",
-            "Shorts; Louis Vuitton; 20.0kr",
+            "Shorts; LouisVuitton; 20.0kr",
             "Pants; Nike; 10.0kr"
         ));
         assertEquals(expectedList, priceList);
@@ -262,7 +262,7 @@ public class PricePageControllerTest extends ApplicationTest {
         List<String> priceList = priceView.getItems();
         List<String> expectedList = new ArrayList<String>(List.of(
             "Pants; Nike; 10.0kr",
-            "Shorts; Louis Vuitton; 20.0kr",
+            "Shorts; LouisVuitton; 20.0kr",
             "Socks; Adidas; 30.0kr"
         ));
         assertEquals(expectedList, priceList);
@@ -295,7 +295,7 @@ public class PricePageControllerTest extends ApplicationTest {
         clickOn("Lowest Price");
         clickOn("#confirmFilter");
         clickOn("#priceList");
-        clickOn(LabeledMatchers.hasText("Shorts; Louis Vuitton; 20.0kr"));
+        clickOn(LabeledMatchers.hasText("Shorts; LouisVuitton; 20.0kr"));
         clickOn("#newPrice").write("30");
         clickOn("#confirmNewPrice");
         ListView<String> priceView = lookup("#priceList").query();

@@ -23,7 +23,7 @@ public class StorageTest {
         leviPantsM = new Clothing("Pants", "Levi's", 'M', 199);
         leviPantsL = new Clothing("Pants", "Levi's", 'L', 199);
         supremeShorts = new Clothing("Shorts", "Supreme", 'S', 159);
-        louisVuittonJacket = new Clothing("Jacket", "Louis Vuitton", 'L', 1599);
+        louisVuittonJacket = new Clothing("Jacket", "LouisVuitton", 'L', 1599);
         adidasSocks = new Clothing("Socks", "Adidas", 'M', 99);
         lacosteShirt = new Clothing("Shirt", "Lacoste", 'L', 699);
         lacosteShorts = new Clothing("Shorts", "Lacoste", 'L', 799);
