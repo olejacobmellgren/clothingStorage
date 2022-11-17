@@ -2,7 +2,7 @@
 
 ## Endringer fra release 2
 
-Denne releasen hadde fokus på REST-API, utvidet funksjonalitet og kodekvalitet. Endringer som har blitt gjort:
+Denne releasen hadde fokus på REST-API, utvidet funksjonalitet og kodekvalitet. Endringer som har blitt gjort er:
 
 - Prosjektet er utvidet med følgende nye mouler: **client**, **integrationtests**, **restserver** og **ui**
 - Lagd REST-API vha. Springboot
