@@ -23,6 +23,14 @@ public class Storage {
     }
 
     /**
+     * Initializes Storage object with given storage.
+     */
+    public Storage(Storage storage) {
+        this.storageList = new LinkedHashMap<>(storage.getAllClothes());
+        this.sortedClothes = new ArrayList<>(storage.getSortedClothings());
+    }
+
+    /**
      * Adds a certain number of clothing items to storage.
      *
      * @param clothing item to add to storage

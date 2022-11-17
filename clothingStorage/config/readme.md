@@ -18,15 +18,9 @@ Checkstyle har blitt implementert for å sjekke kodekvaliteten. Dette verktøyet
 
 Slik som Checkstyle er også Spotbugs implementert for å sjekke kodekvaliteten. Spotbugs ser etter feil (bugs) i koden og er også lagt inn som "plugin" for maven i ytterste pom-fil. Spotbugs bruker versjon 4.7.2. I filen **[exclude.xml](/clothingStorage/config/spotbugs/exclude.xml)** ligger Spotbugs som har blitt valgt til å bli ignorert. Disse har blitt ignorert av ulike årsaker:
 
+- Bug: "EI_EXPOSE_REP"
+  - Hva klages på: Returnerer Storage i ClothingStorageService som gjør at dens interne tilstand blir mulig å endre fra andre klasser.
+  - Forklaring på ignorering: Ønsker å hente Storage fra ClothingStorageService og endre på denne i ClothingStorageController.
 - Bug: "EI_EXPOSE_REP2"
-  - Hva klages på: Lagrer Storage i Controller og endrer på dens interne tilstand
-  - Forklaring på ignorering: Vi har behov for å lagre tilstanden til Storage som kan bli oppdatert gjennom interaksjon med ui-et. Controller må derfor lagre dette
-- Bug: "SA_LOCAL_SELF_COMPARISON"
-  - Hva klages på: Sjekker om JsonNode instanceof ObjectNode
-  - Forklaring på ignorering: Vi ønsker å sjekke om noden er ObjectNode slik at vi vet at vi kan bruke de tilhørende metodene
-- Bug: "DE_MIGHT_IGNORE"
-  - Hva klages på: Exception kan utløses i initialize() for controller som blir ignorert når man prøver å laste opp innhold fra json-fil
-  - Forklaring på ignorering: Vi ønsker at Exception skal bli ignorert dersom det ikke er noe innhold å laste fra json-fil. Dette hindrer at man får feilmelding ved åpning av appen første gang
-- Bug: "REC_CATCH_EXCEPTION"
-  - Hva klages på: Kommer av samme valg som ble tatt over, her klages det på at det ikke blir gjort noe når man catcher exception
-  - Forklaring på ignorering: Se forklaring på **Bug: "DE_MIGHT_IGNORE"**
+  - Hva klages på: Lagrer Storage i Controller og endrer på dens interne tilstand.
+  - Forklaring på ignorering: Vi har behov for å lagre tilstanden til Storage som kan bli oppdatert gjennom interaksjon med ui-et. Controller må derfor lagre dette.

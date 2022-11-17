@@ -56,7 +56,7 @@ public class DirectAccess implements Access {
      */
     @Override
     public Storage getStorage() {
-        return this.storage;
+        return new Storage(this.storage);
     }
 
     /**
@@ -230,10 +230,21 @@ public class DirectAccess implements Access {
      * @return the names for clothings in storage when sorted
      */
     @Override
-    public List<String> getSortedNames() {
+    public List<String> getSortedNames() { 
         ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> names2 = new ArrayList<>();
+
         for (Clothing clothing : this.storage.getSortedClothings()) {
-            names.add(clothing.getName());
+            if (names.isEmpty()) {
+                names.add(clothing.getName());
+                names2.add(clothing.getType() + "; " + clothing.getBrand());
+                continue;
+            } else if (names2.contains(clothing.getType() + "; " + clothing.getBrand())) {
+                continue;
+            } else {
+                names.add(clothing.getName());
+                names2.add(clothing.getType() + "; " + clothing.getBrand());
+            }
         }
         return names;
     }
