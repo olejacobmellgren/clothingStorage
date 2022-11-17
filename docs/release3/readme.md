@@ -1,8 +1,10 @@
 # Dokumentasjon for release 3
 
+Denne releasen hadde fokus på REST-API, utvidet funksjonalitet og kodekvalitet. 
+
 ## Endringer fra release 2
 
-Denne releasen hadde fokus på REST-API, utvidet funksjonalitet og kodekvalitet. Endringer som har blitt gjort er:
+Endringer som har blitt gjort er:
 
 - Prosjektet er utvidet med følgende nye mouler: **client**, **integrationtests** og **restserver**
 - Lagde REST-API vha. Springboot
