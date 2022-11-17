@@ -150,7 +150,6 @@ class DirectAccess
     +boolean removeDiscount(Clothing)
     +List<Integer> getQuantitiesForTypeAndSizes(String)
     +List<String> getNames()
-    +int getQuantity(String)
     +double getTotalValue()
     +int getTotalQuantity()
     -void fireAutoSaveStorage()
@@ -206,7 +205,6 @@ interface Access
     +boolean updateDiscount(Clothing, double);
     +boolean removeDiscount(Clothing);
     +List<Integer> getQuantitiesForTypeAndSizes(String);
-    +int getQuantity(String);
     +double getTotalValue();
     +int getTotalQuantity();
 }
