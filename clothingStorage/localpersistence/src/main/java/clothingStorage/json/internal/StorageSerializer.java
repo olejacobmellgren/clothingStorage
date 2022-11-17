@@ -11,31 +11,41 @@ import java.util.HashMap;
 class StorageSerializer extends JsonSerializer<Storage> {
 
     /*
-    * format: 
-    * {
-    *     "clothes": [
-    *         {
-    *             "type": "Pants",
-    *             "brand": "Nike",
-    *             "size": "M",
-    *             "price": 199.0,
-    *             "discount": 0.5
-    *         },
-    *         {
-    *             "quantity": 1
-    *         },
-    *         {
-    *             "type": "Shirt",
-    *             "brand": "Adidas",
-    *             "size": "S",
-    *             "price": 599.9,
-    *             "discount": 0.9
-    *         },
-    *         {
-    *             "quantity": 5
-    *         }
-    *     ]
-    * }
+    format: 
+    {
+        "clothes" : [ {
+            "type" : "Shirt",
+            "brand" : "Adidas",
+            "size" : "L",
+            "price" : 453.0,
+            "discount" : 0.0
+        }, {
+            "quantity" : 5
+        }, {
+            "type" : "Jacket",
+            "brand" : "H&M",
+            "size" : "M",
+            "price" : 43.0,
+            "discount" : 0.0
+        }, {
+            "quantity" : 7
+        }, {
+            "isSorted" : true
+        } ],
+        "sortedClothes" : [ {
+            "type" : "Shirt",
+            "brand" : "Adidas",
+            "size" : "L",
+            "price" : 453.0,
+            "discount" : 0.0
+        }, {
+            "type" : "Jacket",
+            "brand" : "H&M",
+            "size" : "M",
+            "price" : 43.0,
+            "discount" : 0.0
+        } ]
+    }
     */
 
     @Override
