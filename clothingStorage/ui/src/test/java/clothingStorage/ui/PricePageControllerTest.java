@@ -178,18 +178,6 @@ public class PricePageControllerTest extends ApplicationTest {
     }
     
     @Test
-    public void testFilterType() {
-        clickOn("#filters").clickOn("Type");
-        clickOn("#typeOfClothingFilter").clickOn("Socks");
-        clickOn("#confirmFilter");
-        ListView<String> priceView = lookup("#priceList").query();
-        List<String> priceList = priceView.getItems();
-        String adidasSocks = priceList.get(0);
-        String expected = "Socks; Adidas; 30.0kr";
-        assertEquals(expected, adidasSocks);
-    }
-    
-    @Test
     public void testFilterBrand() {
         clickOn("#filters").clickOn("Brand");
         clickOn("#brands").clickOn("Nike");

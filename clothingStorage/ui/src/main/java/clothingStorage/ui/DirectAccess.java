@@ -333,17 +333,6 @@ public class DirectAccess implements Access {
     }
 
     /**
-     * Gets quantity for given name.
-     *
-     * @param name to retrieve quantity for
-     * @return quantity for clothing with the name
-     */
-    @Override
-    public int getQuantity(String name) {
-        return this.storage.getQuantity(this.storage.getClothing(name));
-    }
-
-    /**
      * Gets total value of storage.
      *
      * @return total value of storage

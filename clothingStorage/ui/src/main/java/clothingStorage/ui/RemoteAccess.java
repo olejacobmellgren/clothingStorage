@@ -288,7 +288,6 @@ public class RemoteAccess implements Access {
      * @param name to retrieve quantity for
      * @return quantity from restserver
      */
-    @Override
     public int getQuantity(String name) {
         return storageClient.getQuantity(name);
     }

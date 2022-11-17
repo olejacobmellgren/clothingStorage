@@ -47,8 +47,6 @@ public interface Access {
 
     public List<Integer> getQuantitiesForTypeAndSizes(String type);
 
-    public int getQuantity(String name);
-
     public double getTotalValue();
 
     public int getTotalQuantity();
