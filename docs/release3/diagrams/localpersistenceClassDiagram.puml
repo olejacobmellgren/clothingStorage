@@ -1,0 +1,55 @@
+@startuml localpersistence
+
+class ClothingStoragePersistence
+{
+    -ObjectMapper mapper
+    -Path saveFilePath
+    --
+    +SimpleModule createJacksonModule()
+    +ObjectMapper createObjectMapper()
+    +Storage readClothingStorage(Reader)
+    +void writeClothingStorage(Storage, Writer)
+    +void setSaveFile(String)
+    +Path getSaveFilePath()
+    +Storage loadClothingStorage()
+    +void saveClothingStorage(Storage)
+}
+
+class ClothingStorageModule
+{
+    -String NAME
+    --
+}
+
+class ClothingDeserializer
+{
+    --
+    +Clothing deserialize(JsonParser parser, DeserializationContext)
+}
+
+class ClothingSerializer
+{
+    --
+    +void serialize(Clothing, JsonGenerator, SerializerProvider)
+}
+
+class StorageDeserializer
+{
+    -ClothingDeserializer clothingDeserializer
+    --
+    +Storage deserialize(JsonParser, DeserializationContext)
+}
+
+class StorageSerializer
+{
+    --
+    +void serialize(Storage, JsonGenerator, SerializerProvider)
+}
+
+ClothingStoragePersistence "1" --> "1" ClothingStorageModule
+ClothingStorageModule "1" --> "1" ClothingDeserializer
+ClothingStorageModule "1" --> "1" ClothingSerializer
+ClothingStorageModule "1" --> "1" StorageDeserializer
+ClothingStorageModule "1" --> "1" StorageSerializer
+
+@enduml

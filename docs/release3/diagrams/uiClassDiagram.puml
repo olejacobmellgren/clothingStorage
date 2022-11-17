@@ -1,0 +1,231 @@
+@startuml ui
+
+
+class NewClothingPageController
+{
+    -String errorMessage
+    -String confirmMessage
+    -StorageClient storageClient
+    -ChoiceBox<String> type
+    -ChoiceBox<String> brand
+    -ChoiceBox<Character> size
+    -TextField price
+    -TextField quantity
+    -TextField newQuantity
+    -Button cancel
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +String getErrorMessage()
+    +String getConfirmMessage()
+    -void showErrorMessage(String)
+    -void showConfirmedMessage(String)
+    -void handleReset()
+    -void handleCancel()
+    -void handleOk()
+}
+
+class PricePageController
+{
+    -Storage storage
+    -String errorMessage
+    -StorageClient storageClient
+    -ChoiceBox<String> filters
+    -ChoiceBox<String> typeOfClothingFilter
+    -ChoiceBox<String> brands
+    -Button storagePageButton
+    -Button statisticsPageButton
+    -ListView<String> priceList
+    -Button confirmNewPrice
+    -Button confirmDiscount
+    -TextField newPrice
+    -TextField discount
+    -Button confirmFilter
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +String getErrorMessage()
+    -void updatePriceList(List<String>)
+    -void showErrorMessage(String)
+    -void handleStoragePageButton()
+    -void handleStatisticsPageButton()
+    -void handleFilterChoice()
+    -void handleConfirmFilter()
+    -void handleResetFilter()
+    -void handleConfirmNewPrice()
+    -void handleConfirmDiscount()
+    -void handleRemoveDiscount()
+}
+
+class StatisticsPageController
+{
+    -ClothingStoragePersistence storagePersistence
+    -String[] validTypes
+    -StorageClient storageClient
+    -Label totalQuantityLabel;
+    -Label totalValueLabel;
+    -Button storagePageButton;
+    -Button pricePageButton;
+    -ChoiceBox<String> typeForDiagram;
+    -BarChart<String, Integer> quantityChart;
+    -CategoryAxis categoryAxis;
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +void setDiagramForAllClothes()
+    -void setTotalQuantityLabel()
+    -void setTotalValueLabel()
+    -void handleStoragePageButton()
+    -void handlePricePageButton()
+    -void handleTypeForDiagram()
+}
+
+class StoragePageController
+{
+    -Storage storage
+    -String errorMessage
+    -StorageClient storageClient
+    -Button pricePageButton
+    -Button statisticsPageButton
+    -Button addQuantity
+    -Button removeQuantity
+    -Button newClothingItem
+    -Button increaseByOne
+    -Button decreaseByOne
+    -ListView<String> storageList
+    -TextField quantity
+    --
+    +void initialize(URL, ResourceBundle)
+    +void setStorage(Storage)
+    +String getErrorMessage()
+    -void updateStorageList(List<String>)
+    -void handlePricePageButton()
+    -void handleStatisticsPageButton()
+    -void handleNewClothingItem()
+    -void showErrorMessage(String)
+    -void handleRemoveClothingItem()
+    -void handleIncreaseByOne()
+    -void handleDecreaseByOne()
+    -void handleAddQuantity()
+    -void handleRemoveQuantity()
+}
+
+
+class StorageAppDirect 
+{
+    --
+    +void start(Stage)
+    +void main(String[])
+}
+
+class StorageAppRemote
+{
+    --
+    +void start(Stage)
+    +void main(String[])
+}
+
+class DirectAccess
+{
+    -ClothingStoragePersistence storagePersistence;
+    -Storage storage;
+    --
+    +void setStorage(Storage)
+    +Storage getStorage()
+    +Clothing getClothing(String)
+    +boolean addClothing(Clothing, int)
+    +boolean removeClothing(String)
+    +boolean increaseQuantityByOne(String)
+    +boolean decreaseQuantityByOne(String)
+    +boolean increaseQuantity(String, int)
+    +boolean decreaseQuantity(String, int)
+    +List<String> getStorageDisplay()
+    +List<String> getPriceDisplay()
+    +List<String> getSortedPriceDisplay(int)
+    +List<String> getSortedTypePriceDisplay(String)
+    +List<String> getSortedBrandPriceDisplay(String)
+    +List<String> getSortedNames()
+    +boolean updatePrice(Clothing, double)
+    +boolean updateDiscount(Clothing, double)
+    +boolean removeDiscount(Clothing)
+    +List<Integer> getQuantitiesForTypeAndSizes(String)
+    +List<String> getNames()
+    +int getQuantity(String)
+    +double getTotalValue()
+    +int getTotalQuantity()
+    -void fireAutoSaveStorage()
+}
+
+class RemoteAccess 
+{
+    StorageClient storageClient;
+    --
+    +Storage getStorage()
+    +Clothing getClothing(String)
+    +boolean addClothing(Clothing, int)
+    +boolean removeClothing(String)
+    +boolean increaseQuantityByOne(String)
+    +boolean decreaseQuantityByOne(String)
+    +boolean increaseQuantity(String, int)
+    +boolean decreaseQuantity(String, int)
+    +List<String> getStorageDisplay()
+    +List<String> getPriceDisplay()
+    +List<String> getSortedPriceDisplay(int)
+    +List<String> getSortedTypePriceDisplay(String)
+    +List<String> getSortedBrandPriceDisplay(String)
+    +List<String> getSortedNames()
+    +boolean updatePrice(Clothing, double)
+    +boolean updateDiscount(Clothing, double)
+    +boolean removeDiscount(Clothing)
+    +List<Integer> getQuantitiesForTypeAndSizes(String)
+    +List<String> getNames()
+    +int getQuantity(String)
+    +double getTotalValue()
+    +int getTotalQuantity()
+}
+
+interface Access
+{
+    --
+    +Storage getStorage();
+    +Clothing getClothing(String);
+    +boolean addClothing(Clothing, int);
+    +boolean removeClothing(String);
+    +boolean increaseQuantityByOne(String);
+    +boolean decreaseQuantityByOne(String);
+    +boolean increaseQuantity(String, int);
+    +boolean decreaseQuantity(String, int);
+    +List<String> getStorageDisplay();
+    +List<String> getPriceDisplay();
+    +List<String> getSortedPriceDisplay(int);
+    +List<String> getSortedTypePriceDisplay(String);
+    +List<String> getSortedBrandPriceDisplay(String);
+    +List<String> getSortedNames();
+    +List<String> getNames();
+    +boolean updatePrice(Clothing, double);
+    +boolean updateDiscount(Clothing, double);
+    +boolean removeDiscount(Clothing);
+    +List<Integer> getQuantitiesForTypeAndSizes(String);
+    +int getQuantity(String);
+    +double getTotalValue();
+    +int getTotalQuantity();
+}
+
+StorageAppDirect --> StoragePageController
+
+StorageAppRemote --> StoragePageController
+
+NewClothingPageController "1" --> "1" DirectAccess
+PricePageController "1" --> "1" DirectAccess
+StatisticsPageController "1" --> "1" DirectAccess
+StoragePageController "1" --> "1" DirectAccess
+
+NewClothingPageController "1" --> "1" RemoteAccess
+PricePageController "1" --> "1" RemoteAccess
+StatisticsPageController "1" --> "1" RemoteAccess
+StoragePageController "1" --> "1" RemoteAccess
+
+Access <.. DirectAccess
+Access <.. RemoteAccess
+
+@enduml
