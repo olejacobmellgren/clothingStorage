@@ -28,6 +28,7 @@ public class Storage {
     public Storage(Storage storage) {
         this.storageList = new LinkedHashMap<>(storage.getAllClothes());
         this.sortedClothes = new ArrayList<>(storage.getSortedClothings());
+        this.isSortedPricePage = storage.getIsSortedClothes();
     }
 
     /**
