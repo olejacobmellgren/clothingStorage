@@ -1,6 +1,6 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.stud.ntnu.no/#https://gitlab.stud.idi.ntnu.no/it1901/groups-2022/gr2251/gr2251.git)
 
-# Clothing Storage - Group gr2251 project
+# Clothing Storage - Group project
 
 Clothing Storage er en applikasjon for lagring av klær som er skrevet i Java. Prosjektet er laget av gruppe 2251 i emnet IT1901 ved NTNU. Det kan åpnes i gitpod ved å trykke på "Gitpod-Ready-to-Code" knappen over. Selve kodingsprosjektet ligger i mappen **clothingStorage**. Inne i denne ligger også en [readme-fil](clothingStorage/readme.md#ClothingStorage) som beskriver hva appen handler om og hva den er ment å gjøre. Her ligger blant annet også beskrivelse av **arkitektur** og alle **brukerhistorier**.
 
